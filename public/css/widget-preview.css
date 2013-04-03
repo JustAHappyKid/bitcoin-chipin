@@ -1,0 +1,32 @@
+.widget-preview{
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 10px;
+}
+
+.widget-preview-name{
+	height: 20px;
+	font-weight: bold;
+	padding-left: 20px;
+	padding-top: 5px;
+	font-size: 14px;
+	color: #FFFFFF;
+}
+
+.widget-preview-container{
+	border-radius: 10px;
+	background-color: #FFFFFF;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.widget-preview-button{
+	text-align: center;
+}
+
+.widget-preview-button a{
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: bold;
+	color: #FFFFFF;
+}

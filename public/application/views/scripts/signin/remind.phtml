@@ -1,0 +1,54 @@
+<script type="text/javascript">
+
+function validateEmail(email) { 
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}	
+	function checkEmail() {
+        var email = $("#email").val();
+		if(validateEmail(email)){
+	    	if($("#email-error").size() != 0){
+	    		$("#email-error").hide();
+	    	}
+		}
+		else{
+			$("#email-error").show();
+			return false;
+		}
+		
+		return true;
+    }
+
+	
+</script>
+
+<div class="account-container register">
+	<div class="content clearfix">
+		<form action="<?=PATH;?>signin/remind/" method="post" onsubmit="return checkEmail();">
+			<h1>Remind password</h1>		
+			<div id="email-error" class="alert alert-error" style="display: none;">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Error!</h4>
+				Email is not valid.
+			</div>
+			<?php if(isset($this->failure) && $this->failure):?>
+			<div id="email-error" class="alert alert-error">
+				<a class="close" data-dismiss="alert" href="#">×</a>
+				<h4 class="alert-heading">Error!</h4>
+				There is no record with this email.
+			</div>
+			<?php endif;?>
+
+			<div class="login-fields">
+				<p>Request Password Reset:</p>
+				<div class="field">
+					<label for="email">Email Address:</label>
+					<input type="text" id="email" name="email" placeholder="Email" class="login" />
+				</div>
+			</div> <!-- /login-fields -->
+			<div class="login-actions">
+				<button class="button btn btn-secondary btn-large">Remind</button>
+			</div> <!-- .actions -->
+		</form>
+	</div> <!-- /content -->
+</div> <!-- /account-container -->

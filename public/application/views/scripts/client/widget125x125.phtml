@@ -1,0 +1,179 @@
+<html>
+	
+<head>
+
+
+<link href="<?=PATH . 'css/bootstrap.css';?>" rel="stylesheet">
+<script src="<?=PATH . 'js/jquery-1.7.2.min.js?v=1.0';?>"></script>	
+
+<script type="text/javascript" src="<?=PATH . 'js/plugins/qrcode/jquery.qrcode.js';?>"></script>
+<script type="text/javascript" src="<?=PATH . 'js/plugins/qrcode/qrcode.js';?>"></script>
+
+
+<?php $color = explode(',', $this->color); ?>
+
+<style>
+
+.tabs{
+	text-align: center;
+	font-size: 10px;
+	margin-top: -10px;
+}
+
+.tab-info, .tab-about, .tab-chipin{
+	margin: 0 auto;
+	width: 100px;
+	height: 70px;
+	padding-top: 5px;
+	font-size: 10px;
+}
+
+.tab-about p{
+	font-size: 10px;
+	line-height: 10px;
+	padding: 10px;
+	text-align: center;
+	
+}
+
+#qrcode{
+	margin: auto;
+	width: 40px;
+	height: 40px;
+}
+
+.about{
+	text-align: left;
+	overflow: auto;
+}
+
+.address{
+	text-align: center;
+	overflow: hidden;
+	margin-top: 5px;
+	font-size: 4px;
+}
+
+.widget-container{
+	border-radius: 10px;
+	text-align: center;
+	background-color: <?='#'.$color[0];?>;
+	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,<?='#'.$color[0];?>),color-stop(100%,<?='#'.$color[1];?>));
+	background-image: -webkit-linear-gradient(top,<?='#'.$color[0];?>,<?='#'.$color[1];?>);
+	background-image: -moz-linear-gradient(top,<?='#'.$color[0];?>,<?='#'.$color[1];?>);
+	background-image: -ms-linear-gradient(top,<?='#'.$color[0];?>,<?='#'.$color[1];?>);
+	background-image: -o-linear-gradient(top,<?='#'.$color[0];?>,<?='#'.$color[1];?>);
+	background-image: linear-gradient(top,<?='#'.$color[0];?>,<?='#'.$color[1];?>);
+	filter: progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=<?='#'.$color[0];?>,endColorstr=<?='#'.$color[1];?>);
+}
+
+.powered-by{
+	text-align: center;
+	font-size: 8px;
+	color: black;
+	margin-top: 19px;
+	line-height: 8px;
+}
+
+.powered-by a{
+	color: black;
+	text-decoration: none;
+}
+
+.chipin a{
+	width: 60px;
+	height: 15px;
+	line-height: 15px;	
+	font-size: 10px;
+	background-color: orange;
+	border-radius: 15px;
+	cursor: pointer;
+	text-decoration: none;
+	font-weight: bold;
+	color: #FFFFFF;
+	display: block;
+	margin: auto;
+	text-align: center;
+}
+
+.info p{
+	font-size: 10px;
+	line-height: 15px;
+	margin: 0;
+}
+
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){
+		
+		$(".nav-info-li").css('background-color', '#FFFFFF');
+		
+		$('#qrcode').qrcode({text: "<?=$this->address;?>", width: 40, height: 40});
+
+		$("#nav-about, #nav-info").click(function(event){
+			event.preventDefault();
+			
+			$this = $(this);
+			
+			var tab = $this.attr("id").split("-");
+			
+			$(".tab-"+tab[1]).siblings().hide();
+			$(".tab-"+tab[1]).show();
+		});
+		
+		$("#chipin").click(function(event){
+			event.preventDefault();
+			
+			$(".tab-chipin").show().siblings().hide();
+		});
+	});
+</script>
+
+</head>	
+
+<body style="margin: 0;">
+
+	<div class="widget-container" style="width: <?php echo $this->width; ?>; height: <?php echo $this->height; ?>;">
+		
+		<div style="height: 15px; line-height: 15px; font-weight: bold; text-align: center; font-size: 10px; color: white;">  <?php echo $this->title; ?>  </div>
+		<div style="width: 100px; height: 80px; border-radius: 10px; background-color: #FFFFFF; margin: auto;">
+			<div style="overflow: auto;">
+				<div class="tab-info">
+					<div class="progress progress-secondary" style="width: 70px; margin: 0px auto; height: 10px; overflow: hidden">
+						<div class="bar" style="width: <?php echo $this->progress . '%'; ?>"></div>
+					</div>
+					<div class="info" style="overflow: auto; margin: 5px; text-align: center;">
+						<p><?php echo 'Raised '.$this->raised.' USD';?></p>
+						<p><?php echo 'Goal '.substr(file_get_contents('http://blockchain.info/tobtc?currency=USD&value='.$this->goal), 0, 4) . 'BTC'; ?></p>
+						<p><?php echo 'Ends '.$this->ending;?></p>
+					</div>
+				</div>
+				<div class="tab-about" style="display: none;">
+					<p><?=stripslashes($this->about);?></p>
+				</div>
+				<div class="tab-chipin" id="tab-chipin" style="display: none;">
+					<div id="qrcode"></div>
+					<p class="address">
+						<?php echo $this->address;?>
+					</p>
+				</div>
+			</div>
+			<div class="tabs">
+				<a href="#" class="nav-info" id="nav-info">Info</a>
+				<a href="#" class="nav-about" id="nav-about">About</a>
+			</div>
+			<div class="chipin">
+				<?php if(strtotime($this->ending) > strtotime(date("mm/dd/yy")) ):?>
+				<a href="#" id="chipin">Chipin</a>
+				<?php endif;?>
+			</div>
+		</div>
+		<p class="powered-by">Powered by <a href="http://www.bitcoinchipin.com">bitcoinchipin.com</a></p>
+	</div>
+
+</body>
+
+
+
+</html>

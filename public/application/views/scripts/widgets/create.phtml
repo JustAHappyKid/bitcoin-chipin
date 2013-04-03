@@ -1,0 +1,244 @@
+<script src="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.min.js?v=1.0"></script>
+<link href="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.css?v=1.0" rel="stylesheet">
+
+<link href="<?=PATH;?>css/pages/calendar.css" rel="stylesheet">
+
+<link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css?v=1.0" rel="stylesheet"> 	
+<script src="<?=PATH;?>js/plugins/smartwizard/jquery.smartWizard-2.0.modified.js?v=1.0"></script>
+
+<link href="<?=PATH;?>js/plugins/msgGrowl/css/msgGrowl.css?v=1.0" rel="stylesheet"> 	
+<script src="<?=PATH;?>js/plugins/msgGrowl/js/msgGrowl.js?v=1.0"></script>
+
+<style>
+#ui-datepicker-div{
+	z-index: 500!important;
+}
+
+.stepContainer{
+	height: 410px!important;
+}
+
+.msgGrowl-container{
+	z-index: 500!important;
+}
+
+.span8{
+	width: 978px;
+}
+	
+</style>
+
+<script type="text/javascript" charset="utf-8">
+	$(document).ready(function(){		
+		
+		$('#wizard').smartWizard({
+			transitionEffect:'slideleft',
+			enableFinishButton:false
+		});	
+		
+		$('#widget-end-date').datepicker({
+			dateFormat: 'mm/dd/yy',
+			minDate: +1
+		});
+
+		$("#widget-size, #widget-color, #widget-title, #widget-about, #widget-want-to-raise, #widget-end-date, #currency, #widget-bitcoin-address").change(function(){
+
+			var size = $('#widget-size').val();
+			var s = size.split('x');
+			
+			$('#widget-preview, #widget-preview2').attr('src', $('#path').val()+"client/widget"+size+"?preview=true&color="+$('#widget-color').val()+"&address="+$('#widget-bitcoin-address').val()+"&title="+$('#widget-title').val()+"&goal="+$("#widget-want-to-raise").val()+"&about="+$("#widget-about").val()+"&ending="+$('#widget-end-date').val()+"&currency="+$('#currency').val());
+			$('#widget-preview, #widget-preview2').attr('width', s[0]);
+			$('#widget-preview, #widget-preview2').attr('height', s[1]);
+		});
+		
+	});
+	
+</script>
+
+<input type="hidden" id="path" value="<?php echo PATH; ?>"/>
+
+<div id="content">
+	<div class="container">	
+		<div class="row">
+			<div class="span8">
+	      		<div class="widget">
+					<div class="widget-header">
+						<h3>
+							<i class="icon-magic"></i>
+							Create a new widget						
+						</h3>
+					</div> <!-- /widget-header -->
+					<div class="widget-content">
+						<form id="widgetForm" action="<?=PATH.'dashboard/index';?>" method="POST" class="form-horizontal">
+							<div id="wizard" class="swMain">
+								<ul class="wizard-steps">
+									<li>
+										<a href="#step-1" class="">
+											<div class="wizard-step-number">1</div>
+											<div class="wizard-step-label">Basic Info</div>
+											<div class="wizard-step-bar"></div>
+										</a>		
+									</li>
+									<li>
+										<a href="#step-2" class="">
+											<div class="wizard-step-number">2</div>
+											<div class="wizard-step-label">Customize</div>
+											<div class="wizard-step-bar"></div>
+										</a>
+									</li>
+									<li>
+										<a href="#step-3" class="">
+											<div class="wizard-step-number">3</div>
+											<div class="wizard-step-label">Finish Widget</div>
+											<div class="wizard-step-bar"></div>
+										</a>										
+									</li>
+								</ul>
+					  			<div id="step-1">
+					  				<h3>Step 1: Basic Information</h3>
+                                    <br />
+					  				<div class="row-fluid">
+					  					<div class="span6" style="width: 100%;">
+											<div class="control-group">
+												<label class="control-label" for="widget-title">
+													Title of Widget
+												</label>
+												<div class="controls">
+													<input type="text" class="input-large" id="widget-title" maxlength="50">
+													<span class="help-inline">Please correct the error</span>
+												</div>
+											</div>
+											<div class="control-group" id="widget-goal">
+												<label class="control-label" for="widget-want-to-raise">I want to raise</label>
+												<div class="controls">
+													<input type="text" class="input-small" id="widget-want-to-raise">
+													<span class="help-inline">Please enter a valid number</span>
+												</div>
+											</div>                                    
+											<div class="control-group">
+												<label class="control-label" for="widget-end-date">Currency</label>
+												<div class="controls">
+													<select id="currency" style="width: 100px;">
+														<option value="USD">USD</option>
+														<option value="EUR">EUR</option>
+														<option value="GBP">GBP</option>
+														<option value="CNY">CNY</option>
+														<option value="CAD">CAD</option>
+														<option value="JPY">JPY</option>
+														<option value="BTC">BTC</option>
+													</select>
+												</div>
+											</div>
+                                              <div class="control-group">
+									            <label class="control-label" for="widget-end-date">End Date</label>
+									            <div class="controls">
+									              <input type="text" class="input-small" id="widget-end-date">
+									              <span class="help-inline">Please correct the error</span>
+									            </div>
+									          </div>
+											<div class="control-group" id="bitcoin_address_val">
+									            <label class="control-label" for="widget-bitcoin-address">Bitcoin Address</label>
+									            <div class="controls">
+									              <input type="text" class="input-large" id="widget-bitcoin-address">
+									              <span class="help-inline">Please provide a valid Bitcoin Address</span>
+									            </div>
+											</div>
+					  					</div> <!-- /span6 -->
+					  					<div class="span5 offset1">
+					  						<!--
+					  						<div class="well">
+
+					  						</div>
+					  						-->
+					  					</div> <!-- /span6 -->
+					  				</div> <!-- /row-fluid -->
+								</div> <!-- /step -->
+					  			<div id="step-2">
+					  				<h3>Step 2: Customize Widget</h3>	
+					  				<br />
+					  				<div class="row-fluid">
+					  					<div class="span6">
+										<div class="control-group">
+											<label class="control-label" for="widget-about">
+												About the widget
+											</label>
+											<div class="controls">
+												<textarea class="input-large" id="widget-about" rows="3" maxlength="60" style="resize: none;height: 60px;width: 260px;"></textarea>
+											</div>
+										</div>
+										<div class="control-group">
+											<label class="control-label" for="userlanguage">Size</label>
+											<div class="controls">
+												<select id="widget-size" name="widget-size">
+													<option value="250x250">250 x 250</option>
+													<option value="120x60">120 x 60</option>
+													<option value="125x125">125 x 125</option>
+													<option value="160x250">160 x 250</option>
+													<option value="220x220">220 x 220</option>
+													<option value="234x60">234 x 60</option>
+												</select>
+											</div>
+										</div>
+										<div class="control-group">
+											<label class="control-label" for="userlanguage">
+												Color
+											</label>
+											<div class="controls">
+												<select id="widget-color" name="widget-color">
+													<option value="A9DB80,96C56F">Green</option>   
+													<option value="A67939,845108">Brown</option>
+													<option value="3093C7,1C5A85">Blue</option>
+													<option value="E0DCDC,707070">Grey</option>
+													<option value="F62B2B,D20202">Red</option>
+												</select>
+											</div>
+										</div>
+					  					</div> <!-- /span6 -->
+					  					<div class="span5 offset1">
+					  						<div class="well" style="text-align: center;">
+					  							<iframe id="widget-preview" src="<?=PATH.'client/widget250x250?preview=true';?>" frameborder='no' framespacing='0' scrolling='no' width="250" height="250"></iframe>  								
+					  						</div>
+					  					</div> <!-- /span6 -->
+					  				</div> <!-- /row-fluid -->
+					        	</div> <!-- /step -->   
+					  			<div id="step-3">
+					  				<h3>Step 3: You're done! Just copy and paste the below code into your website.</h3>
+					  				<br />
+					  				<br />
+					  				<div class="row-fluid">
+					  					<div class="span6">
+											Javascript version
+											<div class="control-group">
+												<label class="control-label" for="javascript-version"></label>
+												<div class="controls">
+													<textarea style="height: 110px;width: 260px;" class="input-large" id="javascript-version" rows="3"></textarea>
+												</div>
+											</div>
+											Flash version
+											<div class="control-group">
+													<label class="control-label" for="flash-version"></label>
+												<div class="controls">
+													<textarea style="height: 110px;width: 260px;" class="input-large" id="flash-version" rows="3"></textarea>
+												</div>
+											</div>
+					  					</div> <!-- /span6 -->
+					  					<div class="span5 offset1">
+					  						<div id="final-widget" class="well" style="text-align: center;">
+					  							<?php /* <iframe id="widget-preview2" src="<?=PATH.'client/widget'.$this->widget->width.'x'.$this->widget->height.'?id='.$this->widget->id.'&owner_id='.$this->widget->owner_id; ?>" frameborder='no' framespacing='0' scrolling='no' width="<?=$this->widget->width;?>" height="<?=$this->widget->height;?>"></iframe> */ ?>
+					  						</div>
+					  					</div> <!-- /span6 -->
+					  				</div> <!-- /row-fluid -->		
+								</div> <!-- /step -->
+							</div> <!-- /wizard -->
+						</form> 
+					</div> <!-- /widget-content -->
+				</div> <!-- /widget -->
+		    </div> <!-- /.span8 -->
+		</div> <!-- /row -->
+	</div> <!-- /.container -->
+</div> <!-- /#content -->
+<div id="footer">	
+	<div class="container">
+		&copy; 2012 Propel UI, all rights reserved.
+	</div> <!-- /.container -->
+</div> <!-- /#footer -->

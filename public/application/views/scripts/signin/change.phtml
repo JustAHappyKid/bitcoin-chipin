@@ -1,0 +1,75 @@
+<script type="text/javascript">
+	
+	function checkTerms() {
+        
+        if($("#password").val() == '' || $("#password").val() != $("#confirm_password").val()){
+        	$("#password-error").show();
+        	return false;
+        }else{
+        	if($("#password-error").size() != 0){
+        		$("#password-error").hide();
+        	}
+        }
+    }
+
+	
+</script>
+
+<style type="text/css">
+	
+.button{
+	margin-left: 260px;
+	float: none!important;
+}
+
+.page{
+	background: url("http://bitcoinchipin.com.haykaghabekyan.com/img/bkg_top_bar.png") no-repeat scroll 0 0 white;
+	box-shadow: 0 1px 5px #AAA;
+	margin: 20px auto;
+	padding: 17px;
+	width: 979px;
+	min-height: 600px;
+}
+
+</style>
+
+<link href="<?=PATH;?>css/components/signin.css" rel="stylesheet" type="text/css">
+
+
+<div class="page">
+	<div class="account-container login">
+		
+		<div class="content clearfix">
+			
+			<form action="<?=PATH;?>signin/index/?cp=1&c=<?=$this->code;?>&u=<?=$this->user_id;?>" method="post" onsubmit="return checkTerms();">
+				<input type="hidden" name="change" value="true" />
+				<h1>Change password</h1>
+				<div id="password-error" class="alert alert-error" style="display: none;">
+					<a class="close" data-dismiss="alert" href="#">×</a>
+					<h4 class="alert-heading">Error!</h4>
+					Passwords dont match.
+				</div>
+				
+				<div class="login-fields">
+					<div class="field">
+						<label for="password">New password:</label>
+						<input type="password" id="password" name="password" value="" placeholder="New password" class="login password-field"/>
+					</div> <!-- /field -->
+					<div class="field">
+						<label for="confirm_password">Confirm new assword:</label>
+						<input type="password" id="confirm_password" name="confirm_password" value="" placeholder="Confirm new password" class="login password-field"/>
+					</div> <!-- /field -->
+					
+				</div> <!-- /login-fields -->
+				
+				<div class="login-actions">						
+				
+				<button class="button btn btn-secondary btn-large">Save</button>
+					
+				</div> <!-- .actions -->		
+			</form>
+			
+		</div> <!-- /content -->
+		
+	</div> <!-- /account-container -->
+</div>
