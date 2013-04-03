@@ -26,13 +26,18 @@ defined('APPLICATION_ENV')
 // the parent-directory of this directory if needed, and assert the framework is there...
 $zendDir = getenv('ZEND_FRAMEWORK_DIR') ? getenv('ZEND_FRAMEWORK_DIR') :
   realpath(dirname(__FILE__) . '/../');
-if (file_exists($zendDir . '/Zend/Application.php')) {
-  // Add Zend Framework to 'include_path'...
-  set_include_path(realpath($zendDir) . PATH_SEPARATOR . get_include_path());
-} else {
+$myPhpLibsDir = dirname(dirname(__FILE__)) . '/lib/';
+if (!file_exists($zendDir . '/Zend/Application.php')) {
   echo "Could not locate Zend Framework (or, specifically, the expected Application.php file). " .
     "Zend Framework version 1.x required.";
   exit(-1);
+} else if (!is_dir($myPhpLibsDir)) {
+  echo "Environment variable 'MYPHPLIBS_DIR' must be set to location of 'my-php-libs'.";
+  exit(-1);
+} else {
+  // Add Zend Framework to 'include_path'...
+  set_include_path($myPhpLibsDir . PATH_SEPARATOR . realpath($zendDir) .
+    PATH_SEPARATOR . get_include_path());
 }
 
 require_once 'Zend/Application.php';
