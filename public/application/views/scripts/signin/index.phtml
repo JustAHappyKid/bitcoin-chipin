@@ -1,117 +1,114 @@
 <style type="text/css">
 
-body{
-	background: white url("<?=PATH;?>img/bkg_body.gif") 50% 0 repeat-x;
-}
+  body {
+    background: white url("<?=PATH;?>img/bkg_body.gif") 50% 0 repeat-x;
+  }
 
-.page{
-	background: url("<?=PATH;?>img/bkg_top_bar.png") no-repeat scroll 0 0 white;
-	box-shadow: 0 1px 5px #AAA;
-	margin: 20px auto;
-	padding: 17px;
-	width: 979px;
-	min-height: 600px;
-}
+  .page {
+    background: url("<?=PATH;?>img/bkg_top_bar.png") no-repeat scroll 0 0 white;
+    box-shadow: 0 1px 5px #AAA;
+    margin: 20px auto;
+    padding: 17px;
+    width: 979px;
+    min-height: 600px;
+  }
+
 </style>
 
 <script type="text/javascript">
-	
-	function checkTerms() {
-        
-        $("#login-error").hide();
-        
-    	if($("#username").val() == "" || $("#password").val() == ""){
-    		$("#username-password-error").show();
-    		return false;
-    	}else{
-    		//..
-        }
-		
-		return true;
-    }
 
-	
+  function checkTerms() {
+    $("#login-error").hide();
+    if ($("#username").val() == "" || $("#password").val() == "") {
+      $("#username-password-error").show();
+      return false;
+    } else {
+      //..
+    }
+    return true;
+  }
+
 </script>
 
 
 <div class="page">
 <div class="account-container login">
-	<div class="bitcoinchipin-logo">
-		<img src="<?=PATH;?>img/logo.jpg" />
-	</div>
-	<div class="content clearfix">		
-		<form action="<?=PATH;?>signin/auth/" method="post" onsubmit="return checkTerms();">
-		
-			<h1>Sign In</h1>
-			<div id="username-password-error" class="alert alert-error" style="display: none;">
-				<a class="close" data-dismiss="alert" href="#">×</a>
-				<h4 class="alert-heading">Error!</h4>
-				Invalid username or password!
-			</div>
-			<?php if(isset($this->success) && $this->success):?>
-			<div class="alert alert-success">
-				<a class="close" data-dismiss="alert" href="#">×</a>
-				<h4 class="alert-heading">Success!</h4>
-				Confirmation link was send to your email. Check your email to get your new password.
-			</div>
-			<?php endif;?>
-			<?php if(isset($this->failure) && $this->failure):?>
-			<div id="login-error" class="alert alert-error">
-				<a class="close" data-dismiss="alert" href="#">×</a>
-				<h4 class="alert-heading">Error!</h4>
-				Invalid username or password!
-			</div>
-			<?php endif;?>
-			<div class="login-fields">
-				
-				<p>Sign in using your registered account:</p>
-				
-				<div class="field">
-					<label for="username">Username:</label>
-					<input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field" />
-				</div> <!-- /field -->
-				
-				<div class="field">
-					<label for="password">Password:</label>
-					<input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
-				</div> <!-- /password -->
-				
-			</div> <!-- /login-fields -->
-			
-			<div class="login-actions">
-				
-				<span class="login-checkbox" style="display: none;">
-					<input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
-					<label class="choice" for="Field">Keep me signed in</label>
-				</span>
-									
-				<button class="button btn btn-secondary btn-large">Sign In</button>
-				
-			</div> <!-- .actions -->
-			
-			<div class="login-social" style="display: none;">
-				<p>Sign in using social network:</p>
-				
-				<div class="twitter">
-					<a href="#" class="btn_1">Login with Twitter</a>				
-				</div>
-				
-				<div class="fb">
-					<a href="#" class="btn_2">Login with Facebook</a>				
-				</div>
-			</div>
-			
-		</form>
-		
-	</div> <!-- /content -->
-	
+  <div class="bitcoinchipin-logo">
+    <img src="<?=PATH;?>img/logo.jpg" />
+  </div>
+  <div class="content clearfix">		
+    <form action="<?=PATH;?>signin/auth/" method="post" onsubmit="return checkTerms();">
+    
+      <h1>Sign In</h1>
+      <div id="username-password-error" class="alert alert-error" style="display: none;">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Error!</h4>
+        Invalid username or password!
+      </div>
+      <?php if(isset($this->success) && $this->success):?>
+      <div class="alert alert-success">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Success!</h4>
+        Confirmation link was send to your email. Check your email to get your new password.
+      </div>
+      <?php endif;?>
+      <?php if(isset($this->failure) && $this->failure):?>
+      <div id="login-error" class="alert alert-error">
+        <a class="close" data-dismiss="alert" href="#">×</a>
+        <h4 class="alert-heading">Error!</h4>
+        Invalid username or password!
+      </div>
+      <?php endif;?>
+      <div class="login-fields">
+        
+        <p>Sign in using your registered account:</p>
+        
+        <div class="field">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field" />
+        </div> <!-- /field -->
+        
+        <div class="field">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
+        </div> <!-- /password -->
+        
+      </div> <!-- /login-fields -->
+      
+      <div class="login-actions">
+        
+        <span class="login-checkbox" style="display: none;">
+          <input id="Field" name="Field" type="checkbox" class="field login-checkbox" value="First Choice" tabindex="4" />
+          <label class="choice" for="Field">Keep me signed in</label>
+        </span>
+                  
+        <button class="button btn btn-secondary btn-large">Sign In</button>
+        
+      </div> <!-- .actions -->
+      
+      <div class="login-social" style="display: none;">
+        <p>Sign in using social network:</p>
+        
+        <div class="twitter">
+          <a href="#" class="btn_1">Login with Twitter</a>				
+        </div>
+        
+        <div class="fb">
+          <a href="#" class="btn_2">Login with Facebook</a>				
+        </div>
+      </div>
+      
+    </form>
+
+  </div> <!-- /content -->
+
 </div> <!-- /account-container -->
 
 
 <!-- Text Under Box -->
 <div class="login-extra">
-	Don't have an account? <a href="<?=PATH;?>signup/index/">Sign Up</a><br/>
-	Remind <a href="<?=PATH;?>signin/remind/">Password</a>
+  Don't have an account? <a href="<?=PATH;?>signup/index/">Sign Up</a><br/>
+  Remind <a href="<?=PATH;?>signin/remind/">Password</a>
 </div> <!-- /login-extra -->
 
 </div>
