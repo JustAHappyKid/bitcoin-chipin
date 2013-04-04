@@ -6,9 +6,6 @@ function qaq($qaq){
 	echo "</pre>";
 }
 
-//define('PATH', 'http://localhost/bitcoinchipin.com/public/');
-define('PATH', 'http://bitcoinchipin.com/');
-
 // Define path to application directory
 defined('APPLICATION_PATH')
     || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/application'));
@@ -40,9 +37,15 @@ if (!file_exists($zendDir . '/Zend/Application.php')) {
     PATH_SEPARATOR . get_include_path());
 }
 
-require_once 'Zend/Application.php';
+require_once 'my-php-libs/webapp/current-request.php';
+use \MyPHPLibs\Webapp\CurrentRequest;
+
+//define('PATH', 'http://localhost/bitcoinchipin.com/public/');
+//define('PATH', 'http://bitcoinchipin.com/');
+define('PATH', CurrentRequest\getProtocol() . '://' . CurrentRequest\getHost() . '/');
 
 // Create application, bootstrap, and run...
+require_once 'Zend/Application.php';
 $appConfig = APPLICATION_PATH . '/configs/application.ini';
 $application = new Zend_Application(APPLICATION_ENV, $appConfig);
 $application->bootstrap()->run();
