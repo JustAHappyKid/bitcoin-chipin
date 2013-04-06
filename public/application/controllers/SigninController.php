@@ -58,8 +58,7 @@ class SigninController extends Zend_Controller_Action
 			
 			if(!empty($username) && !empty($password))
 			{
-				
-				$stored_hash_for_user = $bcrypt->getStoredHashForUser($username);
+				$stored_hash_for_user = $this->getStoredHashForUser($username);
 				$isGood = $bcrypt->verify($password, $stored_hash_for_user);
 				if($isGood)
 				{
@@ -170,7 +169,12 @@ class SigninController extends Zend_Controller_Action
 		//...
 	}
 
+	private function getStoredHashForUser($username) {
+		$_dbTable = Zend_Db_Table::getDefaultAdapter();
+		$select = $_dbTable->select()
+			->from('users', 'password')
+			->where('username = "'.$username.'"');
+		$result = $_dbTable->fetchAll($select);
+		return $result[0]['password'];
+	}
 }
-
-
-?>
