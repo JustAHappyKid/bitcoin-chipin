@@ -9,8 +9,8 @@ class ErrorController extends Zend_Controller_Action {
     $errors = $this->_getParam('error_handler');
 
     if (!$errors || !$errors instanceof ArrayObject) {
-      $this->view->message = 'You have reached the error page';
-        return;
+      echo "Error occurred inside error-handler!! \$errors object was of unexpected type!";
+      return;
     }
 
     switch ($errors->type) {
@@ -51,11 +51,8 @@ class ErrorController extends Zend_Controller_Action {
 
   public function getLog() {
     $bootstrap = $this->getInvokeArg('bootstrap');
-    if (!$bootstrap->hasResource('Log')) {
-      return false;
-    }
     $log = $bootstrap->getResource('Log');
-    return $log;
+    return $log ? $log : false;
   }
 }
 
