@@ -1,10 +1,11 @@
 <?php
 
-class ErrorController extends Zend_Controller_Action
-{
+require_once 'my-php-libs/error-handling.php';
+use \MyPHPLibs\ErrorHandling as EH;
 
-    public function errorAction()
-    {
+class ErrorController extends Zend_Controller_Action {
+
+    public function errorAction() {
         $errors = $this->_getParam('error_handler');
         
         if (!$errors || !$errors instanceof ArrayObject) {
@@ -38,7 +39,11 @@ class ErrorController extends Zend_Controller_Action
         
         // conditionally display exceptions
         if ($this->getInvokeArg('displayExceptions') == true) {
-            $this->view->exception = $errors->exception;
+            $report = EH\constructErrorReport($errors->exception);
+            $this->view->report = $report;
+        } else {
+            # TODO: Send an email to admin!!!
+            $this->view->exceptionsSuppressed = true;
         }
         
         $this->view->request   = $errors->request;

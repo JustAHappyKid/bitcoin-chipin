@@ -1,0 +1,8 @@
+
+<? if ($this->exceptionsSuppressed): ?>
+  <div class="error">Sorry &mdash; something went wrong!</div>
+<? else: ?>
+  <pre>
+    <?= $this->report ?>
+  </pre>
+<? endif; ?>
