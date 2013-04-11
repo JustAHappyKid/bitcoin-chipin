@@ -14,11 +14,12 @@ class WidgetsController extends Zend_Controller_Action
 			$this->_redirect(PATH.'signin/');
 		}
 		
-		if($this->auth->getIdentity()->role == 'admin'){
+		$identity = $this->auth->getIdentity();
+		if (isset($identity->role) && $identity->role == 'admin'){
 			$this->_redirect(PATH.'admin/index/');
 		}
 		
-		$this->view->assign('identity', $this->auth->getIdentity());
+		$this->view->assign('identity', $identity);
     }
 
     public function indexAction()
@@ -44,7 +45,7 @@ class WidgetsController extends Zend_Controller_Action
 		
 		// if create new widget is not working it can be because of this, check if array elements are ok
 		$location = json_decode(file_get_contents('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']), true);
-		$location = $location['Country'];
+		$countryCode = $location['Country'];
 		
 		$widget = new Application_Model_Widgets();
 		$widget->setIdentity($this->auth->getIdentity()->id);
@@ -66,7 +67,7 @@ class WidgetsController extends Zend_Controller_Action
 				'color' => $this->_getParam("color", ""),
 				'address' => $address,
 				'about' => $this->_getParam("about", ""),
-				'location' => $location 
+				'country' => $countryCode 
 			), $widget_id);
 		}
 		else{
@@ -83,7 +84,7 @@ class WidgetsController extends Zend_Controller_Action
 				'color' => $this->_getParam("color", ""),
 				'address' => $address,
 				'about' => $this->_getParam("about", ""),
-				'location' => $location,
+				'country' => $countryCode,
 				'created' => date('Y-m-d H:i:s')
 			));
 		}
