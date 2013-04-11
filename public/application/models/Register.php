@@ -16,7 +16,7 @@ class Application_Model_Register {
     $this->_dbTable->update('users', $data, $id);
   }
 
-  public function ifExpired($code, $userID) {
+  public function isValidConfirmation($code, $userID) {
     $select = $this->_dbTable
       ->select()
       ->from('reset_password')
