@@ -10,17 +10,18 @@ class SigninController extends Zend_Controller_Action {
     $cp = $this->_getParam('cp', 0);
     if (isset($cp) && $cp) {
       $code = $this->_getParam('c');
-      $user_id = $this->_getParam('u');
+      $userID = $this->_getParam('u');
 
       $reg = new Application_Model_Register();
-      $result = $reg->IfExpired($code, $user_id);
-      if ($result == FALSE) {
-        $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $user_id);
+      //$result = $reg->IfExpired($code, $userID);
+      if ($reg->isValidConfirmation($code, $userID)) {
+        //$bcrypt = new Application_Model_Bcrypt(20);
+        //$password = $bcrypt->hash($this->_getParam("password"));
+        $hashedPass = $this->passwordHash($this->_getParam("password"));
+        $reg->updateUsersPassword(array('password' => $hashedPass), $userID);
+        $reg->removeConfirmationLink($code, $userID);
       } else {
-        $bcrypt = new Application_Model_Bcrypt(20);
-        $password = $bcrypt->hash($this->_getParam("password"));
-        $reg->updateUsersPassword(array('password' => $password), $user_id);
-        $reg->removeConfirmationLink($code, $user_id);
+        $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
       }
     }
 
@@ -38,13 +39,14 @@ class SigninController extends Zend_Controller_Action {
 
   public function authAction() {
     $request = $this->getRequest();
-    $bcrypt = new Application_Model_Bcrypt(15);
+    //$bcrypt = new Application_Model_Bcrypt(15);
     if ($request->isPost()) {
       $username = $this->_getParam('username');
       $password = $this->_getParam('password');
       if (!empty($username) && !empty($password)) {
-        $stored_hash_for_user = $this->getStoredHashForUser($username);
-        $isGood = $bcrypt->verify($password, $stored_hash_for_user);
+        $existingHash = $this->getStoredHashForUser($username);
+        //$isGood = $bcrypt->verify($password, $existingHash);
+        $isGood = $this->passwordVerify($password, $existingHash);
         if ($isGood) {
           $dbAdapter = Zend_Db_Table::getDefaultAdapter();
           $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
@@ -54,7 +56,8 @@ class SigninController extends Zend_Controller_Action {
           $authAdapter->setCredentialColumn("password");
           
           $authAdapter->setIdentity($username);
-          $authAdapter->setCredential($bcrypt->hash($password));
+          //$authAdapter->setCredential($bcrypt->hash($password));
+          $authAdapter->setCredential($this->passwordHash($password));
           
           $auth = Zend_Auth::getInstance();
           $result = $auth->authenticate($authAdapter);
@@ -101,13 +104,13 @@ class SigninController extends Zend_Controller_Action {
 
   public function approveAction() {
     $code = $this->_getParam('code');
-    $user_id = $this->_getParam('user_id');
-    $user = new Application_Model_Register();
-    $result = $user->IfExpired($code, $user_id);
-    if ($result == false) {
-      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $user_id);
+    $userID = $this->_getParam('user_id');
+    $reg = new Application_Model_Register();
+    //$result = $reg->IfExpired($code, $userID);
+    if ($reg->isValidConfirmation($code, $userID)) {
+      $this->_redirect(PATH . 'signin/change/c/'.$code.'/u/' . $userID);
     } else {
-      $this->_redirect(PATH . 'signin/change/c/'.$code.'/u/' . $user_id);
+      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
     }
   }
 
@@ -121,14 +124,14 @@ class SigninController extends Zend_Controller_Action {
 
   public function changeAction() {
     $code = $this->_getParam('c');
-    $user_id = $this->_getParam('u');
+    $userID = $this->_getParam('u');
     $reg = new Application_Model_Register();
-    $result = $reg->IfExpired($code, $user_id);
-    if($result == FALSE){
-      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $user_id);
-    }else{
-      $this->view->assign('user_id', $user_id);
+    //$result = $reg->IfExpired($code, $userID);
+    if ($reg->isValidConfirmation($code, $userID)) {
+      $this->view->assign('user_id', $userID);
       $this->view->assign('code', $code);
+    } else {
+      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
     }
     //...
   }
@@ -140,5 +143,13 @@ class SigninController extends Zend_Controller_Action {
       ->where('username = "'.$username.'"');
     $result = $_dbTable->fetchAll($select);
     return $result[0]['password'];
+  }
+
+  private function passwordHash($password) {
+    return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+  }
+
+  private function passwordVerify($password, $hash) {
+    return password_verify($password, $hash);
   }
 }

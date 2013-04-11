@@ -1,6 +1,16 @@
 <?php
 
+require_once 'my-php-libs/password-hashing.php';
+
 class SignupController extends Zend_Controller_Action {
+
+  protected function passwordHash($password) {
+    return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
+  }
+
+  protected function passwordVerify($password, $hash) {
+    return password_verify($password, $hash);
+  }
 
   public function indexAction() {
     $this->_helper->layout->setLayout('layout1');
@@ -18,8 +28,10 @@ class SignupController extends Zend_Controller_Action {
 
     ////////////////////////////////////////////
     ////////////////////////////////////////////
-    $bcrypt = new Application_Model_Bcrypt(20);
-    $password = $bcrypt->hash($this->_getParam("password"));
+    //$bcrypt = new Application_Model_Bcrypt(20);
+    //$password = $bcrypt->hash($this->_getParam("password"));
+    $pw = $this->_getParam("password");
+    $password = $this->passwordHash($this->_getParam("password"));
     ////////////////////////////////////////////
     ////////////////////////////////////////////
 
@@ -38,7 +50,7 @@ class SignupController extends Zend_Controller_Action {
         'password' => $password,
         'email' => $email
       ));
-      
+
       $dbAdapter = Zend_Db_Table::getDefaultAdapter();
       $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
       
