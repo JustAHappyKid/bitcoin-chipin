@@ -1,5 +1,8 @@
 <?php
 
+require_once 'my-php-libs/web-client/http-simple.php';
+use \MyPHPLibs\WebClient\HttpSimple;
+
 class Application_Model_Widgets {
 
   private $ownerID;
@@ -16,9 +19,9 @@ class Application_Model_Widgets {
   public function getUserWidgets() {
     $select = $this->_dbTable->select()
                 ->from('widgets', '*, DATE_FORMAT(ending,  "%m/%d/%Y") as ending')
-                ->where("ownerID = ".$this->ownerID);
+                ->where("owner_id = " . $this->ownerID);
+                //->where("ownerID = ".$this->ownerID);
     $widgets = $this->_dbTable->fetchAll($select);
-    
     return $widgets;
   }
 
@@ -34,7 +37,8 @@ class Application_Model_Widgets {
   public function getWidgetById($id) {
     $select = $this->_dbTable->select()
                 ->from('widgets', '*, DATE_FORMAT(ending,  "%m/%d/%Y") as ending')
-                ->where("ownerID = ".$this->ownerID." AND id=".$id);
+                ->where("owner_id = " . $this->ownerID . " AND id = " . $id);
+                //->where("ownerID = ".$this->ownerID." AND id=".$id);
     $widget = $this->_dbTable->fetchAll($select);
     return $widget[0];
   }
@@ -68,19 +72,10 @@ class Application_Model_Widgets {
   }
 
   public function getBalance($currency, $address) {
-    $value = $this->getContentUsingCURL('http://blockchain.info/q/addressbalance/'.$address) / 100000000;
-    $balance = substr($this->getContentUsingCURL('http://blockchain.info/tobtc?currency='.$currency.'&value='.$value), 0, 4);
+    $value = Http\get('http://blockchain.info/q/addressbalance/'.$address) / 100000000;
+    $balanceWithPrecision = Http\get('http://blockchain.info/tobtc' .
+                                     '?currency='.$currency.'&value='.$value);
+    $balance = substr($balanceWithPrecision, 0, 4);
     return $balance;
-  }
-
-  public function getContentUsingCURL($url) {
-    $ch = curl_init();
-    $timeout = 5;
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
-    $data = curl_exec($ch);
-    curl_close($ch);
-    return $data;
   }
 }
