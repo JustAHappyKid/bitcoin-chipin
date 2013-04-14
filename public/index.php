@@ -43,8 +43,10 @@ use \MyPHPLibs\Webapp\CurrentRequest;
 //define('PATH', 'http://bitcoinchipin.com/');
 define('PATH', CurrentRequest\getProtocol() . '://' . CurrentRequest\getHost() . '/');
 
-// Create application, bootstrap, and run...
+// Create application object, bootstrap, and run...
 require_once 'Zend/Application.php';
-$appConfig = APPLICATION_PATH . '/configs/application.ini';
-$application = new Zend_Application(APPLICATION_ENV, $appConfig);
+$baseConfDir = dirname(dirname(__FILE__));
+$confFiles = array("$baseConfDir/default-config.ini");
+if (file_exists("$baseConfDir/local-config.ini")) $confFiles []= "$baseConfDir/local-config.ini";
+$application = new Zend_Application(APPLICATION_ENV, array('config' => $confFiles));
 $application->bootstrap()->run();
