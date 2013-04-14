@@ -1,0 +1,67 @@
+#!/bin/sh
+
+set -e
+
+echo "Are you sure you want to update production?"
+read line
+if [ "$line" = "Yes!" ]; then
+
+  TMP_DIR=/tmp/btcchip-up-prod
+  rm -Rf "$TMP_DIR"
+  mkdir -p "$TMP_DIR"
+
+  MYPHPLIBS_SRC_DIR=`realpath ./lib/my-php-libs`
+  MYPHPLIBS_DIR=`dirname "$MYPHPLIBS_SRC_DIR"`
+
+  echo "Updating local checkout of My PHP Libs ($MYPHPLIBS_DIR)..."
+  bzr up "$MYPHPLIBS_DIR"
+  echo "Doing export on My PHP Libs source..."
+  mkdir "$TMP_DIR/my-php-libs"
+  bzr export "$TMP_DIR/my-php-libs" "$MYPHPLIBS_DIR"
+  echo "Running My PHP Libs test suite..."
+  MYPHP_TEST_OUTPUT=`$TMP_DIR/my-php-libs/test/test.php`
+  MYPHP_SUCCESS_PATTERN="Ran [0-9]+ test functions and [0-9]+ test methods in [0-9]+ classes."
+  echo "$MYPHP_TEST_OUTPUT"
+  MYPHP_TEST_SUCCESS=`echo "$MYPHP_TEST_OUTPUT" | egrep "$MYPHP_SUCCESS_PATTERN"`
+  if [ "$MYPHP_TEST_OUTPUT" != "$MYPHP_TEST_SUCCESS" ]; then
+    echo "My PHP Libs test suite failed! Output follows..."
+    echo "-------------------------------------------------------------------------------"
+    echo "$MYPHP_TEST_OUTPUT"
+    exit 1
+  fi
+
+  EXPORT_DIR="$TMP_DIR/chipin-src"
+  mkdir "$EXPORT_DIR"
+
+  echo "Doing export on Chipin source..."
+  git archive master | tar -x -C "$EXPORT_DIR"
+
+  echo "Copying My PHP Libs to Chipin lib dir..."
+  mkdir "$EXPORT_DIR/lib"
+  cp -a "$TMP_DIR/my-php-libs/src" "$EXPORT_DIR/lib/my-php-libs"
+
+# TODO: Run test suite!!!
+
+#  echo "Running test script..."
+#  cp ./conf/shared-conf.inc.php "$EXPORT_DIR/conf/"
+#  TEST_OUTPUT=`$EXPORT_DIR/test/test-all.rb`
+#  SUCCESS_LINE=`echo "$TEST_OUTPUT" | grep "all tests passed"`
+#  if [ "$SUCCESS_LINE" != "Looks like all tests passed." ]; then
+#    echo "Test script failed! Output follows..."
+#    echo "-------------------------------------------------------------------------------"
+#    echo "$TEST_OUTPUT"
+#    exit 1
+#  fi
+
+  set -e
+
+  echo "Syncing files with BitcoinChipin.com..."
+  rsync --delete -prlv \
+    --exclude=public/images/captcha/ --exclude=default-config.ini \
+    "$EXPORT_DIR/" chris@bitcoinchipin.com:/home/bitcoin/webapps/bitcoinchipin.com/
+
+  echo "Finished at `date`"
+
+else
+  echo "You must type \"Yes!\"."
+fi
