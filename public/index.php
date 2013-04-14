@@ -7,17 +7,16 @@ function qaq($qaq){
 }
 
 // Define path to application directory
-defined('APPLICATION_PATH')
-    || define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/application'));
+if (!defined('APPLICATION_PATH')) {
+  define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/application'));
+}
 
-// Define application environment
+if (!defined('APPLICATION_ENV')) {
+  $appEnv = getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development';
+  define('APPLICATION_ENV', $appEnv);
+}
 
-//production
-
-defined('APPLICATION_ENV')
-    || define('APPLICATION_ENV', (getenv('APPLICATION_ENV') ? getenv('APPLICATION_ENV') : 'development'));
-
-//qaq('APPLICATION_PATH: ' . APPLICATION_PATH);
+define('DOC_ROOT', dirname(APPLICATION_PATH));
 
 // Look for environment variable indicating where Zend Framework is installed, defaulting to
 // the parent-directory of this directory if needed, and assert the framework is there...
