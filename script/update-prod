@@ -57,7 +57,7 @@ if [ "$line" = "Yes!" ]; then
 
   echo "Syncing files with BitcoinChipin.com..."
   rsync --delete -prlv \
-    --exclude=public/images/captcha/ --exclude=default-config.ini \
+    --exclude=public/images/captcha/ --exclude=local-config.ini \
     "$EXPORT_DIR/" chris@bitcoinchipin.com:/home/bitcoin/webapps/bitcoinchipin.com/
 
   echo "Finished at `date`"
