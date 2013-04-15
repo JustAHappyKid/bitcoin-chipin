@@ -37,7 +37,9 @@ if [ "$line" = "Yes!" ]; then
   git archive master | tar -x -C "$EXPORT_DIR"
 
   echo "Copying My PHP Libs to Chipin lib dir..."
-  mkdir "$EXPORT_DIR/lib"
+  if [ ! -d "$EXPORT_DIR/lib" ]; then
+    mkdir "$EXPORT_DIR/lib"
+  fi
   cp -a "$TMP_DIR/my-php-libs/src" "$EXPORT_DIR/lib/my-php-libs"
 
 # TODO: Run test suite!!!
