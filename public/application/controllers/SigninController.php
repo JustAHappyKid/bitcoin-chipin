@@ -1,6 +1,8 @@
 <?php
 
-class SigninController extends Zend_Controller_Action {
+require_once dirname(__FILE__) . '/PasswordEnabledController.php';
+
+class SigninController extends PasswordEnabledController {
 
   public function init() {
     $this->_helper->layout->setLayout('layout1');
@@ -13,10 +15,7 @@ class SigninController extends Zend_Controller_Action {
       $userID = $this->_getParam('u');
 
       $reg = new Application_Model_Register();
-      //$result = $reg->IfExpired($code, $userID);
       if ($reg->isValidConfirmation($code, $userID)) {
-        //$bcrypt = new Application_Model_Bcrypt(20);
-        //$password = $bcrypt->hash($this->_getParam("password"));
         $hashedPass = $this->passwordHash($this->_getParam("password"));
         $reg->updateUsersPassword(array('password' => $hashedPass), $userID);
         $reg->removeConfirmationLink($code, $userID);
@@ -39,13 +38,11 @@ class SigninController extends Zend_Controller_Action {
 
   public function authAction() {
     $request = $this->getRequest();
-    //$bcrypt = new Application_Model_Bcrypt(15);
     if ($request->isPost()) {
       $username = $this->_getParam('username');
       $password = $this->_getParam('password');
       if (!empty($username) && !empty($password)) {
         $existingHash = $this->getStoredHashForUser($username);
-        //$isGood = $bcrypt->verify($password, $existingHash);
         $isGood = $this->passwordVerify($password, $existingHash);
         if ($isGood) {
           $dbAdapter = Zend_Db_Table::getDefaultAdapter();
@@ -56,7 +53,6 @@ class SigninController extends Zend_Controller_Action {
           $authAdapter->setCredentialColumn("password");
           
           $authAdapter->setIdentity($username);
-          //$authAdapter->setCredential($bcrypt->hash($password));
           $authAdapter->setCredential($this->passwordHash($password));
           
           $auth = Zend_Auth::getInstance();
@@ -143,13 +139,5 @@ class SigninController extends Zend_Controller_Action {
       ->where('username = "'.$username.'"');
     $result = $_dbTable->fetchAll($select);
     return $result[0]['password'];
-  }
-
-  private function passwordHash($password) {
-    return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-  }
-
-  private function passwordVerify($password, $hash) {
-    return password_verify($password, $hash);
   }
 }

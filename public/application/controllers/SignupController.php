@@ -24,16 +24,8 @@ class SignupController extends Zend_Controller_Action {
     $this->_helper->layout->disableLayout();
 
     $username = $this->_getParam("username");
-    //$password = md5($this->_getParam("password"));
-
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
-    //$bcrypt = new Application_Model_Bcrypt(20);
-    //$password = $bcrypt->hash($this->_getParam("password"));
     $pw = $this->_getParam("password");
-    $password = $this->passwordHash($this->_getParam("password"));
-    ////////////////////////////////////////////
-    ////////////////////////////////////////////
+    $passwordHashed = $this->passwordHash($this->_getParam("password"));
 
     $email = $this->_getParam("email");
     /*
@@ -42,12 +34,12 @@ class SignupController extends Zend_Controller_Action {
     if(!$form->isValid($captcha))
       $this->_redirect(PATH.'signup/index/captcha/error/');
     */
-    if($username != '' && $password != '') {
+    if ($username != '' && $pw != '') {
 
       $register = new Application_Model_Register();
       $register->createUser(array(
         'username' => $username,
-        'password' => $password,
+        'password' => $passwordHashed,
         'email' => $email
       ));
 
@@ -57,10 +49,9 @@ class SignupController extends Zend_Controller_Action {
       $authAdapter->setTableName("users");
       $authAdapter->setIdentityColumn("username");
       $authAdapter->setCredentialColumn("password");
-      
-      
+
       $authAdapter->setIdentity($username);
-      $authAdapter->setCredential($password);
+      $authAdapter->setCredential($passwordHashed);
       
       $auth = Zend_Auth::getInstance();
       $result = $auth->authenticate($authAdapter);
