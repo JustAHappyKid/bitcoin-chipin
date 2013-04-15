@@ -1,5 +1,8 @@
 <?php
 
+require_once 'my-php-libs/database.php';
+use \MyPHPLibs\Database as DB;
+
 class Application_Model_Register {
 
   private $_dbTable;
@@ -9,7 +12,8 @@ class Application_Model_Register {
   }
 
   public function createUser($data) {
-    $this->_dbTable->insert('users', $data);
+    DB\insertOne('users', ($data));
+    // $this->_dbTable->insert('users', $data);
   }
 
   public function updateUsersPassword($data, $id) {
