@@ -12,4 +12,8 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
       $username = $params['username'], $password = $params['password'],
       $host = $params['host']);
   }
+
+  public function _initUserShit() {
+    require_once 'chipin/users.php';  # User model
+  }
 }

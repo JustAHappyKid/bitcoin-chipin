@@ -58,8 +58,12 @@ class SigninController extends PasswordEnabledController {
           $auth = Zend_Auth::getInstance();
           $result = $auth->authenticate($authAdapter);
           
-          if ($result->isValid()) {
-            $identity = $authAdapter->getResultRowObject();
+          // XXX !!!
+          //if ($result->isValid()) {
+          if ($isGood) {
+            // XXX !!!
+            // $identity = $authAdapter->getResultRowObject();
+            $identity = User::loadFromUsername($username);
             
             $authStorage = $auth->getStorage();
             $authStorage->write($identity);
