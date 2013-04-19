@@ -13,7 +13,7 @@ class SignupController extends Zend_Controller_Action {
   }
 
   public function indexAction() {
-    $this->_helper->layout->setLayout('layout1');
+    $this->_helper->layout->setLayout('no-auth-layout');
     $form = new Application_Form_Signup();
     $this->view->form = $form;
     if($this->_getParam("captcha", "") == "error")

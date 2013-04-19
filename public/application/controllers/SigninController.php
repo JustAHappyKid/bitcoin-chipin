@@ -5,7 +5,7 @@ require_once dirname(__FILE__) . '/PasswordEnabledController.php';
 class SigninController extends PasswordEnabledController {
 
   public function init() {
-    $this->_helper->layout->setLayout('layout1');
+    $this->_helper->layout->setLayout('no-auth-layout');
   }
 
   public function indexAction() {
