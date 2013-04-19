@@ -32,11 +32,6 @@ body{
 	
 </div> <!-- /account-container -->
 
-
-<!-- Text Under Box -->
-<div class="login-extra">
-	Don't have an account? <a href="<?=PATH;?>signup/index/">Sign Up</a><br/>
-	Remind <a href="<?=PATH;?>signin/remind/">Password</a>
-</div> <!-- /login-extra -->
+<? require dirname(__FILE__) . '/login-extra.phtml'; ?>
 
 </div>
