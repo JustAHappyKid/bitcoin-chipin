@@ -71,26 +71,28 @@
 	</div> <!-- /.container -->
 	
 </div> <!-- /#nav -->
-	
-<?php echo $this->layout()->content;?>
 
-<script type="text/javascript"> 
-	(function(){ 
-		var node = document.createElement("script"); 
-		node.setAttribute("type", "text/javascript"); 
-		node.setAttribute("src", "https://app.bugmuncher.com/js/bugMuncher.min.js"); 
-		document.getElementsByTagName("head")[0].appendChild(node); 
-	})(); 
+  <?php echo $this->layout()->content;?>
 
-	var bugmuncher_options = {
-		language:'en',
-		position:'right',
-		show_intro:true,
-		show_preview:true,
-		label_text:'Feedback',
-		api_key:'a67e2158794047ee195c7ff6d523274a2737ab77'
-	};
-</script>
+  <? /*
+  <script type="text/javascript"> 
+	  (function(){ 
+		  var node = document.createElement("script"); 
+		  node.setAttribute("type", "text/javascript"); 
+		  node.setAttribute("src", "https://app.bugmuncher.com/js/bugMuncher.min.js"); 
+		  document.getElementsByTagName("head")[0].appendChild(node); 
+	  })(); 
 
-</body>
+	  var bugmuncher_options = {
+		  language:'en',
+		  position:'right',
+		  show_intro:true,
+		  show_preview:true,
+		  label_text:'Feedback',
+		  api_key:'a67e2158794047ee195c7ff6d523274a2737ab77'
+	  };
+  </script>
+  */ ?>
+
+  </body>
 </html>
