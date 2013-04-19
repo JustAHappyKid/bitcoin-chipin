@@ -1,16 +1,8 @@
 <?php
 
-require_once 'my-php-libs/password-hashing.php';
+require_once dirname(__FILE__) . '/PasswordEnabledController.php';
 
-class SignupController extends Zend_Controller_Action {
-
-  protected function passwordHash($password) {
-    return password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));
-  }
-
-  protected function passwordVerify($password, $hash) {
-    return password_verify($password, $hash);
-  }
+class SignupController extends PasswordEnabledController {
 
   public function indexAction() {
     $this->_helper->layout->setLayout('no-auth-layout');
