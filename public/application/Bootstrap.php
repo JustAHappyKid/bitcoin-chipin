@@ -13,6 +13,11 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
       $host = $params['host']);
   }
 
+  public function _initEmailMechanism() {
+    $tr = new Zend_Mail_Transport_Smtp('localhost');
+    Zend_Mail::setDefaultTransport($tr);
+  }
+
   public function _initUserShit() {
     require_once 'chipin/users.php';  # User model
   }
