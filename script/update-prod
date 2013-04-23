@@ -3,7 +3,8 @@
 set -e
 
 echo "Are you sure you want to update production?"
-read line
+#read line
+line="Yes!"
 if [ "$line" = "Yes!" ]; then
 
   TMP_DIR=/tmp/btcchip-up-prod
