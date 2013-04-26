@@ -19,3 +19,8 @@ function getBalance($address, $currency = 'BTC') {
 function toBTC($currency, $amount) {
   return (float) Http\get('http://blockchain.info/tobtc?currency=USD&value=1');
 }
+
+function fromBTC($amountInBTC, $currency) {
+  $btcPriceOfOneUnit = toBTC($currency, 1);
+  return $amountInBTC / $btcPriceOfOneUnit;
+}
