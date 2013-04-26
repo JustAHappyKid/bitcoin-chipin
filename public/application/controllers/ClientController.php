@@ -37,22 +37,19 @@ class ClientController extends Zend_Controller_Action {
       */
       $widget = Widgets\getWidgetById($id);
       $widget['raised'] = Bitcoin\getBalance($widget['address']);
+      $widget['progress'] = $widget['raised'] / $widget['goal'] * 100;
       foreach ($widget as $key => $value)
         $this->view->$key = $value;
     }
 
     if ($this->view->currency == "BTC") {
       $this->view->other_currency = "USD";
-      //$one_bitcoin_value = $this->getContentUsingCURL('http://blockchain.info/tobtc?currency=USD&value=1');
-      $one_bitcoin_value = Bitcoin\toBTC('USD', 1);
-      $this->view->other_raised = $this->view->raised / $one_bitcoin_value;
-      $this->view->other_goal = substr($this->view->goal / $one_bitcoin_value, 0, 5);
+      $this->view->other_raised = $this->btcToDollars($this->view->raised);
+      $this->view->other_goal = $this->btcToDollars($this->view->goal);
     } else {
       $this->view->other_currency = "BTC";
-      // $other_raised = $this->getContentUsingCURL('http://blockchain.info/tobtc?currency=' . $this->view->currency . '&value='.$this->view->raised);
       $other_raised = Bitcoin\toBTC($this->view->currency, $this->view->raised);
       $this->view->other_raised = substr($other_raised, 0, 5);
-      // $other_goal = $this->getContentUsingCURL('http://blockchain.info/tobtc?currency=' . $this->view->currency . '&value='.$this->view->goal);
       $other_goal = Bitcoin\toBTC($this->view->currency, $this->view->goal);
       $this->view->other_goal = substr($other_goal, 0, 5);
     }
@@ -61,6 +58,15 @@ class ClientController extends Zend_Controller_Action {
     if ($this->_getParam("flash", 0) == 1) {
       exit(json_encode($this->view->getVars()));
     }
+  }
+
+  private function btcToDollars($amountInBTC) {
+    return $this->dollarValue(Bitcoin\fromBTC($amountInBTC, 'USD'));
+  }
+
+  private function dollarValue($amount) {
+    list($dollars, $cents) = explode('.', strval($amount));
+    return $dollars . '.' . substr($cents, 0, 2);
   }
 
   public function indexAction() {}
