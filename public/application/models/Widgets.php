@@ -1,7 +1,7 @@
 <?php
 
-require_once 'my-php-libs/web-client/http-simple.php';
-use \MyPHPLibs\WebClient\HttpSimple;
+require_once 'chipin/bitcoin.php';
+use \Chipin\Bitcoin;
 
 class Application_Model_Widgets {
 
@@ -61,7 +61,7 @@ class Application_Model_Widgets {
     $select = $this->_dbTable->select();
     $result = $this->_dbTable->fetchAll($select);
     foreach ($result as $row) {
-      $balance = $this->getBalance($row['currency'], $row['address']);
+      $balance = Bitcoin\getBalance($row['address'], $row['currency']);
       $progress = $this->getProgress($balance, $row['goal']);
       $this->_dbTable->update(array('progress' => $progress, 'raised' => $balance), 'id='.$row['id']);
     }
@@ -69,13 +69,5 @@ class Application_Model_Widgets {
 
   public function getProgress($balance, $goal) {
     return $balance / $goal * 100;
-  }
-
-  public function getBalance($currency, $address) {
-    $value = Http\get('http://blockchain.info/q/addressbalance/'.$address) / 100000000;
-    $balanceWithPrecision = Http\get('http://blockchain.info/tobtc' .
-                                     '?currency='.$currency.'&value='.$value);
-    $balance = substr($balanceWithPrecision, 0, 4);
-    return $balance;
   }
 }
