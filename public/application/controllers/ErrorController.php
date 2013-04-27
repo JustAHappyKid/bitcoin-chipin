@@ -26,7 +26,16 @@ class ErrorController extends Zend_Controller_Action {
         // application error
         $this->getResponse()->setHttpResponseCode(500);
         $priority = Zend_Log::CRIT;
-        $this->view->message = 'Application error';
+        //$this->view->message = 'Application error';
+        $report = EH\constructErrorReport($errors->exception);
+        if ($this->getInvokeArg('displayExceptions') == true) {
+          $this->view->report = $report;
+        } else {
+          EH\presentErrorReport($report, ADMIN_EMAIL);
+          ob_flush();
+          exit(-1);
+          //$this->view->exceptionsSuppressed = true;
+        }
         break;
     }
 
@@ -35,16 +44,6 @@ class ErrorController extends Zend_Controller_Action {
     if ($log) {
       $log->log($this->view->message, $priority, $errors->exception);
       $log->log('Request Parameters', $priority, $errors->request->getParams());
-    }
-
-    $report = EH\constructErrorReport($errors->exception);
-    if ($this->getInvokeArg('displayExceptions') == true) {
-      $this->view->report = $report;
-    } else {
-      EH\presentErrorReport($report, ADMIN_EMAIL);
-      ob_flush();
-      exit(-1);
-      //$this->view->exceptionsSuppressed = true;
     }
 
     $this->view->request = $errors->request;
