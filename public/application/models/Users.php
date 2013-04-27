@@ -17,9 +17,10 @@ class Application_Model_Users {
 
       $mail = new Zend_Mail();
       $mail->setFrom('webmaster@bitcoinchipin.com');
-      $mail->setBodyHtml('Follow this link to get new password for your account: ' . $result['url']);
       $mail->addTo($email, 'recipient');
-      $mail->setSubject('Your new password on Bitcoinchipin.com');
+      $mail->setSubject('BitcoinChipin.com Password Reset');
+      $mail->setBodyText(
+        "Please use the following link to reset your password:\n\n" . $result['url']);
       $mail->send();
 
       $this->_dbTable->insert('reset_password', array(
