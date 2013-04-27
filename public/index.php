@@ -39,8 +39,6 @@ if (!file_exists($zendDir . '/Zend/Application.php')) {
 require_once 'my-php-libs/webapp/current-request.php';
 use \MyPHPLibs\Webapp\CurrentRequest;
 
-//define('PATH', 'http://localhost/bitcoinchipin.com/public/');
-//define('PATH', 'http://bitcoinchipin.com/');
 define('PATH', CurrentRequest\getProtocol() . '://' . CurrentRequest\getHost() . '/');
 
 // Create application object, bootstrap, and run...
