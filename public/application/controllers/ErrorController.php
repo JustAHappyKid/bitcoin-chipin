@@ -37,16 +37,17 @@ class ErrorController extends Zend_Controller_Action {
       $log->log('Request Parameters', $priority, $errors->request->getParams());
     }
 
-    // conditionally display exceptions
+    $report = EH\constructErrorReport($errors->exception);
     if ($this->getInvokeArg('displayExceptions') == true) {
-      $report = EH\constructErrorReport($errors->exception);
       $this->view->report = $report;
     } else {
-      # TODO: Send an email to admin!!!
-      $this->view->exceptionsSuppressed = true;
+      EH\presentErrorReport($report, ADMIN_EMAIL);
+      ob_flush();
+      exit(-1);
+      //$this->view->exceptionsSuppressed = true;
     }
 
-    $this->view->request   = $errors->request;
+    $this->view->request = $errors->request;
   }
 
   public function getLog() {
