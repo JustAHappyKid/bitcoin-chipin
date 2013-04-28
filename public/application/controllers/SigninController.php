@@ -17,7 +17,7 @@ class SigninController extends PasswordEnabledController {
       $reg = new Application_Model_Register();
       if ($reg->isValidConfirmation($code, $userID)) {
         $hashedPass = $this->passwordHash($this->_getParam("password"));
-        $reg->updateUsersPassword(array('password' => $hashedPass), $userID);
+        $reg->updateUsersPassword($hashedPass, $userID);
         $reg->removeConfirmationLink($code, $userID);
       } else {
         $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
