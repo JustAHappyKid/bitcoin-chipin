@@ -33,3 +33,13 @@ CREATE TABLE widgets (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --ALTER TABLE widgets ADD CONSTRAINT widgets_users_fk FOREIGN KEY (owner_id) REFERENCES users (id);
+
+
+CREATE TABLE confirmation_codes (
+  user_id INTEGER UNSIGNED NOT NULL,
+  code character varying(64),
+  created_at DATETIME,
+  expires DATETIME
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE confirmation_codes ADD UNIQUE INDEX (code);
