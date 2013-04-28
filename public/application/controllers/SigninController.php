@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/PasswordEnabledController.php';
+require_once 'chipin/conf-codes.php';
+
+use \Chipin\ConfCodes;
 
 class SigninController extends PasswordEnabledController {
 
@@ -15,10 +18,10 @@ class SigninController extends PasswordEnabledController {
       $userID = $this->_getParam('u');
 
       $reg = new Application_Model_Register();
-      if ($reg->isValidConfirmation($code, $userID)) {
+      if ($this->isValidConfirmationCode($code, $userID)) {
         $hashedPass = $this->passwordHash($this->_getParam("password"));
         $reg->updateUsersPassword($hashedPass, $userID);
-        $reg->removeConfirmationLink($code, $userID);
+        $this->removeConfirmationCode($code, $userID);
       } else {
         $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
       }
@@ -105,9 +108,7 @@ class SigninController extends PasswordEnabledController {
   public function approveAction() {
     $code = $this->_getParam('code');
     $userID = $this->_getParam('user_id');
-    $reg = new Application_Model_Register();
-    //$result = $reg->IfExpired($code, $userID);
-    if ($reg->isValidConfirmation($code, $userID)) {
+    if ($this->isValidConfirmationCode($code, $userID)) {
       $this->_redirect(PATH . 'signin/change/c/'.$code.'/u/' . $userID);
     } else {
       $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
@@ -117,23 +118,26 @@ class SigninController extends PasswordEnabledController {
   public function expiredAction() {
     $code = $this->_getParam('c');
     $user_id = $this->_getParam('u');
-    $reg = new Application_Model_Register();
-    $reg->removeConfirmationLink($code, $user_id);
-    //..
+    $this->removeConfirmationCode($code, $user_id);
   }
 
   public function changeAction() {
     $code = $this->_getParam('c');
     $userID = $this->_getParam('u');
-    $reg = new Application_Model_Register();
-    //$result = $reg->IfExpired($code, $userID);
-    if ($reg->isValidConfirmation($code, $userID)) {
+    if ($this->isValidConfirmationCode($code, $userID)) {
       $this->view->assign('user_id', $userID);
       $this->view->assign('code', $code);
     } else {
       $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
     }
-    //...
+  }
+
+  private function isValidConfirmationCode($code, $uid) {
+    return ConfCodes\isValidCode($code);
+  }
+
+  private function removeConfirmationCode($code, $_) {
+    ConfCodes\removeCode($code);
   }
 
   private function getStoredHashForUser($username) {
