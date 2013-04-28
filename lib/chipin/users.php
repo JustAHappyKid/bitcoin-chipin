@@ -18,6 +18,10 @@ class User {
     return User::loadFromQuery('username = ?', array($un));
   }
 
+  public static function loadFromEmailAddr($e) {
+    return User::loadFromQuery('LOWER(email) = LOWER(?)', array($e));
+  }
+
   public static function loadFromQuery($query, $params) {
     $rows = DB\simpleSelect('users', $query, $params);
     if (count($rows) == 0) {
