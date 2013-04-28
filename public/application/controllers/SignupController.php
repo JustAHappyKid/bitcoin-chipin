@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/PasswordEnabledController.php';
+require_once 'my-php-libs/database.php';
+
+use \MyPHPLibs\Database as DB;
 
 class SignupController extends PasswordEnabledController {
 
@@ -28,8 +31,7 @@ class SignupController extends PasswordEnabledController {
     */
     if ($username != '' && $pw != '') {
 
-      $register = new Application_Model_Register();
-      $register->createUser(array(
+      DB\insertOne('users', array(
         'username' => $username,
         'password' => $passwordHashed,
         'email' => $email
