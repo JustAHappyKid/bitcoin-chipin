@@ -15,12 +15,13 @@ class SigninController extends PasswordEnabledController {
     $cp = $this->_getParam('cp', 0);
     if (isset($cp) && $cp) {
       $code = $this->_getParam('c');
-      $userID = $this->_getParam('u');
-      if ($this->isValidConfirmationCode($code, $userID)) {
+      // $userID = $this->_getParam('u');
+      if ($this->isValidConfirmationCode($code)) {
+        $user = ConfCodes\getUserForCode($code);
         $hashedPass = $this->passwordHash($this->_getParam("password"));
-        $user = User::loadFromID($userID);
+        $user = User::loadFromID($user->id);
         $user->updatePassword($hashedPass);
-        $this->removeConfirmationCode($code, $userID);
+        $this->removeConfirmationCode($code);
       } else {
         $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
       }
@@ -131,11 +132,11 @@ class SigninController extends PasswordEnabledController {
     }
   }
 
-  private function isValidConfirmationCode($code, $uid) {
+  private function isValidConfirmationCode($code, $_ = null) {
     return ConfCodes\isValidCode($code);
   }
 
-  private function removeConfirmationCode($code, $_) {
+  private function removeConfirmationCode($code, $_ = null) {
     ConfCodes\removeCode($code);
   }
 
