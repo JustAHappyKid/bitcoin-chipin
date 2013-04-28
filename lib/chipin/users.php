@@ -39,6 +39,10 @@ class User {
     $this->email = $row['email'];
     return $this;
   }
+
+  public function updatePassword($encryptedPass) {
+    DB\query('UPDATE users SET password = ? WHERE id = ?', array($password, $this->id));
+  }
 }
 
 class NoSuchUser extends Exception {}

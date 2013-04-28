@@ -13,8 +13,8 @@ class AccountController extends PasswordEnabledController {
   public function changepasswordAction() {
     if ($this->_getParam("change", "") == "true") {
       $hashedPass = $this->passwordHash($this->_getParam("password"));
-      $reg = new Application_Model_Register();
-      $reg->updateUsersPassword($hashedPass, $this->auth->getIdentity()->id);
+      $user = $this->auth->getIdentity();
+      $user->updatePassword($hashedPass);
       $this->view->success = true;
     }
     $this->view->assign('identity', $this->auth->getIdentity());

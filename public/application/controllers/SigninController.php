@@ -16,11 +16,10 @@ class SigninController extends PasswordEnabledController {
     if (isset($cp) && $cp) {
       $code = $this->_getParam('c');
       $userID = $this->_getParam('u');
-
-      $reg = new Application_Model_Register();
       if ($this->isValidConfirmationCode($code, $userID)) {
         $hashedPass = $this->passwordHash($this->_getParam("password"));
-        $reg->updateUsersPassword($hashedPass, $userID);
+        $user = User::loadFromID($userID);
+        $user->updatePassword($hashedPass);
         $this->removeConfirmationCode($code, $userID);
       } else {
         $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);

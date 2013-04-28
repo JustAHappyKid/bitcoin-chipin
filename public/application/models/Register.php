@@ -9,8 +9,4 @@ class Application_Model_Register {
     DB\insertOne('users', $data);
   }
 
-  public function updateUsersPassword($password, $uid) {
-    // $this->_dbTable->update('users', $data, $id);
-    DB\query('UPDATE users SET password = ? WHERE id = ?', array($password, $uid));
-  }
 }
