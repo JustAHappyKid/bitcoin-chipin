@@ -3,10 +3,19 @@
 namespace Chipin\ConfCodes;
 
 require_once 'my-php-libs/database.php';
-use \MyPHPLibs\Database as DB;
+require_once 'chipin/users.php';
+
+use \MyPHPLibs\Database as DB, \User;
 
 function isValidCode($code) {
   return DB\countRows('confirmation_codes', 'code = ? AND expires >= NOW()', array($code)) > 0;
+}
+
+function getUserForCode($code) {
+  $rows = DB\simpleSelect('confirmation_codes', 'code = ?', array($code));
+  $row = current($rows);
+  if ($row == null) throw new Exception("No such confirmation code found");
+  return User::loadFromID($row['user_id']);
 }
 
 function removeCode($code) {
