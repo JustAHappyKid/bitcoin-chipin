@@ -1,41 +1,40 @@
 <?php
 
-class Application_Model_Users {
-  private $_dbTable;
+require_once 'chipin/users.php';
+require_once 'my-php-libs/database.php';
 
-  public function __construct() {
-    $this->_dbTable = Zend_Db_Table::getDefaultAdapter();
-  }
+use \MyPHPLibs\Database as DB;
+
+class Application_Model_Users {
 
   public function sendLinkForChangingPassword($email) {
-    $select = $this->_dbTable->select()->from('users')->where('email = "'.$email.'"');
-    $user = $this->_dbTable->fetchAll($select);
-    if (empty($user[0])){
-      return false;
-    } else {
-      $result = $this->generateLink(8, $user[0]['id']);
-
-      $this->_dbTable->insert('reset_password', array(
-        'user_id' => $user[0]['id'],
-        'link' => $result['url'],
-        'expires' => date("Y-m-d H:i:s", strtotime("tomorrow")),
-        'code' => $result['code'],
-        'status' => 1
-      ));
-
-      $mail = new Zend_Mail();
-      $mail->setFrom('webmaster@bitcoinchipin.com');
-      $mail->addTo($email, 'recipient');
-      $mail->setSubject('BitcoinChipin.com Password Reset');
-      $mail->setBodyText(
-        "Please use the following link to reset your password:\n\n" . $result['url']);
-      $mail->send();
+    try {
+      $user = User::loadFromEmailAddr($email);
+      $confCode = $this->generateConfCode(10);
+      DB\insertOne('confirmation_codes',
+        array('user_id' => $user->id, 'code' => $confCode, 'created_at' => date("Y-m-d H:i:s"),
+              'expires' => date("Y-m-d H:i:s", strtotime("+3 days"))));
+      $this->sendPassResetEmail($email, $confCode);
       return true;
+    } catch (NoSuchUser $_) {
+      return false;
     }
   }
 
-  private function generateLink($length = 8, $user_id) {
-    $password = "";
+  private function sendPassResetEmail($email, $confCode) {
+    $url = PATH . 'signin/approve/?code=' . $confCode;
+    //logMsg('debug', 'Sending pass-reset email with link ' . $url);
+    $mail = new Zend_Mail();
+    $mail->setFrom('webmaster@bitcoinchipin.com');
+    $mail->addTo($email, 'recipient');
+    $mail->setSubject('BitcoinChipin.com Password Reset');
+    $mail->setBodyText(
+      "Please use the following link to reset your password:\n\n" . $url);
+    $mail->send();
+  }
+
+  private function generateConfCode($length = 8) {
+    $confCode = "";
     $possible = "2346789bcdfghjkmnpqrtvwxyzBCDFGHJKLMNPQRTVWXYZ";
 
     $maxlength = strlen($possible);
@@ -44,17 +43,15 @@ class Application_Model_Users {
     $i = 0;
     while ($i < $length) {
       $char = substr($possible, mt_rand(0, $maxlength-1), 1);
-      if (!strstr($password, $char)) {
-        $password .= $char;
+      if (!strstr($confCode, $char)) {
+        $confCode .= $char;
         $i++;
       }
     }
-    return array(
-      'url' => PATH . 'signin/approve/?code=' . $password . '&user_id=' . $user_id,
-      'code' => $password
-    );
+    return $confCode;
   }
 
+  /*
   public function checkUser($user_id, $code) {
     $select = $this->_dbTable->select()
       ->from('reset_password')
@@ -63,6 +60,7 @@ class Application_Model_Users {
     $result = $this->_dbTable->fetchAll($select);
     return $result;
   }
+  */
 
   public function saveUserLoginInformation() {
     $userAgent = new Zend_Http_UserAgent();
