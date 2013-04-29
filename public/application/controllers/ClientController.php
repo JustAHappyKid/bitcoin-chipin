@@ -14,10 +14,8 @@ class ClientController extends Zend_Controller_Action {
     if ($this->_getParam("preview")) {
       $action = $this->_getParam("action");
       $dimensions = withoutPrefix($action, 'widget');
-      list($this->view->width, $this->view->height) = $dimensions;
-
+      list($this->view->width, $this->view->height) = explode('x', $dimensions);
       $this->view->address = $this->_getParam("address", "");
-      // $this->view->raised = $this->getContentUsingCURL('http://blockchain.info/q/addressbalance/'.$this->view->address)/100000000;
       $this->view->raised = Bitcoin\getBalance($this->view->address);
       $this->view->color = $this->_getParam("color", "E0DCDC,707070");
       $this->view->title = stripslashes($this->_getParam("title", ""));
