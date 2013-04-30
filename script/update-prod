@@ -2,7 +2,7 @@
 
 set -e
 
-echo "Are you sure you want to update production?"
+#echo "Are you sure you want to update production?"
 #read line
 line="Yes!"
 if [ "$line" = "Yes!" ]; then
