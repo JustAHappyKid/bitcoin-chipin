@@ -16,7 +16,8 @@ class ClientController extends Zend_Controller_Action {
       $dimensions = withoutPrefix($action, 'widget');
       list($this->view->width, $this->view->height) = explode('x', $dimensions);
       $this->view->address = $this->_getParam("address", "");
-      $this->view->raised = Bitcoin\getBalance($this->view->address);
+      if (!empty($this->view->address))
+        $this->view->raised = Bitcoin\getBalance($this->view->address);
       $this->view->color = $this->_getParam("color", "E0DCDC,707070");
       $this->view->title = stripslashes($this->_getParam("title", ""));
       $this->view->goal = $this->_getParam("goal", "0");
@@ -24,7 +25,8 @@ class ClientController extends Zend_Controller_Action {
       $this->view->ending = $this->_getParam("ending", date("mm/dd/yy"));
       $this->view->about = stripslashes($this->_getParam("about", ""));
       $this->view->currency = $this->_getParam("currency", "");
-      $this->view->progress = $this->view->raised / $this->view->goal * 100;
+      if ($this->view->goal)
+        $this->view->progress = $this->view->raised / $this->view->goal * 100;
     } else {
       $id = $this->_getParam("id", "");
       $owner_id = $this->_getParam("owner_id", "");
@@ -45,11 +47,12 @@ class ClientController extends Zend_Controller_Action {
       $this->view->other_raised = $this->btcToDollars($this->view->raised);
       $this->view->other_goal = $this->btcToDollars($this->view->goal);
     } else {
+      $this->view->goal = number_format($this->view->goal, 2);
       $this->view->other_currency = "BTC";
-      $other_raised = Bitcoin\toBTC($this->view->currency, $this->view->raised);
-      $this->view->other_raised = substr($other_raised, 0, 5);
       $other_goal = Bitcoin\toBTC($this->view->currency, $this->view->goal);
       $this->view->other_goal = substr($other_goal, 0, 5);
+      $other_raised = Bitcoin\toBTC($this->view->currency, $this->view->raised);
+      $this->view->other_raised = substr($other_raised, 0, 5);
     }
 
     // XXX: What's this all about? Related to Flash widget implementation?
