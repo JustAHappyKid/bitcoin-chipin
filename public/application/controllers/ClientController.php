@@ -36,7 +36,7 @@ class ClientController extends Zend_Controller_Action {
       $widget = $w->getWidgetById($id);
       */
       $widget = Widgets\getWidgetById($id);
-      $widget['raised'] = Bitcoin\getBalance($widget['address']);
+      $widget['raised'] = Bitcoin\getBalance($widget['address'], $widget['currency']);
       $widget['progress'] = $widget['raised'] / $widget['goal'] * 100;
       foreach ($widget as $key => $value)
         $this->view->$key = $value;
