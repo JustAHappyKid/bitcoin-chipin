@@ -33,10 +33,9 @@ class Bootstrap extends Zend_Application_Bootstrap_Bootstrap {
     require_once 'chipin/users.php';  # User model
   }
 
-  public function _initDebugLoggingInDevMode() {
+  public function _initDebuggingToolsInDevMode() {
     if (APPLICATION_ENV == 'development') {
-      require_once 'my-php-libs/log.php';
-      configureLogging('/var/local/log/chipin-dev/webapp.log');
+      require_once 'chipin/debug.php';
     }
   }
 }
