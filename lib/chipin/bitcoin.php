@@ -17,7 +17,7 @@ function getBalance($address, $currency = 'BTC') {
   $balanceWithPrecision = Http\get('http://blockchain.info/tobtc' .
                                    '?currency=' . $currency . '&value=' . $value);
   */
-  $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : toBTC($currency, $btcBalance);
+  $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
   $balance = substr($balanceWithPrecision, 0, 4);
   return $balance;
 }
