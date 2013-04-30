@@ -14,4 +14,9 @@ function getWidgetById($id) {
   return current($rows);
 }
 
+function addNewWidget($data) {
+  $id = DB\insertOne('widgets', $data, true);
+  return $id;
+}
+
 class NoSuchWidget extends \Exception {}
