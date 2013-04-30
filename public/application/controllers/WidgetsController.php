@@ -1,5 +1,10 @@
 <?php
 
+require_once 'chipin/widgets.php';
+require_once 'chipin/bitcoin.php';
+
+use \Chipin\Widgets, \Chipin\Bitcoin;
+
 class WidgetsController extends Zend_Controller_Action {
 
   private $auth = null;
@@ -58,7 +63,8 @@ class WidgetsController extends Zend_Controller_Action {
         'country' => $countryCode 
       ), $widget_id);
     } else {
-      $widget_id = $widget->addNewWidget(array(
+      //$widget_id = $widget->addNewWidget(array(
+      $widget_id = Widgets\addNewWidget(array(
         'owner_id' => $owner_id,
         'progress' => 0,
         'title' => $this->_getParam("title", ""),
@@ -97,11 +103,19 @@ class WidgetsController extends Zend_Controller_Action {
   public function ajaxcheckaddressAction() {
     $this->_helper->layout->disableLayout();
     $address = $this->_getParam('address');
+    try {
+      $balance = Bitcoin\getBalance($address);
+      echo ($balance == 0 ? 'true' : 'false');
+    } catch (Bitcoin\InvalidAddress $_) {
+      echo 'false';
+    }
+    /*
     $balance = file_get_contents("http://blockexplorer.com/q/checkaddress/".$address."/");
     if ($balance == '00')
       echo 'true';
     else
       echo 'false';
+    */
   }
 
   public function deleteAction() {
