@@ -18,17 +18,20 @@ class Application_Model_Widgets {
 
   public function getUserWidgets() {
     $select = $this->_dbTable->select()
-                ->from('widgets', '*, DATE_FORMAT(ending,  "%m/%d/%Y") as ending')
+                ->from('widgets', '*, DATE_FORMAT(ending, "%m/%d/%Y") as ending')
                 ->where("owner_id = " . $this->ownerID);
                 //->where("ownerID = ".$this->ownerID);
     $widgets = $this->_dbTable->fetchAll($select);
     return $widgets;
   }
 
+  /*
   public function addNewWidget($data) {
+    debug('Inserting widget: ' . asString($data));
     $this->_dbTable->insert($data);
     return $this->_dbTable->getAdapter()->lastInsertId();
   }
+  */
 
   public function updateWidgetById($data, $id) {
     $this->_dbTable->update($data, "id=".$id);
