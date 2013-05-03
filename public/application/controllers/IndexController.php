@@ -14,9 +14,12 @@ class IndexController extends Zend_Controller_Action {
     if (!$this->auth->hasIdentity()) {
       $this->relativeRedirect('/signin/index/');
     }
+    /*
+    TODO: Fix/enable administration...
     if ($this->auth->getIdentity()->role == 'admin') {
       $this->relativeRedirect('/admin/index/');
     }
+    */
     $this->relativeRedirect('/dashboard/index/');
   }
 
