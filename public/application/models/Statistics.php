@@ -1,5 +1,8 @@
 <?php
 
+require_once 'chipin/widgets.php';
+use \Chipin\Widgets;
+
 class Application_Model_Statistics
 {
 	
@@ -178,13 +181,8 @@ class Application_Model_Statistics
 		return $result;
 	}
 
-	public function getAllWidgets()
-	{
-		$select = $this->_dbTable->select()
-			->from('widgets', '*');
-		$widgets = $this->_dbTable->fetchAll($select);
-		
-		return $widgets;
+	public function getAllWidgets() {
+		return Widgets\getAll();
 	}
 
 	public function getRecentWidgets()
