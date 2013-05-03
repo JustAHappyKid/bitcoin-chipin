@@ -24,6 +24,8 @@ class WidgetsController extends Zend_Controller_Action {
     $this->view->assign('identity', $identity);
   }
 
+  private function getUser() { return $this->auth->getIdentity(); }
+
   public function indexAction() { }
 
   public function createAction() { }
@@ -47,7 +49,8 @@ class WidgetsController extends Zend_Controller_Action {
     $edit = $this->_getParam("edit_widget", 0);
     if ($edit) {
       $widget_id = $this->_getParam("widget_id", "");
-      $widget->updateWidgetById(array(
+      //$widget->updateWidgetById(array(
+      Widgets\updateByID($widget_id, array(
         'owner_id' => $owner_id,
         'progress' => 0,
         'title' => $this->_getParam("title", ""),
@@ -61,7 +64,7 @@ class WidgetsController extends Zend_Controller_Action {
         'address' => $address,
         'about' => $this->_getParam("about", ""),
         'country' => $countryCode 
-      ), $widget_id);
+      )); //, $widget_id);
     } else {
       //$widget_id = $widget->addNewWidget(array(
       $widget_id = Widgets\addNewWidget(array(
@@ -94,9 +97,12 @@ class WidgetsController extends Zend_Controller_Action {
   public function editAction() {
     $id = $this->_getParam("id", "");
     $owner_id = $this->_getParam("owner_id", "");
+    /*
     $w = new Application_Model_Widgets();
     $w->setIdentity($owner_id);
     $widget = $w->getWidgetById($id);
+    */
+    $widget = Widgets\Widget::getByOwnerAndID($this->getUser(), $id);
     $this->view->assign("widget", $widget);
   }
 
