@@ -3,7 +3,13 @@
 <link rel="stylesheet" type="text/css" href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.ie6.css" />
 <![endif]-->
 <script type="text/javascript" src="<?=PATH;?>js/plugins/lightbox/jquery.lightbox.min.js"></script>
-	
+
+<?
+  function actionsColumn($widget) { ?>
+    <a href="<?= PATH . 'widget-wiz/step-one?w=' . $widget['id'] ?>">Edit</a> |
+    <a id="<?= $widget['id']; ?>" width="<?= $widget['width'] ?>" height="<?= $widget['height'] ?>" class="end-widget" href="<?= PATH . 'client/widget' . $widget['width'] . 'x' . $widget['height'] . '?id=' . $widget["id"] . '&owner_id=' . $widget["owner_id"]; ?>">End</a><?
+  }
+?>
 
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -49,7 +55,8 @@
 			<div class="widget-header">
 				<h3><i class="icon-sitemap"></i>Your Widgets</h3>
 				<div class="widget-actions">
-					<a href="<?=PATH;?>widgets/create" class="btn btn-small btn-primary"><i class="icon-plus"></i>Create new widget</a>
+					<a href="<?= PATH ?>widget-wiz/create" class="btn btn-small btn-primary"
+					   ><span class="icon-plus"></span>Create new widget</a>
 				</div> <!-- /.widget-actions -->
 			</div> <!-- /.widget-header -->
 	
@@ -88,7 +95,7 @@
 					Your Widgets
 				</h3>
 				<div class="widget-actions">
-					<a href="<?=PATH;?>widgets/create" class="btn btn-small btn-primary">
+					<a href="<?= PATH ?>widget-wiz/create" class="btn btn-small btn-primary">
 						<i class="icon-plus"></i> 
 						Create new widget
 					</a>
@@ -128,7 +135,7 @@
 									<td><?php echo $widget['title']?></td>
 									<td>Ends <?php echo $widget['ending']?></td>
 									<td>Raised <?php echo $widget['raised'] . ' ' . $widget['currency']; ?></td>
-	                                <td><a href="<?=PATH.'widgets/edit?id='.$widget['id'].'&owner_id='.$widget['owner_id'];?>">Edit</a> | <a id="<?=$widget['id'];?>" width="<?=$widget['width'];?>" height="<?=$widget['height'];?>" class="end-widget" href="<?php echo PATH . 'client/widget' . $widget["width"] . 'x' . $widget["height"] . '?id=' . $widget["id"] . '&owner_id=' . $widget["owner_id"]; ?>">End</a></td>
+	               <td><?= actionsColumn($widget) ?></td>
 								</tr>
 								<?php endif;?>
 							<?php endforeach; ?>
@@ -159,7 +166,7 @@
 									<td><?php echo $widget['title']?></td>
 									<td>Ends <?=$widget['ending'];?></td>
 									<td>Raised <?php echo $widget['raised'] . ' ' . $widget['currency']; ?></td>
-	                                <td><a href="<?=PATH.'widgets/edit?id='.$widget['id'].'&owner_id='.$widget['owner_id'];?>">Edit</a> | <a id="<?=$widget['id'];?>" width="<?=$widget['width'];?>" height="<?=$widget['height'];?>" class="end-widget" href="<?php echo PATH . 'client/widget' . $widget["width"] . 'x' . $widget["height"] . '?id=' . $widget["id"] . '&owner_id=' . $widget["owner_id"]; ?>">End</a></td>
+                  <td><?= actionsColumn($widget) ?></td>
 								</tr>
 							<?php endforeach; ?>
 							</tbody>
@@ -190,7 +197,7 @@
 									<td><?php echo $widget['title']?></td>
 									<td>Ends <?php echo $widget['ending']?></td>
 									<td>Raised <?php echo $widget['raised'] . ' ' . $widget['currency']; ?></td>
-	                                <td><a href="<?=PATH.'widgets/edit?id='.$widget['id'].'&owner_id='.$widget['owner_id'];?>">Edit</a> | <a id="<?=$widget['id'];?>" width="<?=$widget['width'];?>" height="<?=$widget['height'];?>" class="end-widget" href="<?php echo PATH . 'client/widget' . $widget["width"] . 'x' . $widget["height"] . '?id=' . $widget["id"] . '&owner_id=' . $widget["owner_id"]; ?>">End</a></td>
+                  <td><?= actionsColumn($widget) ?></td>
 								</tr>
 								<?php endif;?>
 							<?php endforeach; ?>
