@@ -9,6 +9,9 @@ require_once 'chipin/bitcoin.php';
 use \MyPHPLibs\Database as DB, \User, \Chipin\Bitcoin;
 
 class Widget {
+  public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,
+    $width, $height, $color, $bitcoinAddress;
+
   # XXX: This one returns an object...
   # TODO: Make other functions return Widget object.
   public static function getByOwnerAndID(User $owner, $id) {
@@ -20,11 +23,41 @@ class Widget {
     return $obj->populateFromArray($w);
   }
 
+  public static function getAll() {
+    return array_map(
+      function($row) {
+        $o = new Widget;
+        $o->populateFromArray($row);
+        return $o; },
+      getAll());
+  }
+
   public function populateFromArray(Array $a) {
     foreach ($a as $key => $val) {
       if (is_string($key)) $this->$key = $val;
     }
+    $this->bitcoinAddress = $a['address'];
+    $this->id = (int) $a['id'];
+    $this->ownerID = (int) $a['owner_id'];
     return $this;
+  }
+
+  public function save() {
+    $this->ending = date("Y-m-d", strtotime($this->ending));
+    $values = array(
+      'owner_id' => $this->ownerID, 'title' => $this->title, 'about' => $this->about,
+      'goal' => $this->goal, 'currency' => $this->currency, 'raised' => '0', 'progress' => 0,
+      'ending' => $this->ending, 'address' => $this->bitcoinAddress,
+      'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
+      // TODO: support country
+      //'country' => $countryCode 
+    );
+    if (isset($this->id)) {
+      updateByID($this->id, $values);
+    } else {
+      $values['created'] = date('Y-m-d H:i:s');
+      $this->id = addNewWidget($values);
+    }
   }
 }
 
