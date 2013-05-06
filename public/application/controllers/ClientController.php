@@ -66,7 +66,8 @@ class ClientController extends Zend_Controller_Action {
   }
 
   private function dollarValue($amount) {
-    list($dollars, $cents) = explode('.', strval($amount));
+    $parts = explode('.', strval($amount));
+    list($dollars, $cents) = count($parts) == 2 ? $parts : array($parts[0], '00');
     return $dollars . '.' . substr($cents, 0, 2);
   }
 
