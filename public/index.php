@@ -36,15 +36,28 @@ if (!file_exists($zendDir . '/Zend/Application.php')) {
     PATH_SEPARATOR . get_include_path());
 }
 
+require_once 'my-php-libs/error-handling.php';
+set_error_handler('\\MyPHPLibs\\ErrorHandling\\errorHandler');
+
 require_once 'my-php-libs/webapp/current-request.php';
+require_once 'my-php-libs/string.php';
+
 use \MyPHPLibs\Webapp\CurrentRequest;
 
 define('PATH', CurrentRequest\getProtocol() . '://' . CurrentRequest\getHost() . '/');
 
-// Create application object, bootstrap, and run...
 require_once 'Zend/Application.php';
 $baseConfDir = dirname(dirname(__FILE__));
 $confFiles = array("$baseConfDir/default-config.ini");
 if (file_exists("$baseConfDir/local-config.ini")) $confFiles []= "$baseConfDir/local-config.ini";
 $application = new Zend_Application(APPLICATION_ENV, array('config' => $confFiles));
-$application->bootstrap()->run();
+
+if (beginsWith(CurrentRequest\getPath(), '/widget-wiz/')) {
+  # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
+  # routing mechanism and et al.
+  $application->bootstrap();
+  require_once dirname(dirname(__FILE__)) . '/lib/chipin/route-request.php';
+  \Chipin\WebFramework\routeRequestForApp();
+} else {
+  $application->bootstrap()->run();
+}
