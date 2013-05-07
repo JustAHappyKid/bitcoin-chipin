@@ -15,8 +15,8 @@ function contentForThisStep() { ?>
   <div id="step-2">
     <h3>Step 2: Customize Widget</h3>
     <br />
-    <div class="row-fluid">
-      <div class="span6">
+    <div>
+      <div style="float: left;"> <!-- div for form inputs -->
         <div class="control-group">
           <label class="control-label" for="widget-about">
             About the widget
@@ -55,15 +55,16 @@ function contentForThisStep() { ?>
             </select>
           </div>
         </div>
-      </div> <!-- /span6 -->
-      <div class="span5 offset1">
+      </div> <!-- END div for form inputs -->
+      <div style="float: left; margin: 0 0 0 100px;">
         <div class="well" style="text-align: center;">
           <iframe id="widget-preview" src="<?= PATH . 'widget-wiz/preview-current' ?>"
                   frameborder='no' framespacing='0' scrolling='no'
                   width="250" height="250"></iframe>
         </div>
-      </div> <!-- /span6 -->
-    </div> <!-- /row-fluid -->
+      </div> <!-- END div for preview -->
+      <div class="clearfix"> </div>
+    </div> <!-- / XXX -->
   </div> <!-- /step -->
 
 <? }
