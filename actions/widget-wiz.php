@@ -62,11 +62,15 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   function previewCurrent() {
     $w = $this->getWidget();
+    return $this->redirect($this->widgetPreviewURL($w));
+  }
+
+  private function widgetPreviewURL(Widget $w) {
     $width = $w->width ? $w->width : 250;
     $height = $w->height ? $w->height : 250;
-    return $this->redirect("/client/widget{$width}x{$height}?preview=true&" .
-                           "title={$w->title}&goal={$w->goal}&currency={$w->currency}&" .
-                           "ending={$w->ending}&addrss={$w->bitcoinAddress}");
+    return "/client/widget{$width}x{$height}?" .
+      "title={$w->title}&goal={$w->goal}&currency={$w->currency}&" .
+      "ending={$w->ending}&addrss={$w->bitcoinAddress}&preview=true";
   }
 
   private function storeWidgetInSession(Widget $w) {
@@ -97,6 +101,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     ob_start();
     $tplObj = new $className;
     $tplObj->widget = $widget;
+    $tplObj->previewURL = $this->widgetPreviewURL($widget);
     $tplObj->content();
     $pgContent = ob_get_contents();
     ob_end_clean();
