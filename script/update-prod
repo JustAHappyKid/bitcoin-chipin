@@ -7,6 +7,10 @@ set -e
 line="Yes!"
 if [ "$line" = "Yes!" ]; then
 
+  BASE_SCRIPT_DIR=`dirname $0`
+  cd "$BASE_SCRIPT_DIR/.."
+  BASE_CHIPIN_DIR=`pwd`
+
   TMP_DIR=/tmp/btcchip-up-prod
   rm -Rf "$TMP_DIR"
   mkdir -p "$TMP_DIR"
@@ -15,10 +19,12 @@ if [ "$line" = "Yes!" ]; then
   MYPHPLIBS_DIR=`dirname "$MYPHPLIBS_SRC_DIR"`
 
   echo "Updating local checkout of My PHP Libs ($MYPHPLIBS_DIR)..."
-  bzr up "$MYPHPLIBS_DIR"
+  #bzr up "$MYPHPLIBS_DIR"
   echo "Doing export on My PHP Libs source..."
   mkdir "$TMP_DIR/my-php-libs"
-  bzr export "$TMP_DIR/my-php-libs" "$MYPHPLIBS_DIR"
+  #bzr export "$TMP_DIR/my-php-libs" "$MYPHPLIBS_DIR"
+  cd "$MYPHPLIBS_DIR"
+  git archive master | tar -x -C "$TMP_DIR/my-php-libs"
   echo "Running My PHP Libs test suite..."
   MYPHP_TEST_OUTPUT=`$TMP_DIR/my-php-libs/test/test.php`
   MYPHP_SUCCESS_PATTERN="Ran [0-9]+ test functions and [0-9]+ test methods in [0-9]+ classes."
@@ -35,6 +41,7 @@ if [ "$line" = "Yes!" ]; then
   mkdir "$EXPORT_DIR"
 
   echo "Doing export on Chipin source..."
+  cd $BASE_CHIPIN_DIR
   git archive master | tar -x -C "$EXPORT_DIR"
 
   echo "Copying My PHP Libs to Chipin lib dir..."
