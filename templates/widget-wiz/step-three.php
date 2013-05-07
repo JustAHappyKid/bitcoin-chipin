@@ -20,33 +20,26 @@ class StepThree extends WidgetWizLayout {
 		      <!-- Javascript version -->
 		      <textarea style="height: 110px; width: 400px;" class="input-large"
 				            id="javascript-version" rows="3"
-				    ><?= $this->renderIframeIfWidget($this->widget) ?></textarea>
-		      <? /* <div class="control-group">
-			      <label class="control-label" for="javascript-version"></label>
-			      <div class="controls">
-				      <textarea style="height: 110px; width: 400px;" class="input-large"
-				                id="javascript-version" rows="3"></textarea>
-			      </div>
-		      </div> */ ?>
+				    ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
 		    </div> <!-- /span6 -->
 		    <div class="span5 offset1">
-			    <div id="final-widget" class="well" style="text-align: center;">
-				    <?= $this->renderIframeIfWidget($this->widget); ?>
+			    <!-- <div id="final-widget" class="well" style="text-align: center;"> -->
+			    <div class="well" style="text-align: center;">
+				    <?= $this->iframeForWidget($this->widget); ?>
 			    </div>
 		    </div> <!-- /span6 -->
 	    </div> <!-- /row-fluid -->		
     </div> <!-- /step -->
   <? }
 
-  private function renderIframeIfWidget($widget) {
+  private function iframeForWidget($widget, $id = null) {
     if ($widget) {
       return
-        '<iframe id="widget-preview2" ' .
+        '<iframe ' . ($id ? "id=\"$id\" " : '') .
                 'src="' . PATH . 'client/widget' .
                      $widget->width . 'x' . $widget->height . '?id=' . $widget->id . '" ' .
                 'frameborder="no" framespacing="0" scrolling="no" ' .
                 'width="' . $widget->width . '" height="' . $widget->height . '"></iframe>';
     } else { return 'no widg?'; }
   }
-
 }
