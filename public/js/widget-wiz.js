@@ -323,33 +323,9 @@
 				  			var iSrc = path+"client/widget"+size+"?id="+obj.id+"&owner_id="+obj.owner_id;
 				  			var iframe = "<iframe id='widget-preview' frameborder='no' framespacing='0' scrolling='no' src='"+iSrc+"' width='"+obj.width+"' height='"+obj.height+"'></iframe>";
 				  			console.log(iframe);
-				  			/*
-							var flash =
-								'<style type="text/css" media="screen"> html, body  { height:100%; }body { margin:0; padding:0; overflow:auto; text-align:center; background-color: #ffffff; }object:focus { outline:none; }#flashContent { display:none; }</style>'+
-								'<link rel="stylesheet" type="text/css" href="'+path+'flash/history/history.css" />'+
-								'<script type="text/javascript" src="'+path+'flash/history/history.js"></script>'+
-								'<script type="text/javascript" src="'+path+'flash/swfobject.js"></script>'+
-								'<script type="text/javascript">'+
-								'var swfVersionStr = "11.4.0";'+
-								'var xiSwfUrlStr = "'+path+'flash/playerProductInstall.swf";'+
-								'var flashvars = {url:"http://bitcoinchipin.com.haykaghabekyan.com/client/widget'+size+'?id='+obj.id+'",owner_id:"'+obj.owner_id+'",flash:"1"};'+
-								'var params = {};params.quality = "high";params.bgcolor = "#ffffff";params.allowscriptaccess = "sameDomain";params.allowfullscreen = "true";var attributes = {};attributes.id = "WebWidget";attributes.name = "WebWidget";attributes.align = "middle";swfobject.embedSWF("'+path+'flash/WebWidget.swf", "flashContent", "100%", "100%", swfVersionStr, xiSwfUrlStr, flashvars, params, attributes);swfobject.createCSS("#flashContent", "display:block;text-align:left;");</script>'+
-								'<div id="flashContent"></div>';
-							*/
-							var flash =
-								'<embed '+
-									'allowScriptAccess="always" '+
-									'src="http://bitcoinchipin.com.haykaghabekyan.com/flash/WebWidget.swf" '+
-									'flashVars="url='+iSrc+'&flash=1" '+
-									'type="application/x-shockwave-flash" '+
-									'wmode="transparent" '+
-									'width="'+ obj.width +'" '+
-									'height="'+ obj.height +'"'+
-								'></embed>';
-							console.log(flash);
 				  			$("#javascript-version").text(iframe);
 				  			console.log(iframe);
-				  			$("#final-widget").html(iframe);
+				  			// $("#final-widget").html(iframe);
 				  			$("#flash-version").text(flash);
 						}
 					});
