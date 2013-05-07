@@ -312,7 +312,7 @@
 
 					var url = path+'widgets/ajaxsave/?'+src[1]+'&width=' + s[0] + '&height=' + s[1];
 
-					$.ajax({
+					/* $.ajax({
 						url: url,
 						type: 'get',
 						dataType: 'html',
@@ -328,7 +328,7 @@
 				  			// $("#final-widget").html(iframe);
 				  			$("#flash-version").text(flash);
 						}
-					});
+					}); */
 				  }
 
                   if(steps.length <= nextStepIdx){
