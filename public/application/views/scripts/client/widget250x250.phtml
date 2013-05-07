@@ -78,7 +78,9 @@ ul{
 	font-size: 8px;
 }
 
-.widget-container{
+<? if (count($color) != 2) throw new Exception("Invalid color given"); ?>
+
+.widget-container {
 	border-radius: 10px;
 	background-color: <?='#'.$color[0];?>;
 	background-image: -webkit-gradient(linear,left top,left bottom,color-stop(0%,<?='#'.$color[0];?>),color-stop(100%,<?='#'.$color[1];?>));
