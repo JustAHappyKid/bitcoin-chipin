@@ -70,11 +70,13 @@ class SigninController extends PasswordEnabledController {
             
             $authStorage = $auth->getStorage();
             $authStorage->write($identity);
-                      
+
+            /*
             if($identity->role == 'admin') {
               $this->_redirect(PATH.'admin/');
             }
-            
+            */
+
             $this->_redirect(PATH.'dashboard/');
           } else {
             $this->_redirect(PATH.'signin/index/signin/failure/');
