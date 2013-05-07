@@ -12,6 +12,8 @@ class StepTwo extends WidgetWizLayout {
 
   function contentForThisStep() { ?>
 
+    <?= $this->updatePreviewJavascript() ?>
+
     <div id="step-2">
       <h3>Step 2: Customize Widget</h3>
       <br />
@@ -67,6 +69,23 @@ class StepTwo extends WidgetWizLayout {
       </div> <!-- / XXX -->
     </div> <!-- /step -->
 
+  <? }
+
+  function updatePreviewJavascript() { ?>
+    <script type="text/javascript" charset="utf-8">
+      $(document).ready(function() {
+        $("#widget-about, #widget-size, #widget-color").change(function(){
+          var size = $('#widget-size').val();
+          var s = size.split('x');
+          $('#widget-preview').attr('src',
+            $('#path').val() + "widget-wiz/preview-current" +
+            "?color=" + $('#widget-color').val() + "&about="+$("#widget-about").val() +
+            "&width=" + s[0] + "&height=" + s[1]);
+          $('#widget-preview').attr('width', s[0]);
+          $('#widget-preview').attr('height', s[1]);
+        });
+      });
+    </script>
   <? }
 
 }
