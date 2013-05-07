@@ -14,21 +14,21 @@ class StepThree extends WidgetWizLayout {
     <div id="step-3">
 	    <h3>Step 3: You're done! Just copy and paste the below code into your website.</h3>
 	    <br />
-	    <br />
-	    <div class="row-fluid">
-		    <div class="span6">
+	    <div>
+	      <div style="float: left;"> <!-- div for form inputs -->
 		      <!-- Javascript version -->
 		      <textarea style="height: 110px; width: 400px;" class="input-large"
 				            id="javascript-version" rows="3"
 				    ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
 		    </div> <!-- /span6 -->
-		    <div class="span5 offset1">
+		    <div style="float: left; margin: 0 0 0 100px;">
 			    <!-- <div id="final-widget" class="well" style="text-align: center;"> -->
 			    <div class="well" style="text-align: center;">
 				    <?= $this->iframeForWidget($this->widget); ?>
 			    </div>
-		    </div> <!-- /span6 -->
-	    </div> <!-- /row-fluid -->		
+		    </div> <!-- END div for preview -->
+		    <div class="clearfix"> </div>
+	    </div> <!-- /XXX -->		
     </div> <!-- /step -->
   <? }
 
