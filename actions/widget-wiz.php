@@ -1,7 +1,9 @@
 <?php
 
 require_once 'chipin/widgets.php';
-use \Chipin\Widgets\Widget;
+require_once 'my-php-libs/url.php';
+
+use \Chipin\Widgets\Widget, \MyPHPLibs\URL;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -62,15 +64,20 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   function previewCurrent() {
     $w = $this->getWidget();
+    foreach (array('about', 'width', 'height', 'color') as $var) {
+      if (isset($_GET[$var])) $w->$var = $_GET[$var];
+    }
     return $this->redirect($this->widgetPreviewURL($w));
   }
 
   private function widgetPreviewURL(Widget $w) {
     $width = $w->width ? $w->width : 250;
     $height = $w->height ? $w->height : 250;
-    return "/client/widget{$width}x{$height}?" .
-      "title={$w->title}&goal={$w->goal}&currency={$w->currency}&" .
-      "ending={$w->ending}&addrss={$w->bitcoinAddress}&preview=true";
+    $vars = array(
+      'title' => $w->title, 'goal' => $w->goal, 'currency' => $w->currency,
+      'about' => $w->about, 'color' => $w->color,
+      'ending' => $w->ending, 'address' => $w->bitcoinAddress, 'preview' => 'true');
+    return "/client/widget{$width}x{$height}" . URL\makeQueryString($vars);
   }
 
   private function storeWidgetInSession(Widget $w) {
