@@ -56,9 +56,11 @@ class SignupController extends PasswordEnabledController {
         $authStorage = $auth->getStorage();
         $authStorage->write($identity);
 
+        /*
         if($identity->role == 'admin') {
           $this->_redirect(PATH.'admin/index/');
         }
+        */
 
         $this->_redirect(PATH."dashboard/index/");
       } else {

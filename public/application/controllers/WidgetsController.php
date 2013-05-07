@@ -16,10 +16,12 @@ class WidgetsController extends Zend_Controller_Action {
       $this->_redirect(PATH.'signin/');
     }
 
+    /*
     $identity = $this->auth->getIdentity();
     if (isset($identity->role) && $identity->role == 'admin') {
       $this->_redirect(PATH.'admin/index/');
     }
+    */
 
     $this->view->assign('identity', $identity);
   }
