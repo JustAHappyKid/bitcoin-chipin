@@ -3,7 +3,7 @@
 require_once 'chipin/widgets.php';
 require_once 'my-php-libs/url.php';
 
-use \Chipin\Widgets\Widget, \MyPHPLibs\URL;
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \MyPHPLibs\URL;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -38,6 +38,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       list($widget->width, $widget->height) = explode('x', $_POST['size']);
       $widget->color = $_POST['color'];
       $widget->save();
+      Widgets\updateProgressForObj($widget);
       $this->storeWidgetInSession($widget);
       return $this->redirect('/widget-wiz/step-three');
     } else {
