@@ -93,6 +93,13 @@ function updateByID($id, Array $data) {
   DB\updateByID('widgets', $id, $data);
 }
 
+function updateProgressForObj(Widget $w) {
+  $balance = Bitcoin\getBalance($w->bitcoinAddress, $w->currency);
+  $progress = ($balance / $w->goal) * 100;
+  DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
+           array($progress, $balance, $w->id));
+}
+
 function updateProgress($row) {
   $balance = Bitcoin\getBalance($row['address'], $row['currency']);
   $progress = $balance / $row['goal'] * 100;
