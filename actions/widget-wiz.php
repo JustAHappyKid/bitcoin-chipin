@@ -17,17 +17,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   function stepOne() {
-    /*
-    $form = new WebForm('post');
-    $form->addSection('password', array(
-      newPasswordField('password1', 'Password')->
-        required('Please provide a password'),
-      newPasswordField('password2', 'Re-enter password')->
-        required('Please confirm your password by entering it again.')->
-        shouldMatch('password1', "The two entered passwords do not match.")));
-    $form->addSubmitButton('Save Password');
-    $this->templateVar('form', $form);
-    */
     $widget = $this->getWidget();
     if ($this->isPostRequest()) {
       foreach (array('title', 'goal', 'currency', 'ending', 'bitcoinAddress') as $v) {
@@ -100,23 +89,15 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     unset($_SESSION['unsaved-widget']);
   }
 
-  private function renderStep($tplFile, $className, Widget $widget, $error = null) {
+  private function renderStep($tplFile, $className, Widget $widget /*, $error = null*/) {
+    /*
     global $content;
     $content = '';
     if ($error) $content .= '<div class="alert alert-error">' . $error . '</div>';
-    require_once $this->templatePath("widget-wiz/$tplFile");
-    ob_start();
-    $tplObj = new $className;
-    $tplObj->widget = $widget;
-    $tplObj->previewURL = $this->widgetPreviewURL($widget);
-    $tplObj->content();
-    $pgContent = ob_get_contents();
-    ob_end_clean();
-    return $pgContent;
+    */
+    return $this->render("widget-wiz/$tplFile", $className,
+      array('widget' => $widget, 'previewURL' => $this->widgetPreviewURL($widget)));
   }
-
-  private function templatePath($tpl) {
-    return dirname(dirname(__FILE__)) . "/templates/$tpl"; }
 }
 
 return 'WidgetWizController';
