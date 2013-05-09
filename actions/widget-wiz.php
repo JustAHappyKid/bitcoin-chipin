@@ -1,9 +1,11 @@
 <?php
 
 require_once 'chipin/widgets.php';
+require_once 'chipin/bitcoin.php';
 require_once 'my-php-libs/url.php';
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \MyPHPLibs\URL;
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
+  \MyPHPLibs\URL, \MyPHPLibs\Webapp\HttpResponse;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -58,6 +60,26 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       if (isset($_GET[$var])) $w->$var = $_GET[$var];
     }
     return $this->redirect($this->widgetPreviewURL($w));
+  }
+
+  /**
+   * This action is used by JavaScript to validate given Bitcoin address.
+   */
+  public function validBtcAddr() {
+    $address = $this->context->takeNextPathComponent();
+    $valid = null;
+    try {
+      $balance = Bitcoin\getBalance($address);
+      //echo ($balance == 0 ? 'true' : 'false');
+      $valid = true;
+    } catch (Bitcoin\InvalidAddress $_) {
+      $valid = false;
+    }
+    $resp = new HttpResponse;
+    $resp->statusCode = 200;
+    $resp->contentType = 'text/plain';
+    $resp->content = $valid ? 'true' : 'false';
+    return $resp;
   }
 
   private function widgetPreviewURL(Widget $w) {
