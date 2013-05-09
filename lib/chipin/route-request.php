@@ -3,8 +3,10 @@
 namespace Chipin\WebFramework;
 
 require_once 'my-php-libs/webapp/base-framework.php';
-require_once 'my-php-libs/webapp/base-controller.php';
 require_once 'chipin/users.php';
+
+# Make sure \Chipin\WebFramework\Controller is in scope.
+require_once 'chipin/webapp/controller.php';
 
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
@@ -111,5 +113,3 @@ class FrontController extends \MyPHPLibs\Webapp\FrontController {
   }
   */
 }
-
-class Controller extends \MyPHPLibs\Webapp\Controller {}
