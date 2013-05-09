@@ -38,6 +38,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w = current($widgets);
     assertEqual('Tengo hambre', $w->title);
     assertEqual(15, (int) $w->goal);
+    assertEqual($this->btcAddr(), $w->bitcoinAddress);
     assertEqual('I need to get a bite to eat!', $w->about);
     assertEqual(125, (int) $w->width);
     assertEqual(125, (int) $w->height);
