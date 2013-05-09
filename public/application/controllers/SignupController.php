@@ -37,22 +37,26 @@ class SignupController extends PasswordEnabledController {
         'email' => $email
       ));
 
+/*
       $dbAdapter = Zend_Db_Table::getDefaultAdapter();
       $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
-      
+
       $authAdapter->setTableName("users");
       $authAdapter->setIdentityColumn("username");
       $authAdapter->setCredentialColumn("password");
 
       $authAdapter->setIdentity($username);
       $authAdapter->setCredential($passwordHashed);
-      
+
       $auth = Zend_Auth::getInstance();
       $result = $auth->authenticate($authAdapter);
-      
+
       if($result->isValid()) {
-        $identity = $authAdapter->getResultRowObject();
-        
+*/
+        // $identity = $authAdapter->getResultRowObject();
+        $identity = User::loadFromUsername($username);
+
+        $auth = Zend_Auth::getInstance();
         $authStorage = $auth->getStorage();
         $authStorage->write($identity);
 
@@ -63,9 +67,12 @@ class SignupController extends PasswordEnabledController {
         */
 
         $this->_redirect(PATH."dashboard/index/");
+
+      /*
       } else {
         $this->_redirect(PATH.'signin/index/');
       }
+      */
     }
     else {
       $this->_redirect(PATH.'signin/index/');
