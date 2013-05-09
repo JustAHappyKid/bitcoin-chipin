@@ -34,14 +34,17 @@ class DashboardController extends Zend_Controller_Action {
       $_SESSION['lastProgressUpdate'] = time();
     }
 
-    $k = 0;
-    foreach ($widgets as $key) {
-      if ((time()-(60*60*24)) < strtotime($key['ending'])) $k++;
+    $active = array(); $ended = array();
+    foreach ($widgets as $w) {
+      if ((time()-(60*60*24)) < strtotime($w['ending'])) {
+        $active []= $w;
+      } else {
+        $ended []= $w;
+      }
     }
 
-    $this->view->assign('widgets', $widgets);
-    $this->view->assign('all', count($widgets));
-    $this->view->assign('in_progress', $k);
-    $this->view->assign('ended',  count($widgets) - $k);
+    $this->view->assign('allWidgets', $widgets);
+    $this->view->assign('activeWidgets', $active);
+    $this->view->assign('endedWidgets', $ended);
   }
 }
