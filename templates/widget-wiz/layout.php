@@ -68,12 +68,15 @@ abstract class WidgetWizLayout extends Layout {
                       <? $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
                       <? foreach ($steps as $num => $label): ?>
                         <li>
-                          <a href="./step-<?= $words[$num] ?>#step-<?= $num ?>"
-                            class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>">
+                        
+                          <span class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>">
+                          <!-- <a href="./step-<?= $words[$num] ?>#step-<?= $num ?>"
+                            class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>"> -->
                             <div class="wizard-step-number"><?= $num ?></div>
                             <div class="wizard-step-label"><?= $label ?></div>
                             <div class="wizard-step-bar"></div>
-                          </a>
+                          <!-- </a> -->
+                          </span>
                         </li>
                       <? endforeach; ?>
                     </ul>
