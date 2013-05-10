@@ -1,8 +1,7 @@
 #! /usr/bin/env php
 <?php
 
-
-use \MyPHPLibs\Test, \MyPHPLibs\Database as DB;
+use \MyPHPLibs\Test, \MyPHPLibs\Database as DB, \Chipin\Passwords;
 
 function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));
@@ -24,9 +23,10 @@ function clearDB() {
 
 function newUser($email, $username, $pw) {
   require_once 'chipin/users.php';
+  require_once 'chipin/passwords.php';
   # XXX: Note, we're not hashing passwords here...
   $uid = DB\insertOne('users',
-    array('email' => $email, 'username' => $username, 'password' => $pw), true);
+    array('email' => $email, 'username' => $username, 'password' => Passwords\hash($pw)), true);
   return User::loadFromID($uid);
 }
 
