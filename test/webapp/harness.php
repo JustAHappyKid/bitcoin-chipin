@@ -8,6 +8,10 @@ require_once 'my-php-libs/test/webapp.php'; # WebappTestingHarness
 define('PATH', 'https://test.org/');
 define('APPLICATION_ENV', 'testing');
 
+# XXX: Required for /xxx-tmp-test-hook/login, until we phase that out in
+# XXX: favor of a proper login mechanism.
+define('TESTING', true);
+
 global $__frontControllerForTesting;
 $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/route-request.php";
@@ -16,6 +20,13 @@ $__frontControllerForTesting = new \Chipin\WebFramework\FrontController($webappD
 abstract class WebappTestingHarness extends \MyPHPLibs\Test\WebappTestingHarness {
 
   protected function domain() { return 'test.org'; }
+
+  protected function loginAsNormalUser() {
+    $un = 'user-' . uniqid();
+    $u = newUser($email = $un . '@example.com', $username = $un, $password = 'abc123');
+    $this->post('/xxx-tmp-test-hook/login', array('un' => $un));
+    return $u;
+  }
 
   protected function dispatchToWebapp() {
     global $__frontControllerForTesting;
