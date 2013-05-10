@@ -23,6 +23,7 @@ abstract class Layout {
 	          padding: 17px;
 	          margin-left: auto;
 	          margin-right: auto;
+	          min-height: 500px;
           }
 
         </style>
@@ -58,7 +59,6 @@ abstract class Layout {
 	        </div> <!-- /.container -->
         </div> <!-- /#nav -->
 
-        <? /*global $content;*/ ?>
         <?= $this->innerContent(); ?>
 
       </body>
