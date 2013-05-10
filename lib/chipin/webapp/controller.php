@@ -3,8 +3,24 @@
 namespace Chipin\WebFramework;
 
 require_once 'my-php-libs/webapp/base-controller.php';
+require_once 'my-php-libs/webapp/forms.php';            # Form
+
+use \MyPHPLibs\Webapp\Forms\Form;
 
 class Controller extends \MyPHPLibs\Webapp\Controller {
+
+  protected function formIsValid($form, $vars) {
+    if (!$form->hasBeenValidated()) $form->validate($vars);
+    return $form->isValid();
+  }
+
+  protected function isPostRequestAndFormIsValid(Form $form) {
+    if ($this->isPostRequest()) {
+      return $this->formIsValid($form, $_POST);
+    } else {
+      return false;
+    }
+  }
 
   protected function render($tplFile, $className, Array $vars = array()) {
     require_once $this->templatePath($tplFile);
