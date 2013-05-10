@@ -8,8 +8,6 @@ require_once 'chipin/widgets.php';  # Widget::getAll
 // use \MyPHPLibs\Database as DB;
 use \Chipin\Widgets\Widget;
 
-define('TESTING', true);
-
 class WidgetWizardTests extends WebappTestingHarness {
 
   function setUp() {
@@ -18,11 +16,7 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   function testAddingAndEditingWidget() {
-    newUser(
-      $email = 'jimmy@example.com',
-      $username = 'jimmy',
-      $password = 'abc123');
-    $this->post('/xxx-tmp-test-hook/login', array('un' => 'jimmy'));
+    $this->loginAsNormalUser();
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
