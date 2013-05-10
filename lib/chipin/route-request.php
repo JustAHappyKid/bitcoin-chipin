@@ -81,7 +81,7 @@ class FrontController extends \MyPHPLibs\Webapp\FrontController {
 
   protected function pathIsOpenToAuthenticatedUser($cmd) {
     $allowed = array();
-    return in_array($cmd, $allowed) || $cmd[0] == 'widget-wiz';
+    return in_array($cmd, $allowed) || $cmd[0] == 'widget-wiz' || $cmd[0] == 'account';
   }
 
   /*
