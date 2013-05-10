@@ -6,8 +6,8 @@ require_once 'my-php-libs/database.php';
 use \MyPHPLibs\Database as DB;
 
 class User {
-  public $id, $email, $username; //, $password;
-  
+  public $id, $email, $username, $passwordEncrypted;
+
   function __construct() { }
 
   public static function loadFromID($id) {
@@ -37,6 +37,7 @@ class User {
     $this->username = $row['username'];
     $this->id = $row['id'];
     $this->email = $row['email'];
+    $this->passwordEncrypted = $row['password'];
     return $this;
   }
 
