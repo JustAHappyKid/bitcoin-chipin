@@ -55,5 +55,29 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual(250, (int) $wNow->height);
   }
 
+  function testThatFieldsArePrePopulatedWhenEditingWidget() {
+    $u = $this->loginAsNormalUser();
+    $w = new Widget;
+    $w->ownerID = $u->id;
+    $w->title = 'Party Party';
+    $w->about = 'Vamos a festejar.';
+    $w->goal = 50;
+    $w->currency = 'CAD';
+    $w->ending = '2015-12-31';
+    $w->address = $this->btcAddr();
+    $w->width = '220';
+    $w->height = '220';
+    $w->color = 'E0DCDC,707070';
+    $w->save();
+    $this->get('/widget-wiz/step-one?w=' . $w->id);
+    $titleInput = current($this->xpathQuery("//input[@name='title']"));
+    assertEqual('Party Party', $titleInput->getAttribute('value'));
+    $selectedCurrencyOptions = $this->xpathQuery("//select[@name='currency']/option[@selected]");
+    assertEqual(1, count($selectedCurrencyOptions),
+      'Exactly one currency should be selected by default');
+    $selectedCurrencyOption = current($selectedCurrencyOptions);
+    assertEqual('CAD', $selectedCurrencyOption->getAttribute('value'));
+  }
+
   private function btcAddr() { return '1PUPt26votHesaGwSApYtGVTfpzvs8AxVM'; }
 }

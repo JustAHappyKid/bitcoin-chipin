@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/layout.php';
+require_once 'my-php-libs/webapp/forms.php';
+
+use \MyPHPLibs\Webapp\Forms\SelectField;
 
 class StepOne extends WidgetWizLayout {
 
@@ -41,33 +44,17 @@ class StepOne extends WidgetWizLayout {
               <input type="text" class="input-small" id="widget-want-to-raise" name="goal"
                      value="<?= $this->widget->goal ?>"/>
               &nbsp;
-              <!-- TODO: Currency should be "sticky" and remember its value!! -->
-              <select id="currency" name="currency" style="width: 6em;">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="CNY">CNY</option>
-                <option value="CAD">CAD</option>
-                <option value="JPY">JPY</option>
-                <option value="BTC">BTC</option>
-              </select>
+              <?
+                $s = new SelectField('currency', 'Currency',
+                  array('USD' => 'USD', 'EUR' => 'EUR', 'GBP' => 'GBP', 'CNY' => 'CNY',
+                        'CAD' => 'CAD', 'JPY' => 'JPY', 'BTC' => 'BTC'));
+                $s->setID('currency')->setAttribute('style', 'width: 6em;');
+                $s->setValue(empty($this->widget->currency) ? 'USD' : $this->widget->currency);
+              ?>
+              <?= $s->renderInputHtml() ?>
               <span class="help-inline">Please enter a valid (numeric) amount.</span>
             </div>
           </div>
-          <!-- <div class="control-group">
-            <label class="control-label" for="widget-end-date">Currency</label>
-            <div class="controls">
-              <select id="currency" name="currency" style="width: 6em;">
-                <option value="USD">USD</option>
-                <option value="EUR">EUR</option>
-                <option value="GBP">GBP</option>
-                <option value="CNY">CNY</option>
-                <option value="CAD">CAD</option>
-                <option value="JPY">JPY</option>
-                <option value="BTC">BTC</option>
-              </select>
-            </div>
-          </div> -->
           <div class="control-group">
             <label class="control-label" for="widget-end-date">End Date</label>
             <div class="controls">
