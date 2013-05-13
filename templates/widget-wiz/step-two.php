@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/layout.php';
+require_once 'my-php-libs/webapp/forms.php';
+
+use \MyPHPLibs\Webapp\Forms\SelectField;
 
 class StepTwo extends WidgetWizLayout {
 
@@ -33,14 +36,17 @@ class StepTwo extends WidgetWizLayout {
           <div class="control-group">
             <label class="control-label" for="userlanguage">Size</label>
             <div class="controls">
-              <select id="widget-size" name="size">
-                <option value="250x250">250 x 250</option>
-                <option value="120x60">120 x 60</option>
-                <option value="125x125">125 x 125</option>
-                <option value="160x250">160 x 250</option>
-                <option value="220x220">220 x 220</option>
-                <option value="234x60">234 x 60</option>
-              </select>
+              <?
+                $size = new SelectField('size', 'Size',
+                  array("250x250" => "250 x 250", "120x60"  => "120 x 60",
+                        "125x125" => '125 x 125', "160x250" => "160 x 250",
+                        "220x220" => "220 x 220", "234x60"  => "234 x 60"));
+                $size->setID('widget-size');
+                if ($this->widget->width) {
+                  $size->setValue($this->widget->width . 'x' . $this->widget->height);
+                }
+              ?>
+              <?= $size->renderInputHtml() ?>
             </div>
           </div>
           <div class="control-group">
@@ -48,13 +54,15 @@ class StepTwo extends WidgetWizLayout {
               Color
             </label>
             <div class="controls">
-              <select id="widget-color" name="color">
-                <option value="A9DB80,96C56F">Green</option>
-                <option value="A67939,845108">Brown</option>
-                <option value="3093C7,1C5A85">Blue</option>
-                <option value="E0DCDC,707070">Grey</option>
-                <option value="F62B2B,D20202">Red</option>
-              </select>
+              <?
+                $color = new SelectField('color', 'Color',
+                  array("A9DB80,96C56F" => "Green", "A67939,845108" => "Brown",
+                        "3093C7,1C5A85" => "Blue", "E0DCDC,707070"  => "Grey",
+                        "F62B2B,D20202" => "Red"));
+                $color->setID('widget-color');
+                if ($this->widget->color) $color->setValue($this->widget->color);
+              ?>
+              <?= $color->renderInputHtml() ?>
             </div>
           </div>
         </div> <!-- END div for form inputs -->

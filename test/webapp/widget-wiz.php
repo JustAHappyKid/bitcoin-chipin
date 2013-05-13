@@ -67,16 +67,25 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w->address = $this->btcAddr();
     $w->width = '220';
     $w->height = '220';
-    $w->color = 'E0DCDC,707070';
+    $colorGrey = 'E0DCDC,707070';
+    $w->color = $colorGrey;
     $w->save();
     $this->get('/widget-wiz/step-one?w=' . $w->id);
     $titleInput = current($this->xpathQuery("//input[@name='title']"));
     assertEqual('Party Party', $titleInput->getAttribute('value'));
-    $selectedCurrencyOptions = $this->xpathQuery("//select[@name='currency']/option[@selected]");
-    assertEqual(1, count($selectedCurrencyOptions),
-      'Exactly one currency should be selected by default');
-    $selectedCurrencyOption = current($selectedCurrencyOptions);
-    assertEqual('CAD', $selectedCurrencyOption->getAttribute('value'));
+    $this->expectSpecificOption($fieldName = 'currency', $expectedValue = 'CAD');
+    $this->submitForm($this->getForm(), array());
+    $this->expectSpecificOption($fieldName = 'size', $expectedValue = '220x220');
+    $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
+  }
+
+  private function expectSpecificOption($fieldName, $expectedValue) {
+    $selectedOptions = $this->xpathQuery("//select[@name='$fieldName']/option[@selected]");
+    assertEqual(1, count($selectedOptions),
+      "Exactly one option should be selected for field '$fieldName'");
+    $selectedOption = current($selectedOptions);
+    assertEqual($expectedValue, $selectedOption->getAttribute('value'),
+      "Expected field '$fieldName' to have value '$expectedValue' selected");
   }
 
   private function btcAddr() { return '1PUPt26votHesaGwSApYtGVTfpzvs8AxVM'; }
