@@ -42,10 +42,13 @@
 
       var html = $(
         "<div class='center'>"+
-          "<h3 style='text-align: center;'>Are you sure you want to delete this widget?</h3>"+
-          "<h4 style='text-align: center;'>Once ended, you will not be able to restart it.</h5>"+
+          "<h3 style='text-align: center;'>Are you sure you want to end this widget?</h3>"+
           "<div style='margin: 40px auto; text-align: center;'>"+
-            "<a href='<?=PATH;?>widgets/end?id="+$this.attr('id')+"' class='btn btn-danger' style='width: 80px;'>End</a>"+
+            "<form method='post' action='<?= PATH ?>widget-wiz/end'>" +
+              "<input type='hidden' name='id' value='" + $this.attr('id') + "' />" +
+              "<button class='btn btn-danger'>End Widget</button>" +
+            "</form>" +
+            //"<a href='<?=PATH;?>widgets/end?id="+$this.attr('id')+"' class='btn btn-danger' style='width: 80px;'>End</a>"+
           "</div>"+
           "<div style='width: "+$this.attr('width')+"px; height: "+$this.attr('height')+"px; margin: 40px auto;'>"+
             "<iframe frameborder='no' framespacing='0' scrolling='no' src='"+$this.attr('href')+"' width='"+$this.attr('width')+"' height='"+$this.attr('height')+"'></iframe>"+
