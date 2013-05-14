@@ -128,11 +128,13 @@ class WidgetsController extends Zend_Controller_Action {
     $this->_redirect(PATH.'dashboard/');
   }
 
-  public function endAction() {
+  /*
+  public function editAction() {
     $id = $this->_getParam('id', '');
     $widget = new Application_Model_Widgets();
     $widget->setIdentity($this->auth->getIdentity()->id);
     $widget->endWidget($id);
     $this->_redirect(PATH.'dashboard/');
   }
+  */
 }
