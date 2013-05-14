@@ -32,6 +32,7 @@ class WidgetsController extends Zend_Controller_Action {
 
   public function createAction() { }
 
+/*
   public function ajaxsaveAction() {
     $this->_helper->layout->disableLayout();
 
@@ -95,19 +96,18 @@ class WidgetsController extends Zend_Controller_Action {
       "id" => $widget_id
     ));
   }
+*/
 
+  /*
   public function editAction() {
     $id = $this->_getParam("id", "");
     $owner_id = $this->_getParam("owner_id", "");
-    /*
-    $w = new Application_Model_Widgets();
-    $w->setIdentity($owner_id);
-    $widget = $w->getWidgetById($id);
-    */
     $widget = Widgets\Widget::getByOwnerAndID($this->getUser(), $id);
     $this->view->assign("widget", $widget);
   }
+  */
 
+  /*
   public function ajaxcheckaddressAction() {
     $this->_helper->layout->disableLayout();
     $address = $this->_getParam('address');
@@ -117,14 +117,8 @@ class WidgetsController extends Zend_Controller_Action {
     } catch (Bitcoin\InvalidAddress $_) {
       echo 'false';
     }
-    /*
-    $balance = file_get_contents("http://blockexplorer.com/q/checkaddress/".$address."/");
-    if ($balance == '00')
-      echo 'true';
-    else
-      echo 'false';
-    */
   }
+  */
 
   public function deleteAction() {
     $id = $this->_getParam('id', '');
