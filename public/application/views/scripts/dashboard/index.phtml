@@ -1,3 +1,6 @@
+
+<? require_once 'chipin/currency.php'; ?>
+
 <link rel="stylesheet" type="text/css" href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.css" />
 <!--[if IE 6]>
 <link rel="stylesheet" type="text/css" href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.ie6.css" />
@@ -24,7 +27,8 @@
             </div> </td>
             <td><?= $widget['title'] ?></td>
             <td>Ends <?= $widget['ending'] ?></td>
-            <td>Raised <?= $widget['raised'] . ' ' . $widget['currency'] ?></td>
+            <td>Raised <?=
+              \Chipin\Currency\displayAmount($widget['raised'], $widget['currency']) ?></td>
             <td><?= actionsColumn($widget) ?></td>
           </tr>
         <?php endforeach; ?>
