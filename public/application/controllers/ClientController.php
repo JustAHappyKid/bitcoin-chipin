@@ -16,8 +16,6 @@ class ClientController extends Zend_Controller_Action {
       $dimensions = withoutPrefix($action, 'widget');
       list($this->view->width, $this->view->height) = explode('x', $dimensions);
       $this->view->address = $this->_getParam("address", "");
-      if (!empty($this->view->address))
-        $this->view->raised = Bitcoin\getBalance($this->view->address);
       $this->view->color = $this->_getParam("color", "E0DCDC,707070");
       $this->view->title = stripslashes($this->_getParam("title", ""));
       $this->view->goal = $this->_getParam("goal", "0");
@@ -25,16 +23,13 @@ class ClientController extends Zend_Controller_Action {
       $this->view->ending = $this->_getParam("ending", date("mm/dd/yy"));
       $this->view->about = stripslashes($this->_getParam("about", ""));
       $this->view->currency = $this->_getParam("currency", "");
+      if (!empty($this->view->address))
+        $this->view->raised = Bitcoin\getBalance($this->view->address, $this->view->currency);
       if ($this->view->goal)
         $this->view->progress = $this->view->raised / $this->view->goal * 100;
     } else {
       $id = $this->_getParam("id", "");
       $owner_id = $this->_getParam("owner_id", "");
-      /*
-      $w = new Application_Model_Widgets();
-      $w->setIdentity($owner_id);
-      $widget = $w->getWidgetById($id);
-      */
       $widget = Widgets\getWidgetById($id);
       $widget['raised'] = Bitcoin\getBalance($widget['address'], $widget['currency']);
       $widget['progress'] = $widget['raised'] / $widget['goal'] * 100;
