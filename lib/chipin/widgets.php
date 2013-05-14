@@ -107,4 +107,8 @@ function updateProgress($row) {
            array($progress, $balance, $row['id']));
 }
 
+function endWidget(Widget $w) {
+  updateByID($w->id, array('ending' => date("Y-m-d", time() - (1 * 24 * 60 * 60))));
+}
+
 class NoSuchWidget extends \Exception {}
