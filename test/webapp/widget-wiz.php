@@ -2,11 +2,10 @@
 
 namespace Chipin\Test;
 
-// require_once 'spare-parts/database.php';
-require_once 'chipin/widgets.php';  # Widget::getAll
+require_once 'chipin/widgets.php';                # Widget::getAll
+require_once 'spare-parts/locales/countries.php'; # countriesMap
 
-// use \MyPHPLibs\Database as DB;
-use \Chipin\Widgets\Widget;
+use \Chipin\Widgets\Widget, \MyPHPLibs\Locales;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -36,6 +35,8 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual('I need to get a bite to eat!', $w->about);
     assertEqual(125, (int) $w->width);
     assertEqual(125, (int) $w->height);
+    assertTrue(Locales\isValidCountryCode($w->countryCode),
+      "'{$w->countryCode}' is not valid country-code");
 
     # Now we'll try editing that same widget
     $this->get("/widget-wiz/step-one?w={$w->id}");

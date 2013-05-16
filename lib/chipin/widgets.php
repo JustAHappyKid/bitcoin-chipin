@@ -10,7 +10,7 @@ use \MyPHPLibs\Database as DB, \User, \Chipin\Bitcoin;
 
 class Widget {
   public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,
-    $width, $height, $color, $bitcoinAddress;
+    $width, $height, $color, $bitcoinAddress, $countryCode;
 
   # XXX: This one returns an object...
   # TODO: Make other functions return Widget object.
@@ -39,6 +39,7 @@ class Widget {
     $this->bitcoinAddress = $a['address'];
     $this->id = (int) $a['id'];
     $this->ownerID = (int) $a['owner_id'];
+    $this->countryCode = $a['country'];
     return $this;
   }
 
@@ -49,9 +50,7 @@ class Widget {
       'goal' => $this->goal, 'currency' => $this->currency, 'raised' => '0', 'progress' => 0,
       'ending' => $this->ending, 'address' => $this->bitcoinAddress,
       'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
-      // TODO: support country
-      //'country' => $countryCode 
-    );
+      'country' => $this->countryCode);
     if (isset($this->id)) {
       updateByID($this->id, $values);
     } else {

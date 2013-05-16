@@ -39,6 +39,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       $widget->about = $_POST['about'];
       list($widget->width, $widget->height) = explode('x', $_POST['size']);
       $widget->color = $_POST['color'];
+      $widget->countryCode = $this->getCountryCodeForIP();
       $widget->save();
       Widgets\updateProgressForObj($widget);
       $this->storeWidgetInSession($widget);
@@ -128,6 +129,12 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     */
     return $this->render("widget-wiz/$tplFile", $className,
       array('widget' => $widget, 'previewURL' => $this->widgetPreviewURL($widget)));
+  }
+
+  private function getCountryCodeForIP() {
+    $ipInfoJSON = file_get_contents('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
+    $location = json_decode($ipInfoJSON, true);
+    return $location['Country'];
   }
 }
 
