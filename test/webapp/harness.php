@@ -2,7 +2,7 @@
 
 namespace Chipin\Test;
 
-require_once 'my-php-libs/test/webapp.php'; # WebappTestingHarness
+require_once 'spare-parts/test/webapp.php'; # WebappTestingHarness
 
 # XXX: Phase out use of these global constants??
 define('PATH', 'https://test.org/');

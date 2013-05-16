@@ -2,7 +2,7 @@
 
 namespace Chipin\Widgets;
 
-require_once 'my-php-libs/database.php';
+require_once 'spare-parts/database.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 

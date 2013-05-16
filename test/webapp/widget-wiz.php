@@ -2,7 +2,7 @@
 
 namespace Chipin\Test;
 
-// require_once 'my-php-libs/database.php';
+// require_once 'spare-parts/database.php';
 require_once 'chipin/widgets.php';  # Widget::getAll
 
 // use \MyPHPLibs\Database as DB;

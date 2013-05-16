@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/PasswordEnabledController.php';
-require_once 'my-php-libs/database.php';
+require_once 'spare-parts/database.php';
 
 use \MyPHPLibs\Database as DB;
 

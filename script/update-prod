@@ -15,25 +15,25 @@ if [ "$line" = "Yes!" ]; then
   rm -Rf "$TMP_DIR"
   mkdir -p "$TMP_DIR"
 
-  MYPHPLIBS_SRC_DIR=`realpath ./lib/my-php-libs`
-  MYPHPLIBS_DIR=`dirname "$MYPHPLIBS_SRC_DIR"`
+  SPAREPARTS_SRC_DIR=`realpath ./lib/spare-parts`
+  SPAREPARTS_DIR=`dirname "$SPAREPARTS_SRC_DIR"`
 
-  echo "Updating local checkout of My PHP Libs ($MYPHPLIBS_DIR)..."
-  #bzr up "$MYPHPLIBS_DIR"
+  echo "Updating local checkout of My PHP Libs ($SPAREPARTS_DIR)..."
+  #bzr up "$SPAREPARTS_DIR"
   echo "Doing export on My PHP Libs source..."
-  mkdir "$TMP_DIR/my-php-libs"
-  #bzr export "$TMP_DIR/my-php-libs" "$MYPHPLIBS_DIR"
-  cd "$MYPHPLIBS_DIR"
-  git archive master | tar -x -C "$TMP_DIR/my-php-libs"
+  mkdir "$TMP_DIR/spare-parts"
+  #bzr export "$TMP_DIR/my-php-libs" "$SPAREPARTS_DIR"
+  cd "$SPAREPARTS_DIR"
+  git archive master | tar -x -C "$TMP_DIR/spare-parts"
   echo "Running My PHP Libs test suite..."
-  MYPHP_TEST_OUTPUT=`$TMP_DIR/my-php-libs/test/test.php`
-  MYPHP_SUCCESS_PATTERN="Ran [0-9]+ test functions and [0-9]+ test methods in [0-9]+ classes."
-  echo "$MYPHP_TEST_OUTPUT"
-  MYPHP_TEST_SUCCESS=`echo "$MYPHP_TEST_OUTPUT" | egrep "$MYPHP_SUCCESS_PATTERN"`
-  if [ "$MYPHP_TEST_OUTPUT" != "$MYPHP_TEST_SUCCESS" ]; then
+  SPAREPARTS_TEST_OUTPUT=`$TMP_DIR/spare-parts/test/test.php`
+  SUCCESS_PATTERN="Ran [0-9]+ test functions and [0-9]+ test methods in [0-9]+ classes."
+  echo "$SPAREPARTS_TEST_OUTPUT"
+  SPAREPARTS_TEST_SUCCESS=`echo "$SPAREPARTS_TEST_OUTPUT" | egrep "$SUCCESS_PATTERN"`
+  if [ "$SPAREPARTS_TEST_OUTPUT" != "$SPAREPARTS_TEST_SUCCESS" ]; then
     echo "My PHP Libs test suite failed! Output follows..."
     echo "-------------------------------------------------------------------------------"
-    echo "$MYPHP_TEST_OUTPUT"
+    echo "$SPAREPARTS_TEST_OUTPUT"
     exit 1
   fi
 
@@ -48,7 +48,7 @@ if [ "$line" = "Yes!" ]; then
   if [ ! -d "$EXPORT_DIR/lib" ]; then
     mkdir "$EXPORT_DIR/lib"
   fi
-  cp -a "$TMP_DIR/my-php-libs/src" "$EXPORT_DIR/lib/my-php-libs"
+  cp -a "$TMP_DIR/spare-parts/src" "$EXPORT_DIR/lib/spare-parts"
 
 # TODO: Run test suite!!!
 

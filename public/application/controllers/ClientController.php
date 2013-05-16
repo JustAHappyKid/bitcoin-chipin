@@ -1,6 +1,6 @@
 <?php
 
-require_once 'my-php-libs/string.php';  # withoutPrefix
+require_once 'spare-parts/string.php';  # withoutPrefix
 require_once 'chipin/bitcoin.php';      # toBTC, getBalance
 require_once 'chipin/widgets.php';      # getWidgetById
 

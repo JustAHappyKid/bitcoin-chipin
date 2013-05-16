@@ -2,8 +2,8 @@
 
 namespace Chipin\Bitcoin;
 
-require_once 'my-php-libs/web-client/http-simple.php';  # HttpSimple\get
-require_once 'my-php-libs/types.php';                   # isInteger
+require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple\get
+require_once 'spare-parts/types.php';                   # isInteger
 
 use \Exception, \MyPHPLibs\WebClient\HttpSimple as Http;
 

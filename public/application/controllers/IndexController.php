@@ -1,7 +1,7 @@
 <?php
 
-require_once 'my-php-libs/url.php';                     # constructUrlFromRelativeLocation
-require_once 'my-php-libs/webapp/current-request.php';  # CurrentRequest\getURL
+require_once 'spare-parts/url.php';                     # constructUrlFromRelativeLocation
+require_once 'spare-parts/webapp/current-request.php';  # CurrentRequest\getURL
 
 use \MyPHPLibs\URL, \MyPHPLibs\Webapp\CurrentRequest;
 

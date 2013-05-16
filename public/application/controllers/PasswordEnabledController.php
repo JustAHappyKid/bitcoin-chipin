@@ -1,7 +1,7 @@
 <?php
 
-require_once 'my-php-libs/password-hashing.php';
-require_once 'my-php-libs/string.php';
+require_once 'spare-parts/password-hashing.php';
+require_once 'spare-parts/string.php';
 
 abstract class PasswordEnabledController extends Zend_Controller_Action {
 

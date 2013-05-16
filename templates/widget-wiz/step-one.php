@@ -1,7 +1,7 @@
 <?php
 
 require_once dirname(__FILE__) . '/layout.php';
-require_once 'my-php-libs/webapp/forms.php';
+require_once 'spare-parts/webapp/forms.php';
 
 use \MyPHPLibs\Webapp\Forms\SelectField;
 

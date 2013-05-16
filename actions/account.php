@@ -1,7 +1,7 @@
 <?php
 
 require_once 'chipin/passwords.php';          # isValid, hash
-require_once 'my-php-libs/webapp/forms.php';  # Form, newPasswordField, etc.
+require_once 'spare-parts/webapp/forms.php';  # Form, newPasswordField, etc.
 
 use \Chipin\Passwords, \MyPHPLibs\Webapp\Forms;
 

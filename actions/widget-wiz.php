@@ -2,7 +2,7 @@
 
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
-require_once 'my-php-libs/url.php';
+require_once 'spare-parts/url.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
   \MyPHPLibs\URL, \MyPHPLibs\Webapp\HttpResponse;

@@ -2,8 +2,8 @@
 
 namespace Chipin\Passwords;
 
-require_once 'my-php-libs/password-hashing.php';  # password_hash, password_verify
-require_once 'my-php-libs/string.php';            # withoutPrefix
+require_once 'spare-parts/password-hashing.php';  # password_hash, password_verify
+require_once 'spare-parts/string.php';            # withoutPrefix
 
 function hash($password) {
   return 'bcrypt' . password_hash($password, PASSWORD_BCRYPT, array('cost' => 12));

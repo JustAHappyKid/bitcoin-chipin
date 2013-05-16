@@ -2,7 +2,7 @@
 
 namespace Chipin\WebFramework;
 
-require_once 'my-php-libs/webapp/base-framework.php';
+require_once 'spare-parts/webapp/base-framework.php';
 require_once 'chipin/users.php';
 
 # Make sure \Chipin\WebFramework\Controller is in scope.

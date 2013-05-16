@@ -2,7 +2,7 @@
 
 namespace Chipin\Test;
 
-// require_once 'my-php-libs/database.php';
+// require_once 'spare-parts/database.php';
 require_once dirname(dirname(__FILE__)) . '/harness.php';
 require_once 'chipin/passwords.php';
 

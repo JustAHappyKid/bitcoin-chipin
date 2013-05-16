@@ -2,7 +2,7 @@
 
 namespace Chipin\ConfCodes;
 
-require_once 'my-php-libs/database.php';
+require_once 'spare-parts/database.php';
 require_once 'chipin/users.php';
 
 use \MyPHPLibs\Database as DB, \User;

@@ -2,8 +2,8 @@
 
 namespace Chipin\WebFramework;
 
-require_once 'my-php-libs/webapp/base-controller.php';
-require_once 'my-php-libs/webapp/forms.php';            # Form
+require_once 'spare-parts/webapp/base-controller.php';
+require_once 'spare-parts/webapp/forms.php';            # Form
 
 use \MyPHPLibs\Webapp\Forms\Form;
 
