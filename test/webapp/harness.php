@@ -14,17 +14,30 @@ define('TESTING', true);
 
 global $__frontControllerForTesting;
 $webappDir = dirname(dirname(dirname(__FILE__)));
-require_once "$webappDir/lib/chipin/route-request.php";
+require_once "$webappDir/lib/chipin/webapp/route-request.php";
 $__frontControllerForTesting = new \Chipin\WebFramework\FrontController($webappDir);
 
 abstract class WebappTestingHarness extends \MyPHPLibs\Test\WebappTestingHarness {
 
+  function setUp() {
+    clearDB();
+    $this->followRedirects();
+  }
+
   protected function domain() { return 'test.org'; }
+
+  /**
+   * XXX: This is temporary hack until we have login form reimplemented in "spare-parts"
+   *      framework.
+   */
+  protected function login($username, $_password) {
+    $this->post('/xxx-tmp-test-hook/login', array('un' => $username));
+  }
 
   protected function loginAsNormalUser() {
     $un = 'user-' . uniqid();
     $u = newUser($email = $un . '@example.com', $username = $un, $password = 'abc123');
-    $this->post('/xxx-tmp-test-hook/login', array('un' => $un));
+    $this->login($un, $password);
     return $u;
   }
 

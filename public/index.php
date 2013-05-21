@@ -54,7 +54,7 @@ if (beginsWith($path, '/widget-wiz/') || beginsWith($path, '/account/')) {
   # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
   # routing mechanism and et al.
   $application->bootstrap();
-  require_once dirname(dirname(__FILE__)) . '/lib/chipin/route-request.php';
+  require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
   \Chipin\WebFramework\routeRequestForApp();
 } else {
   $application->bootstrap()->run();
