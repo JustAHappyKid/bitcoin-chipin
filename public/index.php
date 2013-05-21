@@ -34,12 +34,12 @@ if (!file_exists($zendDir . '/Zend/Application.php')) {
 }
 
 require_once 'spare-parts/error-handling.php';
-set_error_handler('\\MyPHPLibs\\ErrorHandling\\errorHandler');
+set_error_handler('\\SpareParts\\ErrorHandling\\errorHandler');
 
 require_once 'spare-parts/webapp/current-request.php';
 require_once 'spare-parts/string.php';
 
-use \MyPHPLibs\Webapp\CurrentRequest;
+use \SpareParts\Webapp\CurrentRequest;
 
 define('PATH', CurrentRequest\getProtocol() . '://' . CurrentRequest\getHost() . '/');
 

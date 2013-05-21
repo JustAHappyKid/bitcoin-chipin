@@ -3,7 +3,7 @@
 require_once dirname(__FILE__) . '/layout.php';
 require_once 'spare-parts/webapp/forms.php';
 
-use \MyPHPLibs\Webapp\Forms\SelectField;
+use \SpareParts\Webapp\Forms\SelectField;
 
 class StepTwo extends WidgetWizLayout {
 

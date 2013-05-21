@@ -5,7 +5,7 @@ require_once 'chipin/bitcoin.php';
 require_once 'spare-parts/url.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
-  \MyPHPLibs\URL, \MyPHPLibs\Webapp\HttpResponse;
+  \SpareParts\URL, \SpareParts\Webapp\HttpResponse;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 

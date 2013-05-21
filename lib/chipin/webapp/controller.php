@@ -5,9 +5,9 @@ namespace Chipin\WebFramework;
 require_once 'spare-parts/webapp/base-controller.php';
 require_once 'spare-parts/webapp/forms.php';            # Form
 
-use \MyPHPLibs\Webapp\Forms\Form;
+use \SpareParts\Webapp\Forms\Form;
 
-class Controller extends \MyPHPLibs\Webapp\Controller {
+class Controller extends \SpareParts\Webapp\Controller {
 
   protected function docRoot() {
     return dirname(dirname(dirname(dirname(__FILE__)))) . '/public';

@@ -1,7 +1,7 @@
 #! /usr/bin/env php
 <?php
 
-use \MyPHPLibs\Test, \MyPHPLibs\Database as DB, \Chipin\Passwords;
+use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\Passwords;
 
 function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));

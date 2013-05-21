@@ -3,7 +3,7 @@
 require_once 'spare-parts/url.php';                     # constructUrlFromRelativeLocation
 require_once 'spare-parts/webapp/current-request.php';  # CurrentRequest\getURL
 
-use \MyPHPLibs\URL, \MyPHPLibs\Webapp\CurrentRequest;
+use \SpareParts\URL, \SpareParts\Webapp\CurrentRequest;
 
 class IndexController extends Zend_Controller_Action {
 

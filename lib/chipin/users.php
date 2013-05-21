@@ -3,7 +3,7 @@
 require_once 'spare-parts/types.php';
 require_once 'spare-parts/database.php';
 
-use \MyPHPLibs\Database as DB;
+use \SpareParts\Database as DB;
 
 class User {
   public $id, $email, $username, $passwordEncrypted;

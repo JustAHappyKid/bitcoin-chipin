@@ -6,7 +6,7 @@ require_once 'spare-parts/database.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 
-use \MyPHPLibs\Database as DB, \User, \Chipin\Bitcoin;
+use \SpareParts\Database as DB, \User, \Chipin\Bitcoin;
 
 class Widget {
   public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,

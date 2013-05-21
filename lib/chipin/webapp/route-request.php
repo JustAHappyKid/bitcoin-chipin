@@ -11,7 +11,7 @@ require_once 'chipin/webapp/controller.php';
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
 
-use \MyPHPLibs\Webapp\AccessForbidden;
+use \SpareParts\Webapp\AccessForbidden;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(__FILE__)));
@@ -19,7 +19,7 @@ function routeRequestForApp() {
   $fc->go();
 }
 
-class FrontController extends \MyPHPLibs\Webapp\FrontController {
+class FrontController extends \SpareParts\Webapp\FrontController {
 
   protected function sessionLifetimeInSeconds() { return 60 * 60 * 24 * 3; /* 3 days good? */ }
   protected function info($msg) {}

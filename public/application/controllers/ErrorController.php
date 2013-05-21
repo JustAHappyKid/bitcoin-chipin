@@ -1,7 +1,7 @@
 <?php
 
 require_once 'spare-parts/error-handling.php';
-use \MyPHPLibs\ErrorHandling as EH;
+use \SpareParts\ErrorHandling as EH;
 
 class ErrorController extends Zend_Controller_Action {
 

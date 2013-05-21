@@ -3,7 +3,7 @@
 require_once 'spare-parts/url.php';                     # constructUrlFromRelativeLocation
 require_once 'spare-parts/webapp/current-request.php';  # CurrentRequest\...
 
-use \MyPHPLibs\URL, \MyPHPLibs\Webapp\CurrentRequest;
+use \SpareParts\URL, \SpareParts\Webapp\CurrentRequest;
 
 class Application_Form_Signup extends Zend_Form {
 

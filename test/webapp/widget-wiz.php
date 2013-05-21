@@ -5,7 +5,7 @@ namespace Chipin\Test;
 require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 
-use \Chipin\Widgets\Widget, \MyPHPLibs\Locales;
+use \Chipin\Widgets\Widget, \SpareParts\Locales;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
