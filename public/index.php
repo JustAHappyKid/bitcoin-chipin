@@ -16,7 +16,7 @@ if (!defined('APPLICATION_ENV')) {
   define('APPLICATION_ENV', $appEnv);
 }
 
-define('DOC_ROOT', dirname(APPLICATION_PATH));
+//define('DOC_ROOT', dirname(APPLICATION_PATH));
 
 // Look for environment variable indicating where Zend Framework is installed, defaulting to
 // the parent-directory of this directory if needed, and assert the framework is there...
