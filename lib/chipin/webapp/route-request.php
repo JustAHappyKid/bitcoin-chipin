@@ -14,7 +14,7 @@ require_once 'chipin/widgets.php';
 use \SpareParts\Webapp\AccessForbidden;
 
 function routeRequestForApp() {
-  $siteDir = dirname(dirname(dirname(__FILE__)));
+  $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
   $fc = new FrontController($siteDir);
   $fc->go();
 }
