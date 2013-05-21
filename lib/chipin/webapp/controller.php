@@ -9,6 +9,10 @@ use \MyPHPLibs\Webapp\Forms\Form;
 
 class Controller extends \MyPHPLibs\Webapp\Controller {
 
+  protected function docRoot() {
+    return dirname(dirname(dirname(dirname(__FILE__)))) . '/public';
+  }
+
   protected function formIsValid($form, $vars) {
     if (!$form->hasBeenValidated()) $form->validate($vars);
     return $form->isValid();
@@ -38,5 +42,3 @@ class Controller extends \MyPHPLibs\Webapp\Controller {
     return "$baseWebappDir/templates/$tpl";
   }
 }
-
-return 'AccountController';
