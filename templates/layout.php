@@ -3,6 +3,7 @@
 abstract class Layout {
 
   abstract function innerContent();
+  abstract function userIsAuthenticated();
 
   function content() {
     ?><!DOCTYPE html>
@@ -31,33 +32,35 @@ abstract class Layout {
 
       <body>
 
-        <div id="nav">
-	        <div class="container">
-		        <div class="nav-collapse">
-			        <ul class="nav">
-				        <li class="nav-icon">
-					        <a href="<?=PATH;?>">
-						        <i class="icon-home"></i>
-						        <span>Home</span>
-					        </a>	    				
-				        </li>
-			        </ul>
-			        <ul class="nav pull-right">
-				        <li class="dropdown">					
-					        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-						        <i class="icon-external-link"></i>
-						        Account
-						        <b class="caret"></b>
-					        </a>
-					        <ul class="dropdown-menu">
-						        <li><a href="<?=PATH.'account/changepassword/';?>">Change password</a></li>
-						        <li><a href="<?=PATH.'signin/signout/';?>">Sign out</a></li>
-					        </ul>    				
-				        </li>
-			        </ul>
-		        </div> <!-- /.nav-collapse -->
-	        </div> <!-- /.container -->
-        </div> <!-- /#nav -->
+        <? if ($this->userIsAuthenticated()): ?>
+          <div id="nav">
+	          <div class="container">
+		          <div class="nav-collapse">
+			          <ul class="nav">
+				          <li class="nav-icon">
+					          <a href="<?=PATH;?>">
+						          <i class="icon-home"></i>
+						          <span>Home</span>
+					          </a>	    				
+				          </li>
+			          </ul>
+			          <ul class="nav pull-right">
+				          <li class="dropdown">					
+					          <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+						          <i class="icon-external-link"></i>
+						          Account
+						          <b class="caret"></b>
+					          </a>
+					          <ul class="dropdown-menu">
+						          <li><a href="<?=PATH.'account/changepassword/';?>">Change password</a></li>
+						          <li><a href="<?=PATH.'signin/signout/';?>">Sign out</a></li>
+					          </ul>    				
+				          </li>
+			          </ul>
+		          </div> <!-- /.nav-collapse -->
+	          </div> <!-- /.container -->
+          </div> <!-- /#nav -->
+        <? endif; ?>
 
         <?= $this->innerContent(); ?>
 

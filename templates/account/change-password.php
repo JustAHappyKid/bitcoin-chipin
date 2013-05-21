@@ -4,6 +4,8 @@ require_once dirname(dirname(__FILE__)) . '/layout.php';
 
 class ChangePassword extends Layout {
 
+  function userIsAuthenticated() { return true; }
+
   function innerContent() { ?>
 
     <link href="<?= PATH ?>css/components/signin.css" rel="stylesheet" type="text/css" />
@@ -88,6 +90,5 @@ class ChangePassword extends Layout {
         }
       }
     </script>
-
   <? }
 }

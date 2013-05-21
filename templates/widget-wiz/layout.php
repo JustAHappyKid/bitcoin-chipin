@@ -9,6 +9,8 @@ abstract class WidgetWizLayout extends Layout {
   abstract protected function showPreview();
   abstract protected function button();
 
+  function userIsAuthenticated() { return true; }
+
   function innerContent() { ?>
 
     <script src="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.min.js"></script>
