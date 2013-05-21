@@ -10,11 +10,6 @@ use \User, \Chipin\Passwords;
 
 class ChangePasswordTest extends WebappTestingHarness {
 
-  function setUp() {
-    clearDB();
-    $this->followRedirects();
-  }
-
   function testChangingPassword() {
     $userB4 = $this->loginAsNormalUser();
     assertFalse(Passwords\isValid('n00p@ss', $userB4->passwordEncrypted));
