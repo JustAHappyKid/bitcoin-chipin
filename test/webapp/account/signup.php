@@ -3,10 +3,11 @@
 namespace Chipin\Test;
 
 require_once dirname(dirname(__FILE__)) . '/harness.php';
-require_once 'chipin/users.php';        # User
-require_once 'spare-parts/string.php';  # beginsWith
+require_once 'chipin/users.php';          # User
+require_once 'spare-parts/string.php';    # beginsWith
+require_once 'spare-parts/database.php';  # countRows
 
-use \MyPHPLibs\Test\HttpRedirect, \User;
+use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \User;
 
 class SignupTests extends WebappTestingHarness {
 
@@ -35,5 +36,15 @@ class SignupTests extends WebappTestingHarness {
     $this->get('/dashboard/');
     assertTrue(beginsWith($this->getCurrentPath(), '/dashboard'));
     */
+  }
+
+  function testOneEmailAddressMayNotBeAssociatedWithMultipleAccounts() {
+    $u = newUser($email = 'josh@example.com', $username = 'joshers', $password = 'abc123');
+    $this->get('/account/signup');
+    $this->submitFormExpectingErrors($this->getForm(),
+      array('username' => 'bigkid', 'email' => 'josh@example.com', 'password1' => 't0pS33cret',
+            'password2' => 't0pS33cret', 'captcha-input' => '1234'));
+    $this->assertContains("//div[contains(., 'already have an account')]");
+    assertEqual(1, DB\countRows('users', 'email = ?', array('josh@example.com')));
   }
 }

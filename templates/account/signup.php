@@ -54,6 +54,13 @@ class Signup extends Layout {
                 <a href="#" class="btn_2">Login with Facebook</a>				
               </div>
             </div> */ ?>
+            <? if ($this->form->hasErrors()): ?>
+              <div id="form-error" class="alert alert-error">
+                <a class="close" data-dismiss="alert" href="#">×</a>
+                <h4 class="alert-heading">Error!</h4>
+                <?= current($this->form->getErrors()) ?>
+              </div>
+            <? endif; ?>
             <div id="password-error" class="alert alert-error" style="display: none;">
               <a class="close" data-dismiss="alert" href="#">×</a>
               <h4 class="alert-heading">Error!</h4>

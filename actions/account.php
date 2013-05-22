@@ -8,8 +8,8 @@ require_once 'spare-parts/webapp/forms.php';            # Form, newPasswordField
 require_once 'Zend/Captcha/Image.php';
 require_once 'Zend/Auth.php';
 
-use \Chipin\Passwords, \MyPHPLibs\Webapp\Forms as F, \MyPHPLibs\URL,
-  \MyPHPLibs\Webapp\CurrentRequest, \MyPHPLibs\Database as DB;
+use \Chipin\Passwords, \SpareParts\Webapp\Forms as F, \SpareParts\URL,
+  \SpareParts\Webapp\CurrentRequest, \SpareParts\Database as DB;
 
 class AccountController extends \Chipin\WebFramework\Controller {
 
@@ -19,7 +19,16 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $form->addSection('password', array(
       F\newBasicTextField('username', 'Username')->
         minLength(5, "Sorry, the minimum allowed length for a username is five characters."),
-      F\newEmailAddressField('email', "Email Address"),
+      F\newEmailAddressField('email', "Email Address")->addValidation(
+        function($_, $email) {
+          try {
+            User::loadFromEmailAddr($email);
+            return array("It looks like you already have an account here, registered under " .
+                         "that email address. If you've forgotten your password, you can " .
+                         "<a href=\"/signin/remind/\">reset it here</a>.");
+          } catch (NoSuchUser $_) { return array(); }
+        }
+      ),
       F\newPasswordField('password1', 'Password')->
         required('Please provide a password'),
       F\newPasswordField('password2', 'Re-enter password')->
