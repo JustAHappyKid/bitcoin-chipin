@@ -17,7 +17,7 @@ $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/webapp/route-request.php";
 $__frontControllerForTesting = new \Chipin\WebFramework\FrontController($webappDir);
 
-abstract class WebappTestingHarness extends \MyPHPLibs\Test\WebappTestingHarness {
+abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
 
   function setUp() {
     clearDB();
@@ -44,12 +44,14 @@ abstract class WebappTestingHarness extends \MyPHPLibs\Test\WebappTestingHarness
   protected function dispatchToWebapp() {
     global $__frontControllerForTesting;
     $r = $__frontControllerForTesting->handleRequest();
-    // var_dump($r);
     return $r;
   }
 
   protected function getValidationErrors() {
-    echo("WARN: getValidationErrors needs to be properly implemented!\n");
-    return array();
+    $nodes = $this->xpathQuery("//*[contains(@class, 'error')]");
+    return array_filter($nodes,
+      function($n) {
+        # If the node has a "display:none" CSS definition, toss it.
+        return !preg_match('/\\bdisplay:\\s*none;/', $n->getAttribute('style')); });
   }
 }
