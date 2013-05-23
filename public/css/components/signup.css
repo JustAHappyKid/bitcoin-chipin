@@ -1,0 +1,49 @@
+
+/**
+ * Here we have style definitions that are specific to the signup/registration form.
+ * Note: Some of these classes/IDs (#box_sign, .box, .head) are defined by the base
+ * Bootstrap theme ("Measure"), and we are simply overriding some bits and pieces in
+ * the base theme, in many cases. 
+ */
+
+#box_sign .box .head {
+  padding: 0 0 15px;
+}
+
+#box_sign .box .head .bitcoinchipin-logo {
+  background-color: white;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #D6D6D6;
+  margin-bottom: 15px;
+}
+
+.login-fields .field {
+  margin-bottom: 1px;
+}
+
+.login-fields label {
+  display: none;
+}
+
+.login-fields input {
+  margin: 0;
+}
+
+.captcha-field img {
+  float: left;
+  height: 40px;
+}
+
+#box_sign .box .form #captcha-input {
+  width: 140px;
+  float: left;
+  margin-left: 30px;
+}
+
+.login-actions {
+  text-align: right;
+}
+
+#box_sign .box .form input[type="submit"] {
+  margin: 0;
+}
