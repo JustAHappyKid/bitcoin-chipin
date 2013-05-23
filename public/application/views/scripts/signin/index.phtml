@@ -45,21 +45,28 @@
         <h4 class="alert-heading">Error!</h4>
         Invalid username or password!
       </div>
-      <?php if(isset($this->success) && $this->success):?>
-      <div class="alert alert-success">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">Check you inbox!</h4>
-        A confirmation link has been sent to your email address.
-        Check there for further instructions!
-      </div>
+      <?php if (isset($this->success) && $this->success):?>
+        <div class="alert alert-success">
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          <h4 class="alert-heading">Check your inbox!</h4>
+          A confirmation link has been sent to your email address.
+          Check there for further instructions!
+        </div>
       <?php endif;?>
-      <?php if(isset($this->failure) && $this->failure):?>
-      <div id="login-error" class="alert alert-error">
-        <a class="close" data-dismiss="alert" href="#">×</a>
-        <h4 class="alert-heading">Error!</h4>
-        Invalid username or password!
-      </div>
-      <?php endif;?>
+      <?php if (isset($this->failure) && $this->failure): ?>
+        <div id="login-error" class="alert alert-error">
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          <h4 class="alert-heading">Error!</h4>
+          Invalid username or password!
+        </div>
+      <?php endif; ?>
+      <?php if (isset($this->passwordReset) && $this->passwordReset): ?>
+        <div class="alert alert-success">
+          <h4 class="alert-heading">Success!</h4>
+          <a class="close" data-dismiss="alert" href="#">×</a>
+          Your password has been updated successfully!
+        </div>
+      <?php endif; ?>
       <div class="login-fields">
         
         <p>Sign in using your registered account:</p>

@@ -22,6 +22,7 @@ class SigninController extends PasswordEnabledController {
         $user = User::loadFromID($user->id);
         $user->updatePassword($hashedPass);
         $this->removeConfirmationCode($code);
+        $this->view->passwordReset = true;
       } else {
         $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
       }
