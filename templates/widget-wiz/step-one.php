@@ -92,13 +92,15 @@ class StepOne extends WidgetWizLayout {
         $elements = $("#step-" + <?= $stepNum ?>).find(':input');
 			  $elements.each(function() {
 		  		if ($(this).is("input:text")) {
+		  		  var container = $(this).parent().parent();
 					  if ($(this).val() == "") {
-						  $(this).parent().parent().addClass("error");
+						  container.addClass("error");
 						  $(this).siblings().show();
 						  errors++;
 					  } else if ($(this).val() != "" && $(this).parent().parent().hasClass("error")) {
-						  $(this).parent().parent().removeClass("error");
-						  $(this).siblings().hide();
+						  container.removeClass("error");
+						  container.find('.help-inline').hide();
+						  //$(this).siblings().hide();
 					  }
 				  }
 			  });
