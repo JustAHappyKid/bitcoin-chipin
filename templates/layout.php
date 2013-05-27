@@ -10,8 +10,6 @@ abstract class Layout {
     <html lang="en">
       <head>
 
-        <? /* TODO: Need to include Analytics snippet and what else?? */ ?>
-
         <? /* require dirname(dirname(__FILE__)) . '/public/application/layouts/scripts/head-common.phtml'; */ ?>
 
         <meta charset="utf-8" />
@@ -21,18 +19,42 @@ abstract class Layout {
         <? $themeDir = '/measure-theme'; ?>
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/theme.css" />
+        <link rel="stylesheet" type="text/css" href="/css/measure-theme-overrides.css" />
         <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic'
               rel='stylesheet' type='text/css' />
+        </style>
+
+        <!-- XXX
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800"
+              rel="stylesheet" type="text/css" /> -->
+
+        <? /* TODO: only include this for necessary pages (Dashboard and Widget Wizard) */ ?>
+        <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
 
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
         <script src="<?= $themeDir ?>/js/theme.js"></script>
+
+        <? if (APPLICATION_ENV == 'production'): ?>
+          <script type="text/javascript">
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-39873638-1']);
+            _gaq.push(['_trackPageview']);
+            (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') +
+                '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+          </script>
+        <? endif; ?>
 
       </head>
 
       <body>
 
         <? if ($this->userIsAuthenticated()): ?>
+<? /*
           <div id="nav">
             <div class="container">
               <div class="nav-collapse">
@@ -60,45 +82,10 @@ abstract class Layout {
               </div> <!-- /.nav-collapse -->
             </div> <!-- /.container -->
           </div> <!-- /#nav -->
+*/ ?>
         <? endif; ?>
 
-        <div class="navbar navbar-fixed-top">
-          <div class="navbar-inner">
-            <div class="container">
-              <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </a>
-              <a class="brand" href="index.html" style="min-height: 35px;">
-                <!-- <img src="img/logo.png" alt="logo" /> -->
-              </a>
-              <div class="nav-collapse collapse">
-                <ul class="nav pull-right">
-                  <li><a href="/about/">About us</a></li>
-                  <li><a href="/about/contact">Contact us</a></li>
-                  <!-- <li class="dropdown">
-                      <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                          External Pages
-                          <b class="caret"></b>
-                      </a>
-                      <ul class="dropdown-menu">
-                          <li><a href="features.html">Features</a></li>
-                          <li><a href="pricing.html">Pricing</a></li>
-                          <li><a href="portfolio.html">Portfolio</a></li>
-                          <li><a href="coming-soon.html">Coming Soon</a></li>
-                          <li><a href="aboutus.html">About us</a></li>
-                          <li><a href="contact.html">Contact us</a></li>
-                          <li><a href="faq.html">FAQ</a></li>
-                      </ul>
-                  </li> -->
-                  <li><a class="btn-header" href="/account/signup">Sign up</a></li>
-                  <li><a class="btn-header" href="/signin/index/">Sign in</a></li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
+        <? require dirname(__FILE__) . '/nav-bar.php'; ?>
 
         <?= $this->innerContent(); ?>
 

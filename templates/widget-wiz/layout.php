@@ -13,13 +13,19 @@ abstract class WidgetWizLayout extends Layout {
 
   function innerContent() { ?>
 
+  <? /*
     <script src="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.min.js"></script>
     <link href="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.css" rel="stylesheet" />
+  */ ?>
 
-    <link href="<?=PATH;?>css/pages/calendar.css" rel="stylesheet" />
+    <? /* TODO: Move this somewhere more appropriate! */ ?>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+
+    <? /* <link href="<?=PATH;?>css/pages/calendar.css" rel="stylesheet" /> */ ?>
 
     <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
-    <script src="<?=PATH;?>js/widget-wiz.js"></script>
+    <!-- <script src="<?=PATH;?>js/widget-wiz.js"></script> -->
 
     <link href="<?=PATH;?>js/plugins/msgGrowl/css/msgGrowl.css" rel="stylesheet" />
     <script src="<?=PATH;?>js/plugins/msgGrowl/js/msgGrowl.js"></script>
@@ -30,13 +36,13 @@ abstract class WidgetWizLayout extends Layout {
         z-index: 500 !important;
       }
 
-      .stepContainer {
+      /*.stepContainer {
         height: 410px!important;
-      }
+      }*/
 
-      .msgGrowl-container {
+      /*.msgGrowl-container {
         z-index: 500 !important;
-      }
+      }*/
 
       .span8 {
         width: 978px;
@@ -52,10 +58,11 @@ abstract class WidgetWizLayout extends Layout {
       <div class="container">
         <div class="row">
           <div class="span8">
-                <div class="widget">
+            <div class="widget">
               <div class="widget-header">
                 <h3>
-                  <span class="icon-magic"></span>
+                  <span class="icon-wrench"></span>
+                  <!-- <span class="icon-magic"></span> -->
                   <?= ($this->widget->id == null) ? 'Create a new widget' : 'Edit your widget' ?>
                 </h3>
               </div> <!-- /widget-header -->
@@ -93,7 +100,7 @@ abstract class WidgetWizLayout extends Layout {
                 </form>
               </div> <!-- /widget-content -->
             </div> <!-- /widget -->
-            </div> <!-- /.span8 -->
+          </div> <!-- /.span8 -->
         </div> <!-- /row -->
       </div> <!-- /.container -->
     </div> <!-- /#content -->

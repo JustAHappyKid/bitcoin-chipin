@@ -1,11 +1,13 @@
 
 <? require_once 'chipin/currency.php'; ?>
 
-<link rel="stylesheet" type="text/css" href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.css" />
+<link rel="stylesheet" type="text/css"
+      href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.css" />
 <!--[if IE 6]>
 <link rel="stylesheet" type="text/css" href="<?=PATH;?>js/plugins/lightbox/themes/default/jquery.lightbox.ie6.css" />
 <![endif]-->
 <script type="text/javascript" src="<?=PATH;?>js/plugins/lightbox/jquery.lightbox.min.js"></script>
+<!-- <script src="<?=PATH;?>js/Slate.js"></script> -->
 
 <?
   function actionsColumn($widget) { ?>
@@ -73,6 +75,16 @@
         }
       });
     });
+
+    function widgetTabClickHandler (e) {
+      e.preventDefault();
+      $(this).tab('show');
+    }
+    
+    $('#active-tab a').click(widgetTabClickHandler);
+    $('#ended-tab a').click(widgetTabClickHandler);
+    $('#all-tab a').click(widgetTabClickHandler);
+
   });
 </script>
 
@@ -82,7 +94,7 @@
     <div class="widget">
 
       <div class="widget-header">
-        <h3><span class="icon-sitemap"></span>Your Widgets</h3>
+        <h3><span class="icon-tasks"></span><span class="txt">Your Widgets</span></h3>
         <div class="widget-actions">
           <a href="<?= PATH ?>widget-wiz/create" class="btn btn-small btn-primary">
             <span class="icon-plus"></span> Create new widget</a>
@@ -91,13 +103,13 @@
 
       <div class="widget-tabs">
         <ul class="nav nav-tabs">
-          <li class="active"><a href="#active">
+          <li id="active-tab" class="active"><a href="#active">
             <span class="badge badge-success"><?= count($this->activeWidgets) ?></span>
             &nbsp;&nbsp;&nbsp;In Progress</a></li>
-          <li><a href="#ended">
+          <li id="ended-tab"><a href="#ended">
             <span class="badge badge-important"><?= count($this->endedWidgets) ?></span>
             &nbsp;&nbsp;&nbsp;Ended</a></li>
-          <li><a href="#all">
+          <li id="all-tab"><a href="#all">
             <span class="badge"><?= count($this->allWidgets) ?></span>
             &nbsp;&nbsp;&nbsp;All</a></li>
         </ul>

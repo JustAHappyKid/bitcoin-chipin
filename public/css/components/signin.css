@@ -13,8 +13,8 @@
 /** Base Body Styles **/
 body {
 	/*background: url(../../img/bg.png);*/
-	color:#838383;
-	font: 13px/1.7em 'Open Sans';
+	/*color:#838383;
+	font: 13px/1.7em 'Open Sans';*/
 }
 
 .account-container {
@@ -31,10 +31,6 @@ body {
 
 .content {
 	padding: 16px 28px 23px;
-} 
-
-.login-fields {
-	
 }
 
 .login-fields .field {
@@ -46,15 +42,15 @@ body {
 }
 
 .login-fields input {
-	font-family: 'Open Sans';
-	font-size: 13px;
+	/*font-family: 'Open Sans';*/
+	/*font-size: 13px;*/
 	color: #8e8d8d;
 	padding: 11px 15px 10px 50px;
 	background-color: #fdfdfd;
 	width: 255px;
-	display: block;
 	margin: 0;
-	box-shadow: inset 2px 2px 4px #f1f1f1;
+	/*display: block;
+	box-shadow: inset 2px 2px 4px #f1f1f1;*/
 }
 
 .username-field { background: url(../../img/signin/user.png) no-repeat; }
@@ -62,22 +58,16 @@ body {
 .password-field { background: url(../../img/signin/password.png) no-repeat; }
 
 
-
-
 .login-actions {
 	float: left;
-	
 	width: 100%;
-	
 	margin-top: -1em;
 	margin-bottom: 1.25em;
 }
 
 .login-social {
 	float: left;
-	
 	padding: 10px 0 15px;
-	
 	border: 1px dotted #CCC;
 	border-right: none;
 	border-left: none;	
@@ -93,25 +83,21 @@ span.login-checkbox {
 }
 
 span.login-checkbox > input[type='checkbox'] {
-    opacity: 0;
-    float: left;
-    width: 15px;
+  opacity: 0;
+  float: left;
+  width: 15px;
 }
 
 span.login-checkbox > input[type='checkbox'] + label {    
-    clear: none;
-    
+  clear: none;
 	height: 15px; 
 	display: block;
-    padding: 0 0 0 22px;
-    margin: 0;
-    
-    font-size: 12px;
-    line-height: 1.2em;
-    
-    background: url(../../img/signin/check.png) no-repeat 0 0;
-    
-    cursor: pointer;
+  padding: 0 0 0 22px;
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.2em;
+  background: url(../../img/signin/check.png) no-repeat 0 0;
+  cursor: pointer;
 }
 
 span.login-checkbox > input[type='checkbox']:checked + label {	
@@ -123,35 +109,27 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 	display: block; 
 	width: 300px; 
 	margin: 1.5em auto;
-	 
 	text-align: center;
 	line-height: 19px; 
-	
 	text-shadow: 1px 1px 0px #fff; 	
 }
 
-
 .account-container h1 {
 	margin-bottom: .4em;
-	
 	color: #263849;
 }
 
 /** Buttons **/
 .twitter, .fb {
 	position: relative;
-	
 	height: 32px; 
 	width: 157px; 
 	display: block;
-	
 	background: url(../../img/signin/twitter_btn.png) no-repeat; 
-	
 }
 
 .fb {
 	width: 162px; 
-	
 	background: url(../../img/signin/fb_btn.png) no-repeat; 	
 }
 
@@ -175,7 +153,6 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 
 .fb a {
 	padding: 5px 0 0 31px; 
-	
 }
 
 .twitter, .fb {
@@ -188,11 +165,6 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 }
 
 .button {-webkit-border-radius: 3px; -moz-border-radius: 3px; border-radius: 3px; display: inline-block; float: right; margin-top: 18px;}
-
-
-
-
-
 
 .register .login-social {
 	margin-bottom: 1em;
