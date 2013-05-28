@@ -26,7 +26,7 @@ class Signup extends Layout {
               <h4>Let's get you an account</h4>
             </div>
             <div class="form">
-              <form action="<?=PATH;?>account/signup" method="post"
+              <form id="signup-form" action="<?=PATH;?>account/signup" method="post"
                     onsubmit="return validateForm();">
                 <? /* <div class="login-social" style="display: none;">
                   <p>Sign in using social network:</p>

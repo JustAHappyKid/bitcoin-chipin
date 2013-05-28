@@ -18,8 +18,8 @@ class ChangePassword extends Layout {
       <div class="account-container login">
         <div class="content clearfix">
 
-          <form action="<?=PATH;?>account/change-password/" method="post"
-                onsubmit="return validateForm();">
+          <form id="change-password-form" action="<?=PATH;?>account/change-password/"
+                method="post" onsubmit="return validateForm();">
 
             <h1>Change password</h1>
 
