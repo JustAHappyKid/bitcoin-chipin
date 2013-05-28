@@ -67,7 +67,7 @@ class FrontController extends \SpareParts\Webapp\FrontController {
   }
 
   protected function pathIsOpenToAll($cmd) {
-    $openPaths = array(
+    $openPaths = array(array(''),
       array('account', 'signup'), array('account', 'logout'), array('account', 'login'));
     if ($cmd == array('xxx-tmp-test-hook', 'login') && defined('TESTING') && TESTING === true) {
       return true;
