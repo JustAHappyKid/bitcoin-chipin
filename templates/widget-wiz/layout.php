@@ -104,11 +104,5 @@ abstract class WidgetWizLayout extends Layout {
       </div> <!-- /.container -->
     </div> <!-- /#content -->
 
-    <div id="footer">
-      <div class="container">
-        &copy; 2012 Propel UI, all rights reserved.
-      </div> <!-- /.container -->
-    </div> <!-- /#footer -->
-
   <? }
 }
