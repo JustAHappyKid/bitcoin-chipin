@@ -14,7 +14,7 @@ class ChangePasswordTest extends WebappTestingHarness {
     $userB4 = $this->loginAsNormalUser();
     assertFalse(Passwords\isValid('n00p@ss', $userB4->passwordEncrypted));
     $this->get('/account/change-password');
-    $this->submitForm($this->getForm(),
+    $this->submitForm($this->getForm('change-password-form'),
       array('current-password' => 'abc123', 'password' => 'n00p@ss',
             'confirm-password' => 'n00p@ss'));
     $userAfter = User::loadFromID($userB4->id);

@@ -47,4 +47,8 @@ class SignupTests extends WebappTestingHarness {
     $this->assertContains("//div[contains(., 'already have an account')]");
     assertEqual(1, DB\countRows('users', 'email = ?', array('josh@example.com')));
   }
+
+  protected function getForm() {
+    return parent::getForm('signup-form');
+  }
 }

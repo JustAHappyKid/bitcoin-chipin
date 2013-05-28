@@ -80,6 +80,10 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
   }
 
+  protected function getForm() {
+    return parent::getForm('widgetForm');
+  }
+
   private function expectSpecificOption($fieldName, $expectedValue) {
     $selectedOptions = $this->xpathQuery("//select[@name='$fieldName']/option[@selected]");
     assertEqual(1, count($selectedOptions),
