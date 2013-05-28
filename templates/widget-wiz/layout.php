@@ -11,22 +11,17 @@ abstract class WidgetWizLayout extends Layout {
 
   function userIsAuthenticated() { return true; }
 
-  function innerContent() { ?>
-
-  <? /*
-    <script src="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.min.js"></script>
-    <link href="<?=PATH;?>js/plugins/timepicker/jquery.ui.timepicker.css" rel="stylesheet" />
-  */ ?>
+  function htmlHeadExtras() { ?>
 
     <? /* TODO: Move this somewhere more appropriate! */ ?>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
-    <? /* <link href="<?=PATH;?>css/pages/calendar.css" rel="stylesheet" /> */ ?>
-
+    <? /* XXX: Is this still needed? */ ?>
     <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
     <!-- <script src="<?=PATH;?>js/widget-wiz.js"></script> -->
 
+    <? /* XXX: Are these actually used??  I'm pretty sure they're not. */ ?>
     <link href="<?=PATH;?>js/plugins/msgGrowl/css/msgGrowl.css" rel="stylesheet" />
     <script src="<?=PATH;?>js/plugins/msgGrowl/js/msgGrowl.js"></script>
 
@@ -49,6 +44,10 @@ abstract class WidgetWizLayout extends Layout {
       }
 
     </style>
+
+  <? }
+
+  function innerContent() { ?>
 
     <input type="hidden" id="path" value="<?php echo PATH; ?>"/>
 
@@ -77,7 +76,7 @@ abstract class WidgetWizLayout extends Layout {
                       <? $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
                       <? foreach ($steps as $num => $label): ?>
                         <li>
-                        
+
                           <span class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>">
                           <!-- <a href="./step-<?= $words[$num] ?>#step-<?= $num ?>"
                             class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>"> -->

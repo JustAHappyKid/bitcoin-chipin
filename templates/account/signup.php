@@ -6,11 +6,12 @@ class Signup extends Layout {
 
   function userIsAuthenticated() { return false; }
 
-  function innerContent() { ?>
-
+  function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/signup.css" />
-    <link href="/css/components/signup.css" rel="stylesheet" type="text/css" />
-    <!-- <link href="/css/components/signin.css" rel="stylesheet" type="text/css" /> -->
+    <link rel="stylesheet" type="text/css" href="/css/components/signup.css" />
+  <? }
+
+  function innerContent() { ?>
 
     <?= $this->validationJavascript(); ?>
 

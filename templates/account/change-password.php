@@ -6,9 +6,12 @@ class ChangePassword extends Layout {
 
   function userIsAuthenticated() { return true; }
 
+  function htmlHeadExtras() { ?>
+    <link href="<?= PATH ?>css/components/signin.css" rel="stylesheet" type="text/css" />
+  <? }
+
   function innerContent() { ?>
 
-    <link href="<?= PATH ?>css/components/signin.css" rel="stylesheet" type="text/css" />
     <?= $this->validationJavascript(); ?>
 
     <div id="content"> <div class="container">

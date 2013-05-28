@@ -2,15 +2,14 @@
 
 abstract class Layout {
 
-  abstract function innerContent();
   abstract function userIsAuthenticated();
+  abstract function htmlHeadExtras();
+  abstract function innerContent();
 
   function content() {
     ?><!DOCTYPE html>
     <html lang="en">
       <head>
-
-        <? /* require dirname(dirname(__FILE__)) . '/public/application/layouts/scripts/head-common.phtml'; */ ?>
 
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -24,16 +23,14 @@ abstract class Layout {
               rel='stylesheet' type='text/css' />
         </style>
 
-        <!-- XXX
-        <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800"
-              rel="stylesheet" type="text/css" /> -->
-
         <? /* TODO: only include this for necessary pages (Dashboard and Widget Wizard) */ ?>
         <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
 
         <script src="http://code.jquery.com/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
         <script src="<?= $themeDir ?>/js/theme.js"></script>
+
+        <? $this->htmlHeadExtras(); ?>
 
         <? if (APPLICATION_ENV == 'production'): ?>
           <script type="text/javascript">
