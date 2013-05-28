@@ -2,18 +2,20 @@
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
+        <!-- NOTE: This bit is necessary for the "drop-down" version of the nav-menu, as
+             seen on smaller displays/screens/devices. -->
         <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </a>
-        <a class="brand" href="index.html" style="min-height: 35px;">
-          <!-- <img src="/images/logo.gif" width="60" height="50" alt=""
-                    style="opacity: 0.75;" /> -->
+        <a class="brand" href="/">
+          <img src="/images/logo.gif" width="50" height="40" alt=""
+               style="opacity: 0.5;" />
         </a>
         <div class="nav-collapse collapse">
-          <ul class="nav pull-right">
-            <li><a href="/about/">About us</a></li>
+          <ul class="nav pull-left">
+            <li><a href="/about/">About</a></li>
             <li><a href="/about/contact">Contact us</a></li>
             <!-- <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
