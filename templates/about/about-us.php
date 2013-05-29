@@ -1,14 +1,8 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . '/layout.php';
+require_once dirname(__FILE__) . '/layout.php';
 
-class AboutUsPage extends Layout {
-
-  function userIsAuthenticated() { return false; }
-
-  function htmlHeadExtras() { ?>
-    <link rel="stylesheet" type="text/css" href="/measure-theme/css/external-pages.css" />
-  <? }
+class AboutUsPage extends AboutPageLayout {
 
   function innerContent() { ?>
     <div id="about" class="about_page">

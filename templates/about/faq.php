@@ -1,23 +1,13 @@
 <?php
 
-require_once dirname(dirname(__FILE__)) . '/layout.php';
+require_once dirname(__FILE__) . '/layout.php';
 
-class FaqPage extends Layout {
-
-  function userIsAuthenticated() { return false; }
-
-  function htmlHeadExtras() { ?>
-    <link rel="stylesheet" type="text/css" href="/measure-theme/css/external-pages.css" />
-  <? }
+class FaqPage extends AboutPageLayout {
 
   function innerContent() { ?>
     <div id="faq" class="faq_page">
       <div class="container">
-        <h2 class="section_header">
-          <hr class="left visible-desktop" />
-          <span>FAQ</span>
-          <hr class="right visible-desktop" />
-        </h2>
+        <?= $this->pageHeader('FAQ') ?>
         <div class="row">
           <div class="span12">
             <div class="faq">
