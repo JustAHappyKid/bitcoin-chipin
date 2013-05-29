@@ -8,7 +8,7 @@
                     <div class="row">
                       <div class="span2">
                         <a href="bitcoins.html">
-                          <img src="img/bitcoin.png" alt="post image" class="img-circle" />
+                          <img src="/img/bitcoin.png" alt="post image" class="img-circle" />
                         </a>
                       </div>
                       <div class="span4">
