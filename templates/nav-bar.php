@@ -17,6 +17,7 @@
           <ul class="nav pull-left">
             <li><a href="/about/">About</a></li>
             <li><a href="/about/contact">Contact us</a></li>
+            <li><a href="/about/faq">FAQ</a></li>
             <!-- <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     External Pages
