@@ -8,7 +8,8 @@ namespace Chipin\Test;
  */
 class StaticPagesTests extends WebappTestingHarness {
 
-  function testHomepage() {
+  function testThemPages() {
     $this->get('/');
+    $this->get('/about/');
   }
 }

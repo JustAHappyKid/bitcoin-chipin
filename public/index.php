@@ -50,7 +50,8 @@ if (file_exists("$baseConfDir/local-config.ini")) $confFiles []= "$baseConfDir/l
 $application = new Zend_Application(APPLICATION_ENV, array('config' => $confFiles));
 
 $path = CurrentRequest\getPath();
-if ($path == '/' || beginsWith($path, '/widget-wiz/') || beginsWith($path, '/account/')) {
+if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-wiz/') ||
+    beginsWith($path, '/account/')) {
   # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
   # routing mechanism and et al.
   $application->bootstrap();
