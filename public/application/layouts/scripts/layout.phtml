@@ -8,7 +8,8 @@
   </head>
   <body>
     <? $baseDir = dirname(dirname(dirname(dirname(dirname(__FILE__))))); ?>
-    <? require_once "$baseDir/templates/nav-bar.php"; ?>
+    <? require "$baseDir/templates/nav-bar.php"; ?>
     <?= $this->layout()->content ?>
+    <? require "$baseDir/templates/footer.php"; ?>
   </body>
 </html>
