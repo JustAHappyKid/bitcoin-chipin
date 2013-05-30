@@ -2,17 +2,13 @@
 
 namespace Chipin\Test;
 
+require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 
-use \Chipin\Widgets\Widget, \SpareParts\Locales;
+use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception;
 
 class WidgetWizardTests extends WebappTestingHarness {
-
-  function setUp() {
-    clearDB();
-    $this->followRedirects();
-  }
 
   function testAddingAndEditingWidget() {
     $this->loginAsNormalUser();
@@ -80,9 +76,34 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
   }
 
+  function testWizardRejectsHtmlScriptTags() {
+    $badContent = "<script>alert('!');</script>";
+    $this->loginAsNormalUser();
+    $this->get('/widget-wiz/step-one');
+    try {
+      $this->submitForm($this->getForm(),
+        array('title' => $badContent, 'goal' => '15', 'currency' => 'USD',
+              'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
+      $this->submitForm($this->getForm(),
+        array('about' => $badContent, 'size' => $this->defaultSize(),
+              'color' => $this->defaultColor()));
+    } catch (Exception $_) {
+      # XXX: Until we get proper form-validation in place, we'll just expect to see an
+      #      exception coming from the 'Paranoid' database layer proclaiming "No angle
+      #      brackets allowed!".
+    }
+    $ws = Widget::getAll();
+    assertEqual(0, count(Widget::getAll()));
+    exit();
+  }
+
   protected function getForm() {
     return parent::getForm('widgetForm');
   }
+
+  private function in3days() { return date("Y-m-d", strtotime("+3 days")); }
+  private function defaultSize() { return '125x125'; }
+  private function defaultColor() { return 'A9DB80,96C56F'; }
 
   private function expectSpecificOption($fieldName, $expectedValue) {
     $selectedOptions = $this->xpathQuery("//select[@name='$fieldName']/option[@selected]");
