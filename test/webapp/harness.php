@@ -20,6 +20,7 @@ $__frontControllerForTesting = new \Chipin\WebFramework\FrontController($webappD
 abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
 
   function setUp() {
+    parent::setUp();
     clearDB();
     $this->followRedirects();
   }
