@@ -7,6 +7,9 @@
   min-height: 53px;
 }
 
+.navbar .nav.pull-right {
+  margin-top: 0;
+}
 .navbar-fixed-top .nav {
   margin-top: 8px;
 }
