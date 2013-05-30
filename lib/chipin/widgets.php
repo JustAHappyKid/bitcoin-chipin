@@ -3,10 +3,12 @@
 namespace Chipin\Widgets;
 
 require_once 'spare-parts/database.php';
+require_once 'spare-parts/db/paranoid.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 
-use \SpareParts\Database as DB, \User, \Chipin\Bitcoin;
+use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
+  \User, \Chipin\Bitcoin;
 
 class Widget {
   public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,
@@ -84,7 +86,7 @@ function select($whereClause, $params = array()) {
 }
 
 function addNewWidget($data) {
-  $id = DB\insertOne('widgets', $data, true);
+  $id = ParanoidDB\insertOne('widgets', $data, true);
   return $id;
 }
 
