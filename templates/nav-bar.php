@@ -28,6 +28,7 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="/dashboard/">Your Widgets</a></li>
+                  <li><a href="/account/changepassword/">Change Password</a></li>
                   <li><a href="/signin/signout">Sign Out</a></li>
                 </ul>
             </li>
