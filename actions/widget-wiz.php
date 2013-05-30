@@ -3,9 +3,10 @@
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
 require_once 'spare-parts/url.php';
+require_once 'spare-parts/web-client/http-simple.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
-  \SpareParts\URL, \SpareParts\Webapp\HttpResponse;
+  \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -132,7 +133,8 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function getCountryCodeForIP() {
-    $ipInfoJSON = file_get_contents('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
+    $ipInfoJSON = HttpSimple\get('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
+    // $ipInfoJSON = file_get_contents('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
     $location = json_decode($ipInfoJSON, true);
     return $location['Country'];
   }
