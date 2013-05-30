@@ -13,6 +13,7 @@ class DashboardController extends Zend_Controller_Action {
       $this->_redirect(PATH . 'signin/');
     } else {
       $this->view->assign('identity', $this->auth->getIdentity());
+      $this->view->assign('user', $this->auth->getIdentity());
     }
   }
 
