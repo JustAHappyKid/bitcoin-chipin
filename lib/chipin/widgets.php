@@ -3,7 +3,7 @@
 namespace Chipin\Widgets;
 
 require_once 'spare-parts/database.php';
-require_once 'spare-parts/db/paranoid.php';
+require_once 'spare-parts/database/paranoid.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 
@@ -91,7 +91,7 @@ function addNewWidget($data) {
 }
 
 function updateByID($id, Array $data) {
-  DB\updateByID('widgets', $id, $data);
+  ParanoidDB\updateByID('widgets', $id, $data);
 }
 
 function updateProgressForObj(Widget $w) {
