@@ -16,7 +16,7 @@
         <div class="nav-collapse collapse">
           <ul class="nav pull-left">
             <li><a href="/about/">About</a></li>
-            <li><a href="#footer" class="scroller" data-section="#footer">Contact us</a></li>
+            <li><a href="#footer" class="scroller" data-section="#footer">Contact Us</a></li>
             <li><a href="/about/faq">FAQ</a></li>
           </ul>
           <ul class="nav pull-right">
@@ -33,8 +33,8 @@
                 </ul>
             </li>
             <? else: ?>
-              <li><a class="btn-header" href="/account/signup">Sign up</a></li>
-              <li><a class="btn-header" href="/signin/index/">Sign in</a></li>
+              <li><a class="btn-header" href="/account/signup">Sign Up</a></li>
+              <li><a class="btn-header" href="/signin/index/">Sign In</a></li>
             <? endif; ?>
           </ul>
         </div>
