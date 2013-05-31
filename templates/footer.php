@@ -64,10 +64,17 @@
             </div> <!-- /.contact_us -->
             <hr/>
             <div class="row copyright">
-              <div class="span5">
+              <!-- <div class="span5">
                 <a href="#" class="social fb"><i class="i_facebook"></i></a>
                 <a href="#" class="social tw"><i class="i_twitter"></i></a>
                 <a href="#" class="social yt"><i class="i_youtube"></i></a>
+              </div> -->
+              <div class="span5" style="margin-top: 20px;">
+                <a href="/about/privacy-policy">Privacy Policy</a>
+                &nbsp;&bull;&nbsp;
+                <a href="/about/terms">Terms of Service</a>
+                &nbsp;&bull;&nbsp;
+                <a href="/about/faq">FAQ</a>
               </div>
               <div class="span4 offset3 copy">
                 <div>&#169; 2013 BitcoinChipin.com</div>
