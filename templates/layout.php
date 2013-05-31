@@ -19,14 +19,14 @@ abstract class Layout {
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/theme.css" />
         <link rel="stylesheet" type="text/css" href="/css/measure-theme-overrides.css" />
-        <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic'
+        <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic'
               rel='stylesheet' type='text/css' />
         </style>
 
         <? /* TODO: only include this for necessary pages (Dashboard and Widget Wizard) */ ?>
         <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
 
-        <script src="http://code.jquery.com/jquery-latest.js"></script>
+        <script src="//code.jquery.com/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
         <script src="<?= $themeDir ?>/js/theme.js"></script>
 
