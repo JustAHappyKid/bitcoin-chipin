@@ -11,7 +11,6 @@ abstract class Layout {
     ?><!DOCTYPE html>
     <html lang="en">
       <head>
-
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>BitcoinChipin.com</title>
@@ -46,47 +45,11 @@ abstract class Layout {
             })();
           </script>
         <? endif; ?>
-
       </head>
-
       <body>
-
-        <? if ($this->userIsAuthenticated()): ?>
-<? /*
-          <div id="nav">
-            <div class="container">
-              <div class="nav-collapse">
-                <ul class="nav">
-                  <li class="nav-icon">
-                    <a href="<?=PATH;?>">
-                      <i class="icon-home"></i>
-                      <span>Home</span>
-                    </a>
-                  </li>
-                </ul>
-                <ul class="nav pull-right">
-                  <li class="dropdown">
-                    <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
-                      <i class="icon-external-link"></i>
-                      Account
-                      <b class="caret"></b>
-                    </a>
-                    <ul class="dropdown-menu">
-                      <li><a href="<?=PATH.'account/changepassword/';?>">Change password</a></li>
-                      <li><a href="<?=PATH.'signin/signout/';?>">Sign out</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div> <!-- /.nav-collapse -->
-            </div> <!-- /.container -->
-          </div> <!-- /#nav -->
-*/ ?>
-        <? endif; ?>
-
         <? require dirname(__FILE__) . '/nav-bar.php'; ?>
         <?= $this->innerContent(); ?>
         <? require dirname(__FILE__) . '/footer.php'; ?>
-
       </body>
     </html>
   <? }
