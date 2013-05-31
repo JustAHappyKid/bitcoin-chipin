@@ -26,7 +26,7 @@ abstract class Layout {
         <? /* TODO: only include this for necessary pages (Dashboard and Widget Wizard) */ ?>
         <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
 
-        <script src="//code.jquery.com/jquery-latest.js"></script>
+        <script src="/js/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
         <script src="<?= $themeDir ?>/js/theme.js"></script>
 
