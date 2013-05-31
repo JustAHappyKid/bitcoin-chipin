@@ -56,7 +56,8 @@ class FaqPage extends AboutPageLayout {
                 Where can I purchase bitcoins?
               </div>
               <div class="answer">
-                We recommend using <a href="https://bitinstant.com/">BitInstant</a>.
+                We recommend using
+                <a href="https://bitinstant.com/" target="_blank">BitInstant</a>.
               </div>
             </div>
           </div>
