@@ -94,7 +94,6 @@ class WidgetWizardTests extends WebappTestingHarness {
     }
     $ws = Widget::getAll();
     assertEqual(0, count(Widget::getAll()));
-    exit();
   }
 
   protected function getForm() {
