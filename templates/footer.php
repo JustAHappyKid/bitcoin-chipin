@@ -48,12 +48,6 @@
                   </div>
                   <div class="field">
                     <div class="label_field">
-                      <label for="inputCity">City</label>
-                    </div>
-                    <input type="text" id="inputCity" />
-                  </div>
-                  <div class="field">
-                    <div class="label_field">
                       <label for="inputComment">Comments</label>
                     </div>
                     <textarea name="comments"></textarea>
