@@ -17,6 +17,10 @@ class AboutController extends \Chipin\WebFramework\Controller {
   function terms() {
     return $this->render('about/terms.php', 'TermsPage');
   }
+  
+  function resources() {
+    return $this->render('about/resources.php', 'ResourcesPage');
+  }
 }
 
 return 'AboutController';

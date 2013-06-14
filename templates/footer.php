@@ -69,6 +69,8 @@
                 <a href="/about/terms">Terms of Service</a>
                 &nbsp;&bull;&nbsp;
                 <a href="/about/faq">FAQ</a>
+                &nbsp;&bull;&nbsp;
+                <a href="/about/resources">Resources</a>
               </div>
               <div class="span4 offset3 copy">
                 <div>&#169; 2013 BitcoinChipin.com</div>
