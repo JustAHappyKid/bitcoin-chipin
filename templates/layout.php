@@ -23,8 +23,9 @@ abstract class Layout {
               rel='stylesheet' type='text/css' />
         </style>
 
-        <? /* TODO: only include this for necessary pages (Dashboard and Widget Wizard) */ ?>
+        <? /* TODO: Only include these when needed (i.e., for Dashboard and/or Widget Wizard) */ ?>
         <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
+        <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
 
         <script src="/js/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>

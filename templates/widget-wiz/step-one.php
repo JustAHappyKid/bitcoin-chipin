@@ -35,7 +35,7 @@ class StepOne extends WidgetWizLayout {
             <div class="controls">
               <input type="text" class="input-large" id="widget-title" name="title" maxlength="50"
                      value="<?= $this->widget->title ?>" />
-              <span class="help-inline">Please provide a title.</span>
+              <span class="help-inline error-msg">Please provide a title.</span>
             </div>
           </div>
           <div class="control-group" id="widget-goal">
@@ -52,7 +52,7 @@ class StepOne extends WidgetWizLayout {
                 $s->setValue(empty($this->widget->currency) ? 'USD' : $this->widget->currency);
               ?>
               <?= $s->renderInputHtml() ?>
-              <span class="help-inline">Please enter a valid (numeric) amount.</span>
+              <span class="help-inline error-msg">Please enter a valid (numeric) amount.</span>
             </div>
           </div>
           <div class="control-group">
@@ -60,7 +60,7 @@ class StepOne extends WidgetWizLayout {
             <div class="controls">
               <input type="text" class="input-small" id="widget-end-date" name="ending"
                      value="<?= $this->widget->ending ?>"/>
-              <span class="help-inline">Please correct the error.</span>
+              <span class="help-inline error-msg">Please correct the error.</span>
             </div>
           </div>
           <div class="control-group" id="bitcoin-addr-control-group">
@@ -68,7 +68,10 @@ class StepOne extends WidgetWizLayout {
             <div class="controls">
               <input type="text" class="input-large" id="widget-bitcoin-address"
                      name="bitcoinAddress" value="<?= $this->widget->bitcoinAddress ?>" />
-              <span class="help-inline">Please provide a valid Bitcoin address.</span>
+              <span class="help-inline error-msg">Please provide a valid Bitcoin address.</span>
+              <span class="help-inline">Please use a new, dedicated Bitcoin address for each
+                widget. In this way, we are able to measure the amount that has been donated
+                to your cause.</span>
             </div>
           </div>
         </div> <!-- /span6 -->
@@ -99,7 +102,7 @@ class StepOne extends WidgetWizLayout {
 						  errors++;
 					  } else if ($(this).val() != "" && $(this).parent().parent().hasClass("error")) {
 						  container.removeClass("error");
-						  container.find('.help-inline').hide();
+						  container.find('.error-msg').hide();
 						  //$(this).siblings().hide();
 					  }
 				  }
@@ -123,7 +126,7 @@ class StepOne extends WidgetWizLayout {
 			  var amountToRaise = $("#widget-want-to-raise").val();
 			  if (!isNumber(amountToRaise)) {
 			  	$("#widget-goal").addClass("error");
-			  	$("#widget-goal .help-inline").show();
+			  	$("#widget-goal .error-msg").show();
 			  	errors++;
 			  }
 
