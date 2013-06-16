@@ -7,7 +7,7 @@ function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));
   $libsDir = realpath(dirname($testDir) . '/lib');
   set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
-  
+
   set_include_path(
     dirname(__FILE__) . '/mock/lib' . PATH_SEPARATOR .
     # XXX: Zend Framework required for now, unfortunately (for Captcha lib, at least)...
