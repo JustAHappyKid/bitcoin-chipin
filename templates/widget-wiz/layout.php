@@ -14,8 +14,8 @@ abstract class WidgetWizLayout extends Layout {
   function htmlHeadExtras() { ?>
 
     <? /* TODO: Move this somewhere more appropriate! */ ?>
-    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-    <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+    <script src="//code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
     <? /* XXX: Is this still needed? */ ?>
     <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
