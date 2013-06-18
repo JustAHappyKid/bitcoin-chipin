@@ -17,12 +17,22 @@
   margin-bottom: 15px;
 }
 
+#box_sign .box .form {
+  text-align: left;
+}
+
 .login-fields .field {
   margin-bottom: 1px;
 }
 
+/* Hide labels for fields, by default, as the placeholder text is sufficient. */
 .login-fields label {
   display: none;
+}
+
+/* For the checkboxes, we can't hide the labels, as they have no placeholder text... */
+.login-fields .newsletter-options label {
+  display: block;
 }
 
 .login-fields input {
@@ -38,6 +48,19 @@
   width: 140px;
   float: left;
   margin-left: 30px;
+}
+
+/* Special styling for newsletter-signup checkboxes and associated labels/text. */
+.login-fields .newsletter-options label {
+  text-align: left;
+  font-size: 11px;
+  color: #555;
+}
+.login-fields .newsletter-options input {
+  margin-right: 5px;
+}
+.login-fields .newsletter-options {
+  margin: 4px 0 20px;
 }
 
 .login-actions {

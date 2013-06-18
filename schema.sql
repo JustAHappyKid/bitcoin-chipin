@@ -13,6 +13,16 @@ ALTER TABLE users ADD UNIQUE INDEX (username);
 -- ALTER TABLE users ADD UNIQUE INDEX(LOWER(email));
 
 
+-- This table for (temporarily) representing subscriptions to (1) BitcoinChipin.com
+-- and (2) MemoryDealers.com news updates.
+CREATE TABLE subscriptions (
+  user_id INTEGER UNSIGNED NOT NULL,
+  chipin BOOLEAN,
+  memorydealers BOOLEAN,
+  FOREIGN KEY (user_id) REFERENCES users (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE widgets (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   owner_id INTEGER UNSIGNED NOT NULL,

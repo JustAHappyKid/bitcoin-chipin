@@ -25,6 +25,7 @@ function main($argc, $argv) {
 function clearDB() {
   DB\delete('widgets', 'TRUE', array());
   DB\delete('confirmation_codes', 'TRUE', array());
+  DB\delete('subscriptions', 'TRUE', array());
   DB\delete('users', 'TRUE', array());
 }
 

@@ -33,7 +33,9 @@ class AccountController extends \Chipin\WebFramework\Controller {
         required('Please provide a password'),
       F\newPasswordField('password2', 'Re-enter password')->
         required('Please confirm your password by entering it again.')->
-        shouldMatch('password1', "The two entered passwords do not match.")));
+        shouldMatch('password1', "The two entered passwords do not match."),
+      F\newCheckboxField('chipin-updates', '', $checked = false),
+      F\newCheckboxField('memorydealers-updates', '', $checked = false)));
     $form->addSubmitButton('Register');
     if ($this->isPostRequestAndFormIsValid($form)) {
       $username = $form->getValue("username");
@@ -43,6 +45,9 @@ class AccountController extends \Chipin\WebFramework\Controller {
                                   'email' => $email));
       $user = User::loadFromUsername($username);
       $_SESSION['Zend_Auth']['storage'] = $user;
+      DB\insertOne('subscriptions', array('user_id' => $user->id,
+        'chipin' => $form->getValue('chipin-updates') ? 1 : 0,
+        'memorydealers' => $form->getValue('memorydealers-updates') ? 1 : 0));
       $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();

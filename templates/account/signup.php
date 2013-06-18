@@ -89,6 +89,17 @@ class Signup extends Layout {
                           placeholder="Captcha">
                     <div style="clear: both;"> </div>
                   </div>
+                  <div class="field newsletter-options">
+                    <label for="chipin-updates">
+                      <input type="checkbox" id="chipin-updates" name="chipin-updates" />
+                      Receive news updates from BitcoinChipin.com
+                    </label>
+                    <label for="memorydealers-updates">
+                      <input type="checkbox" id="memorydealers-updates"
+                             name="memorydealers-updates" />
+                      Receive news updates from MemoryDealers.com
+                    </label>
+                  </div>
                 </div> <!-- /login-fields -->
                 <div class="login-actions">
                   <? /* <span class="login-checkbox" style="display: none;">
