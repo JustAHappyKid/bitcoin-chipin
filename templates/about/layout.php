@@ -8,6 +8,7 @@ abstract class AboutPageLayout extends Layout {
 
   function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/external-pages.css" />
+    <link rel="stylesheet" type="text/css" href="/css/components/about.css" />
   <? }
 
   function pageHeader($content) { ?>
