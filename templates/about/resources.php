@@ -4,7 +4,12 @@ require_once dirname(__FILE__) . '/layout.php';
 
 class ResourcesPage extends AboutPageLayout {
 
-  function innerContent() { ?>
+  function innerContent() {
+    $this->partners();
+    $this->resources();
+  }
+
+  function resources() { ?>
     <div id="features" class="features_page">
       <div class="container">
         <div class="features2">
@@ -16,55 +21,34 @@ class ResourcesPage extends AboutPageLayout {
           <div class="row">
             <div class="span12">
               <h3 class="intro">
-                The Bitcoin ecosystem is growing rapidly. Below are some helpful site to help
-                you learn all the basics about the currency and be able to start funding your
-                project today!
+                The Bitcoin ecosystem is growing rapidly. Below are some helpful sites to help
+                you learn all the basics and get you on your way to funding your
+                own project today!
               </h3>
             </div>
           </div>
           <div class="row">
-            <div class="span4 feature2">
-              <div class="icon"><i class="cloud"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
+            <div class="offset2 span4 feature2">
+              <div class="icon"><i class="graph"></i></div>
+              <h4><a href="http://www.weusecoins.com/">WeUseCoins.com</a></h4>
+              <p>&ldquo;Our mission is to support Bitcoin by making it easier
+                for new users to get started.&rdquo;</p>
             </div>
             <div class="span4 feature2">
               <div class="icon"><i class="tools"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
-            </div>
-            <div class="span4 feature2">
-              <div class="icon"><i class="graph"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
-            </div>
-          </div>
-          <div class="row">
-            <div class="span4 feature2">
-              <div class="icon"><i class="mobile"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
-            </div>
-            <div class="span4 feature2">
-              <div class="icon"><i class="lab"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
-            </div>
-            <div class="span4 feature2">
-              <div class="icon"><i class="secure"></i></div>
-              <h4>Many desktop publishing editor these available</h4>
-              <p>You can't do better design with a computer, but you can speed up your work
-                enormously.</p>
+              <h4><a href="http://bitcoin.cbtnuggets.com/"
+                     >Bitcoin Training Series from CBT Nuggets</a></h4>
+              <p>&ldquo;Learn what it is, how it works, and how you can get started
+                using it in this groundbreaking CBT Nuggets series with trainer
+                Keith Barker.&rdquo;</p>
             </div>
           </div>
         </div>
       </div>
     </div>
+  <? }
+
+  function partners() { ?>
     <div id="features" class="features_page">
       <div class="container">
         <div class="features1">
@@ -123,7 +107,7 @@ class ResourcesPage extends AboutPageLayout {
                 <p class="description">
                   BitcoinStore.com is the largest purveyor of electronics accepting Bitcoin as
                   a payment method. Choose from thousands of computers, telecommunications
-                  devices, office supplies, and much more, all at competitive prices. 
+                  devices, office supplies, and much more, all at competitive prices.
                 </p>
               </div>
               <div class="span4 feature partner">
@@ -134,7 +118,7 @@ class ResourcesPage extends AboutPageLayout {
                   BitPay is the world's largest Bitcoin payment processor.
                   They are trusted by thousands of merchants to accept bitcoins,
                   as a form of payment,
-                  just as they might accept payments from Visa, Mastercard, or Paypal. 
+                  just as they might accept payments from Visa, Mastercard, or Paypal.
                 </p>
               </div>
               <div class="span4 feature partner">
@@ -143,7 +127,7 @@ class ResourcesPage extends AboutPageLayout {
                 <h3>Blockchain.info</h3>
                 <p class="description">
                   Blockchain.info is the most popular web-based Bitcoin wallet and block explorer.
-                  As of January, 2013 the site has over 110,000 registered users. 
+                  As of January, 2013 the site has over 110,000 registered users.
                 </p>
               </div>
             </div>
