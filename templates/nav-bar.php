@@ -11,7 +11,11 @@
         </a>
         <a class="brand" href="/">
           <img src="/images/logo.gif" width="50" height="40" alt=""
-               style="opacity: 0.5;" />
+               style="opacity: 0.5; float: left;" />
+          <div style="float: left; margin-left: 3px; margin-top: 23px;
+                      color: #f66; font-size: 15px; font-weight: bold;
+                      opacity: 0.8;">
+            BETA</div>
         </a>
         <div class="nav-collapse collapse">
           <ul class="nav pull-left">
