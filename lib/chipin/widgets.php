@@ -22,7 +22,8 @@ class Widget {
       throw new NoSuchWidget("Widget with ID $id is not owned by user with ID {$owner->id}");
     }
     $obj = new Widget;
-    return $obj->populateFromArray($w);
+    $obj->populateFromArray($w);
+    return $obj;
   }
 
   public static function getAll() {
