@@ -7,6 +7,7 @@ require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 
 use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception;
+use SpareParts\Test\ValidationErrors;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -61,7 +62,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w->goal = 50;
     $w->currency = 'CAD';
     $w->ending = '2015-12-31';
-    $w->address = $this->btcAddr();
+    $w->bitcoinAddress = $this->btcAddr();
     $w->width = '220';
     $w->height = '220';
     $colorGrey = 'E0DCDC,707070';
@@ -92,12 +93,41 @@ class WidgetWizardTests extends WebappTestingHarness {
       #      exception coming from the 'Paranoid' database layer proclaiming "No angle
       #      brackets allowed!".
     }
-    $ws = Widget::getAll();
     assertEqual(0, count(Widget::getAll()));
+  }
+
+  function testSupportForLargeGoals() {
+    foreach (array(99, 600, 1000, 20000, 100000, 2000000) as $amount) {
+      clearDB();
+      try {
+        $this->createWidget(array('goal' => (string)$amount));
+        $ws = Widget::getAll();
+        assertEqual($amount, (int) $ws[0]->goal);
+      } catch (ValidationErrors $e) {
+        assertTrue(contains($e->getMessage(), "maximum"));
+      }
+    }
   }
 
   protected function getForm() {
     return parent::getForm('widgetForm');
+  }
+
+  private function createWidget($attrs = array()) {
+    $defaults = array('title' => 'Save the Queen', 'goal' => '275', 'currency' => 'USD',
+      'ending' => date("Y-m-d", strtotime("+3 days")), 'bitcoinAddress' => $this->btcAddr(),
+      'about' => "Before it's too late!", 'size' => '125x125', 'color' => 'A9DB80,96C56F');
+    $attrs = array_merge($defaults, $attrs);
+    $this->loginAsNormalUser();
+    $this->get('/widget-wiz/step-one');
+    $this->submitForm($this->getForm(),
+      $this->takeValues($attrs, array('title', 'goal', 'currency', 'ending', 'bitcoinAddress')));
+    $this->submitForm($this->getForm(),
+      $this->takeValues($attrs, array('about', 'size', 'color')));
+  }
+
+  private function takeValues(Array $a, Array $vs) {
+    return array_intersect_key($a, array_flip($vs));
   }
 
   private function in3days() { return date("Y-m-d", strtotime("+3 days")); }
