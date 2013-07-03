@@ -6,7 +6,8 @@ require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
-  \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple;
+  \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
+  \SpareParts\Webapp\Forms;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -21,15 +22,22 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   function stepOne() {
     $widget = $this->getWidget();
-    if ($this->isPostRequest()) {
+    $f = new Forms\Form('post');
+    $f->addSection('step-one', array(
+      Forms\newBasicTextField('title', 'Title'),
+      Forms\newDollarAmountField('goal', 'Goal')->maxAmount(self::maxGoal,
+        "Sorry, at the present time " . self::maxGoal . " is the maximum allowed goal.")
+      # TODO: Add other fields...
+    ));
+    if ($this->isPostRequestAndFormIsValid($f)) {
       foreach (array('title', 'goal', 'currency', 'ending', 'bitcoinAddress') as $v) {
         $widget->$v = $_POST[$v];
       }
-      $widget->title = $_POST['title'];
+//      $widget->title = $_POST['title'];
       $this->storeWidgetInSession($widget);
       return $this->redirect('/widget-wiz/step-two');
     } else {
-      return $this->renderStep('step-one.php', 'StepOne', $widget);
+      return $this->renderStep('step-one.php', 'StepOne', $widget, $f);
     }
   }
 
@@ -71,8 +79,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     $address = $this->context->takeNextPathComponent();
     $valid = null;
     try {
-      $balance = Bitcoin\getBalance($address);
-      //echo ($balance == 0 ? 'true' : 'false');
+      Bitcoin\getBalance($address);
       $valid = true;
     } catch (Bitcoin\InvalidAddress $_) {
       $valid = false;
@@ -122,14 +129,15 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     unset($_SESSION['unsaved-widget']);
   }
 
-  private function renderStep($tplFile, $className, Widget $widget /*, $error = null*/) {
+  private function renderStep($tplFile, $className, Widget $widget, Forms\Form $form = null) {
     /*
     global $content;
     $content = '';
     if ($error) $content .= '<div class="alert alert-error">' . $error . '</div>';
     */
     return $this->render("widget-wiz/$tplFile", $className,
-      array('widget' => $widget, 'previewURL' => $this->widgetPreviewURL($widget)));
+      array('widget' => $widget, 'form' => $form,
+            'previewURL' => $this->widgetPreviewURL($widget)));
   }
 
   private function getCountryCodeForIP() {
@@ -138,6 +146,8 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     $location = json_decode($ipInfoJSON, true);
     return $location['Country'];
   }
+
+  const maxGoal = 95000;
 }
 
 return 'WidgetWizController';

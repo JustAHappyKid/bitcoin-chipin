@@ -2,8 +2,9 @@
 
 require_once dirname(__FILE__) . '/layout.php';
 require_once 'spare-parts/webapp/forms.php';
+require_once 'chipin/widgets.php';
 
-use \SpareParts\Webapp\Forms\SelectField;
+use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget;
 
 class StepOne extends WidgetWizLayout {
 
@@ -27,6 +28,11 @@ class StepOne extends WidgetWizLayout {
 
     <div id="step-1">
       <h3>Step 1: Basic Information</h3>
+      <? if ($this->form && $this->form->hasErrors()): ?>
+        <? foreach ($this->form->getErrors() as $e): ?>
+          <div class="alert alert-error"><?= $e ?></div>
+        <? endforeach; ?>
+      <? endif; ?>
       <br />
       <div class="row-fluid">
         <div class="span6" style="width: 100%;">
