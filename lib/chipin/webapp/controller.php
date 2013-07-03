@@ -13,7 +13,7 @@ class Controller extends \SpareParts\Webapp\Controller {
     return dirname(dirname(dirname(dirname(__FILE__)))) . '/public';
   }
 
-  protected function formIsValid($form, $vars) {
+  protected function formIsValid(Form $form, $vars) {
     if (!$form->hasBeenValidated()) $form->validate($vars);
     return $form->isValid();
   }
