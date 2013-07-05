@@ -3,6 +3,7 @@
           <div class="container">
             <div class="row">
               <div class="span8">
+                <!--
                 <h3>Bitcoin resources</h3>
                 <div class="blog_post">
                   <div class="row">
@@ -28,8 +29,10 @@
                         Keith Barker"
                       </div>
                     </div>
+
                   </div>
                 </div>
+                -->
               </div>
               <div class="span4 contact_us">
                 <h3>Contact Us</h3>
