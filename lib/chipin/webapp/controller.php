@@ -26,8 +26,11 @@ class Controller extends \SpareParts\Webapp\Controller {
     }
   }
 
-  protected function render($tplFile, $className, Array $vars = array()) {
+  protected function render($tplFile, $className = null, Array $vars = array()) {
     require_once $this->templatePath($tplFile);
+    if ($className == null) {
+      $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
+    }
     $tplObj = new $className;
     $tplObj->user = $this->user;
     foreach ($vars as $v => $value) $tplObj->$v = $value;
