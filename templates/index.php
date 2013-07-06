@@ -34,7 +34,8 @@ class IndexPage extends Layout {
                       <p>The world of Bitcoin is rapidly growing. If you're new to
                         the revolution we've got some great resources to bring you up
                         to speed.</p>
-                      <a href="blog.html" class="btn btn-warning btn-large">Start Learning!</a>
+                      <a href="/about/learn" class="btn btn-warning btn-large"
+                         >Start Learning!</a>
                     </div>
                     <div class="span6 animated fadeInDownBig">
                       <img src="/img/homepage/slide2.png" alt="" />
