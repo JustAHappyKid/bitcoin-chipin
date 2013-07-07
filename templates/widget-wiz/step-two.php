@@ -27,7 +27,7 @@ class StepTwo extends WidgetWizLayout {
               About the widget
             </label>
             <div class="controls">
-              <textarea class="input-large" id="widget-about" rows="3" maxlength="60"
+              <textarea class="input-large" id="widget-about" rows="3" maxlength="1000"
                         name="about" style="resize: none;height: 60px;width: 260px;"
                         ><?= $this->widget->about ?></textarea>
             </div>
