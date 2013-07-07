@@ -36,7 +36,7 @@ CREATE TABLE widgets (
   height SMALLINT UNSIGNED,
   color CHARACTER VARYING(25),
   address CHARACTER VARYING(255),
-  about CHARACTER VARYING(255),
+  about TEXT,
   country CHARACTER VARYING(2),
   created DATETIME,
   FOREIGN KEY (owner_id) REFERENCES users (id)
