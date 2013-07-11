@@ -11,18 +11,31 @@ use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
   \User, \Chipin\Bitcoin;
 
 class Widget {
+
   public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,
     $width, $height, $color, $bitcoinAddress, $countryCode;
 
   # XXX: This one returns an object...
   # TODO: Make other functions return Widget object.
   public static function getByOwnerAndID(User $owner, $id) {
-    $w = getByID($id);
-    if ($w['owner_id'] != $owner->id) {
+    $w = self::getByID($id);
+    if ($w->ownerID != $owner->id) {
       throw new NoSuchWidget("Widget with ID $id is not owned by user with ID {$owner->id}");
     }
+    return $w;
+//    $obj = new Widget;
+//    $obj->populateFromArray($w);
+//    return $obj;
+  }
+
+  public static function getByID($id) {
+    $rows = select('id = ?', array($id));
+    if (count($rows) == 0) {
+      throw new NoSuchWidget("Could not find widget with ID $id");
+    }
+    $r = current($rows);
     $obj = new Widget;
-    $obj->populateFromArray($w);
+    $obj->populateFromArray($r);
     return $obj;
   }
 
