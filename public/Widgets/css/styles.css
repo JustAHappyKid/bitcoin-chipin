@@ -80,22 +80,20 @@ ul,ol         { list-style:none; }
 /* ======================================================================================= */
 
 
-
-
-.widget-preview {
+.widget-wrapper {
     width: 346px;
 }
-.widget-preview h4 {
+.widget-wrapper h4 {
     color: #676767;
     font-size: 13px;
     text-shadow: 1px 1px 1px #FFFFFF;
     padding-left: 7px;
 }
-.widget-preview .widget {
+.widget-wrapper .widget {
     height: 298px;
     padding: 5px 9px 7px 6px;
 }
-.widget-preview .widget h2.widget-title {
+.widget-wrapper .widget h2.widget-title {
     border-bottom: 1px solid #C6C6C6;
     color: #DB3900;
     font-family: 'Conv_ChaletComprimeCologneEighty';
@@ -107,64 +105,64 @@ ul,ol         { list-style:none; }
     text-align: center;
     text-transform: uppercase;
 }
-.widget-preview .widget.widget-white {
+.widget-wrapper .widget.widget-white {
     background: url("../images/bkg_white_widget.png") no-repeat scroll 0 0 transparent;
 }
-.widget-preview .widget.widget-silver {
+.widget-wrapper .widget.widget-silver {
     background: url("../images/bkg_white_silver.png") no-repeat scroll 0 0 transparent;
 }
-.widget-preview .widget.widget-silver .contribute-btn-container{
+.widget-wrapper .widget.widget-silver .contribute-btn-container{
 	background-image: url("../images/widget_silder_line.png");
 }
-.widget-preview .widget.widget-silver h2.widget-title {
+.widget-wrapper .widget.widget-silver h2.widget-title {
     background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
     border-bottom: 0 none;
     padding-bottom: 4px;
 }
 
-.widget-preview .widget.widget-blue {
+.widget-wrapper .widget.widget-blue {
     background: url("../images/bkg_white_blue.png") no-repeat scroll 0 0 transparent;
 }
-.widget-preview .widget.widget-blue .contribute-btn-container{
+.widget-wrapper .widget.widget-blue .contribute-btn-container{
 	background-image: url("../images/widget_silder_line.png");
 }
-.widget-preview .widget.widget-blue h2.widget-title {
+.widget-wrapper .widget.widget-blue h2.widget-title {
     background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
     border-bottom: 0 none;
     padding-bottom: 4px;
 }
-.widget-preview .widget.widget-dark {
+.widget-wrapper .widget.widget-dark {
     background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
 }
-.widget-preview .widget.widget-dark .contribute-btn-container{
+.widget-wrapper .widget.widget-dark .contribute-btn-container{
 	background-image: url("../images/bkg_line_dark.png");
 }
-.widget-preview .widget.widget-dark h2.widget-title {
+.widget-wrapper .widget.widget-dark h2.widget-title {
     background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
     border-bottom: 0 none;
     padding-bottom: 4px;
 }
-.widget-preview .widget.widget-dark .info h6,
-.widget-preview .widget.widget-dark .info h2 {
+.widget-wrapper .widget.widget-dark .info h6,
+.widget-wrapper .widget.widget-dark .info h2 {
 	color: #fff;
 }
-.widget-preview .widget.widget-dark .a-center .buy_bitcoins{
+.widget-wrapper .widget.widget-dark .a-center .buy_bitcoins{
 	color: #fff;
 	text-shadow: 1px 1px 1px #000000;
 }
-.widget-preview .widget.widget-dark .a-center .powered {
+.widget-wrapper .widget.widget-dark .a-center .powered {
 	color: #525252;
 	text-shadow: 1px 1px 1px #000000;
 }
-.widget-preview  .info { margin: 10px 0px; overflow: hidden; text-transform: uppercase; text-align: center; }
-.widget-preview  .info h2{ margin: 0; font-size: 27px; line-height: 100%; }
-.widget-preview  .info h6 { margin: 0; font-size: 12px; }
-.widget-preview .info .raised {
+.widget-wrapper  .info { margin: 10px 0px; overflow: hidden; text-transform: uppercase; text-align: center; }
+.widget-wrapper  .info h2{ margin: 0; font-size: 27px; line-height: 100%; }
+.widget-wrapper  .info h6 { margin: 0; font-size: 12px; }
+.widget-wrapper .info .raised {
     border-right: 1px dashed #CBCBCB;
     float: left;
     width: 166px;
 }
-.widget-preview  .info .goal { 
+.widget-wrapper  .info .goal { 
 	float: right;
     width: 160px;
 }
