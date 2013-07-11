@@ -51,6 +51,7 @@ $application = new Zend_Application(APPLICATION_ENV, array('config' => $confFile
 
 $path = CurrentRequest\getPath();
 if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-wiz/') ||
+    beginsWith($path, '/widgets/') ||
     beginsWith($path, '/account/') || beginsWith($path, '/contact-us')) {
   # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
   # routing mechanism and et al.
