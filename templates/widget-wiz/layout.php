@@ -17,13 +17,13 @@ abstract class WidgetWizLayout extends Layout {
     <script src="/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.min.css" />
 
-    <? /* XXX: Is this still needed? */ ?>
     <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
     <!-- <script src="<?=PATH;?>js/widget-wiz.js"></script> -->
 
-    <? /* XXX: Are these actually used??  I'm pretty sure they're not. */ ?>
+    <? /* XXX: Are these still needed?
     <link href="<?=PATH;?>js/plugins/msgGrowl/css/msgGrowl.css" rel="stylesheet" />
     <script src="<?=PATH;?>js/plugins/msgGrowl/js/msgGrowl.js"></script>
+    */ ?>
 
     <style>
 
