@@ -83,28 +83,37 @@ ul,ol         { list-style:none; }
 .widget-wrapper {
     width: 346px;
 }
+
 .widget-wrapper h4 {
     color: #676767;
     font-size: 13px;
     text-shadow: 1px 1px 1px #FFFFFF;
     padding-left: 7px;
 }
+
 .widget-wrapper .widget {
     height: 298px;
     padding: 5px 9px 7px 6px;
 }
+
 .widget-wrapper .widget h2.widget-title {
-    border-bottom: 1px solid #C6C6C6;
-    color: #DB3900;
-    font-family: 'Conv_ChaletComprimeCologneEighty';
-    font-size: 46px;
-    letter-spacing: -1px;
-    line-height: 100%;
-    margin: 0;
-    padding: 13px 0 2px;
-    text-align: center;
-    text-transform: uppercase;
+  /*border-bottom: 1px solid #C6C6C6;*/
+  border-bottom: 1px solid #ddd;
+  color: #DB3900;
+  font-family: 'Conv_ChaletComprimeCologneEighty';
+  font-size: 46px;
+  letter-spacing: -1px;
+  line-height: 85%;
+  margin: 0;
+  padding: 18px 0 0;
+  text-align: center;
+  text-transform: uppercase;
 }
+
+/*#overview, #contribute {
+  height: 125px;
+}*/
+
 .widget-wrapper .widget.widget-white {
     background: url("../images/bkg_white_widget.png") no-repeat scroll 0 0 transparent;
 }
@@ -131,42 +140,67 @@ ul,ol         { list-style:none; }
     border-bottom: 0 none;
     padding-bottom: 4px;
 }
-.widget-wrapper .widget.widget-dark {
-    background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
+
+
+/**
+ * Overview of campaign goal and amount raised-so-far.
+ */
+
+.widget-wrapper .raised-and-goal {
+  margin: 10px 0px;
+  overflow: hidden;
+  text-transform: uppercase;
+  text-align: center;
 }
-.widget-wrapper .widget.widget-dark .contribute-btn-container{
-	background-image: url("../images/bkg_line_dark.png");
-}
-.widget-wrapper .widget.widget-dark h2.widget-title {
-    background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
-    border-bottom: 0 none;
-    padding-bottom: 4px;
-}
-.widget-wrapper .widget.widget-dark .info h6,
-.widget-wrapper .widget.widget-dark .info h2 {
-	color: #fff;
-}
-.widget-wrapper .widget.widget-dark .a-center .buy_bitcoins{
-	color: #fff;
-	text-shadow: 1px 1px 1px #000000;
-}
-.widget-wrapper .widget.widget-dark .a-center .powered {
-	color: #525252;
-	text-shadow: 1px 1px 1px #000000;
-}
-.widget-wrapper  .info { margin: 10px 0px; overflow: hidden; text-transform: uppercase; text-align: center; }
-.widget-wrapper  .info h2{ margin: 0; font-size: 27px; line-height: 100%; }
-.widget-wrapper  .info h6 { margin: 0; font-size: 12px; }
-.widget-wrapper .info .raised {
+
+.widget-wrapper .raised-and-goal h2 { margin: 0; font-size: 27px; line-height: 100%; }
+.widget-wrapper .raised-and-goal h6 { margin: 0; font-size: 12px; }
+
+.widget-wrapper .raised-and-goal .raised {
     border-right: 1px dashed #CBCBCB;
     float: left;
     width: 166px;
 }
-.widget-wrapper  .info .goal { 
+
+.widget-wrapper .raised-and-goal .goal {
 	float: right;
     width: 160px;
 }
-.status-bar-container { margin: 0 0px 15px 0; }
+
+
+/**
+ * Section relaying information on how to contribute (Bitcoin address to send to,
+ * "learn more" link, etc).
+ */
+
+#contribute {
+  height: 116px;
+}
+
+.widget-wrapper #contribute h6 {
+  margin: 10px 0px;
+  text-transform: uppercase;
+  text-align: center;
+  font-size: 14px;
+}
+
+.widget-wrapper .btc-addr {
+  font-size: 14px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.widget-wrapper #contribute .buy-bitcoins {
+    color: #5A5A5A;
+    font-family: arial;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+
+.status-bar-container { margin: 0 0px 7px 0; }
 .status-bar-container .bg_bar {
     background: url("../images/bkg_progress.png") repeat scroll 0 0 transparent;
     height: 33px;
@@ -179,6 +213,33 @@ ul,ol         { list-style:none; }
     background: url("../images/bkg_progress_bar.png") no-repeat scroll 100% 0 transparent;
     height: 34px;
 }
+
+.about {
+  height: 42px;
+  margin: 5px 1em;
+  font-size: 11px;
+  color: #666;
+  text-align: justify;
+  overflow: hidden;
+  border-bottom: 1px solid #C6C6C6;
+}
+
+.about span {
+  font-size: 110%;
+  color: #aaa;
+}
+
+.about span a {
+  font-size: 11px;
+  text-transform: lowercase;
+  /*text-transform: uppercase;
+  font-variant: small-caps;*/
+  padding: 0 2px;
+}
+
+/**
+ * "Contribute" button
+ */
 .contribute-btn-container {
     background: url("../images/bkg_contribute.png") repeat-x scroll center center transparent;
 }
@@ -200,17 +261,16 @@ ul,ol         { list-style:none; }
 #content{
 	padding: 20px 0px 0;
 }
-.widget .a-center{
 
-}
-.widget .a-center .buy_bitcoins {
+/*.widget .buy-bitcoins {
     color: #5A5A5A;
     font-family: arial;
     font-size: 14px;
     font-weight: bold;
     text-decoration: none;
     text-shadow: 1px 1px 1px #FFFFFF;
-}
+}*/
+
 .widget .a-center .powered {
     color: #888888;
     font-family: arial;
@@ -236,3 +296,36 @@ h2.title-info{ font-size: 24px; color: #393939; margin: 5px 0px 20px; }
     width: 290px;
 }
 
+
+/**
+ * Dark widget
+ */
+
+.widget-wrapper .widget.widget-dark {
+    background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
+}
+
+.widget-wrapper .widget.widget-dark .contribute-btn-container {
+    background-image: url("../images/bkg_line_dark.png");
+}
+
+.widget-wrapper .widget.widget-dark h2.widget-title {
+    background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
+    border-bottom: 0 none;
+    padding-bottom: 4px;
+}
+
+.widget-wrapper .widget.widget-dark .raised-and-goal h6,
+.widget-wrapper .widget.widget-dark .raised-and-goal h2 {
+    color: #fff;
+}
+
+.widget-wrapper .widget.widget-dark .a-center .buy-bitcoins{
+    color: #fff;
+    text-shadow: 1px 1px 1px #000000;
+}
+
+.widget-wrapper .widget.widget-dark .a-center .powered {
+    color: #525252;
+    text-shadow: 1px 1px 1px #000000;
+}

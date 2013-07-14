@@ -2,8 +2,10 @@
 
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
+require_once 'chipin/currency.php';
 
-use \SpareParts\Webapp\RequestContext, \Chipin\Widgets\Widget, \Chipin\Bitcoin;
+use \SpareParts\Webapp\RequestContext, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
+  \Chipin\Currency;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
@@ -12,12 +14,16 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     require_once 'spare-parts/template/base.php';
 
     $vars = array();
+    $vars['display'] = 'overview';
     $vars['title'] = $widget->title;
+    $vars['about'] = $widget->about;
     $vars['currency'] = $widget->currency;
-    $vars['goal'] = number_format($widget->goal, $widget->currency == "BTC" ? 4 : 2);
-    $vars['raised'] = Bitcoin\getBalance($widget->bitcoinAddress, $widget->currency);
+    $vars['goal'] = Currency\displayAmount($widget->goal, $widget->currency);
+        //number_format($widget->goal, $widget->currency == "BTC" ? 4 : 2);
+    $vars['raised'] = Currency\displayAmount($this->getAmountRaised($widget), $widget->currency);
     $vars['progress'] = $widget->raised / $widget->goal * 100;
     $this->setAltCurrencyValues($widget, $vars);
+    $vars['bitcoinAddress'] = $widget->bitcoinAddress;
 
     # XXX: New template engine stuff...
     $tplDir = dirname(dirname(__FILE__)) . '/templates';
@@ -51,9 +57,11 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     } else {
       $vars['altCurrency'] = "BTC";
       $goalInBTC = Bitcoin\toBTC($widget->currency, $widget->goal);
-      $vars['altGoal'] = number_format($goalInBTC, 4); //substr($other_goal, 0, 5);
+      $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
+          //number_format($goalInBTC, 4); //substr($other_goal, 0, 5);
       $raisedInBTC = Bitcoin\toBTC($widget->currency, $widget->raised);
-      $vars['altRaised'] = number_format($raisedInBTC, 4); //substr($other_raised, 0, 5);
+      $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
+          //number_format($raisedInBTC, 4); //substr($other_raised, 0, 5);
     }
   }
 
@@ -65,6 +73,14 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $parts = explode('.', strval($amount));
     list($dollars, $cents) = count($parts) == 2 ? $parts : array($parts[0], '00');
     return $dollars . '.' . substr($cents, 0, 2);
+  }
+
+  private function getAmountRaised(Widget $widget) {
+    try {
+      return Bitcoin\getBalance($widget->bitcoinAddress, $widget->currency);
+    } catch (\SpareParts\WebClient\NetworkError $_) {
+      return $widget->raised;
+    }
   }
 }
 
