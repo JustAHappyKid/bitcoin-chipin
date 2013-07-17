@@ -3,6 +3,7 @@
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
 require_once 'chipin/currency.php';
+require_once 'spare-parts/types.php'; # at
 
 use \SpareParts\Webapp\RequestContext, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
   \Chipin\Currency;
@@ -14,7 +15,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     require_once 'spare-parts/template/base.php';
 
     $vars = array();
-    $vars['display'] = 'overview';
+    $vars['display'] = at($_GET, 'display', 'overview');
     $vars['title'] = $widget->title;
     $vars['about'] = $widget->about;
     $vars['currency'] = $widget->currency;

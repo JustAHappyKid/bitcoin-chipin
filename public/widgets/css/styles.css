@@ -81,7 +81,7 @@ ul,ol         { list-style:none; }
 
 
 .widget-wrapper {
-    width: 346px;
+  width: 346px;
 }
 
 .widget-wrapper h4 {
@@ -130,14 +130,14 @@ ul,ol         { list-style:none; }
 .widget-wrapper .raised-and-goal h6 { margin: 0; font-size: 12px; }
 
 .widget-wrapper .raised-and-goal .raised {
-    border-right: 1px dashed #CBCBCB;
-    float: left;
-    width: 166px;
+  border-right: 1px dashed #CBCBCB;
+  float: left;
+  width: 166px;
 }
 
 .widget-wrapper .raised-and-goal .goal {
-	float: right;
-    width: 160px;
+  float: right;
+  width: 160px;
 }
 
 
@@ -151,7 +151,7 @@ ul,ol         { list-style:none; }
 }
 
 .widget-wrapper #contribute h6 {
-  margin: 15px 0px 6px;
+  margin: 10px 0px 4px;
   text-transform: uppercase;
   text-align: center;
   font-size: 14px;
@@ -162,9 +162,20 @@ ul,ol         { list-style:none; }
   font-size: 16px;
   font-weight: bold;
   text-align: center;
-  color: #6699dd;
+  color: #4477bb;
   text-shadow: #bbd 1px 1px 2px;
   letter-spacing: -1px;
+  margin: 5px 0;
+}
+
+.qr-code {
+  text-align: center;
+}
+
+.qr-code img {
+  border: 1px solid #bbb;
+  /*border-radius: 2px;*/
+  box-shadow: 0 0 5px silver;
 }
 
 .widget-wrapper #contribute .buy-bitcoins {
@@ -178,7 +189,7 @@ ul,ol         { list-style:none; }
 
 
 .status-bar-container { margin: 0 0px 7px 0; }
-.status-bar-container .bg_bar {
+.status-bar-container .bg-bar {
     background: url("../images/bkg_progress.png") repeat scroll 0 0 transparent;
     height: 33px;
     margin: 0 auto;
@@ -186,7 +197,7 @@ ul,ol         { list-style:none; }
     padding: 3px;
     width: 278px;
 }
-.status-bar-container .bg_bar .bar {
+.status-bar-container .bg-bar .bar {
     background: url("../images/bkg_progress_bar.png") no-repeat scroll 100% 0 transparent;
     height: 34px;
 }
@@ -215,28 +226,29 @@ ul,ol         { list-style:none; }
 }
 
 /**
- * "Contribute" button
+ * "Contribute Now" and "View Progress" buttons
  */
 .btn-container {
-    background: url("../images/bkg_contribute.png") repeat-x scroll center center transparent;
+  background: url("../images/bkg_contribute.png") repeat-x scroll center center transparent;
+  position: fixed;
+  top: 235px;
+  left: 8px;
+  width: 325px;
 }
-.btn-container .contribute-btn {
-    background: url("../images/btn_contribute.png") no-repeat scroll 0 0 transparent;
-    color: #FFFFFF;
-    display: block;
-    font-size: 18px;
-    font-weight: bold;
-    height: 43px;
-    line-height: 43px;
-    margin: 0 auto;
-    text-align: center;
-    text-decoration: none;
-    text-shadow: 0 0 1px #B5B5B5;
-    text-transform: uppercase;
-    width: 233px;
-}
-#content{
-	padding: 20px 0px 0;
+.btn-container .btn {
+  background: url("../images/btn_contribute.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  width: 233px;
+  height: 43px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 43px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 1px #B5B5B5;
+  text-transform: uppercase;
+  margin: 0 auto;
 }
 
 /*.widget .buy-bitcoins {
@@ -248,13 +260,21 @@ ul,ol         { list-style:none; }
     text-shadow: 1px 1px 1px #FFFFFF;
 }*/
 
-.widget .a-center .powered {
-    color: #888888;
-    font-family: arial;
-    font-size: 10px;
-    text-decoration: none;
-    text-shadow: 1px 1px 1px #FFFFFF;
-    text-transform: uppercase;
+.widget #footer {
+  text-align: center;
+  position: absolute;
+  top: 280px;
+  left: 0;
+  width: 346px;
+}
+
+.widget /*.a-center*/ .powered {
+  color: #888888;
+  font-family: arial;
+  font-size: 10px;
+  text-decoration: none;
+  text-shadow: 1px 1px 1px #FFFFFF;
+  text-transform: uppercase;
 }
 
 
@@ -328,12 +348,12 @@ ul,ol         { list-style:none; }
   color: #fff;
 }
 
-.widget-wrapper .widget.widget-dark .a-center .buy-bitcoins {
+.widget-wrapper .widget.widget-dark /*.a-center*/ .buy-bitcoins {
   color: #fff;
   text-shadow: 1px 1px 1px #000000;
 }
 
-.widget-wrapper .widget.widget-dark .a-center .powered {
+.widget-wrapper .widget.widget-dark /*.a-center*/ .powered {
   color: #525252;
   text-shadow: 1px 1px 1px #000000;
 }
