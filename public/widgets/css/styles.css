@@ -256,22 +256,6 @@ ul,ol         { list-style:none; }
     text-shadow: 1px 1px 1px #FFFFFF;
     text-transform: uppercase;
 }
-.info-setup { width: 450px; float: left; }
-h2.title-info{ font-size: 24px; color: #393939; margin: 5px 0px 20px; }
-.info-setup .inputs-fields {  }
-.info-setup .inputs-fields li{ overflow: hidden; padding: 0px 0px 15px; }
-.info-setup .inputs-fields li label {
-    float: left;
-    font-size: 15px;
-    text-align: right;
-    width: 141px;
-    padding: 2px 0px;
-}
-.info-setup .inputs-fields li input {
-    float: right;
-    padding: 5px 2px;
-    width: 290px;
-}
 
 
 /**
