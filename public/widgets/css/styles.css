@@ -114,33 +114,6 @@ ul,ol         { list-style:none; }
   height: 125px;
 }*/
 
-.widget-wrapper .widget.widget-white {
-    background: url("../images/bkg_white_widget.png") no-repeat scroll 0 0 transparent;
-}
-.widget-wrapper .widget.widget-silver {
-    background: url("../images/bkg_white_silver.png") no-repeat scroll 0 0 transparent;
-}
-.widget-wrapper .widget.widget-silver .contribute-btn-container{
-	background-image: url("../images/widget_silder_line.png");
-}
-.widget-wrapper .widget.widget-silver h2.widget-title {
-    background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
-    border-bottom: 0 none;
-    padding-bottom: 4px;
-}
-
-.widget-wrapper .widget.widget-blue {
-    background: url("../images/bkg_white_blue.png") no-repeat scroll 0 0 transparent;
-}
-.widget-wrapper .widget.widget-blue .contribute-btn-container{
-	background-image: url("../images/widget_silder_line.png");
-}
-.widget-wrapper .widget.widget-blue h2.widget-title {
-    background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
-    border-bottom: 0 none;
-    padding-bottom: 4px;
-}
-
 
 /**
  * Overview of campaign goal and amount raised-so-far.
@@ -178,16 +151,20 @@ ul,ol         { list-style:none; }
 }
 
 .widget-wrapper #contribute h6 {
-  margin: 10px 0px;
+  margin: 15px 0px 6px;
   text-transform: uppercase;
   text-align: center;
   font-size: 14px;
+  color: #888;
 }
 
 .widget-wrapper .btc-addr {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: bold;
   text-align: center;
+  color: #6699dd;
+  text-shadow: #bbd 1px 1px 2px;
+  letter-spacing: -1px;
 }
 
 .widget-wrapper #contribute .buy-bitcoins {
@@ -240,10 +217,10 @@ ul,ol         { list-style:none; }
 /**
  * "Contribute" button
  */
-.contribute-btn-container {
+.btn-container {
     background: url("../images/bkg_contribute.png") repeat-x scroll center center transparent;
 }
-.contribute-btn-container .contribute-btn {
+.btn-container .contribute-btn {
     background: url("../images/btn_contribute.png") no-repeat scroll 0 0 transparent;
     color: #FFFFFF;
     display: block;
@@ -298,34 +275,81 @@ h2.title-info{ font-size: 24px; color: #393939; margin: 5px 0px 20px; }
 
 
 /**
+ * White widget
+ */
+
+.widget-wrapper .widget.widget-white {
+  background: url("../images/bkg_white_widget.png") no-repeat scroll 0 0 transparent;
+}
+
+
+/**
+ * Silver widget
+ */
+
+.widget-wrapper .widget.widget-silver {
+  background: url("../images/bkg_white_silver.png") no-repeat scroll 0 0 transparent;
+}
+
+.widget-wrapper .widget.widget-silver .btn-container{
+  background-image: url("../images/widget_silder_line.png");
+}
+
+.widget-wrapper .widget.widget-silver h2.widget-title {
+  background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
+  border-bottom: 0 none;
+  padding-bottom: 4px;
+}
+
+
+/**
+ * Blue widget
+ */
+
+.widget-wrapper .widget.widget-blue {
+  background: url("../images/bkg_white_blue.png") no-repeat scroll 0 0 transparent;
+}
+
+.widget-wrapper .widget.widget-blue .btn-container {
+  background-image: url("../images/widget_silder_line.png");
+}
+
+.widget-wrapper .widget.widget-blue h2.widget-title {
+  background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
+  border-bottom: 0 none;
+  padding-bottom: 4px;
+}
+
+
+/**
  * Dark widget
  */
 
 .widget-wrapper .widget.widget-dark {
-    background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
 }
 
-.widget-wrapper .widget.widget-dark .contribute-btn-container {
-    background-image: url("../images/bkg_line_dark.png");
+.widget-wrapper .widget.widget-dark .btn-container {
+  background-image: url("../images/bkg_line_dark.png");
 }
 
 .widget-wrapper .widget.widget-dark h2.widget-title {
-    background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
-    border-bottom: 0 none;
-    padding-bottom: 4px;
+  background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
+  border-bottom: 0 none;
+  padding-bottom: 4px;
 }
 
 .widget-wrapper .widget.widget-dark .raised-and-goal h6,
 .widget-wrapper .widget.widget-dark .raised-and-goal h2 {
-    color: #fff;
+  color: #fff;
 }
 
-.widget-wrapper .widget.widget-dark .a-center .buy-bitcoins{
-    color: #fff;
-    text-shadow: 1px 1px 1px #000000;
+.widget-wrapper .widget.widget-dark .a-center .buy-bitcoins {
+  color: #fff;
+  text-shadow: 1px 1px 1px #000000;
 }
 
 .widget-wrapper .widget.widget-dark .a-center .powered {
-    color: #525252;
-    text-shadow: 1px 1px 1px #000000;
+  color: #525252;
+  text-shadow: 1px 1px 1px #000000;
 }
