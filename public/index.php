@@ -56,6 +56,7 @@ if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-w
   # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
   # routing mechanism and et al.
   $application->bootstrap();
+  error_reporting(E_ALL);
   require_once 'spare-parts/error-handling.php';
   # XXX: change to @bitcoinchipin address?
   \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
