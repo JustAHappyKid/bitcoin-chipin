@@ -56,6 +56,9 @@ if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-w
   # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
   # routing mechanism and et al.
   $application->bootstrap();
+  require_once 'spare-parts/error-handling.php';
+  # XXX: change to @bitcoinchipin address?
+  \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
   require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
   \Chipin\WebFramework\routeRequestForApp();
 } else {
