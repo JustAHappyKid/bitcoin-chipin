@@ -18,20 +18,22 @@ if [ "$line" = "Yes!" ]; then
   SPAREPARTS_SRC_DIR=`realpath ./lib/spare-parts`
   SPAREPARTS_DIR=`dirname "$SPAREPARTS_SRC_DIR"`
 
-  echo "Updating local checkout of My PHP Libs ($SPAREPARTS_DIR)..."
+  echo "Updating local checkout of php-spare-parts ($SPAREPARTS_DIR)..."
   #bzr up "$SPAREPARTS_DIR"
-  echo "Doing export on My PHP Libs source..."
   mkdir "$TMP_DIR/spare-parts"
   #bzr export "$TMP_DIR/my-php-libs" "$SPAREPARTS_DIR"
   cd "$SPAREPARTS_DIR"
-  git archive master | tar -x -C "$TMP_DIR/spare-parts"
-  echo "Running My PHP Libs test suite..."
+  SPAREPARTS_BRANCH=`git rev-parse --abbrev-ref HEAD`
+  echo "Doing export on php-spare-parts from directory $SPAREPARTS_DIR"
+  echo "  and branch $SPAREPARTS_BRANCH..."
+  git archive "$SPAREPARTS_BRANCH" | tar -x -C "$TMP_DIR/spare-parts"
+  echo "Running php-spare-parts test suite..."
   SPAREPARTS_TEST_OUTPUT=`$TMP_DIR/spare-parts/test/test.php`
   SUCCESS_PATTERN="Ran [0-9]+ test functions and [0-9]+ test methods in [0-9]+ classes."
   echo "$SPAREPARTS_TEST_OUTPUT"
   SPAREPARTS_TEST_SUCCESS=`echo "$SPAREPARTS_TEST_OUTPUT" | egrep "$SUCCESS_PATTERN"`
   if [ "$SPAREPARTS_TEST_OUTPUT" != "$SPAREPARTS_TEST_SUCCESS" ]; then
-    echo "My PHP Libs test suite failed! Output follows..."
+    echo "php-spare-parts test suite failed! Output follows..."
     echo "-------------------------------------------------------------------------------"
     echo "$SPAREPARTS_TEST_OUTPUT"
     exit 1
@@ -44,7 +46,7 @@ if [ "$line" = "Yes!" ]; then
   cd $BASE_CHIPIN_DIR
   git archive master | tar -x -C "$EXPORT_DIR"
 
-  echo "Copying My PHP Libs to Chipin lib dir..."
+  echo "Copying php-spare-parts to Chipin lib dir..."
   if [ ! -d "$EXPORT_DIR/lib" ]; then
     mkdir "$EXPORT_DIR/lib"
   fi
