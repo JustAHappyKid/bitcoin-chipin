@@ -51,7 +51,7 @@
           <h6>Send your contribution to:</h6>
           <div class="btc-addr">$bitcoinAddress</div>
           <div class="qr-code">
-            <img src="http://blockchain.info/qr?data=$bitcoinAddress&amp;size=100"
+            <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=100"
                  alt="[QR Code]" style="width: 100px; height: 100px;" />
           </div>
           <!--<div><a class="buy-bitcoins" href="">Learn How to Buy Bitcoins</a></div>-->
