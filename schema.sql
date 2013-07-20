@@ -6,7 +6,7 @@ CREATE TABLE users (
   password CHARACTER VARYING(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---ALTER TABLE users ADD UNIQUE INDEX (email);
+-- ALTER TABLE users ADD UNIQUE INDEX (email);
 ALTER TABLE users ADD UNIQUE INDEX (username);
 
 -- XXX: Case-insensitive unique-constraint doesn't seem to work in MySQL. :(
@@ -42,7 +42,7 @@ CREATE TABLE widgets (
   FOREIGN KEY (owner_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---ALTER TABLE widgets ADD CONSTRAINT widgets_users_fk FOREIGN KEY (owner_id) REFERENCES users (id);
+-- ALTER TABLE widgets ADD CONSTRAINT widgets_users_fk FOREIGN KEY (owner_id) REFERENCES users (id);
 
 
 CREATE TABLE confirmation_codes (
