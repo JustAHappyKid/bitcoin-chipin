@@ -1,4 +1,5 @@
 
+  <!--suppress HtmlUnknownTarget -->
   <div class="navbar navbar-fixed-top">
     <div class="navbar-inner">
       <div class="container">
@@ -28,7 +29,7 @@
               <!-- <li><a class="btn-header" href="/signin/signout">Sign out</a></li> -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                  Your Profile <b class="caret"></b>
+                  Your Account <b class="caret"></b>
                 </a>
                 <ul class="dropdown-menu">
                   <li><a href="/dashboard/">Your Widgets</a></li>
@@ -38,7 +39,7 @@
             </li>
             <? else: ?>
               <li><a class="btn-header" href="/account/signup">Sign Up</a></li>
-              <li><a class="btn-header" href="/signin/index/">Sign In</a></li>
+              <li><a class="btn-header" href="/account/signin">Sign In</a></li>
             <? endif; ?>
           </ul>
         </div>
