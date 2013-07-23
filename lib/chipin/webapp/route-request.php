@@ -62,6 +62,11 @@ class FrontController extends \SpareParts\Webapp\FrontController {
       //throw new DoRedirect('/account/login?next=' . $_SERVER['REQUEST_URI']);
     } else if (!empty($user) && $this->pathIsOpenToAuthenticatedUser($cmd)) {
       return true;
+    } else if ($cmd[0] == 'admin') {
+      $admins = array('chris@easyweaze.net', 'alex.khajehtoorian@gmail.com',
+                      'roger@memorydealers.com');
+      if (in_array($user->email, $admins)) return true;
+      else throw new AccessForbidden;
     }
     throw new AccessForbidden;
   }
