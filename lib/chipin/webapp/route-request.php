@@ -65,7 +65,7 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     } else if ($cmd[0] == 'admin') {
       $admins = array('chris@easyweaze.net', 'alex.khajehtoorian@gmail.com',
                       'roger@memorydealers.com');
-      if (in_array($user->email, $admins)) return true;
+      if (!empty($user) && in_array($user->email, $admins)) return true;
       else throw new AccessForbidden;
     }
     throw new AccessForbidden;
