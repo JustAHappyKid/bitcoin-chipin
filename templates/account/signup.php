@@ -106,7 +106,7 @@ class Signup extends Layout {
           </div> <!-- /.box -->
 
           <p class="already login-extra">
-            Already have an account? <a href="<?=PATH;?>signin/index/">Sign in here.</a>
+            Already have an account? <a href="<?=PATH;?>account/signin">Sign in here.</a>
           </p>
 
         </div> <!-- /.box_wrapper -->
