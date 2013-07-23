@@ -8,7 +8,7 @@ class SigninPage extends Layout {
 
   function htmlHeadExtras() { ?>
 
-    <link href="http://local-chipin/css/components/signin.css" rel="stylesheet" type="text/css" />
+    <link href="/css/components/signin.css" rel="stylesheet" type="text/css" />
 
     <script type="text/javascript">
 
