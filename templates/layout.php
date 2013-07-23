@@ -4,7 +4,13 @@ require_once 'spare-parts/template/Renderable.php';
 
 abstract class Layout implements \SpareParts\Template\Renderable {
 
+  protected $__vars;
+
   function __render($vars) {
+    foreach ($vars as $n => $v) {
+      $this->$n = $v;
+    }
+    $this->__vars = $vars;
     return $this->content();
   }
 
