@@ -28,15 +28,6 @@ class Signup extends Layout {
             <div class="form">
               <form id="signup-form" action="<?=PATH;?>account/signup" method="post"
                     onsubmit="return validateForm();">
-                <? /* <div class="login-social" style="display: none;">
-                  <p>Sign in using social network:</p>
-                  <div class="twitter">
-                    <a href="#" class="btn_1">Login with Twitter</a>
-                  </div>
-                  <div class="fb">
-                    <a href="#" class="btn_2">Login with Facebook</a>
-                  </div>
-                </div> */ ?>
                 <? if ($this->form->hasErrors()): ?>
                   <div id="form-error" class="alert alert-error">
                     <a class="close" data-dismiss="alert" href="#">×</a>
