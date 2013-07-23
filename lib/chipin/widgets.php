@@ -80,8 +80,10 @@ function getAll() {
   return select('TRUE');
 }
 
+/** @deprecated Being phased out in favor of Widget::getByID */
 function getWidgetById($id) { return getByID($id); }
 
+/** @deprecated Being phased out in favor of Widget::getByID */
 function getByID($id) {
   $rows = select('id = ?', array($id));
   if (count($rows) == 0) {
