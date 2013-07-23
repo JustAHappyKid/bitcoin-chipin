@@ -31,6 +31,7 @@ class SigninPage extends Layout {
         <img src="<?=PATH;?>img/logo.jpg" />
       </div>
       <div class="content clearfix">
+        <!--suppress HtmlUnknownTarget -->
         <form id="signin-form" action="/account/signin" method="post"
               onsubmit="return checkTerms();">
 
