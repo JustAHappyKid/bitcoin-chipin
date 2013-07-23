@@ -57,6 +57,44 @@ class AccountController extends \Chipin\WebFramework\Controller {
     }
   }
 
+  function signin() {
+    $failure = false;
+    if ($this->isPostRequest()) {
+      $username = $_POST['username'];
+      $password = $_POST['password'];
+      $existingHash = $this->getStoredHashForUser($username);
+      $isGood = Passwords\isValid($password, $existingHash);
+      if ($isGood) {
+
+        /*
+        $dbAdapter = Zend_Db_Table::getDefaultAdapter();
+        $authAdapter = new Zend_Auth_Adapter_DbTable($dbAdapter);
+
+        $authAdapter->setTableName("users");
+        $authAdapter->setIdentityColumn("username");
+        $authAdapter->setCredentialColumn("password");
+
+        $authAdapter->setIdentity($username);
+        $authAdapter->setCredential($this->passwordHash($password));
+
+        $auth = Zend_Auth::getInstance();
+        $result = $auth->authenticate($authAdapter);*/
+
+        $user = User::loadFromUsername($username);
+
+        /*$auth = Zend_Auth::getInstance();
+        $authStorage = $auth->getStorage();
+        $authStorage->write($user);*/
+
+        $_SESSION['Zend_Auth']['storage'] = $user;
+        return $this->redirect('/dashboard/');
+      } else {
+        $failure = true;
+      }
+    }
+    return $this->render('account/signin.php', null, array('failure' => $failure));
+  }
+
   function changePassword() {
     $user = $this->user;
     $form = new F\Form('post');
