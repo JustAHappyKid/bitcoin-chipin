@@ -1,0 +1,26 @@
+!extends 'layout.php'
+
+function userIsAuthenticated() {
+  return true;
+}
+
+block innerContent {
+
+  <div class="container">
+    <table class="table table-striped">
+      <thead> <tr>
+        <th>Username</th> <th>Email</th>
+        <th>Date/Time Joined</th>
+      </tr> </thead>
+      <tbody>
+        ? foreach ($users as $u) {
+          <tr>
+            <td><?= $u->username ?></td><td><?= $u->email ?></td>
+            <td><?= $u->createdAt->format('Y-m-d') ?></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+
+}
