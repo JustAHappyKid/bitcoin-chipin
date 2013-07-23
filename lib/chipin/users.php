@@ -50,8 +50,12 @@ class User {
     $this->id = $row['id'];
     $this->email = $row['email'];
     $this->passwordEncrypted = $row['password'];
-    $this->createdAt = new DateTime($row['created_at']);
+    $this->createdAt = empty($row['created_at']) ? null : new DateTime($row['created_at']);
     return $this;
+  }
+
+  public function createdAtText() {
+    return $this->createdAt ? $this->createdAt->format('Y-m-d') : 'Unknown';
   }
 
   public function updatePassword($encryptedPass) {
