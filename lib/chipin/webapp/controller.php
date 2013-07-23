@@ -4,10 +4,11 @@ namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-controller.php';
 require_once 'spare-parts/webapp/forms.php';            # Form
-require_once 'spare-parts/reflection.php';              # getClassesDefinedInFile
+//require_once 'spare-parts/reflection.php';              # getClassesDefinedInFile
+require_once 'spare-parts/template/base.php';           # Template\Context
 require_once 'chipin/users.php';                        # User
 
-use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection;
+use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Template;
 
 class Controller extends \SpareParts\Webapp\Controller {
 
@@ -52,8 +53,9 @@ class Controller extends \SpareParts\Webapp\Controller {
       return $pgContent;
     } else if (endsWith($tplFile, '.diet-php')) {
       # XXX: Experimental Diet PHP support!
-      $tplContext = new \SpareParts\Template\Context($this->templatesDir(), $vars);
-      return \SpareParts\Template\renderFile($tplFile, $tplContext);
+      $vars['user'] = $this->user;
+      $tplContext = new Template\Context($this->templatesDir(), $vars);
+      return Template\renderFile($tplFile, $tplContext);
     } else {
       throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
     }
@@ -61,7 +63,6 @@ class Controller extends \SpareParts\Webapp\Controller {
   }
 
   private function templatePath($tpl) {
-//    $baseWebappDir = dirname(dirname(dirname(dirname(__FILE__))));
     return pathJoin($this->templatesDir(), $tpl);
   }
 
