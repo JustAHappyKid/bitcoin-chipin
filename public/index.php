@@ -1,11 +1,5 @@
 <?php
 
-function qaq($qaq){
-	echo "<pre>";
-	print_r($qaq);
-	echo "</pre>";
-}
-
 // Define path to application directory
 if (!defined('APPLICATION_PATH')) {
   define('APPLICATION_PATH', realpath(dirname(__FILE__) . '/application'));
