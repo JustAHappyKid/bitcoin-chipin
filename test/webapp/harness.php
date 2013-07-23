@@ -42,6 +42,10 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
     return $u;
   }
 
+  protected function logout() {
+    $_SESSION = array();
+  }
+
   protected function dispatchToWebapp() {
     global $__frontControllerForTesting;
     $r = $__frontControllerForTesting->handleRequest();
