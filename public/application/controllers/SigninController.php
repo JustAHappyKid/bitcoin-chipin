@@ -14,7 +14,7 @@ class SigninController extends PasswordEnabledController {
   public function signoutAction() {
     $auth = Zend_Auth::getInstance();
     $auth->clearIdentity();
-    $this->_redirect(PATH.'signin/index/');
+    $this->_redirect(PATH.'account/signin');
   }
 
   public function remindAction() {
@@ -22,7 +22,7 @@ class SigninController extends PasswordEnabledController {
     if ($email) {
       $user = new Application_Model_Users();
       if($user->sendLinkForChangingPassword($email))
-        $this->_redirect(PATH . 'signin/index/remind/success/');
+        $this->_redirect(PATH . 'account/signin');
       else
         $this->view->assign('failure', true);
     }
