@@ -1,6 +1,12 @@
 <?php
 
-abstract class Layout {
+require_once 'spare-parts/template/Renderable.php';
+
+abstract class Layout implements \SpareParts\Template\Renderable {
+
+  function __render($vars) {
+    return $this->content();
+  }
 
   abstract function userIsAuthenticated();
   abstract function innerContent();
