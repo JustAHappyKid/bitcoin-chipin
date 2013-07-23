@@ -43,7 +43,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $passwordHashed = Passwords\hash($form->getValue("password1"));
       $email = $form->getValue("email");
       DB\insertOne('users', array('username' => $username, 'password' => $passwordHashed,
-                                  'email' => $email));
+                                  'email' => $email, 'created_at' => new DateTime('now')));
       $user = User::loadFromUsername($username);
       $_SESSION['Zend_Auth']['storage'] = $user;
       DB\insertOne('subscriptions', array('user_id' => $user->id,
