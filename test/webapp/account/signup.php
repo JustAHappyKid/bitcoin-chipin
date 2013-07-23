@@ -7,7 +7,7 @@ require_once 'chipin/users.php';          # User
 require_once 'spare-parts/string.php';    # beginsWith
 require_once 'spare-parts/database.php';  # countRows
 
-use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \User;
+use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \Chipin\User;
 
 class SignupTests extends WebappTestingHarness {
 
@@ -37,14 +37,14 @@ class SignupTests extends WebappTestingHarness {
     assertTrue($subscriptions['memorydealers'] == true || $subscriptions['memorydealers'] == 1);
     /*
     $this->logout();
-    $this->login('sammy', 'luckystars');
+    $this->login('sammy', 'lucky-stars');
     $this->get('/dashboard/');
     assertTrue(beginsWith($this->getCurrentPath(), '/dashboard'));
     */
   }
 
   function testOneEmailAddressMayNotBeAssociatedWithMultipleAccounts() {
-    $u = newUser($email = 'josh@example.com', $username = 'joshers', $password = 'abc123');
+    newUser($email = 'josh@example.com', $username = 'joshers', $password = 'abc123');
     $this->get('/account/signup');
     $this->submitFormExpectingErrors($this->getForm(),
       array('username' => 'bigkid', 'email' => 'josh@example.com', 'password1' => 't0pS33cret',
@@ -53,7 +53,7 @@ class SignupTests extends WebappTestingHarness {
     assertEqual(1, DB\countRows('users', 'email = ?', array('josh@example.com')));
   }
 
-  protected function getForm() {
-    return parent::getForm('signup-form');
+  protected function getForm($formId = null) {
+    return parent::getForm($formId ? $formId : 'signup-form');
   }
 }

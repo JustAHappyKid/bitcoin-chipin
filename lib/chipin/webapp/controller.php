@@ -4,13 +4,22 @@ namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-controller.php';
 require_once 'spare-parts/webapp/forms.php';            # Form
+require_once 'spare-parts/reflection.php';              # getClassesDefinedInFile
+require_once 'chipin/users.php';                        # User
 
-use \SpareParts\Webapp\Forms\Form;
+use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection;
 
 class Controller extends \SpareParts\Webapp\Controller {
 
+  /** @var User */
+  public $user;
+
+  protected function webappDir() {
+    return dirname(dirname(dirname(dirname(__FILE__))));
+  }
+
   protected function docRoot() {
-    return dirname(dirname(dirname(dirname(__FILE__)))) . '/public';
+    return pathJoin($this->webappDir(), 'public');
   }
 
   protected function formIsValid(Form $form, $vars) {
@@ -27,22 +36,36 @@ class Controller extends \SpareParts\Webapp\Controller {
   }
 
   protected function render($tplFile, $className = null, Array $vars = array()) {
-    require_once $this->templatePath($tplFile);
-    if ($className == null) {
-      $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
+    $pathToTpl = $this->templatePath($tplFile);
+    if (endsWith($tplFile, '.php')) {
+      require_once $pathToTpl;
+      if ($className == null) {
+        $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
+      }
+      $tplObj = new $className;
+      $tplObj->user = $this->user;
+      foreach ($vars as $v => $value) $tplObj->$v = $value;
+      ob_start();
+      $tplObj->content();
+      $pgContent = ob_get_contents();
+      ob_end_clean();
+      return $pgContent;
+    } else if (endsWith($tplFile, '.diet-php')) {
+      # XXX: Experimental Diet PHP support!
+      $tplContext = new \SpareParts\Template\Context($this->templatesDir(), $vars);
+      return \SpareParts\Template\renderFile($tplFile, $tplContext);
+    } else {
+      throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
     }
-    $tplObj = new $className;
-    $tplObj->user = $this->user;
-    foreach ($vars as $v => $value) $tplObj->$v = $value;
-    ob_start();
-    $tplObj->content();
-    $pgContent = ob_get_contents();
-    ob_end_clean();
-    return $pgContent;
+//      $className = Reflection\getClassesDefinedInFile($pathToTpl);
   }
 
   private function templatePath($tpl) {
-    $baseWebappDir = dirname(dirname(dirname(dirname(__FILE__))));
-    return "$baseWebappDir/templates/$tpl";
+//    $baseWebappDir = dirname(dirname(dirname(dirname(__FILE__))));
+    return pathJoin($this->templatesDir(), $tpl);
+  }
+
+  private function templatesDir() {
+    return pathJoin($this->webappDir(), 'templates');
   }
 }

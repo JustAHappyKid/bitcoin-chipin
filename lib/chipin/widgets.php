@@ -8,7 +8,7 @@ require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 
 use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
-  \User, \Chipin\Bitcoin;
+  \Chipin\User, \Chipin\Bitcoin;
 
 class Widget {
 

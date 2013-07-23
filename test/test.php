@@ -1,7 +1,7 @@
 #! /usr/bin/env php
 <?php
 
-use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\Passwords;
+use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\User, \Chipin\Passwords;
 
 function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));
@@ -13,6 +13,8 @@ function main($argc, $argv) {
     # XXX: Zend Framework required for now, unfortunately (for Captcha lib, at least)...
     '/usr/local/lib/php5/ZendFramework-1/library/' .
     PATH_SEPARATOR . get_include_path());
+
+  error_reporting(E_ALL);
 
   require_once 'spare-parts/database.php';
   DB\setConnectionParams($driver = 'mysql', $dbName = 'chipin_test',

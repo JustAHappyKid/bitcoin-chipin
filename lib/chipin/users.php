@@ -1,9 +1,11 @@
 <?php
 
+namespace Chipin;
+
 require_once 'spare-parts/types.php';
 require_once 'spare-parts/database.php';
 
-use \SpareParts\Database as DB;
+use \SpareParts\Database as DB, \Exception;
 
 class User {
   public $id, $email, $username, $passwordEncrypted;

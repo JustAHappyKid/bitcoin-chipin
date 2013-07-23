@@ -109,8 +109,8 @@ class WidgetWizardTests extends WebappTestingHarness {
     }
   }
 
-  protected function getForm() {
-    return parent::getForm('widgetForm');
+  protected function getForm($formId = null) {
+    return parent::getForm($formId ? $formId : 'widgetForm');
   }
 
   private function createWidget($attrs = array()) {

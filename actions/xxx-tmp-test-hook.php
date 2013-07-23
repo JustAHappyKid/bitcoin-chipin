@@ -4,6 +4,9 @@
 # XXX: that require being logged in... Eventually we'll properly implement login support
 # XXX: for test cases.
 
+require_once 'chipin/users.php';
+use \SpareParts\Webapp\PageNotFound, \Chipin\User;
+
 class TmpTestHook extends \Chipin\WebFramework\Controller {
 
   function login() {

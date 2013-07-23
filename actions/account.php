@@ -8,7 +8,8 @@ require_once 'spare-parts/webapp/forms.php';            # Form, newPasswordField
 require_once 'Zend/Captcha/Image.php';
 require_once 'Zend/Auth.php';
 
-use \Chipin\Passwords, \SpareParts\Webapp\Forms as F, \SpareParts\URL,
+use \Chipin\User, \Chipin\NoSuchUser, \Chipin\Passwords,
+  \SpareParts\Webapp\Forms as F, \SpareParts\URL,
   \SpareParts\Webapp\CurrentRequest, \SpareParts\Database as DB;
 
 class AccountController extends \Chipin\WebFramework\Controller {
@@ -20,7 +21,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       F\newBasicTextField('username', 'Username')->
         minLength(5, "Sorry, the minimum allowed length for a username is five characters."),
       F\newEmailAddressField('email', "Email Address")->addValidation(
-        function($_, $email) {
+        function($email) {
           try {
             User::loadFromEmailAddr($email);
             return array("It looks like you already have an account here, registered under " .
@@ -48,7 +49,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       DB\insertOne('subscriptions', array('user_id' => $user->id,
         'chipin' => $form->getValue('chipin-updates') ? 1 : 0,
         'memorydealers' => $form->getValue('memorydealers-updates') ? 1 : 0));
-      $this->redirect("/dashboard/index/");
+      return $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();
       return $this->render('account/signup.php', 'Signup',
@@ -64,12 +65,12 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $form->addSection('change-password', array(
       F\newPasswordField('current-password', 'Current Password')->
         required('Please authenticate by entering your current password.')->
-        addValidation(function($_, $pass) use($user) {
+        addValidation(function($pass) use($user) {
           return Passwords\isValid($pass, $user->passwordEncrypted) ?
             array() : array("Your current password is incorrect!");
         }),
       $passwordField->
-        addValidation(function($_, $pass) {
+        addValidation(function($pass) {
           return (strlen($pass) < 5) ?
             array('Password must be at least five (5) characters long.') : array();
         }),
@@ -82,6 +83,11 @@ class AccountController extends \Chipin\WebFramework\Controller {
     }
     return $this->render('account/change-password.php', 'ChangePassword',
       array('form' => $form, 'success' => $success));
+  }
+
+  private function getStoredHashForUser($username) {
+    $rows = DB\select('password', 'users', 'username = ?', array($username));
+    return count($rows) == 0 ? null : $rows[0]['password'];
   }
 
   private function getCaptchaTool() {

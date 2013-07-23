@@ -2,11 +2,10 @@
 
 namespace Chipin\Test;
 
-// require_once 'spare-parts/database.php';
 require_once dirname(dirname(__FILE__)) . '/harness.php';
 require_once 'chipin/passwords.php';
 
-use \User, \Chipin\Passwords;
+use \Chipin\User, \Chipin\Passwords;
 
 class ChangePasswordTest extends WebappTestingHarness {
 
