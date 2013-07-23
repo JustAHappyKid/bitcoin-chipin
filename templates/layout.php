@@ -21,7 +21,6 @@ abstract class Layout {
         <link rel="stylesheet" type="text/css" href="/css/measure-theme-overrides.css" />
         <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic'
               rel='stylesheet' type='text/css' />
-        </style>
 
         <? /* TODO: Only include these when needed (i.e., for Dashboard and/or Widget Wizard) */ ?>
         <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
