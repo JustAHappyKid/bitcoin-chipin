@@ -5,10 +5,14 @@ namespace Chipin;
 require_once 'spare-parts/types.php';
 require_once 'spare-parts/database.php';
 
-use \SpareParts\Database as DB, \Exception;
+use \SpareParts\Database as DB, \Exception, \DateTime;
 
 class User {
+
   public $id, $email, $username, $passwordEncrypted;
+
+  /** @var DateTime $createdAt */
+  public $createdAt;
 
   function __construct() { }
 
@@ -35,11 +39,18 @@ class User {
     return $user;
   }
 
+  public static function loadAll() {
+    return array_map(
+      function($row) { $u = new User; $u->populateFromRow($row); return $u; },
+      DB\selectAllRows('users'));
+  }
+
   public function populateFromRow($row) {
     $this->username = $row['username'];
     $this->id = $row['id'];
     $this->email = $row['email'];
     $this->passwordEncrypted = $row['password'];
+    $this->createdAt = new DateTime($row['created_at']);
     return $this;
   }
 
