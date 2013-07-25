@@ -29,7 +29,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     # XXX: New template engine stuff...
     $tplDir = dirname(dirname(__FILE__)) . '/templates';
     $tplContext = new \SpareParts\Template\Context($tplDir, $vars);
-    return \SpareParts\Template\renderFile('widgets/350x310.php', $tplContext);
+    return \SpareParts\Template\renderFile('widgets/350x310.diet-php', $tplContext);
   }
 
   function preview() {
