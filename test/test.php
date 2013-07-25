@@ -31,6 +31,15 @@ function clearDB() {
   DB\delete('users', 'TRUE', array());
 }
 
+function getUser() {
+  $email = 'joe@test.net';
+  if (DB\countRows('users', "email = ?", array($email)) == 0) {
+    return newUser($email, 'big-joe', 'something');
+  } else {
+    return User::loadFromEmailAddr($email);
+  }
+}
+
 function newUser($email, $username, $pw) {
   require_once 'chipin/users.php';
   require_once 'chipin/passwords.php';
