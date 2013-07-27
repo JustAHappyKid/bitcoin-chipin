@@ -42,7 +42,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   function stepTwo() {
-    $widget = $this->getWidget();
+    $widget = $this->requireWidget();
     if ($this->isPostRequest()) {
       $widget->ownerID = $this->user->id;
       $widget->about = $_POST['about'];
@@ -59,7 +59,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   function stepThree() {
-    $widget = $this->getWidget();
+    $widget = $this->requireWidget();
     $this->clearWidgetInSession();
     return $this->renderStep('step-three.php', 'StepThree', $widget);
   }
@@ -122,6 +122,14 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     } else {
       $w = at($_SESSION, 'unsaved-widget', null);
       return $w == null ? new Widget : $w;
+    }
+  }
+
+  private function requireWidget() {
+    if (empty($_GET['w']) && empty($_SESSION['unsaved-widget'])) {
+      throw new \SpareParts\Webapp\DoRedirect('/widget-wiz/step-one');
+    } else {
+      return $this->getWidget();
     }
   }
 

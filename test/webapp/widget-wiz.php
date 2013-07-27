@@ -7,12 +7,18 @@ require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 
 use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception;
+use SpareParts\Test\HttpRedirect;
 use SpareParts\Test\ValidationErrors;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
-  function testAddingAndEditingWidget() {
+  function setUp() {
+    parent::setUp();
     $this->loginAsNormalUser();
+  }
+
+  function testAddingAndEditingWidget() {
+//    $this->loginAsNormalUser();
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
@@ -79,7 +85,7 @@ class WidgetWizardTests extends WebappTestingHarness {
 
   function testWizardRejectsHtmlScriptTags() {
     $badContent = "<script>alert('!');</script>";
-    $this->loginAsNormalUser();
+//    $this->loginAsNormalUser();
     $this->get('/widget-wiz/step-one');
     try {
       $this->submitForm($this->getForm(),
@@ -106,6 +112,24 @@ class WidgetWizardTests extends WebappTestingHarness {
       } catch (ValidationErrors $e) {
         assertTrue(contains($e->getMessage(), "maximum"));
       }
+    }
+  }
+
+  function testSkippingStepOne() {
+    $this->followRedirects(false);
+    try {
+      $this->get('/widget-wiz/step-two');
+      $this->submitForm($this->getForm(), array('about' => 'I need money!'));
+    } catch (HttpRedirect $e) {
+      assertEqual('/widget-wiz/step-one', $e->path);
+    }
+    $this->clearSession();
+    $this->loginAsNormalUser();
+    try {
+      $this->get('/widget-wiz/step-three');
+      fail("Shouldn't be able to access step-three without defining widget");
+    } catch (HttpRedirect $e) {
+      assertEqual('/widget-wiz/step-one', $e->path);
     }
   }
 
