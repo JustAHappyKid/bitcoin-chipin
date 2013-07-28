@@ -8,7 +8,8 @@
     <div class="widget-wrapper">
       <div class="widget widget-white">
 
-        <h2 class="widget-title">$title</h2>
+        ? $titleClass = 'widget-title' . (strlen($title) > 25 ? ' long-title' : '');
+        <h2 class="$titleClass">$title</h2>
 
         <div id="overview" style="<?php if ($display != 'overview') { ?>display: none;<? } ?>">
           <div class="about">
