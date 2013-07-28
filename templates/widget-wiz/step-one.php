@@ -39,7 +39,7 @@ class StepOne extends WidgetWizLayout {
           <div class="control-group">
             <label class="control-label" for="widget-title">Title of Widget</label>
             <div class="controls">
-              <input type="text" class="input-large" id="widget-title" name="title" maxlength="50"
+              <input type="text" class="input-large" id="widget-title" name="title" maxlength="30"
                      value="<?= $this->widget->title ?>" />
               <span class="help-inline error-msg">Please provide a title.</span>
             </div>
