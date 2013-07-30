@@ -3,16 +3,16 @@
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
 require_once 'chipin/currency.php';
-require_once 'spare-parts/types.php'; # at
+require_once 'spare-parts/types.php';         # at
+require_once 'spare-parts/template/base.php'; # Template\renderFile
 
-use \SpareParts\Webapp\RequestContext, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
-  \Chipin\Currency;
+use \SpareParts\Webapp\RequestContext, \SpareParts\Template,
+  \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Currency;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function byId(RequestContext $context) {
     $widget = Widget::getByID($context->takeNextPathComponent());
-    require_once 'spare-parts/template/base.php';
 
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
@@ -26,10 +26,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
 
-    # XXX: New template engine stuff...
-    $tplDir = dirname(dirname(__FILE__)) . '/templates';
-    $tplContext = new \SpareParts\Template\Context($tplDir, $vars);
-    return \SpareParts\Template\renderFile('widgets/350x310.diet-php', $tplContext);
+    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
   }
 
   function preview() {
@@ -48,6 +45,26 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
         $this->view->raised = Bitcoin\getBalance($this->view->address, $this->view->currency);
       if ($this->view->goal)
         $this->view->progress = $this->view->raised / $this->view->goal * 100;*/
+    if (at($_GET, 'width', '350') != '350' || at($_GET, 'height', '310') != '310')
+      throw new Exception("Only 350x310 widget supported at this time!");
+    $vars = $_GET;
+    $vars['display'] = 'overview';
+    $vars['raised'] = '0';
+    $vars['bitcoinAddress'] = $vars['address'];
+
+    # TODO: fix this
+    $vars['altRaised'] = '0';
+    $vars['altGoal'] = '100';
+    $vars['altCurrency'] = 'USD';
+    $vars['progress'] = 0;
+
+    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
+  }
+
+  private function renderDietTpl($tpl, Array $vars) {
+    $tplDir = dirname(dirname(__FILE__)) . '/templates';
+    $tplContext = new Template\Context($tplDir, $vars);
+    return Template\renderFile($tpl, $tplContext);
   }
 
   private function setAltCurrencyValues(Widget $widget, Array & $vars) {
