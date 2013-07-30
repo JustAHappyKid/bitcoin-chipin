@@ -105,4 +105,12 @@ abstract class WidgetWizLayout extends Layout {
     </div> <!-- /#content -->
 
   <? }
+
+  protected function widgetIframe($src, $width = null, $height = null, $id = null) {
+    return
+      '<iframe ' . ($id ? "id=\"$id\" " : '') .
+              'src="' . $src . '" ' .
+              'frameborder="no" framespacing="0" scrolling="no" ' .
+              'width="' . $width . '" height="' . $height . '"></iframe>';
+  }
 }

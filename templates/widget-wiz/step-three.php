@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/layout.php';
+require_once 'chipin/widgets.php';
+
+use \Chipin\Widgets\Widget;
 
 class StepThree extends WidgetWizLayout {
 
@@ -13,7 +16,6 @@ class StepThree extends WidgetWizLayout {
   function contentForThisStep() { ?>
     <div id="step-3">
       <h3>Step 3: You're done! Just copy and paste the below code into your website.</h3>
-      <br />
       <div>
         <div style="float: left;"> <!-- div for form inputs -->
           <textarea style="height: 110px; width: 400px;" class="input-large"
@@ -31,14 +33,8 @@ class StepThree extends WidgetWizLayout {
     </div> <!-- /step -->
   <? }
 
-  private function iframeForWidget($widget, $id = null) {
-    if ($widget) {
-      return
-        '<iframe ' . ($id ? "id=\"$id\" " : '') .
-                'src="' . PATH . 'client/widget' .
-                      $widget->width . 'x' . $widget->height . '?id=' . $widget->id . '" ' .
-                'frameborder="no" framespacing="0" scrolling="no" ' .
-                'width="' . $widget->width . '" height="' . $widget->height . '"></iframe>';
-    } else { return 'no widg?'; }
+  private function iframeForWidget(Widget $widget) {
+    $src = PATH . 'client/widget' . $widget->width . 'x' . $widget->height . '?id=' . $widget->id;
+    return $this->widgetIframe($src, $widget->width, $widget->height);
   }
 }
