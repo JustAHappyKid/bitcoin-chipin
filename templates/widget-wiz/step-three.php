@@ -16,7 +16,6 @@ class StepThree extends WidgetWizLayout {
       <br />
       <div>
         <div style="float: left;"> <!-- div for form inputs -->
-          <!-- Javascript version -->
           <textarea style="height: 110px; width: 400px;" class="input-large"
                     id="javascript-version" rows="3"
             ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
