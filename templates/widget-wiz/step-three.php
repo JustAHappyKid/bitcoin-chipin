@@ -19,7 +19,7 @@ class StepThree extends WidgetWizLayout {
           <textarea style="height: 110px; width: 400px;" class="input-large"
                     id="javascript-version" rows="3"
             ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
-        </div> <!-- /span6 -->
+        </div>
         <div style="float: left; margin: 0 0 0 100px;">
           <!-- <div id="final-widget" class="well" style="text-align: center;"> -->
           <div class="well" style="text-align: center;">
