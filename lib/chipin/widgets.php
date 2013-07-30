@@ -8,7 +8,7 @@ require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 
 use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
-  \Chipin\User, \Chipin\Bitcoin;
+  \Chipin\User, \Chipin\Bitcoin, \DateTime, \Exception;
 
 class Widget {
 
@@ -52,6 +52,7 @@ class Widget {
     foreach ($a as $key => $val) {
       if (is_string($key)) $this->$key = $val;
     }
+    $this->ending = new \DateTime($a['ending']);
     $this->bitcoinAddress = $a['address'];
     $this->id = (int) $a['id'];
     $this->ownerID = (int) $a['owner_id'];
@@ -60,7 +61,10 @@ class Widget {
   }
 
   public function save() {
-    $this->ending = date("Y-m-d", strtotime($this->ending));
+//    $this->ending = date("Y-m-d", strtotime($this->ending));
+    if (is_string($this->ending)) $this->ending = new DateTime($this->ending);
+    else if (!($this->ending instanceof DateTime))
+      throw new Exception("'ending' attribute should be string or DateTime object");
     $values = array(
       'owner_id' => $this->ownerID, 'title' => $this->title, 'about' => $this->about,
       'goal' => $this->goal, 'currency' => $this->currency, 'raised' => '0', 'progress' => 0,
@@ -72,6 +76,18 @@ class Widget {
     } else {
       $values['created'] = date('Y-m-d H:i:s');
       $this->id = addNewWidget($values);
+    }
+  }
+
+  function endingDateAsString() {
+    if (empty($this->ending)) {
+      return '';
+    } else if (is_string($this->ending)) {
+      return $this->ending;
+    } else if ($this->ending instanceof DateTime) {
+      $this->ending->format('Y-m-d');
+    } else {
+      throw new Exception("'ending' attribute must be string or DateTime object");
     }
   }
 }
@@ -97,7 +113,7 @@ function getByOwner(User $owner) {
 }
 
 function select($whereClause, $params = array()) {
-  return DB\select('*, DATE_FORMAT(ending, "%m/%d/%Y") as ending', 'widgets',
+  return DB\select('*, DATE_FORMAT(ending, "%Y-%m-%d") as ending', 'widgets',
                    $whereClause, $params);
 }
 

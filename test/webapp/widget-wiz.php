@@ -6,9 +6,8 @@ require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 
-use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception;
-use SpareParts\Test\HttpRedirect;
-use SpareParts\Test\ValidationErrors;
+use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
+  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -22,10 +21,10 @@ class WidgetWizardTests extends WebappTestingHarness {
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
-    $expires = date("Y-m-d", strtotime("+3 days"));
+    $expires = new DateTime("+3 days"); //date("Y-m-d", strtotime("+3 days"));
     $this->submitForm($this->getForm(),
       array('title' => 'Tengo hambre', 'goal' => '15', 'currency' => 'USD',
-            'ending' => $expires, 'bitcoinAddress' => $this->btcAddr()));
+            'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
     $this->submitForm($this->getForm(),
       array('about' => 'I need to get a bite to eat!', 'size' => '125x125',
             'color' => 'A9DB80,96C56F'));
@@ -34,6 +33,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w = current($widgets);
     assertEqual('Tengo hambre', $w->title);
     assertEqual(15, (int) $w->goal);
+    assertEqual($expires->format('Y-m-d'), $w->ending->format('Y-m-d'));
     assertEqual($this->btcAddr(), $w->bitcoinAddress);
     assertEqual('I need to get a bite to eat!', $w->about);
     assertEqual(125, (int) $w->width);

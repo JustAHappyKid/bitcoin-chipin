@@ -23,10 +23,15 @@ class ClientController extends Zend_Controller_Action {
       $this->view->ending = $this->_getParam("ending", date("mm/dd/yy"));
       $this->view->about = stripslashes($this->_getParam("about", ""));
       $this->view->currency = $this->_getParam("currency", "");
+      /*
       if (!empty($this->view->address))
         $this->view->raised = Bitcoin\getBalance($this->view->address, $this->view->currency);
+      */
+      /*
       if ($this->view->goal)
         $this->view->progress = $this->view->raised / $this->view->goal * 100;
+      */
+      $this->view->raised = $this->view->progress = 0;
     } else {
       $id = $this->_getParam("id", "");
       $owner_id = $this->_getParam("owner_id", "");

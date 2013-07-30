@@ -65,7 +65,7 @@ class StepOne extends WidgetWizLayout {
             <label class="control-label" for="widget-end-date">End Date</label>
             <div class="controls">
               <input type="text" class="input-small" id="widget-end-date" name="ending"
-                     value="<?= $this->widget->ending ?>"/>
+                     value="<?= $this->widget->endingDateAsString() ?>"/>
               <span class="help-inline error-msg">Please correct the error.</span>
             </div>
           </div>
