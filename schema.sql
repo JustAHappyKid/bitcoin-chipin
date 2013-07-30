@@ -54,3 +54,12 @@ CREATE TABLE confirmation_codes (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE confirmation_codes ADD UNIQUE INDEX (code);
+
+
+CREATE TABLE bitcoin_addresses (
+  address CHARACTER VARYING(255),
+  satoshis INTEGER UNSIGNED NOT NULL,
+  updated_at DATETIME NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE bitcoin_addresses ADD UNIQUE INDEX (address);
