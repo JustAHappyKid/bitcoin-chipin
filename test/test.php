@@ -19,7 +19,7 @@ function main($argc, $argv) {
   require_once 'spare-parts/database.php';
   DB\setConnectionParams($driver = 'mysql', $dbName = 'chipin_test',
     $username = 'chipin_test', $password = 'password', $host = 'localhost');
-  require_once dirname($testDir) . '/lib/spare-parts/test/base-framework.php';
+  require_once 'spare-parts/test/base-framework.php';
   $filesToIgnore = array('test.php');
   Test\testScriptMain($testDir, $filesToIgnore, $argc, $argv);
 }
