@@ -26,8 +26,9 @@ class WidgetWizardTests extends WebappTestingHarness {
       array('title' => 'Tengo hambre', 'goal' => '15', 'currency' => 'USD',
             'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
     $this->submitForm($this->getForm(),
-      array('about' => 'I need to get a bite to eat!', 'size' => '125x125',
-            'color' => 'A9DB80,96C56F'));
+      array('about' => 'I need to get a bite to eat!'));
+            // XXX
+            //'size' => '125x125', 'color' => 'A9DB80,96C56F'));
     $widgets = Widget::getAll();
     assertEqual(1, count($widgets));
     $w = current($widgets);
@@ -36,8 +37,10 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual($expires->format('Y-m-d'), $w->ending->format('Y-m-d'));
     assertEqual($this->btcAddr(), $w->bitcoinAddress);
     assertEqual('I need to get a bite to eat!', $w->about);
+    /* XXX
     assertEqual(125, (int) $w->width);
     assertEqual(125, (int) $w->height);
+    */
     assertTrue(Locales\isValidCountryCode($w->countryCode),
       "'{$w->countryCode}' is not valid country-code");
 
@@ -46,7 +49,9 @@ class WidgetWizardTests extends WebappTestingHarness {
     # Okay, maybe I only need ten bucks...
     $this->submitForm($this->getForm(), array('goal' => '10'));
     # Let's change the widget size too...
-    $this->submitForm($this->getForm(), array('size' => '250x250'));
+    // XXX
+    $this->submitForm($this->getForm(), array('about' => "I've changed my mind."));
+    // $this->submitForm($this->getForm(), array('size' => '250x250'));
     $widgetsNow = Widget::getAll();
     assertEqual(1, count($widgetsNow));
     $wNow = current($widgetsNow);
@@ -54,9 +59,11 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual(10, (int) $wNow->goal);
     //assertEqual($expires, $wNow->ending);
     assertEqual($this->btcAddr(), $wNow->bitcoinAddress);
-    assertEqual('I need to get a bite to eat!', $wNow->about);
+    assertEqual("I've changed my mind.", $wNow->about);
+    /* XXX
     assertEqual(250, (int) $wNow->width);
     assertEqual(250, (int) $wNow->height);
+    */
   }
 
   function testThatFieldsArePrePopulatedWhenEditingWidget() {
@@ -77,10 +84,15 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->get('/widget-wiz/step-one?w=' . $w->id);
     $titleInput = current($this->xpathQuery("//input[@name='title']"));
     assertEqual('Party Party', $titleInput->getAttribute('value'));
+    $endDateInput = current($this->xpathQuery("//input[@name='ending']"));
+
+// XXX
+    // $this->assertDatesAreEqual($w->ending, $endDateInput->getAttribute('value'));
+
     $this->expectSpecificOption($fieldName = 'currency', $expectedValue = 'CAD');
     $this->submitForm($this->getForm(), array());
-    $this->expectSpecificOption($fieldName = 'size', $expectedValue = '220x220');
-    $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
+    // $this->expectSpecificOption($fieldName = 'size', $expectedValue = '220x220');
+    // $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
   }
 
   function testWizardRejectsHtmlScriptTags() {
@@ -92,8 +104,8 @@ class WidgetWizardTests extends WebappTestingHarness {
         array('title' => $badContent, 'goal' => '15', 'currency' => 'USD',
               'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
       $this->submitForm($this->getForm(),
-        array('about' => $badContent, 'size' => $this->defaultSize(),
-              'color' => $this->defaultColor()));
+        array('about' => $badContent));
+              // 'size' => $this->defaultSize(), 'color' => $this->defaultColor()));
     } catch (Exception $_) {
       # XXX: Until we get proper form-validation in place, we'll just expect to see an
       #      exception coming from the 'Paranoid' database layer proclaiming "No angle
@@ -147,7 +159,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->submitForm($this->getForm(),
       $this->takeValues($attrs, array('title', 'goal', 'currency', 'ending', 'bitcoinAddress')));
     $this->submitForm($this->getForm(),
-      $this->takeValues($attrs, array('about', 'size', 'color')));
+      $this->takeValues($attrs, array('about', /*'size', 'color'*/)));
   }
 
   private function takeValues(Array $a, Array $vs) {
@@ -168,4 +180,13 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   private function btcAddr() { return '1PUPt26votHesaGwSApYtGVTfpzvs8AxVM'; }
+
+  private function assertDatesAreEqual($d1, $d2) {
+    if (empty($d1)) fail("d1 is empty");
+    if (empty($d2)) fail("d2 is empty");
+    $d1 = ($d1 instanceof DateTime) ? $d1 : new DateTime($d1);
+    $d2 = ($d2 instanceof DateTime) ? $d2 : new DateTime($d2);
+    assertEqual($d1->format('Y-m-d'), $d2->format('Y-m-d'));
+  }
 }
+

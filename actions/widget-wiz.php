@@ -100,14 +100,19 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function widgetPreviewURL(Widget $w) {
+    /*
     $width = $w->width ? $w->width : 250;
     $height = $w->height ? $w->height : 250;
+    */
+    $width = $w->width ? $w->width : 350;
+    $height = $w->height ? $w->height : 310;
     $vars = array(
       'title' => $w->title, 'goal' => $w->goal, 'currency' => $w->currency,
       'about' => $w->about, 'color' => $w->color,
       'ending' => $w->endingDateAsString(), 'address' => $w->bitcoinAddress,
       'preview' => 'true');
-    return "/client/widget{$width}x{$height}" . URL\makeQueryString($vars);
+    //return "/client/widget{$width}x{$height}" . URL\makeQueryString($vars);
+    return "/widgets/preview" . URL\makeQueryString($vars);
   }
 
   private function storeWidgetInSession(Widget $w) {

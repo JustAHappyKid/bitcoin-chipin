@@ -19,7 +19,6 @@ class StepTwo extends WidgetWizLayout {
 
     <div id="step-2">
       <h3>Step 2: Customize Widget</h3>
-      <br />
       <div>
         <div style="float: left;"> <!-- div for form inputs -->
           <div class="control-group">
@@ -35,8 +34,10 @@ class StepTwo extends WidgetWizLayout {
           <!-- TODO: Make 'size' and 'color' "sticky"!!! -->
           <div class="control-group">
             <label class="control-label" for="userlanguage">Size</label>
-            <div class="controls">
-              <?
+            <div class="controls" style="margin-top: 6px;">
+              <input type="hidden" id="widget-size" name="size" value="350x310" />
+              <em>Coming soon &mdash; customize widget size!</em>
+              <? /*
                 $size = new SelectField('size', 'Size',
                   array("250x250" => "250 x 250", "120x60"  => "120 x 60",
                         "125x125" => '125 x 125', "160x250" => "160 x 250",
@@ -45,32 +46,36 @@ class StepTwo extends WidgetWizLayout {
                 if ($this->widget->width) {
                   $size->setValue($this->widget->width . 'x' . $this->widget->height);
                 }
-              ?>
-              <?= $size->renderInputHtml() ?>
+              */ ?>
+              <? /*= $size->renderInputHtml() */ ?>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="userlanguage">
               Color
             </label>
-            <div class="controls">
-              <?
+            <div class="controls" style="margin-top: 6px;">
+              <input type="hidden" id="widget-color" name="color" value="" />
+              <em>Coming soon &mdash; choose your color theme!</em>
+              <? /*
                 $color = new SelectField('color', 'Color',
                   array("A9DB80,96C56F" => "Green", "A67939,845108" => "Brown",
                         "3093C7,1C5A85" => "Blue", "E0DCDC,707070"  => "Grey",
                         "F62B2B,D20202" => "Red"));
                 $color->setID('widget-color');
                 if ($this->widget->color) $color->setValue($this->widget->color);
-              ?>
-              <?= $color->renderInputHtml() ?>
+              */ ?>
+              <? /*= $color->renderInputHtml()*/ ?>
             </div>
           </div>
         </div> <!-- END div for form inputs -->
-        <div style="float: left; margin: 0 0 0 100px;">
-          <div class="well" style="text-align: center;">
-            <iframe id="widget-preview" src="<?= PATH . 'widget-wiz/preview-current' ?>"
+        <div style="float: left; margin: 0 0 25px 75px;">
+          <div style="text-align: center;">
+            <!-- <iframe id="widget-preview" src="<?= PATH . 'widget-wiz/preview-current' ?>"
                     frameborder='no' framespacing='0' scrolling='no'
-                    width="250" height="250"></iframe>
+                    width="350" height="310"></iframe> -->
+            <?= $this->widgetIframe('/widget-wiz/preview-current',
+                  '350', '310', 'widget-preview') ?>
           </div>
         </div> <!-- END div for preview -->
         <div class="clearfix"> </div>
