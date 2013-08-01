@@ -63,3 +63,11 @@ CREATE TABLE bitcoin_addresses (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 ALTER TABLE bitcoin_addresses ADD UNIQUE INDEX (address);
+
+
+CREATE TABLE ticker_data (
+  currency CHARACTER VARYING(3),
+  last_price DECIMAL(10,5) UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+ALTER TABLE ticker_data ADD UNIQUE INDEX (currency);
