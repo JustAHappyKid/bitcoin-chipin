@@ -20,7 +20,7 @@ class StepOne extends WidgetWizLayout {
 
     <script type="text/javascript" charset="utf-8">
 	    $(document).ready(function() {
-		    $('#widget-end-date').datepicker({ dateFormat: 'mm/dd/yy', minDate: +1 });
+		    $('#widget-end-date').datepicker({ dateFormat: 'yy-mm-dd', minDate: +1 });
       });
     </script>
 
