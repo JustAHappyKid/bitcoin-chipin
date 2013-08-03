@@ -13,25 +13,17 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function byId(RequestContext $context) {
     $widget = Widget::getByID($context->takeNextPathComponent());
-
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
     $vars['title'] = $widget->title;
     $vars['about'] = $widget->about;
     $vars['currency'] = $widget->currency;
-    $vars['goal'] = Currency\displayAmount($widget->goal, $widget->currency);
-
-    // XXX
-    //$vars['raised'] = Currency\displayAmount($this->getAmountRaised($widget), $widget->currency);
+    $vars['goal'] = $widget->goalAmnt;
     $vars['raised'] = $widget->raisedAmnt;
-
-    // $vars['progress'] = $widget->raised / $widget->goal * 100;
     $vars['progress'] = $widget->progress;
-
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
     // $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
-
     return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
   }
 
@@ -42,13 +34,10 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['display'] = 'overview';
     $vars['raised'] = '0';
     $vars['bitcoinAddress'] = $vars['address'];
-
-    # TODO: fix this
-    $vars['altRaised'] = '0';
-    $vars['altGoal'] = '100';
-    $vars['altCurrency'] = 'USD';
-    $vars['progress'] = 0;
-
+    $vars['goal'] = new Amount($_GET['currency'], $_GET['goal']);
+    $vars['raised'] = new Amount($_GET['currency'], $vars['goal']->numUnits / 4);
+    $this->setAltCurrencyValues($vars['goal'], $vars['raised'], $vars);
+    $vars['progress'] = 25;
     return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
   }
 
