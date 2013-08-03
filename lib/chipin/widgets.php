@@ -6,14 +6,24 @@ require_once 'spare-parts/database.php';
 require_once 'spare-parts/database/paranoid.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
+require_once 'chipin/currency.php';
 
 use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
-  \Chipin\User, \Chipin\Bitcoin, \DateTime, \Exception;
+  \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency\Amount, \DateTime, \Exception;
 
 class Widget {
 
-  public $id, $ownerID, $title, $about, $ending, $goal, $currency, $raised,
+  public $id, $ownerID, $title, $about, $ending, $currency, $raisedBTC,
     $width, $height, $color, $bitcoinAddress, $countryCode;
+
+  /** @deprecated */
+  public $goal, $raised;
+
+  /** @var Amount */
+  public $goalAmnt;
+
+  /** @var Amount */
+  public $raisedAmnt;
 
   # XXX: This one returns an object...
   # TODO: Make other functions return Widget object.
@@ -57,6 +67,11 @@ class Widget {
     $this->id = (int) $a['id'];
     $this->ownerID = (int) $a['owner_id'];
     $this->countryCode = $a['country'];
+    //$this->satoshisRaised = $a['satoshis'];
+    $this->goalAmnt = new Amount($this->currency, $a['goal']);
+    $this->raisedBTC = Bitcoin\getBalance($this->address, $this->currency);
+    $this->raisedAmnt = new Amount($this->currency, $this->raisedBTC);
+    $this->progress = ($this->raisedBTC / Bitcoin\toBTC($this->currency, $a['goal'])) * 100;
     return $this;
   }
 
@@ -67,7 +82,7 @@ class Widget {
       throw new Exception("'ending' attribute should be string or DateTime object");
     $values = array(
       'owner_id' => $this->ownerID, 'title' => $this->title, 'about' => $this->about,
-      'goal' => $this->goal, 'currency' => $this->currency, 'raised' => '0', 'progress' => 0,
+      'goal' => $this->goal, 'currency' => $this->currency, 'raised' => null, 'progress' => null,
       'ending' => $this->ending, 'address' => $this->bitcoinAddress,
       'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
       'country' => $this->countryCode);
@@ -85,7 +100,7 @@ class Widget {
     } else if (is_string($this->ending)) {
       return $this->ending;
     } else if ($this->ending instanceof DateTime) {
-      $this->ending->format('Y-m-d');
+      return $this->ending->format('Y-m-d');
     } else {
       throw new Exception("'ending' attribute must be string or DateTime object");
     }
@@ -113,8 +128,10 @@ function getByOwner(User $owner) {
 }
 
 function select($whereClause, $params = array()) {
-  return DB\select('*, DATE_FORMAT(ending, "%Y-%m-%d") as ending', 'widgets',
-                   $whereClause, $params);
+  return DB\queryAndFetchAll(
+    'SELECT w.*, DATE_FORMAT(w.ending, "%Y-%m-%d") as ending, a.satoshis
+     FROM widgets w LEFT JOIN bitcoin_addresses a ON a.address = w.address
+     WHERE ' . $whereClause, $params);
 }
 
 function addNewWidget($data) {
