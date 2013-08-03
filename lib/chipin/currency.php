@@ -48,7 +48,7 @@ function trimZeros($num) {
   if (!is_numeric($num)) throw new InvalidArgumentException("Only numeric values accepted");
   $numStr = (string) $num;
   if (!contains($num, '.')) {
-    return $numStr;
+    return ltrim($numStr, '0');
   } else {
     return trim($num, '0.');
   }
