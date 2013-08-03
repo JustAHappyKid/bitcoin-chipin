@@ -71,7 +71,9 @@ class Widget {
     $this->goalAmnt = new Amount($this->currency, $a['goal']);
     $this->raisedBTC = Bitcoin\getBalance($this->address, $this->currency);
     $this->raisedAmnt = new Amount($this->currency, $this->raisedBTC);
-    $this->progress = ($this->raisedBTC / Bitcoin\toBTC($this->currency, $a['goal'])) * 100;
+    $goalInBTC = $this->currency == 'BTC' ? $a['goal'] :
+      Bitcoin\toBTC($this->currency, $a['goal']);
+    $this->progress = ($this->raisedBTC / $goalInBTC) * 100;
     return $this;
   }
 
