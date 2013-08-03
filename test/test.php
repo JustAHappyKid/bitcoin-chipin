@@ -1,7 +1,8 @@
 #! /usr/bin/env php
 <?php
 
-use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\User, \Chipin\Passwords;
+use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\User, \Chipin\Passwords,
+  \Chipin\Widgets\Widget, \Chipin\Bitcoin;
 
 function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));
@@ -47,6 +48,37 @@ function newUser($email, $username, $pw) {
   $uid = DB\insertOne('users',
     array('email' => $email, 'username' => $username, 'password' => Passwords\hash($pw)), true);
   return User::loadFromID($uid);
+}
+
+function getWidget() {
+  require_once 'chipin/widgets.php';
+  $u = getUser();
+  $w = new Widget;
+  $w->ownerID = $u->id;
+  $w->title = "Test Widget";
+  $w->ending = new DateTime('2020-06-30');
+  $w->goal = 100;
+  $w->currency = 'USD';
+  $w->raised = 30;
+//    $w->width = XXX?
+//    $w->height = XXX?
+//    $w->color = XXX?
+  $w->bitcoinAddress = getBitcoinAddr();
+  $w->countryCode = 'CA';
+  $w->about = "This is a test widget!";
+  $w->save();
+  return $w;
+}
+
+function getBitcoinAddr($btcBalance = null) {
+  require_once 'chipin/bitcoin.php';
+  $a = '15Mux55YKsWp9pe5eUC2jcP5R9K7XA4pPF';
+  if ($btcBalance !== null) {
+    DB\delete('bitcoin_addresses', 'address = ?', array($a));
+    DB\insertOne('bitcoin_addresses',
+      array('address' => $a, 'satoshis' => $btcBalance * Bitcoin\satoshisPerBTC()));
+  }
+  return $a;
 }
 
 main($argc, $argv);
