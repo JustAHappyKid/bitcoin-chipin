@@ -77,13 +77,15 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
    */
   public function validBtcAddr() {
     $address = $this->context->takeNextPathComponent();
-    $valid = null;
+    $valid = Bitcoin\isValidAddress($address);
+    /*
     try {
       Bitcoin\getBalance($address);
       $valid = true;
     } catch (Bitcoin\InvalidAddress $_) {
       $valid = false;
     }
+    */
     $resp = new HttpResponse;
     $resp->statusCode = 200;
     $resp->contentType = 'text/plain';
