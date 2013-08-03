@@ -6,7 +6,7 @@ require_once 'chipin/currency.php';
 require_once 'spare-parts/types.php';         # at
 require_once 'spare-parts/template/base.php'; # Template\renderFile
 
-use \SpareParts\Webapp\RequestContext, \SpareParts\Template,
+use \Exception, \SpareParts\Webapp\RequestContext, \SpareParts\Template,
   \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Currency;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
@@ -35,21 +35,6 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   function preview() {
-     /* $action = $this->_getParam("action");
-      $dimensions = withoutPrefix($action, 'widget');
-      list($this->view->width, $this->view->height) = explode('x', $dimensions);
-      $this->view->address = $this->_getParam("address", "");
-      $this->view->color = $this->_getParam("color", "E0DCDC,707070");
-      $this->view->title = stripslashes($this->_getParam("title", ""));
-      $this->view->goal = $this->_getParam("goal", "0");
-      $this->view->start = $this->_getParam("start", date("mm/dd/yy"));
-      $this->view->ending = $this->_getParam("ending", date("mm/dd/yy"));
-      $this->view->about = stripslashes($this->_getParam("about", ""));
-      $this->view->currency = $this->_getParam("currency", "");
-      if (!empty($this->view->address))
-        $this->view->raised = Bitcoin\getBalance($this->view->address, $this->view->currency);
-      if ($this->view->goal)
-        $this->view->progress = $this->view->raised / $this->view->goal * 100;*/
     if (at($_GET, 'width', '350') != '350' || at($_GET, 'height', '310') != '310')
       throw new Exception("Only 350x310 widget supported at this time!");
     $vars = $_GET;
