@@ -1,0 +1,10 @@
+#! /bin/sh
+set -e
+cd ./cron
+sbt clean
+TMPDIR=`mktemp --directory /tmp/chipin.update-cron.XXX`
+ln -s "$TMPDIR" ./target
+sbt assembly
+ssh chris@bitcoinchipin.com "rm /home/bitcoin/cron-tasks/chipin-tasks*.jar"
+scp target/chipin-tasks*.jar chris@bitcoinchipin.com:/home/bitcoin/cron-tasks/
+rm ./target
