@@ -5,7 +5,7 @@ assemblySettings
 
 name := "chipin-tasks"
 
-version := "0.2"
+version := "0.2.1"
 
 scalaVersion := "2.10.2"
 
@@ -20,3 +20,11 @@ libraryDependencies ++= Seq(
 scalaSource in Compile <<= (baseDirectory in Compile)(_ / "src")
 
 scalaSource in Test <<= (baseDirectory in Test)(_ / "test")
+
+mergeStrategy in assembly <<= (mergeStrategy in assembly) { (old) =>
+  {
+    case "rootdoc.txt"          => MergeStrategy.concat
+    case "META-INF/MANIFEST.MF" => MergeStrategy.discard
+    case _                      => MergeStrategy.deduplicate
+  }
+}
