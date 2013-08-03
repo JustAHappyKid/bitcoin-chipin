@@ -2,6 +2,8 @@
 
 namespace Chipin\Currency;
 
+require_once 'chipin/currencies.php';
+
 use \InvalidArgumentException, \Chipin\Currencies;
 
 # XXX: Rename to SumOfMoney?
