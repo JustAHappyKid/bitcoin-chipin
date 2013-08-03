@@ -85,12 +85,10 @@ class WidgetWizardTests extends WebappTestingHarness {
     $titleInput = current($this->xpathQuery("//input[@name='title']"));
     assertEqual('Party Party', $titleInput->getAttribute('value'));
     $endDateInput = current($this->xpathQuery("//input[@name='ending']"));
-
-// XXX
-    // $this->assertDatesAreEqual($w->ending, $endDateInput->getAttribute('value'));
-
+    $this->assertDatesAreEqual($w->ending, $endDateInput->getAttribute('value'));
     $this->expectSpecificOption($fieldName = 'currency', $expectedValue = 'CAD');
     $this->submitForm($this->getForm(), array());
+    // XXX
     // $this->expectSpecificOption($fieldName = 'size', $expectedValue = '220x220');
     // $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
   }
