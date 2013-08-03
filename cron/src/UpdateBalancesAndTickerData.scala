@@ -17,9 +17,9 @@ object UpdateBalancesAndTickerData {
   def updateTickerData(implicit s: Session) {
     val resp = getRequest("http://blockchain.info/ticker")
     val tickers = parseTickerJson(resp)
-    println("Got following ticker data:")
+    info("Got following ticker data:")
     tickers.foreach { t =>
-      println(s"${t.currency} is trading at ${t.last} to the 'coin")
+      info(s"${t.currency} is trading at ${t.last} to the 'coin")
       // XXX: Why doesn't withTransaction work?!! Our data just disappears into the
       // XXX: ether when the queries are wrapped with it.
 //      s.withTransaction { tran: Session =>
@@ -53,17 +53,23 @@ object UpdateBalancesAndTickerData {
   def updateAddressBalances(implicit s: Session) {
     val addresses = Q.queryNA[String]("SELECT DISTINCT address FROM widgets").list()
     addresses.foreach { a =>
-      val resp = getRequest(s"http://blockchain.info/q/addressbalance/$a")
       try {
-        val balance: Int = resp.toInt
-        println(s"Balance for address $a is $balance.")
-        Q.update[String]("DELETE FROM bitcoin_addresses WHERE address = ?").execute(a)
-        Q.update[(String, Int, String)](
-          "INSERT INTO bitcoin_addresses (address, satoshis, updated_at) VALUES (?, ?, ?)").
-          execute(a, balance, now)
+        info(s"Requesting balance for address $a...")
+        val resp = getRequest(s"http://blockchain.info/q/addressbalance/$a")
+        try {
+          val balance: Int = resp.toInt
+          info(s"  Balance for address $a is $balance.")
+          Q.update[String]("DELETE FROM bitcoin_addresses WHERE address = ?").execute(a)
+          Q.update[(String, Int, String)](
+            "INSERT INTO bitcoin_addresses (address, satoshis, updated_at) VALUES (?, ?, ?)").
+            execute(a, balance, now)
+        } catch {
+          case e: java.lang.NumberFormatException =>
+            logErr("Got non-integer response: " + resp)
+        }
       } catch {
-        case e: java.lang.NumberFormatException =>
-          println("ERROR: Got non-integer response: " + resp)
+        case e: scalaj.http.HttpException =>
+          logErr("Got HTTP " + e.code + " response: " + e.body)
       }
     }
   }
@@ -112,6 +118,9 @@ object UpdateBalancesAndTickerData {
     in.close()
     props
   }
+
+  protected def info  (m: String) { println(m) }
+  protected def logErr(m: String) { println("ERROR: " + m) }
 }
 
 case class TickerData(currency: String, last: Double)
