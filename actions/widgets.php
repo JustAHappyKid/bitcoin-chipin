@@ -7,7 +7,7 @@ require_once 'spare-parts/types.php';         # at
 require_once 'spare-parts/template/base.php'; # Template\renderFile
 
 use \Exception, \SpareParts\Webapp\RequestContext, \SpareParts\Template,
-  \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Currency;
+  \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Currency, \Chipin\Currency\Amount;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
@@ -27,8 +27,9 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
     // $vars['progress'] = $widget->raised / $widget->goal * 100;
     $vars['progress'] = $widget->progress;
-    
-    $this->setAltCurrencyValues($widget, $vars);
+
+    $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
+    // $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
 
     return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
@@ -57,6 +58,21 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     return Template\renderFile($tpl, $tplContext);
   }
 
+  private function setAltCurrencyValues(Amount $goal, Amount $raised, Array & $vars) {
+    if ($goal->currencyCode == "BTC") {
+      $vars['altCurrency'] = "USD";
+      $vars['altGoal'] = $this->btcToDollars($goal->numUnits);
+      $vars['altRaised'] = $this->btcToDollars($raised->numUnits);
+    } else {
+      $vars['altCurrency'] = "BTC";
+      $goalInBTC = Bitcoin\toBTC($goal->currencyCode, $goal->numUnits);
+      $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
+      $raisedInBTC = Bitcoin\toBTC($raised->currencyCode, $raised->numUnits);
+      $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
+    }
+  }
+
+  /*
   private function setAltCurrencyValues(Widget $widget, Array & $vars) {
     if ($widget->currency == "BTC") {
       $vars['altCurrency'] = "USD";
@@ -70,6 +86,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
       $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
     }
   }
+  */
 
   private function btcToDollars($amountInBTC) {
     //return $this->dollarValue(Bitcoin\fromBTC($amountInBTC, 'USD'));
