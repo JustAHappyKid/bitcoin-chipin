@@ -13,3 +13,12 @@ function testDisplayAmountFunction() {
 
 /* Thin wrapper... */
 function displayAmount($a, $c) { return Currency\displayAmount($a, $c); }
+
+function testTrimZeros() {
+  $go = function($a) { return Currency\trimZeros($a); };
+  assertEqual('2',      $go(2.00000));
+  assertEqual('2',      $go('2.00000'));
+  assertEqual('72.55',  $go(72.55000));
+  assertEqual('200',    $go(200));
+  assertEqual('7500',   $go('007500'));
+}
