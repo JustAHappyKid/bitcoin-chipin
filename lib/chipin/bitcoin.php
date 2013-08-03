@@ -10,7 +10,7 @@ use \Exception, \SpareParts\Database as DB; // \SpareParts\WebClient\HttpSimple 
 
 function getBalance($address, $currency = 'BTC') {
   $row = DB\selectExactlyOne('bitcoin_addresses', 'address = ?', array($address));
-  $btcBalance = intval($row['satoshis']) / 100000000;
+  $btcBalance = intval($row['satoshis']) / satoshisPerBTC();
   $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
   /*
   $balance = substr($balanceWithPrecision, 0, 4);
@@ -66,3 +66,5 @@ function isValidAddress() {
   $result = Http\get('http://blockchain.info/q/addressbalance/' . $address);
   return isInteger($result);
 }
+
+function satoshisPerBTC() { return 100000000; }
