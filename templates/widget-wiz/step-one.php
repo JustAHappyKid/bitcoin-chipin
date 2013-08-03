@@ -3,8 +3,9 @@
 require_once dirname(__FILE__) . '/layout.php';
 require_once 'spare-parts/webapp/forms.php';
 require_once 'chipin/widgets.php';
+require_once 'chipin/currency.php';
 
-use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget;
+use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget, \Chipin\Currency;
 
 class StepOne extends WidgetWizLayout {
 
@@ -47,11 +48,14 @@ class StepOne extends WidgetWizLayout {
           <div class="control-group" id="widget-goal">
             <label class="control-label" for="widget-want-to-raise">Amount to Raise</label>
             <div class="controls">
-              <input type="text" class="input-small" id="widget-want-to-raise" name="goal"
-                     value="<?= $this->widget->goal ?>"/>
+              <? $goal = isset($this->widget->goalAmnt) ?
+                   Currency\trimZeros($this->widget->goalAmnt->numUnits) : ""; ?>
+              <input type="text" class="input-small" id="widget-want-to-raise"
+                     name="goal" value="<?= $goal ?>"/>
               &nbsp;
               <?
                 $s = new SelectField('currency', 'Currency',
+                  # TODO: Use official currency "registry" here (Chipin\Currencies\codes())
                   array('USD' => 'USD', 'EUR' => 'EUR', 'GBP' => 'GBP', 'CNY' => 'CNY',
                         'CAD' => 'CAD', 'JPY' => 'JPY', 'BTC' => 'BTC'));
                 $s->setID('currency')->setAttribute('style', 'width: 6em;');
