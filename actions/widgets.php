@@ -20,9 +20,14 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['about'] = $widget->about;
     $vars['currency'] = $widget->currency;
     $vars['goal'] = Currency\displayAmount($widget->goal, $widget->currency);
-        //number_format($widget->goal, $widget->currency == "BTC" ? 4 : 2);
-    $vars['raised'] = Currency\displayAmount($this->getAmountRaised($widget), $widget->currency);
-    $vars['progress'] = $widget->raised / $widget->goal * 100;
+
+    // XXX
+    //$vars['raised'] = Currency\displayAmount($this->getAmountRaised($widget), $widget->currency);
+    $vars['raised'] = $widget->raisedAmnt;
+
+    // $vars['progress'] = $widget->raised / $widget->goal * 100;
+    $vars['progress'] = $widget->progress;
+    
     $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
 
@@ -76,22 +81,23 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
       $vars['altCurrency'] = "BTC";
       $goalInBTC = Bitcoin\toBTC($widget->currency, $widget->goal);
       $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
-          //number_format($goalInBTC, 4); //substr($other_goal, 0, 5);
       $raisedInBTC = Bitcoin\toBTC($widget->currency, $widget->raised);
       $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
-          //number_format($raisedInBTC, 4); //substr($other_raised, 0, 5);
     }
   }
 
   private function btcToDollars($amountInBTC) {
-    return $this->dollarValue(Bitcoin\fromBTC($amountInBTC, 'USD'));
+    //return $this->dollarValue(Bitcoin\fromBTC($amountInBTC, 'USD'));
+    Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
   }
 
+  /*
   private function dollarValue($amount) {
     $parts = explode('.', strval($amount));
     list($dollars, $cents) = count($parts) == 2 ? $parts : array($parts[0], '00');
     return $dollars . '.' . substr($cents, 0, 2);
   }
+  */
 
   private function getAmountRaised(Widget $widget) {
     try {
