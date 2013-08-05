@@ -7,7 +7,7 @@ use \SpareParts\Validation as V;
 
 class ContactUsController extends \Chipin\WebFramework\Controller {
 
-  private $sendCommentsTo = 'alex.khajehtoorian@gmail.com';
+  private $sendCommentsTo = 'alex.khajehtoorian@gmail.com, chris@easyweaze.net';
 
   function index() {
     if ($this->isPostRequest() && V\isValidEmailAddr($_POST['email']) &&
