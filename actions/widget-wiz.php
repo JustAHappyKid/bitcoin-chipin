@@ -1,11 +1,11 @@
 <?php
 
 require_once 'chipin/widgets.php';
-require_once 'chipin/bitcoin.php';
+require_once 'chipin/blockchain-dot-info.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\BlockchainDotInfo,
   \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
   \SpareParts\Webapp\Forms;
 
@@ -77,20 +77,21 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
    */
   public function validBtcAddr() {
     $address = $this->context->takeNextPathComponent();
-    $valid = Bitcoin\isValidAddress($address);
-    /*
-    try {
-      Bitcoin\getBalance($address);
-      $valid = true;
-    } catch (Bitcoin\InvalidAddress $_) {
-      $valid = false;
-    }
-    */
+    // $valid = Bitcoin\isValidAddress($address);
     $resp = new HttpResponse;
     $resp->statusCode = 200;
     $resp->contentType = 'text/plain';
-    $resp->content = $valid ? 'true' : 'false';
+    $resp->content = $this->isValidAddress($address) ? 'true' : 'false';
     return $resp;
+  }
+
+  private function isValidAddress($address) {
+    try {
+      BlockchainDotInfo\getBalanceInSatoshis($address);
+      return true;
+    } catch (BlockchainDotInfo\InvalidAddress $_) {
+      return false;
+    }
   }
 
   public function end() {
@@ -157,10 +158,22 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function getCountryCodeForIP() {
-    $ipInfoJSON = HttpSimple\get('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
-    // $ipInfoJSON = file_get_contents('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
-    $location = json_decode($ipInfoJSON, true);
-    return $location['Country'];
+    try {
+      /*
+      $ipInfoJSON = HttpSimple\get('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
+      $location = json_decode($ipInfoJSON, true);
+      return $location['Country'];
+      */
+      $rawJSON = HttpSimple\get('https://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR']);
+      $info = json_decode($rawJSON);
+      // var_dump($info);
+      // return $info['country_code'];
+      return $info->country_code;
+    } catch (\SpareParts\WebClient\NetworkError $e) {
+      error("Network error occurred when attempting to lookup IP adress info: " .
+        $e->getMessage());
+      return null;
+    }
   }
 
   const maxGoal = 95000;
