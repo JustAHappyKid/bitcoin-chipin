@@ -60,6 +60,7 @@ class User {
 
   public function updatePassword($encryptedPass) {
     DB\query('UPDATE users SET password = ? WHERE id = ?', array($encryptedPass, $this->id));
+    $this->passwordEncrypted = $encryptedPass;
   }
 }
 
