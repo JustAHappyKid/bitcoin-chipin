@@ -114,8 +114,13 @@ class AccountController extends \Chipin\WebFramework\Controller {
         $user = User::loadFromEmailAddr($email);
         $confCode = ConfCodes\generateAndSave($user);
         $this->sendPassResetEmail($email, $confCode);
+        /*
         $this->saveInSession('passwordResetEmailSent', true);
         return $this->redirect('/account/signin');
+        */
+        return $this->render('success-msg.diet-php', null, array('header' => null,
+          'message' => "<strong>We've sent you an email!</strong> Please check your inbox " .
+                       "and look for a link there that will help you reset your password."));
       } catch (NoSuchUser $_) {
         $failure = true;
       }
