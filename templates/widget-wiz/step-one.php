@@ -79,7 +79,8 @@ class StepOne extends WidgetWizLayout {
               <input type="text" class="input-large" id="widget-bitcoin-address"
                      name="bitcoinAddress" value="<?= $this->widget->bitcoinAddress ?>" />
               <span class="help-inline error-msg">Please provide a valid Bitcoin address.</span>
-              <span class="help-inline">Please use a new, dedicated Bitcoin address for each
+              <span class="help-inline not-error">
+                Please use a new, dedicated Bitcoin address for each
                 widget. In this way, we are able to measure the amount that has been donated
                 to your cause.</span>
             </div>
@@ -130,6 +131,8 @@ class StepOne extends WidgetWizLayout {
 				});
 			  if (invalidBitcoinAddr) {
 					$("#bitcoin-addr-control-group").addClass("error");
+					$("#bitcoin-addr-control-group .not-error").hide();
+					$("#bitcoin-addr-control-group .error-msg").show();
 					return false;
 			  }
 
