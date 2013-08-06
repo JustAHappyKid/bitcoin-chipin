@@ -1,0 +1,12 @@
+#!/usr/bin/php
+<?php
+
+# This script is intended to be used to "mock out" the 'sendmail' binary when running the
+# test suite. This so, when the PHP 'mail' function is called, no actual attempt will be
+# made to send an email. The email message passed to this script is then chucked into the
+# database so assertions can be made be client test cases to make sure an email was "sent"
+# and that it had the expected characeteristics (subject, recipient, etc).
+
+# TODO: Store messages somewhere for retrieval by test API...
+
+echo "mock-sendmail executed.\n";
