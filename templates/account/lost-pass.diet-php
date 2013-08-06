@@ -1,0 +1,43 @@
+!extends 'layout.php'
+
+function userIsAuthenticated() {
+  return false;
+}
+
+block htmlHeadExtras {
+  <link href="/css/components/signin.css" rel="stylesheet" type="text/css" />
+}
+
+block innerContent {
+
+  <div class="account-container register">
+  <div class="content clearfix">
+    <form id="lost-pass" action="/account/lost-pass" method="post">
+      <h1>Lost password?</h1>		
+      <div id="email-error" class="alert alert-error" style="display: none;">
+        <h4 class="alert-heading">Error!</h4>
+        Entered email is not valid.
+      </div>
+      ? if ($failure) {
+        <div id="email-error" class="alert alert-error">
+          <h4 class="alert-heading">Error!</h4>
+          Sorry, looks like you've never registered before!
+          You can <a href="/account/signup">signup here though</a>.
+        </div>
+      }
+      <div class="login-fields">
+        <p>Enter your email address below, and we'll send you a link to reset
+          your password.</p>
+        <div class="field">
+          <label for="email">Email Address:</label>
+          <input type="text" id="email" name="email" placeholder="Email" class="login" />
+        </div>
+      </div> <!-- /login-fields -->
+      <div class="login-actions">
+        <button class="button btn btn-secondary btn-large">Submit</button>
+      </div>
+    </form>
+  </div>
+  </div>
+
+}

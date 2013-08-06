@@ -1,16 +1,18 @@
 <?php
 
 require_once 'chipin/passwords.php';                    # isValid, hash
+require_once 'chipin/conf-codes.php';                   # generateAndSave
 require_once 'spare-parts/database.php';                # insertOne
+require_once 'spare-parts/email.php';                   # sendTextEmail
 require_once 'spare-parts/url.php';                     # constructUrlFromRelativeLocation
 require_once 'spare-parts/webapp/current-request.php';  # CurrentRequest\...
 require_once 'spare-parts/webapp/forms.php';            # Form, newPasswordField, etc.
 require_once 'Zend/Captcha/Image.php';
 require_once 'Zend/Auth.php';
 
-use \Chipin\User, \Chipin\NoSuchUser, \Chipin\Passwords,
-  \SpareParts\Webapp\Forms as F, \SpareParts\URL,
-  \SpareParts\Webapp\CurrentRequest, \SpareParts\Database as DB;
+use \Chipin\User, \Chipin\NoSuchUser, \Chipin\Passwords, \Chipin\ConfCodes,
+  \SpareParts\Webapp\Forms as F, \SpareParts\URL, \SpareParts\Webapp\CurrentRequest,
+  \SpareParts\Database as DB;
 
 class AccountController extends \Chipin\WebFramework\Controller {
 
@@ -26,7 +28,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
             User::loadFromEmailAddr($email);
             return array("It looks like you already have an account here, registered under " .
                          "that email address. If you've forgotten your password, you can " .
-                         "<a href=\"/signin/remind/\">reset it here</a>.");
+                         "<a href=\"/account/lost-pass\">reset it here</a>.");
           } catch (NoSuchUser $_) { return array(); }
         }
       ),
@@ -45,7 +47,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       DB\insertOne('users', array('username' => $username, 'password' => $passwordHashed,
                                   'email' => $email, 'created_at' => new DateTime('now')));
       $user = User::loadFromUsername($username);
-      $_SESSION['Zend_Auth']['storage'] = $user;
+      $this->setAuthenticatedUser($user);
       DB\insertOne('subscriptions', array('user_id' => $user->id,
         'chipin' => $form->getValue('chipin-updates') ? 1 : 0,
         'memorydealers' => $form->getValue('memorydealers-updates') ? 1 : 0));
@@ -100,7 +102,47 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $success = true;
     }
     return $this->render('account/change-password.php', 'ChangePassword',
-      array('form' => $form, 'success' => $success));
+      array('form' => $form, 'success' => $success,
+            'newPassword' => $this->takeFromSession('newPassword')));
+  }
+
+  function lostPass() {
+    $failure = false;
+    $email = at($_POST, 'email', null);
+    if ($email) {
+      try {
+        $user = User::loadFromEmailAddr($email);
+        $confCode = ConfCodes\generateAndSave($user);
+        $this->sendPassResetEmail($email, $confCode);
+        $this->saveInSession('passwordResetEmailSent', true);
+        return $this->redirect('/account/signin');
+      } catch (NoSuchUser $_) {
+        $failure = true;
+      }
+    }
+    return $this->render('account/lost-pass.diet-php', null, array('failure' => $failure));
+  }
+
+  function passReset() {
+    $code = $_GET['c'];
+    if (ConfCodes\isValidCode($code)) {
+      $u = ConfCodes\getUserForCode($code);
+      $this->setAuthenticatedUser($u);
+      $newPass = ConfCodes\generate(10);
+      $u->updatePassword(Passwords\hash($newPass));
+      $this->saveInSession('newPassword', $newPass);
+      return $this->redirect('/account/change-password');
+    } else {
+      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
+    }
+  }
+
+  private function sendPassResetEmail($email, $confCode) {
+    $url = PATH . 'account/pass-reset?c=' . $confCode;
+    //logMsg('debug', 'Sending pass-reset email with link ' . $url);
+    sendTextEmail($from = 'webmaster@bitcoinchipin.com', $to = $email,
+      $subject = 'BitcoinChipin.com Password Reset',
+      "Please use the following link to reset your password:\n\n" . $url);
   }
 
   private function getStoredHashForUser($username) {
@@ -130,6 +172,10 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $c->generate();
     $_SESSION['captchas'][$c->getId()] = $c->getWord();
     return $c;
+  }
+
+  private function setAuthenticatedUser(User $user) {
+    $_SESSION['Zend_Auth']['storage'] = $user;
   }
 
   private $captchasDir = 'images/captcha';

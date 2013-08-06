@@ -69,12 +69,14 @@ class SigninPage extends Layout {
 
             <div class="field">
               <label for="username">Username:</label>
-              <input type="text" id="username" name="username" value="" placeholder="Username" class="login username-field" />
+              <input type="text" id="username" name="username" value="" placeholder="Username"
+                     class="login username-field" />
             </div> <!-- /field -->
 
             <div class="field">
               <label for="password">Password:</label>
-              <input type="password" id="password" name="password" value="" placeholder="Password" class="login password-field"/>
+              <input type="password" id="password" name="password" value="" placeholder="Password"
+                     class="login password-field"/>
             </div> <!-- /password -->
 
           </div> <!-- /login-fields -->
@@ -93,7 +95,7 @@ class SigninPage extends Layout {
 
     <div class="login-extra">
       Don't have an account? <a href="<?=PATH;?>account/signup">Sign up</a>.<br/>
-      <a href="<?=PATH;?>signin/remind/">Forget your password?</a>
+      <a href="<?=PATH;?>account/lost-pass">Forget your password?</a>
     </div>
   <? }
 }

@@ -18,6 +18,14 @@ class ChangePassword extends Layout {
       <div class="account-container login">
         <div class="content clearfix">
 
+          <? if ($this->newPassword): ?>
+            <div class="alert alert-success">
+              Great &mdash; we've reset your password to
+              <strong><?= $this->newPassword ?></strong>...
+              but please use the form below to change it to something you'll remember!
+            </div>
+          <? endif; ?>
+
           <form id="change-password-form" action="<?=PATH;?>account/change-password/"
                 method="post" onsubmit="return validateForm();">
 
@@ -49,7 +57,8 @@ class ChangePassword extends Layout {
 
               <div class="field">
                 <label for="current-password">Current password:</label>
-                <input type="password" id="current-password" name="current-password" value=""
+                <input type="password" id="current-password" name="current-password"
+                       value="<?= $this->newPassword ? $this->newPassword : '' ?>"
                        placeholder="Your current password" class="login password-field"/>
               </div>
 
