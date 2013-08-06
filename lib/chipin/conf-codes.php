@@ -12,6 +12,7 @@ function generateAndSave(User $user) {
   DB\insertOne('confirmation_codes',
     array('user_id' => $user->id, 'code' => $confCode, 'created_at' => date("Y-m-d H:i:s"),
           'expires' => date("Y-m-d H:i:s", strtotime("+3 days"))));
+  return $confCode;
 }
 
 function isValidCode($code) {
