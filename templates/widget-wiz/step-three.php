@@ -22,12 +22,9 @@ class StepThree extends WidgetWizLayout {
                     id="javascript-version" rows="3"
             ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
         </div>
-        <div style="float: left; margin: 0 0 0 100px;">
-          <!-- <div id="final-widget" class="well" style="text-align: center;"> -->
-          <div class="well" style="text-align: center;">
-            <?= $this->iframeForWidget($this->widget); ?>
-          </div>
-        </div> <!-- END div for preview -->
+        <div style="float: left; margin: 0 0 25px 75px;">
+          <?= $this->iframeForWidget($this->widget); ?>
+        </div>
         <div class="clearfix"> </div>
       </div> <!-- /XXX -->		
     </div> <!-- /step -->
