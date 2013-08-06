@@ -61,10 +61,4 @@ class Application_Model_Users {
     return $result;
   }
   */
-
-  public function saveUserLoginInformation() {
-    $userAgent = new Zend_Http_UserAgent();
-    $device = $userAgent->getDevice();
-    $browser = $device->getBrowser();
-  }
 }
