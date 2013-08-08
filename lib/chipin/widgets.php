@@ -33,9 +33,6 @@ class Widget {
       throw new NoSuchWidget("Widget with ID $id is not owned by user with ID {$owner->id}");
     }
     return $w;
-//    $obj = new Widget;
-//    $obj->populateFromArray($w);
-//    return $obj;
   }
 
   public static function getByID($id) {
@@ -76,6 +73,7 @@ class Widget {
     $goalInBTC = $this->currency == 'BTC' ? $a['goal'] :
       Bitcoin\toBTC($this->currency, $a['goal']);
     $this->progress = ($this->raisedBTC / $goalInBTC) * 100;
+    $this->color = in_array($a['color'], allowedColors()) ? $a['color'] : 'white';
     return $this;
   }
 
@@ -164,5 +162,7 @@ function updateProgress($row) {
 function endWidget(Widget $w) {
   updateByID($w->id, array('ending' => date("Y-m-d", time() - (1 * 24 * 60 * 60))));
 }
+
+function allowedColors() { return array('white', 'silver', 'blue', 'dark'); }
 
 class NoSuchWidget extends \Exception {}
