@@ -1,11 +1,12 @@
 <?php
 
 require_once 'chipin/widgets.php';
-require_once 'chipin/blockchain-dot-info.php';
+require_once 'chipin/bitcoin.php';
+// require_once 'chipin/blockchain-dot-info.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\BlockchainDotInfo,
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
   \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
   \SpareParts\Webapp\Forms;
 
@@ -87,9 +88,10 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   private function isValidAddress($address) {
     try {
-      BlockchainDotInfo\getBalanceInSatoshis($address);
+      // BlockchainDotInfo\getBalanceInSatoshis($address);
+      Bitcoin\getBalance($address);
       return true;
-    } catch (BlockchainDotInfo\InvalidAddress $_) {
+    } catch (Bitcoin\InvalidAddress $_) {
       return false;
     }
   }

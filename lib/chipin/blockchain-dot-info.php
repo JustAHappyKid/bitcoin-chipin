@@ -4,8 +4,9 @@ namespace Chipin\BlockchainDotInfo;
 
 require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple\get
 require_once 'spare-parts/types.php';                   # isInteger
+require_once 'chipin/bitcoin.php';                      # InvalidAddress
 
-use \SpareParts\WebClient\HttpSimple as Http;
+use \SpareParts\WebClient\HttpSimple as Http, \Chipin\Bitcoin\InvalidAddress;
 
 function getBalanceInSatoshis($address) {
   $result = Http\get('http://blockchain.info/q/addressbalance/' . $address);
@@ -14,5 +15,3 @@ function getBalanceInSatoshis($address) {
   }
   return intval($result);
 }
-
-class InvalidAddress extends \Exception {}
