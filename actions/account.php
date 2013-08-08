@@ -68,7 +68,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $isGood = Passwords\isValid($password, $existingHash);
       if ($isGood) {
         $user = User::loadFromUsername($username);
-        $_SESSION['Zend_Auth']['storage'] = $user;
+        $this->setAuthenticatedUser($user);
         return $this->redirect('/dashboard/');
       } else {
         $failure = true;
@@ -118,9 +118,9 @@ class AccountController extends \Chipin\WebFramework\Controller {
         $this->saveInSession('passwordResetEmailSent', true);
         return $this->redirect('/account/signin');
         */
-        return $this->render('success-msg.diet-php', null, array('header' => null,
-          'message' => "<strong>We've sent you an email!</strong> Please check your inbox " .
-                       "and look for a link there that will help you reset your password."));
+        return $this->successMessage(
+          "<strong>We've sent you an email!</strong> Please check your inbox " .
+          "and look for a link there that will help you reset your password.");
       } catch (NoSuchUser $_) {
         $failure = true;
       }
@@ -155,6 +155,15 @@ class AccountController extends \Chipin\WebFramework\Controller {
     return count($rows) == 0 ? null : $rows[0]['password'];
   }
 
+  private function setAuthenticatedUser(User $user) {
+    $_SESSION['Zend_Auth']['storage'] = $user;
+  }
+
+  private function successMessage($message) {
+    return $this->render('success-msg.diet-php', null,
+      array('header' => null, 'message' => $message));
+  }
+
   private function getCaptchaTool() {
     $localPathToCaptchas = $this->docRoot() . '/' . $this->captchasDir;
     if (!is_dir($localPathToCaptchas)) {
@@ -177,10 +186,6 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $c->generate();
     $_SESSION['captchas'][$c->getId()] = $c->getWord();
     return $c;
-  }
-
-  private function setAuthenticatedUser(User $user) {
-    $_SESSION['Zend_Auth']['storage'] = $user;
   }
 
   private $captchasDir = 'images/captcha';
