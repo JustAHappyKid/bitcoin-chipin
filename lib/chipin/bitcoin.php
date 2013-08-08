@@ -33,12 +33,6 @@ function toBTC($currency, $amount) {
   return ($amount / $perBTC);
 }
 
-/*
-function toBTC($currency, $amount) {
-  return (float) Http\get("http://blockchain.info/tobtc?currency=$currency&value=$amount");
-}
-*/
-
 function fromBTC($amountInBTC, $currency) {
   $perBTC = lastPriceForOneBTC($currency);
   return ($amountInBTC * $perBTC);
@@ -48,20 +42,6 @@ function lastPriceForOneBTC($currency) {
   $row = DB\selectExactlyOne('ticker_data', 'currency = ?', array($currency));
   return doubleval($row['last_price']);
 }
-
-/*
-function fromBTC($amountInBTC, $currency) {
-  $btcPriceOfOneUnit = toBTC($currency, 1);
-  return $amountInBTC / $btcPriceOfOneUnit;
-}
-*/
-
-/*
-function isValidAddress() {
-  $result = Http\get('http://blockchain.info/q/addressbalance/' . $address);
-  return isInteger($result);
-}
-*/
 
 function satoshisPerBTC() { return 100000000; }
 
