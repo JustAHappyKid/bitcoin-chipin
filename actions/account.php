@@ -89,6 +89,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
 
   function signout() {
     unset($_SESSION['Zend_Auth']['storage']);
+    $this->user = null;
     return $this->successMessage("You have been signed out.");
   }
 
