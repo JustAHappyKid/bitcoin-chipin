@@ -114,9 +114,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     $vars = array(
       'title' => $w->title, 'goal' => $w->goal, 'currency' => $w->currency,
       'about' => $w->about, 'color' => $w->color,
-      'ending' => $w->endingDateAsString(), 'address' => $w->bitcoinAddress,
-      'preview' => 'true');
-    //return "/client/widget{$width}x{$height}" . URL\makeQueryString($vars);
+      'ending' => $w->endingDateAsString(), 'address' => $w->bitcoinAddress);
     return "/widgets/preview" . URL\makeQueryString($vars);
   }
 

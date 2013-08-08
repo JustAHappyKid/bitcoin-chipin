@@ -15,6 +15,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $widget = Widget::getByID($context->takeNextPathComponent());
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
+    $vars['color'] = $widget->color;
     $vars['title'] = $widget->title;
     $vars['about'] = $widget->about;
     $vars['currency'] = $widget->currency;

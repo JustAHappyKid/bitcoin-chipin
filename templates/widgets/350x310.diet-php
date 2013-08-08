@@ -6,7 +6,7 @@
   </head>
   <body>
     <div class="widget-wrapper">
-      <div class="widget widget-white">
+      <div class="widget widget-$color">
 
         ? $titleClass = 'widget-title' . (strlen($title) > 25 ? ' long-title' : '');
         <h2 class="$titleClass">$title</h2>

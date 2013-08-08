@@ -33,6 +33,21 @@ class StepTwo extends WidgetWizLayout {
           </div>
           <!-- TODO: Make 'size' and 'color' "sticky"!!! -->
           <div class="control-group">
+            <label class="control-label" for="userlanguage">
+              Color Theme
+            </label>
+            <div class="controls" style="margin-top: 6px;">
+              <?
+                $color = new SelectField('color', 'Color',
+                  array("white" => "Plain & Pleasant", "silver" => "Silvery Servant",
+                        "blue" => "Baby-Blue Winter", "dark" => "Dark & Dastardly"));
+                $color->setID('widget-color');
+                if ($this->widget->color) $color->setValue($this->widget->color);
+              ?>
+              <?= $color->renderInputHtml() ?>
+            </div>
+          </div>
+          <div class="control-group">
             <label class="control-label" for="userlanguage">Size</label>
             <div class="controls" style="margin-top: 6px;">
               <input type="hidden" id="widget-size" name="size" value="350x310" />
@@ -48,24 +63,6 @@ class StepTwo extends WidgetWizLayout {
                 }
               */ ?>
               <? /*= $size->renderInputHtml() */ ?>
-            </div>
-          </div>
-          <div class="control-group">
-            <label class="control-label" for="userlanguage">
-              Color
-            </label>
-            <div class="controls" style="margin-top: 6px;">
-              <input type="hidden" id="widget-color" name="color" value="" />
-              <em>Coming soon &mdash; choose your color theme!</em>
-              <? /*
-                $color = new SelectField('color', 'Color',
-                  array("A9DB80,96C56F" => "Green", "A67939,845108" => "Brown",
-                        "3093C7,1C5A85" => "Blue", "E0DCDC,707070"  => "Grey",
-                        "F62B2B,D20202" => "Red"));
-                $color->setID('widget-color');
-                if ($this->widget->color) $color->setValue($this->widget->color);
-              */ ?>
-              <? /*= $color->renderInputHtml()*/ ?>
             </div>
           </div>
         </div> <!-- END div for form inputs -->
