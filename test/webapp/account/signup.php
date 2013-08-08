@@ -12,11 +12,8 @@ use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \Chipin\User;
 class SignupTests extends WebappTestingHarness {
 
   function testSignupProcess() {
-    /*
-    XXX; Commented out until landing page is moved out of Zend Framework's territory...
     $this->get('/');
     $this->clickLink("//a[contains(@href, 'signup')]");
-    */
     $this->get('/account/signup');
     # XXX: It's required we catch the redirect for now, as the Zend Framework presently renders
     #      the Dashboard, and we don't have ZF testing support.
@@ -41,6 +38,14 @@ class SignupTests extends WebappTestingHarness {
     $this->get('/dashboard/');
     assertTrue(beginsWith($this->getCurrentPath(), '/dashboard'));
     */
+  }
+
+  function testSignupFormDoesNotBreakIfGivenUsernameAlreadyExistsInDB() {
+    $this->get('/account/signup');
+    $u = getUser();
+    $this->submitFormExpectingErrors($this->getForm(),
+      array('username' => $u->username, 'email' => uniqid() . '@test.org',
+            'password1' => 'chocolate', 'password2' => 'chocolate', 'captcha-input' => 'ab12'));
   }
 
   function testOneEmailAddressMayNotBeAssociatedWithMultipleAccounts() {

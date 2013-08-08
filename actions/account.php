@@ -21,7 +21,17 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $form = new F\Form('post');
     $form->addSection('password', array(
       F\newBasicTextField('username', 'Username')->
-        minLength(5, "Sorry, the minimum allowed length for a username is five characters."),
+        minLength(5, "Sorry, the minimum allowed length for a username is five characters.")->
+        addValidation(
+          function($un) {
+            try {
+              User::loadFromUsername($un);
+              return array("Sorry &mdash; that username's already taken! If it belongs to you, " .
+                           "you can <a href=\"/account/lost-pass\">reset your password</a> " .
+                           "or <a href=\"/account/signin\">try to login here</a>.");
+            } catch (NoSuchUser $_) { return array(); }
+          }
+        ),
       F\newEmailAddressField('email', "Email Address")->addValidation(
         function($email) {
           try {
