@@ -26,7 +26,6 @@
           </ul>
           <ul class="nav pull-right">
             <? if ($this->user): ?>
-              <!-- <li><a class="btn-header" href="/signin/signout">Sign out</a></li> -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   Your Account <b class="caret"></b>
@@ -34,7 +33,7 @@
                 <ul class="dropdown-menu">
                   <li><a href="/dashboard/">Your Widgets</a></li>
                   <li><a href="/account/change-password">Change Password</a></li>
-                  <li><a href="/signin/signout">Sign Out</a></li>
+                  <li><a href="/account/signout">Sign Out</a></li>
                 </ul>
             </li>
             <? else: ?>
