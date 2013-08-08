@@ -5,9 +5,10 @@ namespace Chipin\Test;
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
+require_once 'spare-parts/database.php';          # query
 
 use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
-  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors;
+  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -18,6 +19,9 @@ class WidgetWizardTests extends WebappTestingHarness {
 
   function testAddingAndEditingWidget() {
 //    $this->loginAsNormalUser();
+
+    # Clear out the address-balance cache to make sure a "new" address doesn't cause breakage...
+    DB\query("DELETE FROM bitcoin_addresses WHERE address = ?", array($this->btcAddr()));
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
@@ -141,6 +145,11 @@ class WidgetWizardTests extends WebappTestingHarness {
     } catch (HttpRedirect $e) {
       assertEqual('/widget-wiz/step-one', $e->path);
     }
+  }
+
+  function testBitcoinAddressValidationAction() {
+    assertEqual('true', $this->get('/widget-wiz/valid-btc-addr/' . $this->btcAddr())->content);
+    assertEqual('false', $this->get('/widget-wiz/valid-btc-addr/peanuts')->content);
   }
 
   protected function getForm($formId = null) {
