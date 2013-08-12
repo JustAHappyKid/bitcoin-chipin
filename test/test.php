@@ -51,9 +51,9 @@ function newUser($email, $username, $pw) {
   return User::loadFromID($uid);
 }
 
-function getWidget() {
+function getWidget(User $u = null) {
   require_once 'chipin/widgets.php';
-  $u = getUser();
+  if ($u == null) $u = getUser();
   $w = new Widget;
   $w->ownerID = $u->id;
   $w->title = "Test Widget";
