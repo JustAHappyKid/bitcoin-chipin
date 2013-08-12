@@ -1,32 +1,17 @@
 <?php
 
+// require_once 'chipin/users.php';
 require_once 'chipin/widgets.php';
+
 use \Chipin\Widgets;
 
-class DashboardController extends Zend_Controller_Action {
+class DashboardController extends \Chipin\WebFramework\Controller {
 
-  private $auth;
+  function index() {
+if (empty($this->user)) throw new Exception("No user?");
+    $widgets = Widgets\getByOwner($this->user);
 
-  public function init() {
-    $this->auth = Zend_Auth::getInstance();
-    if (!$this->auth->hasIdentity()) {
-      $this->_redirect(PATH . 'signin/');
-    } else {
-      $this->view->assign('identity', $this->auth->getIdentity());
-      $this->view->assign('user', $this->auth->getIdentity());
-    }
-  }
-
-  public function indexAction() {
-    /*
-    $widgets = new Application_Model_Widgets();
-    $widgets->setIdentity($this->auth->getIdentity()->id);
-    $w = $widgets->getUserWidgets();
-    */
-
-    $user = $this->auth->getIdentity();
-    $widgets = Widgets\getByOwner($user);
-
+    /* XXX: This now done by cron-task.
     $tenMinutes = 60 * 10;
     $lastProgressUpdate = @ $_SESSION['lastProgressUpdate'];
     if (empty($lastProgressUpdate) || $lastProgressUpdate + $tenMinutes < time()) {
@@ -34,6 +19,7 @@ class DashboardController extends Zend_Controller_Action {
       $widgets = Widgets\getByOwner($user);
       $_SESSION['lastProgressUpdate'] = time();
     }
+    */
 
     $active = array(); $ended = array();
     foreach ($widgets as $w) {
@@ -44,8 +30,13 @@ class DashboardController extends Zend_Controller_Action {
       }
     }
 
+    /*
     $this->view->assign('allWidgets', $widgets);
     $this->view->assign('activeWidgets', $active);
     $this->view->assign('endedWidgets', $ended);
+    */
+
+    return $this->render('dashboard.diet-php', null,
+      array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended));
   }
 }

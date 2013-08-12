@@ -87,8 +87,9 @@ class FrontController extends \SpareParts\Webapp\FrontController {
   }
 
   protected function pathIsOpenToAuthenticatedUser($cmd) {
-    $allowed = array();
-    return in_array($cmd, $allowed) || $cmd[0] == 'widget-wiz' || $cmd[0] == 'account';
+    $specificPages = array();
+    $openSections = array('widget-wiz', 'account', 'dashboard');
+    return in_array($cmd, $specificPages) || in_array($cmd[0], $openSections);
   }
 
   /*
