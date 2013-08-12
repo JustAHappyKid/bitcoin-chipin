@@ -1,9 +1,5 @@
 !extends 'layout.php'
 
-function userIsAuthenticated() {
-  return false;
-}
-
 block htmlHeadExtras {
   <link href="/css/components/signin.css" rel="stylesheet" type="text/css" />
 }
