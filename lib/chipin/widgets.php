@@ -125,6 +125,7 @@ function getByID($id) {
   return current($rows);
 }
 
+/** @deprecated */
 function getByOwner(User $owner) {
   return select('owner_id = ?', array($owner->id));
 }
