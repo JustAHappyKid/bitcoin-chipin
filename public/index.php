@@ -43,20 +43,25 @@ $confFiles = array("$baseConfDir/default-config.ini");
 if (file_exists("$baseConfDir/local-config.ini")) $confFiles []= "$baseConfDir/local-config.ini";
 $application = new Zend_Application(APPLICATION_ENV, array('config' => $confFiles));
 
-$path = CurrentRequest\getPath();
-if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-wiz/') ||
-    beginsWith($path, '/widgets/') || beginsWith($path, '/dashboard/') ||
-    beginsWith($path, '/account/') ||
-    beginsWith($path, '/contact-us') || beginsWith($path, '/admin/')) {
-  # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
-  # routing mechanism and et al.
-  $application->bootstrap();
-  error_reporting(E_ALL);
-  require_once 'spare-parts/error-handling.php';
-  # XXX: change to @bitcoinchipin address?
-  \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
-  require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
-  \Chipin\WebFramework\routeRequestForApp();
-} else {
-  $application->bootstrap()->run();
+# TODO: Remove this try-catch block in favor of proper HTTP-404 response once we've ditched ZF.
+try {
+  $path = CurrentRequest\getPath();
+  if ($path == '/' || beginsWith($path, '/about/') || beginsWith($path, '/widget-wiz/') ||
+      beginsWith($path, '/widgets/') || beginsWith($path, '/dashboard/') ||
+      beginsWith($path, '/account/') ||
+      beginsWith($path, '/contact-us') || beginsWith($path, '/admin/')) {
+    # NOTE: We still need to run the 'bootstrap' stuff even if we're bypassing Zend's
+    # routing mechanism and et al.
+    $application->bootstrap();
+    error_reporting(E_ALL);
+    require_once 'spare-parts/error-handling.php';
+    # XXX: change to @bitcoinchipin address?
+    \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
+    require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
+    \Chipin\WebFramework\routeRequestForApp();
+  } else {
+    $application->bootstrap()->run();
+  }
+} catch (Chipin\Widgets\NoSuchWidget $_) {
+  echo "Sorry -- we couldn't find that widget!";
 }
