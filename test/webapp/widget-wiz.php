@@ -25,7 +25,7 @@ class WidgetWizardTests extends WebappTestingHarness {
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
-    $expires = new DateTime("+3 days"); //date("Y-m-d", strtotime("+3 days"));
+    $expires = new DateTime("+3 days");
     $this->submitForm($this->getForm(),
       array('title' => 'Tengo hambre', 'goal' => '15', 'currency' => 'USD',
             'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
