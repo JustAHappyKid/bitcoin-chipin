@@ -34,7 +34,12 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       foreach (array('title', 'goal', 'currency', 'ending', 'bitcoinAddress') as $v) {
         $widget->$v = $_POST[$v];
       }
-//      $widget->title = $_POST['title'];
+
+      # TODO: Test for already-existing 'uriID' with same value and owner!
+      # TODO: Should we add support for redirecting from old 'uriID' handles (in the
+      #       case where a widget's title has been changed)?
+      $widget->uriID = URL\titleToUrlComponent($widget->title);
+
       $this->storeWidgetInSession($widget);
       return $this->redirect('/widget-wiz/step-two');
     } else {

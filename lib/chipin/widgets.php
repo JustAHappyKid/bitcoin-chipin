@@ -4,7 +4,8 @@ namespace Chipin\Widgets;
 
 require_once 'spare-parts/database.php';
 require_once 'spare-parts/database/paranoid.php';
-require_once 'chipin/users.php';
+require_once 'spare-parts/types.php';             # asString
+require_once 'chipin/users.php';                  # User
 require_once 'chipin/bitcoin.php';
 require_once 'chipin/currency.php';
 
@@ -13,7 +14,7 @@ use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
 
 class Widget {
 
-  public $id, $ownerID, $title, $about, $ending, $currency, $raisedBTC,
+  public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedBTC,
     $width, $height, $color, $bitcoinAddress, $countryCode;
 
   /** @deprecated */
@@ -36,9 +37,30 @@ class Widget {
   }
 
   public static function getByID($id) {
+    return Widget::getByQuery('id = ?', array($id));
+    /*
     $rows = select('id = ?', array($id));
     if (count($rows) == 0) {
       throw new NoSuchWidget("Could not find widget with ID $id");
+    }
+    $r = current($rows);
+    $obj = new Widget;
+    $obj->populateFromArray($r);
+    return $obj;
+    */
+  }
+
+  public static function getByURI(User $owner, $uriID) {
+    # XXX: What about (unlikely) use-case where this could match two widgets?
+    return Widget::getByQuery('owner_id = ? AND (id = ? OR uri_id = ?)',
+      array($owner->id, $uriID, $uriID));
+  }
+
+  public static function getByQuery($query, Array $params) {
+    $rows = select($query, $params);
+    if (count($rows) == 0) {
+      throw new NoSuchWidget("Could not find widget matching query '$query' with following " .
+        "parameters: " . asString($params));
     }
     $r = current($rows);
     $obj = new Widget;
@@ -62,6 +84,7 @@ class Widget {
     $this->ending = new \DateTime($a['ending']);
     $this->bitcoinAddress = $a['address'];
     $this->id = (int) $a['id'];
+    $this->uriID = $a['uri_id'];
     $this->ownerID = (int) $a['owner_id'];
     $this->countryCode = $a['country'];
     //$this->satoshisRaised = $a['satoshis'];
@@ -83,7 +106,8 @@ class Widget {
     else if (!($this->ending instanceof DateTime))
       throw new Exception("'ending' attribute should be string or DateTime object");
     $values = array(
-      'owner_id' => $this->ownerID, 'title' => $this->title, 'about' => $this->about,
+      'owner_id' => $this->ownerID, 'title' => $this->title,
+      'uri_id' => $this->uriID, 'about' => $this->about,
       'goal' => $this->goal, 'currency' => $this->currency, 'raised' => null, 'progress' => null,
       'ending' => $this->ending, 'address' => $this->bitcoinAddress,
       'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
@@ -96,6 +120,10 @@ class Widget {
     }
   }
 
+  function getOwner() {
+    return User::loadFromID($this->ownerID);
+  }
+  
   function endingDateAsString() {
     if (empty($this->ending)) {
       return '';

@@ -1,18 +1,22 @@
 <?php
 
 require_once 'chipin/widgets.php';
+require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 require_once 'chipin/currency.php';
 require_once 'spare-parts/types.php';         # at
 require_once 'spare-parts/template/base.php'; # Template\renderFile
 
 use \Exception, \SpareParts\Webapp\RequestContext, \SpareParts\Template,
-  \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Currency, \Chipin\Currency\Amount;
+  \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
+  \Chipin\Currency\Amount;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
-  function byId(RequestContext $context) {
-    $widget = Widget::getByID($context->takeNextPathComponent());
+  function u(RequestContext $context) {
+    $username = $context->takeNextPathComponent();
+    $uriID = $context->takeNextPathComponent();
+    $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
     $vars['color'] = $widget->color;
@@ -26,6 +30,12 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     // $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
     return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
+  }
+
+  function byId(RequestContext $context) {
+    $widget = Widget::getByID($context->takeNextPathComponent());
+    return $this->redirect('/widgets/u/' . $widget->getOwner()->username . '/' .
+      ($widget->uriID ? $widget->uriID : $widget->id));
   }
 
   function preview() {

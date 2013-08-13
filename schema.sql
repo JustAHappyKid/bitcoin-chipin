@@ -28,6 +28,7 @@ CREATE TABLE widgets (
   id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
   owner_id INTEGER UNSIGNED NOT NULL,
   title CHARACTER VARYING(255),
+  uri_id CHARACTER VARYING(255), -- Used as unique portion of URL for accessing widget
   ending DATETIME,
   currency CHARACTER VARYING(3),
   goal DECIMAL(10,5) UNSIGNED,
@@ -43,6 +44,7 @@ CREATE TABLE widgets (
   FOREIGN KEY (owner_id) REFERENCES users (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+ALTER TABLE widgets ADD UNIQUE INDEX ensure_unique_uri (owner_id, uri_id);
 -- ALTER TABLE widgets ADD CONSTRAINT widgets_users_fk FOREIGN KEY (owner_id) REFERENCES users (id);
 
 
