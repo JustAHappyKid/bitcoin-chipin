@@ -99,14 +99,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     }
   }
 
-  public function end() {
-    if ($this->isPostRequest()) {
-      $w = Widget::getByOwnerAndID($this->user, $_POST['id']);
-      Widgets\endWidget($w);
-    }
-    return $this->redirect('/dashboard/');
-  }
-
   private function widgetPreviewURL(Widget $w) {
     $width = $w->width ? $w->width : 350;
     $height = $w->height ? $w->height : 310;

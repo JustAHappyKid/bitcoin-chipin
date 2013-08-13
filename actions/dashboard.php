@@ -1,15 +1,13 @@
 <?php
 
-// require_once 'chipin/users.php';
 require_once 'chipin/widgets.php';
 
-use \Chipin\Widgets;
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Webapp\RequestContext;
 
 class DashboardController extends \Chipin\WebFramework\Controller {
 
   function index() {
-if (empty($this->user)) throw new Exception("No user?");
-    $widgets = Widgets\getByOwner($this->user);
+    // $widgets = Widgets\getByOwner($this->user);
 
     /* XXX: This now done by cron-task.
     $tenMinutes = 60 * 10;
@@ -21,22 +19,27 @@ if (empty($this->user)) throw new Exception("No user?");
     }
     */
 
+    $widgets = Widget::getManyByOwner($this->user);
     $active = array(); $ended = array();
     foreach ($widgets as $w) {
-      if ((time()-(60*60*24)) < strtotime($w['ending'])) {
-        $active []= $w;
-      } else {
+      if ($w->hasEnded()) {
         $ended []= $w;
+      } else {
+        $active []= $w;
       }
     }
 
-    /*
-    $this->view->assign('allWidgets', $widgets);
-    $this->view->assign('activeWidgets', $active);
-    $this->view->assign('endedWidgets', $ended);
-    */
-
     return $this->render('dashboard.diet-php', null,
       array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended));
+  }
+
+  public function endWidget(RequestContext $context) {
+    $w = Widget::getByOwnerAndID($this->user, $context->takeNextPathComponent());
+    if ($this->isPostRequest()) {
+      Widgets\endWidget($w);
+      return $this->redirect('/dashboard/');
+    } else {
+      return $this->render('end-widget.diet-php', null, array('widget' => $w));
+    }
   }
 }

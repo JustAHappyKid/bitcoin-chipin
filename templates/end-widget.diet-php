@@ -1,0 +1,28 @@
+!extends 'layout.php'
+
+block innerContent {
+  <div class="container">
+    <div class="row" style="margin-top: 25px;">
+      <div class="offset3 span6">
+        <div class="alert alert-error">
+          Are you sure you want to retire this widget?
+        </div>
+        <div style="width: <?= $widget->width ?>px; height: <?= $widget->height ?>px;
+                    background: white;
+                    margin: 0 auto; padding: 5px;
+                    border: 1px solid #ddd; border-radius: 3px;">
+          <iframe src="/widgets/by-id/$widget->id"
+                  frameborder="no" framespacing="0" scrolling="no"
+                  width="$widget->width" height="$widget->height"
+                  style="margin: auto;"></iframe>
+        </div>
+        <form id="end-widget-$widget->id" action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
+          <div class="form-actions" style="text-align: right;">
+            <button type="submit" class="btn btn-danger">End Widget</button>
+            <!-- <button type="button" class="btn">Cancel</button> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

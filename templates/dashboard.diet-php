@@ -4,7 +4,7 @@ block htmlHeadExtras {
   <link rel="stylesheet" type="text/css"
         href="/js/plugins/lightbox/themes/default/jquery.lightbox.css" />
   <script type="text/javascript" src="/js/plugins/lightbox/jquery.lightbox.min.js"></script>
-  ? $this->dashboardJavascript();
+  ? $this->javascriptForTabs();
 }
 
 block innerContent {
@@ -71,9 +71,8 @@ block innerContent {
 }
 
 block actionsColumn($widget) {
-  <a href="/widget-wiz/step-one?w=<?= $widget['id'] ?>">Edit</a> |
-  <a id="<?= $widget['id']; ?>" width="<?= $widget['width'] ?>" height="<?= $widget['height'] ?>"
-     class="end-widget" href="XXX">End</a>
+  <a href="/widget-wiz/step-one?w=$widget->id">Edit</a> |
+  <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
 }
 
 block widgetsTable($widgets) {
@@ -87,12 +86,12 @@ block widgetsTable($widgets) {
       ? foreach ($widgets as $widget) {
         <tr class="even gradeC">
           <td> <div class="progress progress-secondary progress-striped">
-            <div class="bar" style="width: <?= $widget['progress'] . '%'; ?>"></div>
+            <div class="bar" style="width: <?= $widget->progress . '%'; ?>"></div>
           </div> </td>
-          <td><?= $widget['title'] ?></td>
-          <td>Ends <?= $widget['ending'] ?></td>
+          <td>$widget->title</td>
+          <td>Ends <?= $widget->endingDateAsString() ?></td>
           <td>Raised <?=
-            \Chipin\Currency\displayAmount($widget['raised'], $widget['currency']) ?></td>
+            \Chipin\Currency\displayAmount($widget->raised, $widget->currency) ?></td>
           <td><?= $this->actionsColumn($widget) ?></td>
         </tr>
       }
@@ -100,53 +99,16 @@ block widgetsTable($widgets) {
   </table>
 }
 
-block dashboardJavascript {
+block javascriptForTabs {
   <script type="text/javascript">
     $(document).ready(function(){
-      $(".end-widget").click(function(event){
-        event.preventDefault();
-
-        <?php /* $this = $(this); */ ?>
-
-        var html = $(
-          "<div class='center'>"+
-            "<h3 style='text-align: center;'>Are you sure you want to end this widget?</h3>"+
-            "<div style='margin: 40px auto; text-align: center;'>"+
-              "<form method='post' action='<?= PATH ?>widget-wiz/end'>" +
-                "<input type='hidden' name='id' value='" + $(this).attr('id') + "' />" +
-                "<button class='btn btn-danger'>End Widget</button>" +
-              "</form>" +
-              //"<a href='<?=PATH;?>widgets/end?id="+$(this).attr('id')+"' class='btn btn-danger' style='width: 80px;'>End</a>"+
-            "</div>"+
-            "<div style='width: "+$(this).attr('width')+"px; height: "+$(this).attr('height')+"px; margin: 40px auto;'>"+
-              "<iframe frameborder='no' framespacing='0' scrolling='no' src='"+$(this).attr('href')+"' width='"+$(this).attr('width')+"' height='"+$(this).attr('height')+"'></iframe>"+
-            "</div>"+
-          "</div>"
-        );
-
-        $.lightbox(html, {
-          width   : 500,
-          height	: 500,
-          onOpen: function(){
-            $("#cancel").click(function(){
-              $(this).remove();
-            });
-          },
-          onClose: function(){
-            console.log($(this));
-          }
-        });
-      });
-
       function widgetTabClickHandler(e) {
         e.preventDefault();
         $(this).tab('show');
       }
-
       $('#active-tab a').click(widgetTabClickHandler);
       $('#ended-tab a').click(widgetTabClickHandler);
       $('#all-tab a').click(widgetTabClickHandler);
-
     });
   </script>
 }

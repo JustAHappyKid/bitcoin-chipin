@@ -32,6 +32,17 @@ class DashboardTests extends WebappTestingHarness {
     # TODO: Test that each widget shows up under appropriate tabs...
   }
 
+  function testEndingWidget() {
+    $w = getWidget($this->user);
+    $this->updateEndingDate($w, new DateTime('+7 days'));
+    assertFalse($w->hasEnded());
+    $this->get('/dashboard/');
+    $this->clickLink("//a[contains(text(), 'End') and contains(@href, '{$w->id}')]");
+    $this->submitForm($this->getForm('end-widget-' . $w->id));
+    $wNow = current(Widget::getAll());
+    assertTrue($wNow->hasEnded());
+  }
+
   private function updateEndingDate(Widget $w, DateTime $dt) {
     DB\query("UPDATE widgets SET ending = ? WHERE id = ?", array($dt, $w->id));
   }
