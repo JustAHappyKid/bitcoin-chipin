@@ -30,6 +30,16 @@ function testProgressProperlyCalculated() {
   assertTrue($reloaded->progress > floor($expected) && $reloaded->progress < ceil($expected));
 }
 
+function testDeterminingWhetherWidgetHasEndedOrNot() {
+  $w = getWidget();
+  $w->ending = new DateTime('-1 day');
+  assertTrue($w->hasEnded());
+  $w->ending = new DateTime((new DateTime('now'))->format('Y-m-d'));
+  assertFalse($w->hasEnded());
+  $w->ending = new DateTime('+1 day');
+  assertFalse($w->hasEnded());
+}
+
 function setPriceForBTC($currency, $price) {
   DB\delete('ticker_data', 'currency = ?', array($currency));
   DB\insertOne('ticker_data', array('currency' => $currency, 'last_price' => $price));
