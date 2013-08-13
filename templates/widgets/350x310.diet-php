@@ -2,6 +2,7 @@
 <html>
   <head>
     <title>Bitcoins</title>
+    <link rel="stylesheet" href="/widgets/css/reset.css" />
     <link rel="stylesheet" href="/widgets/css/styles.css" />
   </head>
   <body>
