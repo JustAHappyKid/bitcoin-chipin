@@ -269,6 +269,10 @@
   padding-bottom: 4px;
 }
 
+.widget.widget-blue #contribute h6 {
+  color: #333;
+}
+
 
 /**
  * Dark widget
