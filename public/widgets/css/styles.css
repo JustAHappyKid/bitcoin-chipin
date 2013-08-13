@@ -44,7 +44,7 @@
   letter-spacing: -1px;
   line-height: 85%;
   margin: 0 5px;
-  padding: 18px 0 0;
+  padding: 15px 0 0;
   text-align: center;
   text-transform: uppercase;
   white-space: nowrap;
@@ -278,19 +278,31 @@
   background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
 }
 
+.widget.widget-dark .about {
+  color: #eee;
+  border-bottom: 1px solid #666;
+  border-bottom: 1px solid rgba(150, 150, 150, .3);
+}
+
 .widget-wrapper .widget.widget-dark .btn-container {
-  background-image: url("../images/bkg_line_dark.png");
+  background-image: url("../images/line-dark.png");
 }
 
 .widget-wrapper .widget.widget-dark h2.widget-title {
-  background: url("../images/bkg_line_dark.png") repeat-x scroll center bottom transparent;
+  background: url("../images/line-dark.png") repeat-x scroll center bottom transparent;
+  color: #eee;
+  text-shadow: 1px 1px 3px #bbb;
   border-bottom: 0 none;
-  padding-bottom: 4px;
+  padding-bottom: 2px;
 }
 
 .widget-wrapper .widget.widget-dark .raised-and-goal h6,
 .widget-wrapper .widget.widget-dark .raised-and-goal h2 {
   color: #fff;
+}
+
+.widget.widget-dark .btc-addr {
+  color: #ddd;
 }
 
 .widget-wrapper .widget.widget-dark /*.a-center*/ .buy-bitcoins {
@@ -299,6 +311,7 @@
 }
 
 .widget-wrapper .widget.widget-dark /*.a-center*/ .powered {
-  color: #525252;
+  /*color: #525252;*/
+  color: #aaa;
   text-shadow: 1px 1px 1px #000000;
 }
