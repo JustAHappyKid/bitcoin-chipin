@@ -26,8 +26,6 @@ class Widget {
   /** @var Amount */
   public $raisedAmnt;
 
-  # XXX: This one returns an object...
-  # TODO: Make other functions return Widget object.
   public static function getByOwnerAndID(User $owner, $id) {
     $w = self::getByID($id);
     if ($w->ownerID != $owner->id) {
@@ -37,7 +35,7 @@ class Widget {
   }
 
   public static function getByID($id) {
-    return Widget::getByQuery('id = ?', array($id));
+    return Widget::getOneByQuery('id = ?', array($id));
     /*
     $rows = select('id = ?', array($id));
     if (count($rows) == 0) {
@@ -52,22 +50,30 @@ class Widget {
 
   public static function getByURI(User $owner, $uriID) {
     # XXX: What about (unlikely) use-case where this could match two widgets?
-    return Widget::getByQuery('owner_id = ? AND (id = ? OR uri_id = ?)',
+    return Widget::getOneByQuery('owner_id = ? AND (id = ? OR uri_id = ?)',
       array($owner->id, $uriID, $uriID));
   }
 
-  public static function getByQuery($query, Array $params) {
-    $rows = select($query, $params);
-    if (count($rows) == 0) {
+  public static function getOneByQuery($query, Array $params) {
+    $ws = Widget::getManyByQuery($query, $params);
+    if (count($ws) == 0) {
       throw new NoSuchWidget("Could not find widget matching query '$query' with following " .
         "parameters: " . asString($params));
     }
-    $r = current($rows);
-    $obj = new Widget;
-    $obj->populateFromArray($r);
-    return $obj;
+    return current($ws);
   }
 
+  public static function getManyByQuery($query, Array $params) {
+    return array_map(
+      function($row) {
+        $obj = new Widget;
+        $obj->populateFromArray($row);
+        return $obj; },
+      select($query, $params));
+  }
+
+  public static function getAll() { return self::getManyByQuery('TRUE', array()); }
+  /*
   public static function getAll() {
     return array_map(
       function($row) {
@@ -75,6 +81,11 @@ class Widget {
         $o->populateFromArray($row);
         return $o; },
       getAll());
+  }
+  */
+
+  public static function getManyByOwner(User $owner) {
+    return self::getManyByQuery('owner_id = ?', array($owner->id));
   }
 
   public function populateFromArray(Array $a) {
@@ -135,6 +146,12 @@ class Widget {
       throw new Exception("'ending' attribute must be string or DateTime object");
     }
   }
+
+  function hasEnded() {
+    $timestampOfEndDate = strtotime($this->ending->format('Y-m-d'));
+    $timestampOfToday = strtotime(strftime('%Y-%m-%d'));
+    return $timestampOfToday > $timestampOfEndDate;
+  }
 }
 
 function getAll() {
@@ -151,11 +168,6 @@ function getByID($id) {
     throw new NoSuchWidget("Could not find widget with ID $id");
   }
   return current($rows);
-}
-
-/** @deprecated */
-function getByOwner(User $owner) {
-  return select('owner_id = ?', array($owner->id));
 }
 
 function select($whereClause, $params = array()) {
