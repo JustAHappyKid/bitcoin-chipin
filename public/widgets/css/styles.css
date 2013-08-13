@@ -273,6 +273,10 @@
   color: #333;
 }
 
+.widget.widget-blue .powered {
+  color: #336;
+}
+
 
 /**
  * Dark widget
