@@ -83,7 +83,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
    */
   public function validBtcAddr() {
     $address = $this->context->takeNextPathComponent();
-    // $valid = Bitcoin\isValidAddress($address);
     $resp = new HttpResponse;
     $resp->statusCode = 200;
     $resp->contentType = 'text/plain';
@@ -93,7 +92,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   private function isValidAddress($address) {
     try {
-      // BlockchainDotInfo\getBalanceInSatoshis($address);
       Bitcoin\getBalance($address);
       return true;
     } catch (Bitcoin\InvalidAddress $_) {
@@ -110,10 +108,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function widgetPreviewURL(Widget $w) {
-    /*
-    $width = $w->width ? $w->width : 250;
-    $height = $w->height ? $w->height : 250;
-    */
     $width = $w->width ? $w->width : 350;
     $height = $w->height ? $w->height : 310;
     $vars = array(
@@ -152,11 +146,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function renderStep($tplFile, $className, Widget $widget, Forms\Form $form = null) {
-    /*
-    global $content;
-    $content = '';
-    if ($error) $content .= '<div class="alert alert-error">' . $error . '</div>';
-    */
     return $this->render("widget-wiz/$tplFile", $className,
       array('widget' => $widget, 'form' => $form,
             'previewURL' => $this->widgetPreviewURL($widget)));
@@ -164,11 +153,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   private function getCountryCodeForIP() {
     try {
-      /*
-      $ipInfoJSON = HttpSimple\get('http://api.easyjquery.com/ips/?ip='. $_SERVER['REMOTE_ADDR']);
-      $location = json_decode($ipInfoJSON, true);
-      return $location['Country'];
-      */
       $rawJSON = HttpSimple\get('https://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR']);
       $info = json_decode($rawJSON);
       // var_dump($info);
