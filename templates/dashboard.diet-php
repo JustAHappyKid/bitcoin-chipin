@@ -1,9 +1,6 @@
 !extends 'layout.php'
 
 block htmlHeadExtras {
-  <link rel="stylesheet" type="text/css"
-        href="/js/plugins/lightbox/themes/default/jquery.lightbox.css" />
-  <script type="text/javascript" src="/js/plugins/lightbox/jquery.lightbox.min.js"></script>
   ? $this->javascriptForTabs();
 }
 
