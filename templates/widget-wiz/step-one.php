@@ -11,7 +11,7 @@ class StepOne extends WidgetWizLayout {
 
   protected function stepNumber() { return 1; }
   protected function showPreview() { return false; }
-  protected function button() {
+  protected function buttons() {
     return '
         <button class="button btn btn-secondary btn-large" onclick="return validateForm();">Next Step</button>
       ';

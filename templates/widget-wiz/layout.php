@@ -7,7 +7,7 @@ abstract class WidgetWizLayout extends Layout {
   abstract protected function contentForThisStep();
   abstract protected function stepNumber();
   abstract protected function showPreview();
-  abstract protected function button();
+  abstract protected function buttons();
 
   /*function userIsAuthenticated() { return true; }*/
 
@@ -86,8 +86,8 @@ abstract class WidgetWizLayout extends Layout {
 
                     <?= $this->contentForThisStep() ?>
 
-                    <div style="text-align: right; border-top: 1px solid #ddd; padding: 20px 0;">
-                      <?= $this->button() ?>
+                    <div class="form-actions">
+                      <?= $this->buttons() ?>
                     </div>
 
                   </div> <!-- /wizard -->

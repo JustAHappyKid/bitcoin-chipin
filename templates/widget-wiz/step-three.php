@@ -9,8 +9,12 @@ class StepThree extends WidgetWizLayout {
 
   protected function stepNumber() { return 3; }
   protected function showPreview() { return true; }
-  protected function button() {
-    return '<a href="/dashboard/">Back to my dashboard</a>';
+  protected function buttons() {
+    //return '<a href="/dashboard/">Back to my dashboard</a>';
+    $wid = $this->widget->id;
+    return '
+      <a class="btn btn-large" href="/widget-wiz/step-two?w=' . $wid . '">Previous Step</a>
+      <a class="btn btn-large btn-info" href="/dashboard/">Proceed to Dashboard</a>';
   }
 
   function contentForThisStep() { ?>
@@ -26,7 +30,7 @@ class StepThree extends WidgetWizLayout {
           <?= $this->iframeForWidget($this->widget); ?>
         </div>
         <div class="clearfix"> </div>
-      </div> <!-- /XXX -->		
+      </div>
     </div> <!-- /step -->
   <? }
 

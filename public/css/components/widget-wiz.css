@@ -11,3 +11,14 @@
 }
 
 #widgetForm .error-msg { display: none; }
+
+#widgetForm .form-actions {
+  text-align: right;
+  border-top: 1px solid #ddd;
+  background-color: inherit;
+  padding: 20px 0;
+}
+
+#widgetForm .form-actions .btn {
+  margin: 0 5px;
+}

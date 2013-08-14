@@ -9,8 +9,10 @@ class StepTwo extends WidgetWizLayout {
 
   protected function stepNumber() { return 2; }
   protected function showPreview() { return true; }
-  protected function button() {
-    return '<button class="button btn btn-secondary btn-large">Save Widget</button>';
+  protected function buttons() {
+    return '
+      <a      class="btn btn-large" href="/widget-wiz/step-one">Previous Step</a>
+      <button class="btn btn-large btn-primary">Save Widget</button>';
   }
 
   function contentForThisStep() { ?>
