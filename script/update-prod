@@ -19,9 +19,7 @@ if [ "$line" = "Yes!" ]; then
   SPAREPARTS_DIR=`dirname "$SPAREPARTS_SRC_DIR"`
 
   echo "Updating local checkout of php-spare-parts ($SPAREPARTS_DIR)..."
-  #bzr up "$SPAREPARTS_DIR"
   mkdir "$TMP_DIR/spare-parts"
-  #bzr export "$TMP_DIR/my-php-libs" "$SPAREPARTS_DIR"
   cd "$SPAREPARTS_DIR"
   SPAREPARTS_BRANCH=`git rev-parse --abbrev-ref HEAD`
   echo "Doing export on php-spare-parts from directory $SPAREPARTS_DIR"
