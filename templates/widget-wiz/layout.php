@@ -9,7 +9,7 @@ abstract class WidgetWizLayout extends Layout {
   abstract protected function showPreview();
   abstract protected function button();
 
-  function userIsAuthenticated() { return true; }
+  /*function userIsAuthenticated() { return true; }*/
 
   function htmlHeadExtras() { ?>
 
@@ -18,12 +18,7 @@ abstract class WidgetWizLayout extends Layout {
     <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.min.css" />
 
     <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
-    <!-- <script src="<?=PATH;?>js/widget-wiz.js"></script> -->
-
-    <? /* XXX: Are these still needed?
-    <link href="<?=PATH;?>js/plugins/msgGrowl/css/msgGrowl.css" rel="stylesheet" />
-    <script src="<?=PATH;?>js/plugins/msgGrowl/js/msgGrowl.js"></script>
-    */ ?>
+    <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
 
     <style>
 

@@ -31,12 +31,9 @@ abstract class Layout implements \SpareParts\Template\Renderable {
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/theme.css" />
         <link rel="stylesheet" type="text/css" href="/css/measure-theme-overrides.css" />
+        <link rel="stylesheet" type="text/css" href="/css/chipin-common.css" />
         <link href='//fonts.googleapis.com/css?family=Lato:300,400,700,900,300italic,400italic,700italic,900italic'
               rel='stylesheet' type='text/css' />
-
-        <? /* TODO: Only include these when needed (i.e., for Dashboard and/or Widget Wizard) */ ?>
-        <link rel="stylesheet" type="text/css" href="/css/components/dashboard.css" />
-        <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
 
         <script src="/js/jquery-latest.js"></script>
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
