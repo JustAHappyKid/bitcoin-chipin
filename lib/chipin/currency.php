@@ -9,9 +9,6 @@ use \InvalidArgumentException, \Chipin\Currencies;
 # XXX: Rename to SumOfMoney?
 class Amount {
 
-  /** @var Currency */
-  //public $currency;
-
   public $currencyCode;
 
   /** @var int */
