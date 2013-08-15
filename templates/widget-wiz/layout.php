@@ -9,28 +9,17 @@ abstract class WidgetWizLayout extends Layout {
   abstract protected function showPreview();
   abstract protected function buttons();
 
-  /*function userIsAuthenticated() { return true; }*/
-
   function htmlHeadExtras() { ?>
 
     <? /* TODO: Move this somewhere more appropriate! */ ?>
     <script src="/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.min.css" />
 
-    <link href="<?=PATH;?>js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
+    <? /* XXX: Remove this once we're sure it's no longer needed...
+      <link href="/js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
+    */ ?>
+
     <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
-
-    <style>
-
-      #ui-datepicker-div {
-        z-index: 500 !important;
-      }
-
-      /*.span8 {
-        width: 978px;
-      }*/
-
-    </style>
 
   <? }
 
