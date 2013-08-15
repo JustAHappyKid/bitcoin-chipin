@@ -26,17 +26,9 @@ abstract class WidgetWizLayout extends Layout {
         z-index: 500 !important;
       }
 
-      /*.stepContainer {
-        height: 410px!important;
-      }*/
-
-      /*.msgGrowl-container {
-        z-index: 500 !important;
-      }*/
-
-      .span8 {
+      /*.span8 {
         width: 978px;
-      }
+      }*/
 
     </style>
 
@@ -51,7 +43,7 @@ abstract class WidgetWizLayout extends Layout {
     <div id="content">
       <div class="container">
         <div class="row">
-          <div class="span8">
+          <div class="span12">
             <div class="widget">
               <div class="widget-header">
                 <h3>
@@ -72,14 +64,14 @@ abstract class WidgetWizLayout extends Layout {
                       <? foreach ($steps as $num => $label): ?>
                         <li>
 
-                          <span class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>">
+                          <div class="step <?= $num == $this->stepNumber() ? 'selected' : '' ?>">
                           <!-- <a href="./step-<?= $words[$num] ?>#step-<?= $num ?>"
                             class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>"> -->
                             <div class="wizard-step-number"><?= $num ?></div>
                             <div class="wizard-step-label"><?= $label ?></div>
                             <div class="wizard-step-bar"></div>
                           <!-- </a> -->
-                          </span>
+                          </div>
                         </li>
                       <? endforeach; ?>
                     </ul>
