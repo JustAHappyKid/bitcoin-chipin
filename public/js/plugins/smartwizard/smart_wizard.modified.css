@@ -56,12 +56,11 @@
 
 
 
-
+/*
 .swMain .buttonNext {
   display:block;
   float:right;
   margin:5px 3px 0 3px;
-
   width:100px;
 }
 .swMain .buttonDisabled {
@@ -72,20 +71,20 @@
   display:block;
   float:right;
   margin:5px 3px 0 3px;
-
   width:100px;
 }
 .swMain .buttonFinish {
   display:block;
   float:right;
   margin:5px 10px 0 3px;
-
   width:100px;
 }
+*/
+
 
 /* Form Styles */
 
-.swMain .loader {
+/*.swMain .loader {
   position:relative;
   display:none;
   float:left;
@@ -98,8 +97,8 @@
   -moz-border-radius  : 5px;
   -webkit-border-radius: 5px;
   z-index:998;
-}
-.swMain .msgBox {
+}*/
+/*.swMain .msgBox {
   position:relative;
   display:none;
   float:left;
@@ -113,13 +112,13 @@
   -webkit-border-radius: 5px;
   z-index:999;
   min-width:200px;
-}
-.swMain .msgBox .content {
+}*/
+/*.swMain .msgBox .content {
   font: normal 12px Verdana,Arial,Helvetica,sans-serif;
   padding: 0px;
   float:left;
-}
-.swMain .msgBox .close {
+}*/
+/*.swMain .msgBox .close {
   border: 1px solid #CCC;
   border-radius: 3px;
   color: #CCC;
@@ -131,11 +130,11 @@
   position: relative;
   text-align: center;
   text-decoration: none;
-}
-.swMain .msgBox .close:hover{
+}*/
+/*.swMain .msgBox .close:hover{
   color: #EA8511;
   border: 1px solid #EA8511;
-}
+}*/
 
 
 
@@ -245,8 +244,6 @@
               text-shadow: 1px 1px 1px rgba(0,0,0,.4);
             }
 
-/* .wizard-steps a.selected .wizard-step-number,
-.wizard-steps a.selected .wizard-step-bar { */
 .wizard-steps .selected .wizard-step-number,
 .wizard-steps .selected .wizard-step-bar {
   color: #FFF;
