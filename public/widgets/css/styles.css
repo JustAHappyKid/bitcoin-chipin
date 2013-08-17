@@ -65,7 +65,7 @@
  */
 
 .widget-wrapper .raised-and-goal {
-  margin: 10px 0px;
+  margin: 10px 0;
   overflow: hidden;
   text-transform: uppercase;
   text-align: center;
@@ -133,9 +133,9 @@
 }
 
 
-.status-bar-container { margin: 0 0px 7px 0; }
+.status-bar-container { margin: 0 0 7px 0; }
 .status-bar-container .bg-bar {
-    background: url("../images/bkg_progress.png") repeat scroll 0 0 transparent;
+    background: url("../images/progress-bkg.png") repeat scroll 0 0 transparent;
     height: 33px;
     margin: 0 auto;
     overflow: hidden;
@@ -143,7 +143,7 @@
     width: 278px;
 }
 .status-bar-container .bg-bar .bar {
-    background: url("../images/bkg_progress_bar.png") no-repeat scroll 100% 0 transparent;
+    background: url("../images/progress-bar.png") no-repeat scroll 100% 0 transparent;
     height: 34px;
 }
 
@@ -174,14 +174,14 @@
  * "Contribute Now" and "View Progress" buttons
  */
 .btn-container {
-  background: url("../images/bkg_contribute.png") repeat-x scroll center center transparent;
+  background: url("../images/contribute-bkg.png") repeat-x scroll center center transparent;
   position: fixed;
   top: 235px;
   left: 8px;
   width: 325px;
 }
 .btn-container .btn {
-  background: url("../images/btn_contribute.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/contribute-btn.png") no-repeat scroll 0 0 transparent;
   display: block;
   width: 233px;
   height: 43px;
@@ -228,7 +228,7 @@
  */
 
 .widget-wrapper .widget.widget-white {
-  background: url("../images/bkg_white_widget.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/skins/white.350x310.png") no-repeat scroll 0 0 transparent;
 }
 
 
@@ -237,15 +237,15 @@
  */
 
 .widget-wrapper .widget.widget-silver {
-  background: url("../images/bkg_white_silver.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/skins/silver.350x310.png") no-repeat scroll 0 0 transparent;
 }
 
-.widget-wrapper .widget.widget-silver .btn-container{
-  background-image: url("../images/widget_silder_line.png");
+.widget-wrapper .widget.widget-silver .btn-container {
+  background-image: url("../images/line.png");
 }
 
 .widget-wrapper .widget.widget-silver h2.widget-title {
-  background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
+  background: url("../images/line.png") repeat-x scroll center bottom transparent;
   border-bottom: 0 none;
   padding-bottom: 4px;
 }
@@ -256,15 +256,15 @@
  */
 
 .widget-wrapper .widget.widget-blue {
-  background: url("../images/bkg_white_blue.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/skins/blue.350x310.png") no-repeat scroll 0 0 transparent;
 }
 
 .widget-wrapper .widget.widget-blue .btn-container {
-  background-image: url("../images/widget_silder_line.png");
+  background-image: url("../images/line.png");
 }
 
 .widget-wrapper .widget.widget-blue h2.widget-title {
-  background: url("../images/widget_silder_line.png") repeat-x scroll center bottom transparent;
+  background: url("../images/line.png") repeat-x scroll center bottom transparent;
   border-bottom: 0 none;
   padding-bottom: 4px;
 }
@@ -283,7 +283,7 @@
  */
 
 .widget-wrapper .widget.widget-dark {
-  background: url("../images/bkg_white_dark.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/skins/dark.350x310.png") no-repeat scroll 0 0 transparent;
 }
 
 .widget.widget-dark .about {
