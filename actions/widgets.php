@@ -100,14 +100,6 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     return $dollars . '.' . substr($cents, 0, 2);
   }
   */
-
-  private function getAmountRaised(Widget $widget) {
-    try {
-      return Bitcoin\getBalance($widget->bitcoinAddress, $widget->currency);
-    } catch (\SpareParts\WebClient\NetworkError $_) {
-      return $widget->raised;
-    }
-  }
 }
 
 return 'WidgetsController';
