@@ -72,34 +72,9 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     }
   }
 
-  /*
-  private function setAltCurrencyValues(Widget $widget, Array & $vars) {
-    if ($widget->currency == "BTC") {
-      $vars['altCurrency'] = "USD";
-      $vars['altGoal'] = $this->btcToDollars($widget->goal);
-      $vars['altRaised'] = $this->btcToDollars($widget->raised);
-    } else {
-      $vars['altCurrency'] = "BTC";
-      $goalInBTC = Bitcoin\toBTC($widget->currency, $widget->goal);
-      $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
-      $raisedInBTC = Bitcoin\toBTC($widget->currency, $widget->raised);
-      $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
-    }
-  }
-  */
-
   private function btcToDollars($amountInBTC) {
-    //return $this->dollarValue(Bitcoin\fromBTC($amountInBTC, 'USD'));
     Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
   }
-
-  /*
-  private function dollarValue($amount) {
-    $parts = explode('.', strval($amount));
-    list($dollars, $cents) = count($parts) == 2 ? $parts : array($parts[0], '00');
-    return $dollars . '.' . substr($cents, 0, 2);
-  }
-  */
 }
 
 return 'WidgetsController';
