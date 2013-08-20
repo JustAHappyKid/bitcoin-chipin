@@ -7,8 +7,8 @@ require_once 'chipin/currency.php';
 require_once 'spare-parts/types.php';         # at
 require_once 'spare-parts/template/base.php'; # Template\renderFile
 
-use \Exception, \SpareParts\Webapp\RequestContext, \SpareParts\Template,
-  \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
+use \SpareParts\Webapp\RequestContext, \SpareParts\Template,
+  \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
   \Chipin\Currency\Amount;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
@@ -50,16 +50,19 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['raised'] = new Amount($_GET['currency'], $vars['goal']->numUnits / 4);
     $this->setAltCurrencyValues($vars['goal'], $vars['raised'], $vars);
     $vars['progress'] = 25;
-    # TODO: Assert dimensions are valid (e.g., 200x300, 350x310, ...).
-//    $w = $_GET['width']; $h = $_GET['height'];
-//    return $this->renderDietTpl("widgets/{$w}x{$h}.diet-php", $vars);
-    $vars['width'] = $_GET['width'];
-    $vars['height'] = $_GET['height'];
+    $ds = Widgets\allowedSizes();
+    $vars['width'] = at($_GET, 'width', $ds[0]->width);
+    $vars['height'] = at($_GET, 'height', $ds[0]->height);
     return $this->renderWidget($vars);
   }
 
   private function renderWidget(Array $vars) {
     $w = $vars['width']; $h = $vars['height'];
+    if (!Widgets\validDimensions($w, $h)) {
+      $ds = Widgets\allowedSizes();
+      $w = $ds[0]->width; $h = $ds[0]->height;
+      # TODO: Log warning that a request for invalid widget dimensions was made.
+    }
     return $this->renderDietTpl("widgets/{$w}x{$h}.diet-php", $vars);
   }
 
