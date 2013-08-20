@@ -1,0 +1,63 @@
+
+/**
+ * "Contribute Now" and "View Progress" buttons
+ */
+.btn-container {
+  background: url("../images/contribute-bkg.png") repeat-x scroll center center transparent;
+  position: fixed;
+  top: 235px;
+  left: 8px;
+  width: 325px;
+}
+
+.btn-container .btn {
+  background: url("../images/contribute-btn.png") no-repeat scroll 0 0 transparent;
+  display: block;
+  width: 233px;
+  height: 43px;
+  font-size: 18px;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 43px;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 1px #B5B5B5;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+
+/**
+ * Section relaying information on how to contribute (Bitcoin address to send to,
+ * "learn more" link, etc).
+ */
+
+#contribute {
+  height: 116px;
+}
+
+.widget-wrapper #contribute h6 {
+  /*margin: 5px 0 1px 0;
+  text-transform: uppercase;
+  text-align: center;*/
+  font-size: 14px;
+  /*color: #888;*/
+}
+
+.widget-wrapper .btc-addr {
+  font-size: 16px;
+/*  margin-bottom: 10px;*/
+}
+
+
+/**
+ * Footer
+ */
+
+.widget #footer {
+  text-align: center;
+  position: absolute;
+  top: 280px;
+  left: 0;
+  width: 346px;
+}

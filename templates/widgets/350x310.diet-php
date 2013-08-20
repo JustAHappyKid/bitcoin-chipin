@@ -4,6 +4,7 @@
     <title>Bitcoins</title>
     <link rel="stylesheet" href="/widgets/css/reset.css" />
     <link rel="stylesheet" href="/widgets/css/styles.css" />
+    <link rel="stylesheet" href="/widgets/css/350x310.css" />
   </head>
   <body>
     <div class="widget-wrapper">
