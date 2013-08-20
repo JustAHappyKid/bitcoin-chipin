@@ -2,7 +2,7 @@
 <?php
 
 use \SpareParts\Test, \SpareParts\Database as DB, \Chipin\User, \Chipin\Passwords,
-  \Chipin\Widgets\Widget, \Chipin\Bitcoin;
+  \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin;
 
 function main($argc, $argv) {
   $testDir = realpath(dirname(__FILE__));
@@ -61,9 +61,9 @@ function getWidget(User $u = null) {
   $w->goal = 100;
   $w->currency = 'USD';
   $w->raised = 30;
-//    $w->width = XXX?
-//    $w->height = XXX?
-//    $w->color = XXX?
+  $w->setDimensions(350, 310);
+  $colors = Widgets\allowedColors();
+  $w->color = $colors[0];
   $w->bitcoinAddress = getBitcoinAddr();
   $w->countryCode = 'CA';
   $w->about = "This is a test widget!";
