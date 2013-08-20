@@ -5,7 +5,7 @@ namespace Chipin\Test;
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/widgets.php';                # Widget
 
-use \Chipin\Widgets\Widget, \DateTime;
+use \Chipin\Widgets;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -18,8 +18,10 @@ class WidgetTests extends WebappTestingHarness {
   }
 
   function testWidgetPreview() {
+    $ds = Widgets\allowedSizes();
     $this->get("/widgets/preview?title=Oh+Bother&goal=3&currency=BTC&" .
-      "about=This+is+to+test+preview+mode.&ending=2020-07-25&address=" . $this->btcAddr());
+      "about=This+is+to+test+preview+mode.&ending=2020-07-25&address=" . $this->btcAddr() . "&" .
+      "width={$ds[0]->width}&height={$ds[0]->height}");
     $goalDiv = current($this->xpathQuery("//div[@class='goal']"));
     assertTrue(contains($goalDiv->textContent, '3 BTC') ||
                contains($goalDiv->textContent, '3.0 BTC'));
