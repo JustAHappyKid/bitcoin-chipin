@@ -152,6 +152,13 @@ class Widget {
     $timestampOfToday = strtotime(strftime('%Y-%m-%d'));
     return $timestampOfToday > $timestampOfEndDate;
   }
+
+  public function setDimensions($w, $h) {
+    if (!validDimensions($w, $h))
+      throw new \InvalidArgumentException("{$w}x{$h} is not a valid widget size");
+    $this->width = $w;
+    $this->height = $h;
+  }
 }
 
 function getAll() {
@@ -205,5 +212,16 @@ function endWidget(Widget $w) {
 }
 
 function allowedColors() { return array('white', 'silver', 'blue', 'dark'); }
+
+class Dimensions {
+  public $width, $height;
+  function __construct($w, $h) { $this->width = $w; $this->height = $h; }
+}
+function allowedSizes() { return array(new Dimensions(350, 310), new Dimensions(200, 300)); }
+function validDimensions($w, $h) {
+  $matches = array_filter(allowedSizes(),
+    function($d) use($w, $h) { return $d->width == $w && $d->height == $h; });
+  return (count($matches) > 0);
+}
 
 class NoSuchWidget extends \Exception {}
