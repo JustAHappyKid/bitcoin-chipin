@@ -19,6 +19,8 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
+    $vars['width'] = $widget->width;
+    $vars['height'] = $widget->height;
     $vars['color'] = $widget->color;
     $vars['title'] = $widget->title;
     $vars['about'] = $widget->about;
@@ -29,7 +31,8 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
     // $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
-    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
+//    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
+    return $this->renderWidget($vars);
   }
 
   function byId(RequestContext $context) {
@@ -39,8 +42,6 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   function preview() {
-    if (at($_GET, 'width', '350') != '350' || at($_GET, 'height', '310') != '310')
-      throw new Exception("Only 350x310 widget supported at this time!");
     $vars = $_GET;
     $vars['display'] = 'overview';
     $vars['raised'] = '0';
@@ -49,7 +50,17 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['raised'] = new Amount($_GET['currency'], $vars['goal']->numUnits / 4);
     $this->setAltCurrencyValues($vars['goal'], $vars['raised'], $vars);
     $vars['progress'] = 25;
-    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
+    # TODO: Assert dimensions are valid (e.g., 200x300, 350x310, ...).
+//    $w = $_GET['width']; $h = $_GET['height'];
+//    return $this->renderDietTpl("widgets/{$w}x{$h}.diet-php", $vars);
+    $vars['width'] = $_GET['width'];
+    $vars['height'] = $_GET['height'];
+    return $this->renderWidget($vars);
+  }
+
+  private function renderWidget(Array $vars) {
+    $w = $vars['width']; $h = $vars['height'];
+    return $this->renderDietTpl("widgets/{$w}x{$h}.diet-php", $vars);
   }
 
   private function renderDietTpl($tpl, Array $vars) {
