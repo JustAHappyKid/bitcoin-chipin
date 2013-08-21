@@ -18,7 +18,7 @@
         <div id="overview" style="<?php if ($display != 'overview') { ?>display: none;<? } ?>">
           <div class="about">
             <p>
-              ? $summary = substr($about, 0, 110);
+              ? $summary = substr($about, 0, 70);
               <?= $summary ?>
               ? if ($summary != $about) {
                 &hellip;
