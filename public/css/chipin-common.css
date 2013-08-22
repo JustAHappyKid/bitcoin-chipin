@@ -186,3 +186,19 @@
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+.link-group a {
+  float: left;
+  padding: 2px 8px;
+  line-height: 20px;
+  text-decoration: none;
+  border: none;
+  border-right: 1px solid #dddddd;
+}
+.link-group a:last-of-type {
+  border-right: none;
+}
+
+.progress {
+  margin-bottom: 5px;
+}

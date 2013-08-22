@@ -106,9 +106,11 @@ block actionsColumn($widget) {
       <button class="btn" data-dismiss="modal">Close</button>
     </div>
   </div>
-  <a href="/widget-wiz/step-one?w=$widget->id">Edit</a> |
-  <a data-toggle="modal" href="#view-widget-<?= $widget->id ?>">View</a> |
-  <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
+  <div class="link-group">
+    <a href="/widget-wiz/step-one?w=$widget->id">Edit</a>
+    <a data-toggle="modal" href="#view-widget-<?= $widget->id ?>">View</a>
+    <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
+  </div>
 }
 
 block javascriptForTabs {
