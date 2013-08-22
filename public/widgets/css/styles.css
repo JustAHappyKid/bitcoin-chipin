@@ -210,14 +210,20 @@
   background: url("../images/skins/silver.350x310.png") no-repeat scroll 0 0 transparent;
 }
 
-.widget-wrapper .widget.widget-silver .btn-container {
-  background-image: url("../images/line.png");
-}
-
 .widget-wrapper .widget.widget-silver h2.widget-title {
   background: url("../images/line.png") repeat-x scroll center bottom transparent;
   border-bottom: 0 none;
   padding-bottom: 4px;
+}
+
+.widget.widget-silver .about {
+  color: #222;
+  text-shadow: 1px 1px 3px #bbb;
+  border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+}
+
+.widget-wrapper .widget.widget-silver .btn-container {
+  background-image: url("../images/line.png");
 }
 
 
