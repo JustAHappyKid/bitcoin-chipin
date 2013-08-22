@@ -45,11 +45,11 @@ block innerContent {
                   <?= $this->widgetsTable($this->activeWidgets) ?>
                 <? endif; ?>
               </div>
-              <div class="tab-pane" id="all">
-                <?= $this->widgetsTable($this->allWidgets) ?>
-              </div>
               <div class="tab-pane" id="ended">
                 <?= $this->widgetsTable($this->endedWidgets) ?>
+              </div>
+              <div class="tab-pane" id="all">
+                <?= $this->widgetsTable($this->allWidgets) ?>
               </div>
             </div>
 
