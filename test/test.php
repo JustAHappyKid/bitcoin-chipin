@@ -23,7 +23,7 @@ function main($argc, $argv) {
   require_once 'spare-parts/test/mock-sendmail.php';
   Test\addMockSendmailToPath(dirname(__FILE__) . '/mock/bin/mock-sendmail');
   require_once 'spare-parts/test/base-framework.php';
-  $filesToIgnore = array('test.php', 'mock/bin/mock-sendmail');
+  $filesToIgnore = array('test.php', 'config.ini', 'mock/bin/mock-sendmail');
   Test\testScriptMain($testDir, $filesToIgnore, $argc, $argv);
 }
 
