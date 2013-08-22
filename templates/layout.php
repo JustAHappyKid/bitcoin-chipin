@@ -1,6 +1,9 @@
 <?php
 
 require_once 'spare-parts/template/Renderable.php';
+require_once 'chipin/widgets.php';
+
+use \Chipin\Widgets\Widget;
 
 abstract class Layout implements \SpareParts\Template\Renderable {
 
@@ -62,4 +65,17 @@ abstract class Layout implements \SpareParts\Template\Renderable {
       </body>
     </html>
   <? }
+
+  protected function widgetURL(Widget $widget) {
+    return PATH . 'widgets/by-id/' . $widget->id;
+  }
+
+  protected function widgetIframe(Widget $w, $src = null, $id = null) {
+    if ($src == null) $src = $this->widgetURL($w);
+    return
+      '<iframe ' . ($id ? "id=\"$id\" " : '') .
+        'src="' . $src . '" ' .
+        'frameborder="no" framespacing="0" scrolling="no" ' .
+        'width="' . ($w->width + 5) . '" height="' . ($w->height + 5) . '"></iframe>';
+  }
 }

@@ -35,7 +35,6 @@ class StepThree extends WidgetWizLayout {
   <? }
 
   private function iframeForWidget(Widget $widget) {
-    $src = PATH . 'widgets/by-id/' . $widget->id;
-    return $this->widgetIframe($src, $widget->width, $widget->height);
+    return $this->widgetIframe($widget);
   }
 }

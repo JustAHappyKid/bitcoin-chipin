@@ -73,8 +73,10 @@ class StepTwo extends WidgetWizLayout {
             <!-- <iframe id="widget-preview" src="<?= PATH . 'widget-wiz/preview-current' ?>"
                     frameborder='no' framespacing='0' scrolling='no'
                     width="350" height="310"></iframe> -->
-            <?= $this->widgetIframe('/widget-wiz/preview-current',
-                  '350', '310', 'widget-preview') ?>
+            <? /* $this->widgetIframe('/widget-wiz/preview-current',
+                  $this->widget->width, $this->widget->height, 'widget-preview') */ ?>
+            <?= $this->widgetIframe($this->widget, $src = '/widget-wiz/preview-current',
+                                    $id = 'widget-preview') ?>
           </div>
         </div> <!-- END div for preview -->
         <div class="clearfix"> </div>
@@ -93,8 +95,8 @@ class StepTwo extends WidgetWizLayout {
             $('#path').val() + "widget-wiz/preview-current" +
             "?color=" + $('#widget-color').val() + "&about="+$("#widget-about").val() +
             "&width=" + s[0] + "&height=" + s[1]);
-          $('#widget-preview').attr('width', s[0]);
-          $('#widget-preview').attr('height', s[1]);
+          $('#widget-preview').attr('width',  parseInt(s[0]) + 5);
+          $('#widget-preview').attr('height', parseInt(s[1]) + 5);
         });
       });
     </script>
