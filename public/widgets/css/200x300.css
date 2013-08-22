@@ -20,7 +20,7 @@
 
 
 /**
- * Widget title
+ * Widget title and about text
  */
 
 .widget h2.widget-title {
@@ -37,6 +37,10 @@
 
 .widget h2.widget-title.long-title {
   font-size: 40px;
+}
+
+.widget .about {
+  height: 38px;
 }
 
 
