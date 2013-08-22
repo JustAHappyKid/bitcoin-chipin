@@ -92,7 +92,28 @@ block widgetsTable($widgets) {
 }
 
 block actionsColumn($widget) {
+  <div id="view-widget-<?= $widget->id ?>" class="modal hide fade" tabindex="-1">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+      <h3>Widget Preview</h3>
+    </div>
+    <div class="modal-body">
+      <div style="margin: 5px 0 15px; text-align: center;">
+        <?= $this->widgetIframe($widget) ?>
+      </div>
+      <h4>Widget Installation</h4>
+      <p>Use the HTML snippet below to install this widget on your website.</p>
+      <div style="text-align: center;">
+        <textarea style="width: 90%; height: 110px;"><?=
+          htmlspecialchars($this->widgetIframe($widget)) ?></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" data-dismiss="modal">Close</button>
+    </div>
+  </div>
   <a href="/widget-wiz/step-one?w=$widget->id">Edit</a> |
+  <a data-toggle="modal" href="#view-widget-<?= $widget->id ?>">View</a> |
   <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
 }
 
