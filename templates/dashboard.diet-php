@@ -67,11 +67,6 @@ block innerContent {
   </div>
 }
 
-block actionsColumn($widget) {
-  <a href="/widget-wiz/step-one?w=$widget->id">Edit</a> |
-  <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
-}
-
 block widgetsTable($widgets) {
   ? require_once 'chipin/currency.php';
   <table class="table table-bordered table-striped">
@@ -94,6 +89,11 @@ block widgetsTable($widgets) {
       }
     </tbody>
   </table>
+}
+
+block actionsColumn($widget) {
+  <a href="/widget-wiz/step-one?w=$widget->id">Edit</a> |
+  <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
 }
 
 block javascriptForTabs {
