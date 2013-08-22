@@ -102,7 +102,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   private function widgetPreviewURL(Widget $w) {
     $width = $w->width ? $w->width : 350;
     $height = $w->height ? $w->height : 310;
-    $vars = array(
+    $vars = array('width' => $width, 'height' => $height,
       'title' => $w->title, 'goal' => $w->goal, 'currency' => $w->currency,
       'about' => $w->about, 'color' => $w->color,
       'ending' => $w->endingDateAsString(), 'address' => $w->bitcoinAddress);

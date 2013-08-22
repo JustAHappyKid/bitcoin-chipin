@@ -52,19 +52,16 @@ class StepTwo extends WidgetWizLayout {
           <div class="control-group">
             <label class="control-label" for="userlanguage">Size</label>
             <div class="controls" style="margin-top: 6px;">
-              <input type="hidden" id="widget-size" name="size" value="350x310" />
-              <em>Coming soon &mdash; customize widget size!</em>
-              <? /*
+              <?
                 $size = new SelectField('size', 'Size',
-                  array("250x250" => "250 x 250", "120x60"  => "120 x 60",
-                        "125x125" => '125 x 125', "160x250" => "160 x 250",
-                        "220x220" => "220 x 220", "234x60"  => "234 x 60"));
+                  array("350x310" => "350 x 310", "200x300" => "200 x 300"));
+                        //"200x200"  => "200 x 200"));
                 $size->setID('widget-size');
                 if ($this->widget->width) {
                   $size->setValue($this->widget->width . 'x' . $this->widget->height);
                 }
-              */ ?>
-              <? /*= $size->renderInputHtml() */ ?>
+              ?>
+              <?= $size->renderInputHtml()  ?>
             </div>
           </div>
         </div> <!-- END div for form inputs -->
