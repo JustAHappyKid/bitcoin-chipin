@@ -11,10 +11,11 @@ block innerContent {
                     background: white;
                     margin: 0 auto; padding: 5px;
                     border: 1px solid #ddd; border-radius: 3px;">
-          <iframe src="/widgets/by-id/$widget->id"
+          <!-- <iframe src="/widgets/by-id/$widget->id"
                   frameborder="no" framespacing="0" scrolling="no"
                   width="$widget->width" height="$widget->height"
-                  style="margin: auto;"></iframe>
+                  style="margin: auto;"></iframe> -->
+          <?= $this->widgetIframe($widget); ?>
         </div>
         <form id="end-widget-$widget->id" action="<?= $_SERVER['REQUEST_URI'] ?>" method="post">
           <div class="form-actions" style="text-align: right;">
