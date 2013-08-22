@@ -42,19 +42,13 @@ block innerContent {
                     Create one now, it's super easy!
                   </div>
                 <? else: ?>
-                  <h3>In Progress</h3>
-                  <br/>
                   <?= $this->widgetsTable($this->activeWidgets) ?>
                 <? endif; ?>
               </div>
               <div class="tab-pane" id="all">
-                <h3>All</h3>
-                <br/>
                 <?= $this->widgetsTable($this->allWidgets) ?>
               </div>
               <div class="tab-pane" id="ended">
-                <h3>Ended</h3>
-                <br />
                 <?= $this->widgetsTable($this->endedWidgets) ?>
               </div>
             </div>
