@@ -19,6 +19,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
     $vars = array();
     $vars['display'] = at($_GET, 'display', 'overview');
+    $vars['widgetID'] = $widget->id;
     $vars['width'] = $widget->width;
     $vars['height'] = $widget->height;
     $vars['color'] = $widget->color;
@@ -29,9 +30,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['raised'] = $widget->raisedAmnt;
     $vars['progress'] = $widget->progress;
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
-    // $this->setAltCurrencyValues($widget, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
-//    return $this->renderDietTpl('widgets/350x310.diet-php', $vars);
     return $this->renderWidget($vars);
   }
 
@@ -39,6 +38,11 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $widget = Widget::getByID($context->takeNextPathComponent());
     return $this->redirect('/widgets/u/' . $widget->getOwner()->username . '/' .
       ($widget->uriID ? $widget->uriID : $widget->id));
+  }
+
+  function about(RequestContext $context) {
+    $widget = Widget::getByID($context->takeNextPathComponent());
+    return $this->render('widgets/about.diet-php', null, array('widget' => $widget));
   }
 
   function preview() {

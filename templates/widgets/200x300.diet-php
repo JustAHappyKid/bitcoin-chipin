@@ -22,7 +22,7 @@
               <?= $summary ?>
               ? if ($summary != $about) {
                 &hellip;
-                <!--<span>[<a href="xxx">more</a>]</span>-->
+                <span>[<a href="/widgets/about/$widgetID" target="_blank">more</a>]</span>
               }
             </p>
           </div>
