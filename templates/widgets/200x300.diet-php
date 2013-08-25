@@ -32,7 +32,6 @@
               <div class="amount">$raised</div>
               <div class="alt-amount">$altRaised</div>
             </div>
-<!--            <div style="clear: both;"> </div>-->
             <div class="goal">
               <h2>the goal</h2>
               <div class="amount">$goal</div>
