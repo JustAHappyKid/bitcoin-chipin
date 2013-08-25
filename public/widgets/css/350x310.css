@@ -1,7 +1,39 @@
 
 /**
+ * Overview of campaign goal and amount raised-so-far.
+ */
+
+.raised-and-goal {
+  color: #0a263c;
+}
+
+.raised-and-goal > div > * {
+  margin: 0;
+}
+
+.raised-and-goal h2, .raised-and-goal .alt-amount {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+.raised-and-goal .amount {
+  font-size: 27px;
+  line-height: 100%;
+}
+
+.raised-and-goal .raised {
+  width: 166px;
+}
+
+.raised-and-goal .goal {
+  width: 160px;
+}
+
+
+/**
  * "Contribute Now" and "View Progress" buttons
  */
+
 .btn-container {
   background: url("../images/contribute-bkg.png") repeat-x scroll center center transparent;
   position: fixed;

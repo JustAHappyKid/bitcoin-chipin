@@ -55,10 +55,6 @@
   font-size: 40px;
 }
 
-/*#overview, #contribute {
-  height: 125px;
-}*/
-
 
 /**
  * Overview of campaign goal and amount raised-so-far.
@@ -69,22 +65,21 @@
   overflow: hidden;
   text-transform: uppercase;
   text-align: center;
-  color: #0a263c;
 }
-
-.raised-and-goal h2 { margin: 0; font-size: 27px; line-height: 100%; }
-.raised-and-goal h6 { margin: 0; font-size: 12px; }
 
 .raised-and-goal .raised {
   border-right: 1px dashed #CBCBCB;
   float: left;
-  width: 166px;
 }
 
 .raised-and-goal .goal {
   float: right;
-  width: 160px;
 }
+
+
+/*#overview, #contribute {
+  height: 125px;
+}*/
 
 
 /**
@@ -289,8 +284,9 @@
   padding-bottom: 2px;
 }
 
-.widget-wrapper .widget.widget-dark .raised-and-goal h6,
-.widget-wrapper .widget.widget-dark .raised-and-goal h2 {
+.widget.widget-dark .raised-and-goal h2,
+.widget.widget-dark .raised-and-goal .amount,
+.widget.widget-dark .raised-and-goal .alt-amount {
   color: #fff;
 }
 
