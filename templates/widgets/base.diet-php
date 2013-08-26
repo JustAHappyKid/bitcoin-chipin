@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>$title - BitcoinChipin.com</title>
+    <link rel="stylesheet" href="/widgets/css/reset.css" />
+    <link rel="stylesheet" href="/widgets/css/styles.css" />
+    <link rel="stylesheet" href="/widgets/css/<?= $width . 'x' . $height ?>.css" />
+  </head>
+  <body>
+    <div class="widget-wrapper">
+      ? $skinImage = '/widgets/images/skins/' . $color . '.' . $width . 'x' . $height . '.png';
+      <div class="widget widget-$color"
+           style="background: url('<?= $skinImage ?>') no-repeat scroll 0 0 transparent;">
+
+        ? $titleClass = 'widget-title' . (strlen($title) > 25 ? ' long-title' : '');
+        <h2 class="$titleClass">$title</h2>
+
+        <div id="overview" style="<?php if ($display != 'overview') { ?>display: none;<? } ?>">
+          <div class="about">
+            <p>
+              ? $summary = substr($about, 0, $this->summaryLength());
+              <?= $summary ?>
+              ? if ($summary != $about) {
+                &hellip;
+                <span>[<a href="/widgets/about/$widgetID" target="_blank">more</a>]</span>
+              }
+            </p>
+          </div>
+          <div class="raised-and-goal">
+            <div class="raised">
+              <h2>raised so far</h2>
+              <div class="amount">$raised</div>
+              <div class="alt-amount">$altRaised</div>
+            </div>
+            <div class="goal">
+              <h2>the goal</h2>
+              <div class="amount">$goal</div>
+              <div class="alt-amount">$altGoal</div>
+            </div>
+          </div>
+          <div class="status-bar-container">
+            <div class="bg-bar">
+              ? $widthCSS = "width: " . $progress . "%;";
+              <div class="bar" style="$widthCSS"></div>
+            </div>
+          </div>
+          <div class="btn-container">
+            <a href="?display=contribute" class="btn"
+               onclick="document.getElementById('overview').setAttribute('style', 'display: none;');
+                        document.getElementById('contribute').setAttribute('style', '');
+                        return false;">Contribute Now</a>
+          </div>
+        </div>
+
+        <div id="contribute" style="<?php if ($display != 'contribute') { ?>display: none;<? } ?>">
+          <h6><?= $this->sendToLabel() ?></h6>
+          <div class="btc-addr">$bitcoinAddress</div>
+          <div class="qr-code">
+            <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=100"
+                 alt="[QR Code]" style="width: 100px; height: 100px;" />
+          </div>
+          <!--<div><a class="buy-bitcoins" href="">Learn How to Buy Bitcoins</a></div>-->
+          <div class="btn-container">
+            <a href="?display=overview" class="btn"
+               onclick="document.getElementById('contribute').setAttribute('style', 'display: none;');
+                        document.getElementById('overview').setAttribute('style', '');
+                        return false;">View Progress</a>
+          </div>
+        </div>
+
+        <div id="footer">
+          <!--<a class="buy_bitcoins" href="">Learn How to Buy Bitcoins</a>
+          <br />-->
+          <a href="https://bitcoinchipin.com/" class="powered">powered by bitcoinchipin.com</a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
