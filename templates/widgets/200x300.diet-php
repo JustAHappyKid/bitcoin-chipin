@@ -7,3 +7,7 @@ function summaryLength() {
 function sendToLabel() {
   return 'Send contributions to:';
 }
+
+function qrSize() {
+  return 100;
+}

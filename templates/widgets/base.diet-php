@@ -19,9 +19,9 @@
           <div class="about">
             <p>
               ? $summary = substr($about, 0, $this->summaryLength());
-              <?= $summary ?>
+              <?= $summary . (($summary == $about) ? '' : '&hellip;') ?>
               ? if ($summary != $about) {
-                &hellip;
+                <!--&hellip;-->
                 <?php if ($widgetID) { ?>
                   <span>[<a href="/widgets/about/$widgetID" target="_blank">more</a>]</span>
                 <?php } else { ?>
@@ -62,8 +62,9 @@
           <h6><?= $this->sendToLabel() ?></h6>
           <div class="btc-addr">$bitcoinAddress</div>
           <div class="qr-code">
-            <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=100"
-                 alt="[QR Code]" style="width: 100px; height: 100px;" />
+            ? $qrSize = $this->qrSize();
+            <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=$qrSize"
+                 alt="[QR Code]" style="width: <?= $qrSize ?>px; height: <?= $qrSize ?>px;" />
           </div>
           <!--<div><a class="buy-bitcoins" href="">Learn How to Buy Bitcoins</a></div>-->
           <div class="btn-container">
