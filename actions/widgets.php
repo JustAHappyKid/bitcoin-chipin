@@ -57,6 +57,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $ds = Widgets\allowedSizes();
     $vars['width'] = at($_GET, 'width', $ds[0]->width);
     $vars['height'] = at($_GET, 'height', $ds[0]->height);
+    $vars['widgetID'] = null;
     return $this->renderWidget($vars);
   }
 
