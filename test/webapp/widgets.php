@@ -11,10 +11,16 @@ class WidgetTests extends WebappTestingHarness {
 
   function testRenderingWidget() {
     $w = getWidget();
-    $this->get("/widgets/by-id/{$w->id}");
-    $goalDiv = current($this->xpathQuery("//div[@class='goal']"));
-    assertTrue(contains($goalDiv->textContent, '100.00 USD') ||
-               contains($goalDiv->textContent, '100 USD'));
+    # Test each widget size...
+    foreach (Widgets\allowedSizes() as $d) {
+      $w->width = $d->width;
+      $w->height = $d->height;
+      $w->save();
+      $this->get("/widgets/by-id/{$w->id}");
+      $goalDiv = current($this->xpathQuery("//div[@class='goal']"));
+      assertTrue(contains($goalDiv->textContent, '100.00 USD') ||
+                 contains($goalDiv->textContent, '100 USD'));
+    }
   }
 
   function testWidgetPreview() {
