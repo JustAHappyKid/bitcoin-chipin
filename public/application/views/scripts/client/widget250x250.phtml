@@ -80,6 +80,10 @@ ul{
 
 <? if (count($color) != 2) throw new Exception("Invalid color given"); ?>
 
+<? /* XXX: Default to blue if $color is in unexpected format?
+   $color = array('3093C7','1C5A85');
+ */ ?>
+
 .widget-container {
 	border-radius: 10px;
 	background-color: <?='#'.$color[0];?>;
