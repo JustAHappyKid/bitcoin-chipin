@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="/widgets/css/base.css" />
     <link rel="stylesheet" href="/widgets/css/<?= $width . 'x' . $height ?>.css" />
   </head>
-  <body>
+  <body style="background: transparent;">
     <div class="widget-wrapper">
       ? $skinImage = '/widgets/images/skins/' . $color . '.' . $width . 'x' . $height . '.png';
       <div class="widget widget-$color"

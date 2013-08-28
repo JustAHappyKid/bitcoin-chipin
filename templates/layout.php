@@ -74,7 +74,7 @@ abstract class Layout implements \SpareParts\Template\Renderable {
     return
       '<iframe ' . ($id ? "id=\"$id\" " : '') .
         'src="' . $src . '" ' .
-        'frameborder="no" framespacing="0" scrolling="no" ' .
+        'frameborder="no" framespacing="0" scrolling="no" allowTransparency="true" ' .
         'width="' . ($w->width + 5) . '" height="' . ($w->height + 5) . '"></iframe>';
   }
 }
