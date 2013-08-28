@@ -34,8 +34,11 @@ class ClientController extends Zend_Controller_Action {
       $this->view->raised = $this->view->progress = 0;
     } else {
       $id = $this->_getParam("id", "");
-      $owner_id = $this->_getParam("owner_id", "");
+//      $owner_id = $this->_getParam("owner_id", "");
       $widget = Widgets\getWidgetById($id);
+      if (in_array($widget['color'], Widgets\allowedColors())) {
+        return $this->_redirect('/widgets/by-id/' . $widget['id']);
+      }
       $widget['raised'] = Bitcoin\getBalance($widget['address'], $widget['currency']);
       $widget['progress'] = $widget['raised'] / $widget['goal'] * 100;
       foreach ($widget as $key => $value)
