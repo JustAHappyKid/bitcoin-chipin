@@ -2,7 +2,6 @@
 
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
-// require_once 'chipin/blockchain-dot-info.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
@@ -26,8 +25,10 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     $f = new Forms\Form('post');
     $f->addSection('step-one', array(
       Forms\newBasicTextField('title', 'Title'),
-      Forms\newDollarAmountField('goal', 'Goal')->maxAmount(self::maxGoal,
-        "Sorry, at the present time " . self::maxGoal . " is the maximum allowed goal.")
+      Forms\newDollarAmountField('goal', 'Goal')->
+        minAmount(0.001)->
+        maxAmount(self::maxGoal, "Sorry, at the present time " . self::maxGoal .
+                                 " is the maximum allowed goal.")
       # TODO: Add other fields...
     ));
     if ($this->isPostRequestAndFormIsValid($f)) {

@@ -124,6 +124,18 @@ class WidgetWizardTests extends WebappTestingHarness {
     }
   }
 
+  function testZeroAndNegativeValuesAreRejectedForGoal() {
+    foreach (array(0, -1, -572) as $amount) {
+      clearDB();
+      try {
+        $this->createWidget(array('goal' => (string)$amount));
+        fail("Value of '$amount' should be rejected for 'goal' field");
+      } catch (ValidationErrors $e) {
+        /* That's what we want. */
+      }
+    }
+  }
+
   function testSkippingStepOne() {
     $this->followRedirects(false);
     try {
