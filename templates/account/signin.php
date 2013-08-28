@@ -4,8 +4,6 @@ require_once dirname(dirname(__FILE__)) . '/layout.php';
 
 class SigninPage extends Layout {
 
-  function userIsAuthenticated() { return false; }
-
   function htmlHeadExtras() { ?>
 
     <link href="/css/components/signin.css" rel="stylesheet" type="text/css" />

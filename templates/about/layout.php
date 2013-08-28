@@ -4,8 +4,6 @@ require_once dirname(dirname(__FILE__)) . '/layout.php';
 
 abstract class AboutPageLayout extends Layout {
 
-  function userIsAuthenticated() { return false; }
-
   function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/external-pages.css" />
     <link rel="stylesheet" type="text/css" href="/css/components/about.css" />

@@ -3,9 +3,6 @@
 require_once dirname(dirname(__FILE__)) . '/layout.php';
 
 class ContactUsPage extends Layout {
-
-  function userIsAuthenticated() { return false; }
-
   function innerContent() { ?>
     <div id="contact-us" class="container">
       <h2 class="section_header">Contact Us</h2>

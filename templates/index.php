@@ -3,9 +3,6 @@
 require_once dirname(__FILE__) . '/layout.php';
 
 class IndexPage extends Layout {
-
-  function userIsAuthenticated() { return false; }
-
   function innerContent() { ?>
     <div id="hero">
       <div class="container">

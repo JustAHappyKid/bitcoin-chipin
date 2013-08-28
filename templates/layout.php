@@ -17,7 +17,6 @@ abstract class Layout implements \SpareParts\Template\Renderable {
     return $this->content();
   }
 
-  // abstract function userIsAuthenticated();
   abstract function innerContent();
 
   function htmlHeadExtras() {}
