@@ -76,10 +76,11 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w->currency = 'CAD';
     $w->ending = '2015-12-31';
     $w->bitcoinAddress = $this->btcAddr();
-    $w->width = '220';
-    $w->height = '220';
-    $colorGrey = 'E0DCDC,707070';
-    $w->color = $colorGrey;
+    $sizes = Widgets\allowedSizes();
+    $w->width = $sizes[0]->width;
+    $w->height = $sizes[0]->height;
+    $colors = Widgets\allowedColors();
+    $w->color = $colors[0];
     $w->save();
     $this->get('/widget-wiz/step-one?w=' . $w->id);
     $titleInput = current($this->xpathQuery("//input[@name='title']"));
@@ -88,9 +89,8 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->assertDatesAreEqual($w->ending, $endDateInput->getAttribute('value'));
     $this->expectSpecificOption($fieldName = 'currency', $expectedValue = 'CAD');
     $this->submitForm($this->getForm(), array());
-    // XXX
-    // $this->expectSpecificOption($fieldName = 'size', $expectedValue = '220x220');
-    // $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colorGrey);
+    $this->expectSpecificOption($fieldName = 'size', $expectedValue = $sizes[0]);
+    $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colors[0]);
   }
 
   function testWizardRejectsHtmlScriptTags() {
@@ -103,11 +103,10 @@ class WidgetWizardTests extends WebappTestingHarness {
               'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
       $this->submitForm($this->getForm(),
         array('about' => $badContent));
-              // 'size' => $this->defaultSize(), 'color' => $this->defaultColor()));
     } catch (Exception $_) {
       # XXX: Until we get proper form-validation in place, we'll just expect to see an
-      #      exception coming from the 'Paranoid' database layer proclaiming "No angle
-      #      brackets allowed!".
+      # XXX: exception coming from the 'Paranoid' database layer proclaiming "No angle
+      # XXX: brackets allowed!".
     }
     assertEqual(0, count(Widget::getAll()));
   }
@@ -162,7 +161,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->submitForm($this->getForm(),
       $this->takeValues($attrs, array('title', 'goal', 'currency', 'ending', 'bitcoinAddress')));
     $this->submitForm($this->getForm(),
-      $this->takeValues($attrs, array('about', /*'size', 'color'*/)));
+      $this->takeValues($attrs, array('about', 'size', 'color')));
   }
 
   private function takeValues(Array $a, Array $vs) {
@@ -170,16 +169,18 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   private function in3days() { return date("Y-m-d", strtotime("+3 days")); }
-  private function defaultSize() { return '125x125'; }
-  private function defaultColor() { return 'A9DB80,96C56F'; }
+//  private function defaultSize() { return '125x125'; }
+//  private function defaultColor() { return 'A9DB80,96C56F'; }
 
   private function expectSpecificOption($fieldName, $expectedValue) {
     $selectedOptions = $this->xpathQuery("//select[@name='$fieldName']/option[@selected]");
     assertEqual(1, count($selectedOptions),
       "Exactly one option should be selected for field '$fieldName'");
     $selectedOption = current($selectedOptions);
-    assertEqual($expectedValue, $selectedOption->getAttribute('value'),
-      "Expected field '$fieldName' to have value '$expectedValue' selected");
+    $selectedValue = $selectedOption->getAttribute('value');
+    assertEqual(strval($expectedValue), $selectedValue,
+      "Expected field '$fieldName' to have value '$expectedValue' selected but selected " .
+      "value was '$selectedValue'");
   }
 
   private function btcAddr() { return '1PUPt26votHesaGwSApYtGVTfpzvs8AxVM'; }
