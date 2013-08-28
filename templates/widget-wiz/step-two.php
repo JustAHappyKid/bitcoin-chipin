@@ -67,11 +67,6 @@ class StepTwo extends WidgetWizLayout {
         </div> <!-- END div for form inputs -->
         <div style="float: left; margin: 0 0 25px 75px;">
           <div style="text-align: center;">
-            <!-- <iframe id="widget-preview" src="<?= PATH . 'widget-wiz/preview-current' ?>"
-                    frameborder='no' framespacing='0' scrolling='no'
-                    width="350" height="310"></iframe> -->
-            <? /* $this->widgetIframe('/widget-wiz/preview-current',
-                  $this->widget->width, $this->widget->height, 'widget-preview') */ ?>
             <?= $this->widgetIframe($this->widget, $src = '/widget-wiz/preview-current',
                                     $id = 'widget-preview') ?>
           </div>
