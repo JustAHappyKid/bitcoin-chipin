@@ -7,7 +7,7 @@ require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 require_once 'spare-parts/database.php';          # query
 
-use \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
   \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB;
 
 class WidgetWizardTests extends WebappTestingHarness {
@@ -20,8 +20,11 @@ class WidgetWizardTests extends WebappTestingHarness {
   function testAddingAndEditingWidget() {
 //    $this->loginAsNormalUser();
 
-    # Clear out the address-balance cache to make sure a "new" address doesn't cause breakage...
+    # Clear out the address-balance cache to assert a "new" address doesn't cause breakage...
     DB\query("DELETE FROM bitcoin_addresses WHERE address = ?", array($this->btcAddr()));
+
+    $sizes = Widgets\allowedSizes();
+    $colors = Widgets\allowedColors();
 
     # First we'll add a widget...
     $this->get('/widget-wiz/step-one');
@@ -30,9 +33,7 @@ class WidgetWizardTests extends WebappTestingHarness {
       array('title' => 'Tengo hambre', 'goal' => '15', 'currency' => 'USD',
             'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
     $this->submitForm($this->getForm(),
-      array('about' => 'I need to get a bite to eat!'));
-            // XXX
-            //'size' => '125x125', 'color' => 'A9DB80,96C56F'));
+      array('about' => 'I need to get a bite to eat!', 'color' => $colors[0], 'size' => $sizes[0]));
     $widgets = Widget::getAll();
     assertEqual(1, count($widgets));
     $w = current($widgets);
@@ -41,10 +42,8 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual($expires->format('Y-m-d'), $w->ending->format('Y-m-d'));
     assertEqual($this->btcAddr(), $w->bitcoinAddress);
     assertEqual('I need to get a bite to eat!', $w->about);
-    /* XXX
-    assertEqual(125, (int) $w->width);
-    assertEqual(125, (int) $w->height);
-    */
+    assertEqual($sizes[0]->width, (int) $w->width);
+    assertEqual($sizes[0]->height, (int) $w->height);
     assertTrue(Locales\isValidCountryCode($w->countryCode),
       "'{$w->countryCode}' is not valid country-code");
 
@@ -52,10 +51,9 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->get("/widget-wiz/step-one?w={$w->id}");
     # Okay, maybe I only need ten bucks...
     $this->submitForm($this->getForm(), array('goal' => '10'));
-    # Let's change the widget size too...
-    // XXX
-    $this->submitForm($this->getForm(), array('about' => "I've changed my mind."));
-    // $this->submitForm($this->getForm(), array('size' => '250x250'));
+    # Let's change the widget size and about-text too...
+    $this->submitForm($this->getForm(),
+      array('about' => "I've changed my mind.", 'size' => $sizes[1]));
     $widgetsNow = Widget::getAll();
     assertEqual(1, count($widgetsNow));
     $wNow = current($widgetsNow);
@@ -64,10 +62,8 @@ class WidgetWizardTests extends WebappTestingHarness {
     //assertEqual($expires, $wNow->ending);
     assertEqual($this->btcAddr(), $wNow->bitcoinAddress);
     assertEqual("I've changed my mind.", $wNow->about);
-    /* XXX
-    assertEqual(250, (int) $wNow->width);
-    assertEqual(250, (int) $wNow->height);
-    */
+    assertEqual($sizes[1]->width, (int) $wNow->width);
+    assertEqual($sizes[1]->height, (int) $wNow->height);
   }
 
   function testThatFieldsArePrePopulatedWhenEditingWidget() {

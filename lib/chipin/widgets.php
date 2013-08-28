@@ -216,6 +216,7 @@ function allowedColors() { return array('white', 'silver', 'blue', 'dark'); }
 class Dimensions {
   public $width, $height;
   function __construct($w, $h) { $this->width = $w; $this->height = $h; }
+  function __toString() { return $this->width . 'x' . $this->height; }
 }
 
 /** @return Dimensions[] */
