@@ -22,13 +22,13 @@
               <?= $summary . (($summary == $about) ? '' : '&hellip;') ?>
               ? if ($summary != $about) {
                 <!--&hellip;-->
-                <?php if ($widgetID) { ?>
+                ? if ($widgetID) {
                   <span>[<a href="/widgets/about/$widgetID" target="_blank">more</a>]</span>
-                <?php } else { ?>
-                  <?php $js = "alert('Clicking here will open a separate page with widget\'s " .
-                              "full &ldquo;About&rdquo; text.');"; ?>
+                } else {
+                  <?php $js = "alert('Clicking here will open a separate page with widget\\'s " .
+                              "complete &ldquo;About&rdquo; text.');"; ?>
                   <span>[<a href="#" onclick="$js">more</a>]</span>
-                <?php } ?>
+                }
               }
             </p>
           </div>
