@@ -54,8 +54,8 @@ class StepTwo extends WidgetWizLayout {
             <div class="controls" style="margin-top: 6px;">
               <?
                 $size = new SelectField('size', 'Size',
-                  array("350x310" => "350 x 310", "200x300" => "200 x 300"));
-                        //"200x200"  => "200 x 200"));
+                  array("350x310" => "350 x 310", "200x300" => "200 x 300",
+                        "200x200"  => "200 x 200"));
                 $size->setID('widget-size');
                 if ($this->widget->width) {
                   $size->setValue($this->widget->width . 'x' . $this->widget->height);

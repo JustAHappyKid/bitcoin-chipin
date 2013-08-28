@@ -217,7 +217,10 @@ class Dimensions {
   public $width, $height;
   function __construct($w, $h) { $this->width = $w; $this->height = $h; }
 }
-function allowedSizes() { return array(new Dimensions(350, 310), new Dimensions(200, 300)); }
+
+/** @return Dimensions[] */
+function allowedSizes() { return array(new Dimensions(350, 310), new Dimensions(200, 300),
+                                       new Dimensions(200, 200)); }
 function validDimensions($w, $h) {
   $matches = array_filter(allowedSizes(),
     function($d) use($w, $h) { return $d->width == $w && $d->height == $h; });

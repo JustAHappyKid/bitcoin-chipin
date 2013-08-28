@@ -1,0 +1,13 @@
+!extends 'widgets/base.diet-php'
+
+function summaryLength() {
+  return 68;
+}
+
+function sendToLabel() {
+  return 'Send contributions to:';
+}
+
+function qrSize() {
+  return 75;
+}
