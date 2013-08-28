@@ -31,7 +31,7 @@
 .widget h2.widget-title {
   border-bottom: 1px solid #ddd;
   color: #DB3900;
-  font-family: 'Conv_ChaletComprimeCologneEighty';
+  font-family: 'Conv_ChaletComprimeCologneEighty', serif;
   font-size: 46px;
   letter-spacing: -1px;
   line-height: 85%;
@@ -126,7 +126,7 @@
 
 .widget-wrapper #contribute .buy-bitcoins {
   color: #5A5A5A;
-  font-family: arial;
+  font-family: arial, serif;
   font-size: 14px;
   font-weight: bold;
   text-decoration: none;
@@ -164,7 +164,7 @@
 
 .widget /*.a-center*/ .powered {
   color: #888888;
-  font-family: arial;
+  font-family: arial, serif;
   font-size: 10px;
   text-decoration: none;
   text-shadow: 1px 1px 1px #FFFFFF;
