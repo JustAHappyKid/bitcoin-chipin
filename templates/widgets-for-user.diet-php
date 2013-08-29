@@ -3,6 +3,11 @@
 block innerContent {
   <div class="container">
     <h1>Widgets for user $user->username</h1>
+    ? if (count($widgets) == 0) {
+      <div class="alert">
+        This user doesn't seem to have created any widgets yet.
+      </div>
+    }
     ? foreach ($widgets as $w) {
       <div style="float: left; padding: 10px;">
         <?= $this->widgetIframe($w); ?>
