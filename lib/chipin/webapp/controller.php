@@ -53,7 +53,7 @@ class Controller extends \SpareParts\Webapp\Controller {
       return $pgContent;
     } else if (endsWith($tplFile, '.diet-php')) {
       # XXX: Experimental Diet PHP support!
-      $vars['user'] = $this->user;
+      if (empty($vars['user'])) $vars['user'] = $this->user;
       $tplContext = new Template\Context($this->templatesDir(), $vars);
       return Template\renderFile($tplFile, $tplContext);
     } else {
