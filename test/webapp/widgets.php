@@ -25,15 +25,15 @@ class WidgetTests extends WebappTestingHarness {
 
   function testWidgetPreview() {
     $ds = Widgets\allowedSizes();
-    $descriptions = array('This+is+to+test+preview+mode.', str_repeat('words+', 100));
+    $descriptions = array('This is to test preview mode.', str_repeat('words ', 100));
     foreach ($descriptions as $about) {
       $this->get("/widgets/preview?title=Oh+Bother&goal=3&currency=BTC&" .
-        "about=$about&ending=2020-07-25&address=" . $this->btcAddr() . "&" .
+        "about=" . urlencode($about) . "&ending=2020-07-25&address=" . $this->btcAddr() . "&" .
         "width={$ds[0]->width}&height={$ds[0]->height}&color=silver");
+      $this->assertContains("//div[contains(., '" . substr($about, 0, 15) . "')]");
       $goalDiv = current($this->xpathQuery("//div[@class='goal']"));
       assertTrue(contains($goalDiv->textContent, '3 BTC') ||
                  contains($goalDiv->textContent, '3.0 BTC'));
-
     }
   }
 
