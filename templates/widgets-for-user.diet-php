@@ -1,0 +1,12 @@
+!extends 'layout.php'
+
+block innerContent {
+  <div class="container">
+    <h1>Widgets for user $user->username</h1>
+    ? foreach ($widgets as $w) {
+      <div style="float: left; padding: 10px;">
+        <?= $this->widgetIframe($w); ?>
+      </div>
+    }
+  </div>
+}

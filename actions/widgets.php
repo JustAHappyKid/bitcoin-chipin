@@ -16,22 +16,28 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   function u(RequestContext $context) {
     $username = $context->takeNextPathComponent();
     $uriID = $context->takeNextPathComponent();
-    $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
-    $vars = array();
-    $vars['display'] = at($_GET, 'display', 'overview');
-    $vars['widgetID'] = $widget->id;
-    $vars['width'] = $widget->width;
-    $vars['height'] = $widget->height;
-    $vars['color'] = $widget->color;
-    $vars['title'] = $widget->title;
-    $vars['about'] = $widget->about;
-    $vars['currency'] = $widget->currency;
-    $vars['goal'] = $widget->goalAmnt;
-    $vars['raised'] = $widget->raisedAmnt;
-    $vars['progress'] = $widget->progress;
-    $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
-    $vars['bitcoinAddress'] = $widget->bitcoinAddress;
-    return $this->renderWidget($vars);
+    if (empty($uriID)) {
+      $user = User::loadFromUsername($username);
+      return $this->render('widgets-for-user.diet-php', null,
+        array('user' => $user, 'widgets' => Widget::getManyByOwner($user)));
+    } else {
+      $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
+      $vars = array();
+      $vars['display'] = at($_GET, 'display', 'overview');
+      $vars['widgetID'] = $widget->id;
+      $vars['width'] = $widget->width;
+      $vars['height'] = $widget->height;
+      $vars['color'] = $widget->color;
+      $vars['title'] = $widget->title;
+      $vars['about'] = $widget->about;
+      $vars['currency'] = $widget->currency;
+      $vars['goal'] = $widget->goalAmnt;
+      $vars['raised'] = $widget->raisedAmnt;
+      $vars['progress'] = $widget->progress;
+      $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
+      $vars['bitcoinAddress'] = $widget->bitcoinAddress;
+      return $this->renderWidget($vars);
+    }
   }
 
   function byId(RequestContext $context) {
