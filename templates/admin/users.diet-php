@@ -7,12 +7,18 @@ block innerContent {
       <thead> <tr>
         <th>Username</th> <th>Email</th>
         <th>Date/Time Joined</th>
+        <th>Action</th>
       </tr> </thead>
       <tbody>
         ? foreach ($users as $u) {
           <tr>
             <td><?= $u->username ?></td><td><?= $u->email ?></td>
             <td><?= $u->createdAtText() ?></td>
+            <td>
+              <div class="link-group">
+                <a href="/widgets/u/$u->username">Browse Widgets</a>
+              </div>
+            </td>
           </tr>
         }
       </tbody>
