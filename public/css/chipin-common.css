@@ -159,6 +159,10 @@
 * Shared Styles
 * --------------------------------------------------------------- */
 
+h1 {
+  margin-top: 35px;
+}
+
 .widget .widget-tabs,
 .widget .widget-toolbar,
 .widget.widget-accordion .accordion-heading {
