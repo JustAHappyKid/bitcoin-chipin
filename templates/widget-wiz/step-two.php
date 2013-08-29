@@ -33,7 +33,6 @@ class StepTwo extends WidgetWizLayout {
                         ><?= $this->widget->about ?></textarea>
             </div>
           </div>
-          <!-- TODO: Make 'size' and 'color' "sticky"!!! -->
           <div class="control-group">
             <label class="control-label" for="userlanguage">
               Color Theme
