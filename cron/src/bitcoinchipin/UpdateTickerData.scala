@@ -12,13 +12,11 @@ object UpdateTickerData extends BaseTask {
     info("Got following ticker data:")
     tickers.foreach { t =>
       info(s"${t.currency} is trading at ${t.last} to the 'coin")
-      // XXX: Why doesn't withTransaction work?!! Our data just disappears into the
-      // XXX: ether when the queries are wrapped with it.
-      //      s.withTransaction { tran: Session =>
-      Q.update[String]("DELETE FROM ticker_data WHERE currency = ?").execute(t.currency)
-      Q.update[(String, Double)]("INSERT INTO ticker_data (currency, last_price) VALUES (?, ?)").
-        execute(t.currency, t.last)
-      //      }
+      withTransaction(s) {
+        Q.update[String]("DELETE FROM ticker_data WHERE currency = ?").execute(t.currency)
+        Q.update[(String, Double)]("INSERT INTO ticker_data (currency, last_price) VALUES (?, ?)").
+          execute(t.currency, t.last)
+      }
     }
   }
 
@@ -40,6 +38,13 @@ object UpdateTickerData extends BaseTask {
         }
       case _ => throw new Exception("ERROR: JSON was not in expected format")
     }
+  }
+
+  private def withTransaction[T](s: Session)(action: => T): T = {
+    Q.updateNA("BEGIN TRANSACTION")
+    val result: T = action
+    Q.updateNA("COMMIT TRANSACTION")
+    result
   }
 }
 
