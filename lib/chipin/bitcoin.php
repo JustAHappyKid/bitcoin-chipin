@@ -21,10 +21,6 @@ function getBalance($address, $currency = 'BTC') {
   }
   $btcBalance = $satoshis / satoshisPerBTC();
   $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
-  /*
-  $balance = substr($balanceWithPrecision, 0, 4);
-  return $balance;
-  */
   return $balanceWithPrecision;
 }
 
