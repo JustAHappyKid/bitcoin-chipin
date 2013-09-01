@@ -274,8 +274,9 @@
   color: #fff;
 }
 
-.widget.widget-dark .btc-addr {
-  color: #ddd;
+.widget.widget-dark #contribute .btc-addr {
+  text-shadow: none;
+  color: rgba(255,255,255,0.7);
 }
 
 .widget-wrapper .widget.widget-dark /*.a-center*/ .buy-bitcoins {
