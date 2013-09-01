@@ -5,6 +5,7 @@
     <link rel="stylesheet" href="/widgets/css/reset.css" />
     <link rel="stylesheet" href="/widgets/css/base.css" />
     <link rel="stylesheet" href="/widgets/css/<?= $width . 'x' . $height ?>.css" />
+    <link rel="stylesheet" href="/widgets/css/$color.css" />
   </head>
   <body style="background: transparent;">
     <div class="widget-wrapper">

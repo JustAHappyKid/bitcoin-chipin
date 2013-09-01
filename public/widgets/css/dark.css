@@ -1,0 +1,61 @@
+
+/**
+ * Title and About text
+ */
+
+.widget.widget-dark h2.widget-title {
+  background: url("../images/line-dark.png") repeat-x scroll center bottom transparent;
+  color: #eee;
+  text-shadow: 1px 1px 3px #bbb;
+  border-bottom: 0 none;
+  padding-bottom: 2px;
+}
+
+.widget.widget-dark .about {
+  color: #eee;
+  border-bottom: 1px solid #666;
+  border-bottom: 1px solid rgba(150, 150, 150, .3);
+}
+
+.widget.widget-dark .about a {
+  color: #fff;
+  font-weight: bold;
+}
+.widget.widget-dark .about a:hover {
+  text-decoration: underline;
+  background: rgba(200, 200, 200, 0.3);
+}
+
+
+/**
+ * Overview (goal, amount raised) and Contribute (Bitcoin address, QR code) sections
+ */
+
+.widget.widget-dark .raised-and-goal h2,
+.widget.widget-dark .raised-and-goal .amount,
+.widget.widget-dark .raised-and-goal .alt-amount {
+  color: #fff;
+}
+
+.widget.widget-dark #contribute .btc-addr {
+  text-shadow: none;
+  color: rgba(255,255,255,0.7);
+}
+
+.widget.widget-dark /*.a-center*/ .buy-bitcoins {
+  color: #fff;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+/**
+ * Button and footer
+ */
+
+.widget.widget-dark /*.a-center*/ .powered {
+  color: #aaa;
+  text-shadow: 1px 1px 1px #000000;
+}
+
+.widget.widget-dark .btn-container {
+  background-image: url("../images/line-dark.png");
+}

@@ -1,0 +1,18 @@
+
+.widget.widget-blue h2.widget-title {
+  background: url("../images/line.png") repeat-x scroll center bottom transparent;
+  border-bottom: 0 none;
+  padding-bottom: 4px;
+}
+
+.widget.widget-blue #contribute h6 {
+  color: #333;
+}
+
+.widget.widget-blue .powered {
+  color: #336;
+}
+
+.widget.widget-blue .btn-container {
+  background-image: url("../images/line.png");
+}
