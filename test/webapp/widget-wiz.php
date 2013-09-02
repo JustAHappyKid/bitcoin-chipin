@@ -38,7 +38,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual(1, count($widgets));
     $w = current($widgets);
     assertEqual('Tengo hambre', $w->title);
-    assertEqual(15, (int) $w->goal);
+    assertEqual(15, (int) $w->goalAmnt->numUnits);
     assertEqual($expires->format('Y-m-d'), $w->ending->format('Y-m-d'));
     assertEqual($this->btcAddr(), $w->bitcoinAddress);
     assertEqual('I need to get a bite to eat!', $w->about);
@@ -58,7 +58,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual(1, count($widgetsNow));
     $wNow = current($widgetsNow);
     assertEqual('Tengo hambre', $wNow->title);
-    assertEqual(10, (int) $wNow->goal);
+    assertEqual(10, (int) $wNow->goalAmnt->numUnits);
     //assertEqual($expires, $wNow->ending);
     assertEqual($this->btcAddr(), $wNow->bitcoinAddress);
     assertEqual("I've changed my mind.", $wNow->about);
@@ -72,8 +72,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $w->ownerID = $u->id;
     $w->title = 'Party Party';
     $w->about = 'Vamos a festejar.';
-    $w->goal = 50;
-    $w->currency = 'CAD';
+    $w->setGoal(50, 'CAD');
     $w->ending = '2015-12-31';
     $w->bitcoinAddress = $this->btcAddr();
     $sizes = Widgets\allowedSizes();
@@ -117,7 +116,7 @@ class WidgetWizardTests extends WebappTestingHarness {
       try {
         $this->createWidget(array('goal' => (string)$amount));
         $ws = Widget::getAll();
-        assertEqual($amount, (int) $ws[0]->goal);
+        assertEqual($amount, (int) $ws[0]->goalAmnt->numUnits);
       } catch (ValidationErrors $e) {
         assertTrue(contains($e->getMessage(), "maximum"));
       }

@@ -32,9 +32,10 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       # TODO: Add other fields...
     ));
     if ($this->isPostRequestAndFormIsValid($f)) {
-      foreach (array('title', 'goal', 'currency', 'ending', 'bitcoinAddress') as $v) {
+      foreach (array('title', 'ending', 'bitcoinAddress') as $v) {
         $widget->$v = $_POST[$v];
       }
+      $widget->setGoal($_POST['goal'], $_POST['currency']);
 
       # TODO: Test for already-existing 'uriID' with same value and owner!
       # TODO: Should we add support for redirecting from old 'uriID' handles (in the
@@ -57,7 +58,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       $widget->color = $_POST['color'];
       $widget->countryCode = $this->getCountryCodeForIP();
       $widget->save();
-      Widgets\updateProgressForObj($widget);
+      $widget->updateProgress();
       $this->storeWidgetInSession($widget);
       return $this->redirect('/widget-wiz/step-three');
     } else {
@@ -103,8 +104,8 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   private function widgetPreviewURL(Widget $w) {
     $width = $w->width ? $w->width : 350;
     $height = $w->height ? $w->height : 310;
-    $vars = array('width' => $width, 'height' => $height,
-      'title' => $w->title, 'goal' => $w->goal, 'currency' => $w->currency,
+    $vars = array('width' => $width, 'height' => $height, 'title' => $w->title,
+      'goal' => empty($w->goalAmnt) ? 0 : $w->goalAmnt->numUnits, 'currency' => $w->currency,
       'about' => $w->about, 'color' => $w->color,
       'ending' => $w->endingDateAsString(), 'address' => $w->bitcoinAddress);
     return "/widgets/preview" . URL\makeQueryString($vars);

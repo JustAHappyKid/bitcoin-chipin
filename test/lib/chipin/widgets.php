@@ -13,8 +13,7 @@ function testProgressProperlyCalculated() {
 
   # Case where widget uses BTC as base currency.
   $w->bitcoinAddress = $addr;
-  $w->currency = 'BTC';
-  $w->goal = 4;
+  $w->setGoal(4, Currencies\BTC());
   $w->save();
   $reloaded = Widget::getByID($w->id);
   assertTrue($reloaded->progress > 49 && $reloaded->progress < 51);
@@ -22,8 +21,7 @@ function testProgressProperlyCalculated() {
   # Case where widget uses fiat as base currency.
   setPriceForBTC(Currencies\USD(), 100);
   $w->bitcoinAddress = $addr;
-  $w->currency = Currencies\USD();
-  $w->goal = 600;
+  $w->setGoal(600, Currencies\USD());
   $w->save();
   $reloaded = Widget::getByID($w->id);
   $expected = (200 / 600) * 100;

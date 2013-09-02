@@ -58,9 +58,7 @@ function getWidget(User $u = null) {
   $w->ownerID = $u->id;
   $w->title = "Test Widget";
   $w->ending = new DateTime('2020-06-30');
-  $w->goal = 100;
-  $w->currency = 'USD';
-  $w->raised = 30;
+  $w->setGoal(100, 'USD');
   $w->setDimensions(350, 310);
   $colors = Widgets\allowedColors();
   $w->color = $colors[0];

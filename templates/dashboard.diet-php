@@ -76,8 +76,7 @@ block widgetsTable($widgets) {
           </div> </td>
           <td>$widget->title</td>
           <td>Ends <?= $widget->endingDateAsString() ?></td>
-          <td>Raised <?=
-            \Chipin\Currency\displayAmount($widget->raised, $widget->currency) ?></td>
+          <td>Raised <?= $widget->raisedAmnt ?></td>
           <td><?= $this->actionsColumn($widget) ?></td>
         </tr>
       }

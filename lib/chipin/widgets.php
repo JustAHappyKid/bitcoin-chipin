@@ -18,7 +18,7 @@ class Widget {
     $width, $height, $color, $bitcoinAddress, $countryCode;
 
   /** @deprecated */
-  public $goal, $raised;
+  private $goal, $raised;
 
   /** @var Amount */
   public $goalAmnt;
@@ -36,16 +36,6 @@ class Widget {
 
   public static function getByID($id) {
     return Widget::getOneByQuery('id = ?', array($id));
-    /*
-    $rows = select('id = ?', array($id));
-    if (count($rows) == 0) {
-      throw new NoSuchWidget("Could not find widget with ID $id");
-    }
-    $r = current($rows);
-    $obj = new Widget;
-    $obj->populateFromArray($r);
-    return $obj;
-    */
   }
 
   public static function getByURI(User $owner, $uriID) {
@@ -72,17 +62,8 @@ class Widget {
       select($query, $params));
   }
 
+  /** @return Widget[] */
   public static function getAll() { return self::getManyByQuery('TRUE', array()); }
-  /*
-  public static function getAll() {
-    return array_map(
-      function($row) {
-        $o = new Widget;
-        $o->populateFromArray($row);
-        return $o; },
-      getAll());
-  }
-  */
 
   public static function getManyByOwner(User $owner) {
     return self::getManyByQuery('owner_id = ?', array($owner->id));
@@ -111,6 +92,16 @@ class Widget {
     return $this;
   }
 
+  function __get($attr) {
+    if ($attr == 'goal') return $this->goalAmnt->numUnits;
+    else throw new \InvalidArgumentException("Widget has no attribute '$attr'");
+  }
+
+  public function setGoal($numUnits, $currency) {
+    $this->goalAmnt = new Amount($currency, $numUnits);
+    $this->currency = $currency;
+  }
+
   public function save() {
 //    $this->ending = date("Y-m-d", strtotime($this->ending));
     if (is_string($this->ending)) $this->ending = new DateTime($this->ending);
@@ -119,7 +110,8 @@ class Widget {
     $values = array(
       'owner_id' => $this->ownerID, 'title' => $this->title,
       'uri_id' => $this->uriID, 'about' => $this->about,
-      'goal' => $this->goal, 'currency' => $this->currency, 'raised' => null, 'progress' => null,
+      'goal' => $this->goalAmnt->numUnits, 'currency' => $this->currency,
+      'raised' => null, 'progress' => null,
       'ending' => $this->ending, 'address' => $this->bitcoinAddress,
       'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
       'country' => $this->countryCode);
@@ -129,6 +121,13 @@ class Widget {
       $values['created'] = date('Y-m-d H:i:s');
       $this->id = addNewWidget($values);
     }
+  }
+
+  public function updateProgress() {
+    $balance = Bitcoin\getBalance($this->bitcoinAddress, $this->currency);
+    $progress = ($balance / $this->goalAmnt->numUnits) * 100;
+    DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
+      array($progress, $balance, $this->id));
   }
 
   function getOwner() {
@@ -191,20 +190,6 @@ function addNewWidget($data) {
 
 function updateByID($id, Array $data) {
   ParanoidDB\updateByID('widgets', $id, $data);
-}
-
-function updateProgressForObj(Widget $w) {
-  $balance = Bitcoin\getBalance($w->bitcoinAddress, $w->currency);
-  $progress = ($balance / $w->goal) * 100;
-  DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
-           array($progress, $balance, $w->id));
-}
-
-function updateProgress($row) {
-  $balance = Bitcoin\getBalance($row['address'], $row['currency']);
-  $progress = $balance / $row['goal'] * 100;
-  DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
-           array($progress, $balance, $row['id']));
 }
 
 function endWidget(Widget $w) {
