@@ -47,7 +47,7 @@
           </div>
           <div class="status-bar-container">
             <div class="bg-bar">
-              ? $widthCSS = "width: " . $progress . "%;";
+              ? $widthCSS = "width: " . ($progress > 100 ? 100 : $progress) . "%;";
               <div class="bar" style="$widthCSS"></div>
             </div>
           </div>

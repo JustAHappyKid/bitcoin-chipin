@@ -3,9 +3,12 @@
 namespace Chipin\Test;
 
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
+require_once 'chipin/bitcoin.php';                # satoshisPerBTC
+require_once 'chipin/currency.php';               # Amount
 require_once 'chipin/widgets.php';                # Widget
+require_once 'spare-parts/database.php';          # insertOne, ...
 
-use \Chipin\Widgets;
+use \Chipin\Widgets, \Chipin\Bitcoin, \SpareParts\Database as DB, \DateTime;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -35,6 +38,29 @@ class WidgetTests extends WebappTestingHarness {
       assertTrue(contains($goalDiv->textContent, '3 BTC') ||
                  contains($goalDiv->textContent, '3.0 BTC'));
     }
+  }
+
+  function testProgressBar() {
+    $w = getWidget();
+    $w->setGoal(4, 'BTC');
+    $w->save();
+    foreach (array(array(0, 0), array(2, 50), array(5, 100)) as $c) {
+      $this->setBalance($w->bitcoinAddress, $c[0]);
+      $this->get("/widgets/by-id/{$w->id}");
+      $this->assertProgressBarReads($c[1]);
+    }
+  }
+
+  private function assertProgressBarReads($percent) {
+    $elems = $this->xpathQuery("//*[@class='status-bar-container']//*[@class='bar']");
+    assertEqual("width: {$percent}%;", $elems[0]->getAttribute('style'));
+  }
+
+  private function setBalance($address, $btc) {
+    DB\delete('bitcoin_addresses', 'address = ?', array($address));
+    DB\insertOne('bitcoin_addresses',
+      array('address' => $address, 'satoshis' => $btc * Bitcoin\satoshisPerBTC(),
+            'updated_at' => new DateTime('now')));
   }
 
   private function btcAddr() { return '1PUPt26votHesaGwSApYtGVTfpzvs8AxVM'; }
