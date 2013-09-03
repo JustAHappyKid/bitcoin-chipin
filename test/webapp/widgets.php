@@ -4,8 +4,7 @@ namespace Chipin\Test;
 
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/bitcoin.php';                # satoshisPerBTC
-require_once 'chipin/currency.php';               # Amount
-require_once 'chipin/widgets.php';                # Widget
+require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
 require_once 'spare-parts/database.php';          # insertOne, ...
 
 use \Chipin\Widgets, \Chipin\Bitcoin, \SpareParts\Database as DB, \DateTime;
