@@ -206,3 +206,7 @@ h1 {
 .progress {
   margin-bottom: 5px;
 }
+
+input.bitcoin-address {
+  width: 22em;
+}

@@ -80,7 +80,7 @@ class StepOne extends WidgetWizLayout {
           <div class="control-group" id="bitcoin-addr-control-group">
             <label class="control-label" for="widget-bitcoin-address">Bitcoin Address</label>
             <div class="controls">
-              <input type="text" class="input-large" id="widget-bitcoin-address"
+              <input type="text" class="input-large bitcoin-address" id="widget-bitcoin-address"
                      name="bitcoinAddress" value="<?= $this->widget->bitcoinAddress ?>" />
               <span class="help-inline error-msg">Please provide a valid Bitcoin address.</span>
               <span class="help-inline not-error">
