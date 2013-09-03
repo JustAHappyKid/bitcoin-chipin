@@ -9,6 +9,7 @@ require_once 'spare-parts/database.php';          # query
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
   \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB;
+use SpareParts\WebClient\HtmlForm;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -160,6 +161,14 @@ class WidgetWizardTests extends WebappTestingHarness {
 
   protected function getForm($formId = null) {
     return parent::getForm($formId ? $formId : 'widgetForm');
+  }
+
+  protected function submitForm(HtmlForm $form, Array $values = array(), $submitButton = null) {
+    if ($submitButton == null) {
+      $matches = array_filter($form->getButtons(), function($b) { return $b->id == 'next-step'; });
+      $submitButton = count($matches) > 0 ? current($matches) : null;
+    }
+    return parent::submitForm($form, $values, $submitButton);
   }
 
   private function createWidget($attrs = array()) {
