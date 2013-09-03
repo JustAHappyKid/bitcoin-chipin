@@ -15,9 +15,10 @@ class StepOne extends WidgetWizLayout {
     return
       ($this->widget->id ?
         '<button class="btn btn-large btn-secondary" onclick="return validateForm();"
-                 name="save-and-return" value="t">Save and Return to Dashboard</button>' : '') .
+                 id="save-and-return" name="save-and-return" value="t"
+                 >Save and Return to Dashboard</button>' : '') .
       '<button class="btn btn-large btn-primary" onclick="return validateForm();"
-               >Next Step</button>';
+               id="next-step">Next Step</button>';
   }
 
   function contentForThisStep() { ?>
