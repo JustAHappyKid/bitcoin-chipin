@@ -42,8 +42,13 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       #       case where a widget's title has been changed)?
       $widget->uriID = URL\titleToUrlComponent($widget->title);
 
-      $this->storeWidgetInSession($widget);
-      return $this->redirect('/widget-wiz/step-two');
+      if (at($_POST, 'save-and-return')) {
+        $widget->save();
+        return $this->redirect('/dashboard/');
+      } else {
+        $this->storeWidgetInSession($widget);
+        return $this->redirect('/widget-wiz/step-two');
+      }
     } else {
       return $this->renderStep('step-one.php', 'StepOne', $widget, $f);
     }

@@ -12,9 +12,12 @@ class StepOne extends WidgetWizLayout {
   protected function stepNumber() { return 1; }
   protected function showPreview() { return false; }
   protected function buttons() {
-    return '
-        <button class="button btn btn-secondary btn-large" onclick="return validateForm();">Next Step</button>
-      ';
+    return
+      ($this->widget->id ?
+        '<button class="btn btn-large btn-secondary" onclick="return validateForm();"
+                 name="save-and-return" value="t">Save and Return to Dashboard</button>' : '') .
+      '<button class="btn btn-large btn-primary" onclick="return validateForm();"
+               >Next Step</button>';
   }
 
   function contentForThisStep() { ?>
@@ -103,8 +106,8 @@ class StepOne extends WidgetWizLayout {
 
       function validateForm() {
         var errors = 0;
-        $elements = $("#step-" + <?= $stepNum ?>).find(':input');
-			  $elements.each(function() {
+        var elements = $("#step-" + <?= $stepNum ?>).find(':input');
+			  elements.each(function() {
 		  		if ($(this).is("input:text")) {
 		  		  var container = $(this).parent().parent();
 					  if ($(this).val() == "") {
@@ -143,7 +146,7 @@ class StepOne extends WidgetWizLayout {
 			  	errors++;
 			  }
 
-			  if (errors > 0) return false;
+			  if (errors > 0) return false; else return true;
       }
       
       function isNumber(n) {
