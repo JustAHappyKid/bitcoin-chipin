@@ -15,10 +15,12 @@ object UpdateAddressBalances extends BaseTask {
         try {
           val balance: Int = resp.toInt
           info(s"  Balance for address $a is $balance.")
-          Q.update[String]("DELETE FROM bitcoin_addresses WHERE address = ?").execute(a)
-          Q.update[(String, Int, String)](
-            "INSERT INTO bitcoin_addresses (address, satoshis, updated_at) VALUES (?, ?, ?)").
-            execute(a, balance, now)
+          withTransaction(s) {
+            Q.update[String]("DELETE FROM bitcoin_addresses WHERE address = ?").execute(a)
+            Q.update[(String, Int, String)](
+              "INSERT INTO bitcoin_addresses (address, satoshis, updated_at) VALUES (?, ?, ?)").
+              execute(a, balance, now)
+          }
         } catch {
           case e: java.lang.NumberFormatException =>
             logErr("Got non-integer response: " + resp)

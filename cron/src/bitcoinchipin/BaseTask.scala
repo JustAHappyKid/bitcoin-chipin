@@ -1,8 +1,17 @@
 package bitcoinchipin
 
 import scalaj.http.{HttpOptions, Http}
+import slick.session.Session
+import slick.jdbc.{StaticQuery => Q}
 
 class BaseTask {
+
+  protected def withTransaction[T](s: Session)(action: => T): T = {
+    Q.updateNA("BEGIN TRANSACTION")
+    val result: T = action
+    Q.updateNA("COMMIT TRANSACTION")
+    result
+  }
 
   val baseHeaders = List(
     ("User-Agent", "Mozilla/4.0 (compatible; Test client)"))

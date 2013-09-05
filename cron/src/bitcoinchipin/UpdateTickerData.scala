@@ -39,13 +39,6 @@ object UpdateTickerData extends BaseTask {
       case _ => throw new Exception("ERROR: JSON was not in expected format")
     }
   }
-
-  private def withTransaction[T](s: Session)(action: => T): T = {
-    Q.updateNA("BEGIN TRANSACTION")
-    val result: T = action
-    Q.updateNA("COMMIT TRANSACTION")
-    result
-  }
 }
 
 case class TickerData(currency: String, last: Double)
