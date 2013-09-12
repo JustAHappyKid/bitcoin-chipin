@@ -36,7 +36,7 @@ class FaqPage extends AboutPageLayout {
               </div>
               <div class="answer">
                 We recommend using
-                <a href="https://bitinstant.com/" target="_blank">BitInstant</a>.
+                <a href="https://www.bitstamp.net/" target="_blank">Bitstamp</a>.
               </div>
             </div>
             <div class="faq">
