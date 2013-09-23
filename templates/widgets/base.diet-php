@@ -84,7 +84,7 @@
           <? $hoverText = "This widget is powered by BitcoinChipin.com, a Bitcoin-enabled " .
                           "fundraising tool. Click here to learn more."; ?>
           <div class="powered">
-            <a href="https://bitcoinchipin.com/about/faq" target="_blank" title="$hoverText"
+            <a href="/about/faq" target="_blank" title="$hoverText"
               ><span>powered by</span> bitcoinchipin.com <img src="/widgets/images/help.png" alt="(help)" /></a>
           </div>
         </div>
