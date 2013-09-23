@@ -20,13 +20,10 @@ class FaqPage extends AboutPageLayout {
                 What is Bitcoin?
               </div>
               <div class="answer">
-                Bitcoin is a revolutionary new kind of money and payment system. Bitcoin
-                solves a lot of problems with traditional currencies by allowing for easy and
-                cheap (usually free!) payments through a decentralized network with users all
-                over the world. It greatly lowers the bar for saving and sending money &mdash;
-                only Internet access is recquired!
-                To learn more about Bitcoin itself,
-                <a href="http://bitcoin.org">start with the video here</a>.
+                Bitcoin is a revolutionary new kind of money that makes it fast and
+                inexpensive (usually free) to send value to anyone across the globe.
+                To learn more about Bitcoin and how it can benefit you, we recommend
+                <a href="http://bitcoin.org">starting with the video here</a>.
               </div>
             </div>
             <div class="faq">
