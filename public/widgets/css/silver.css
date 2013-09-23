@@ -11,6 +11,16 @@
   border-bottom: 1px solid rgba(230, 230, 230, 0.7);
 }
 
+.widget.widget-silver .raised-and-goal .raised {
+  border-right: 1px dashed #999;
+  float: left;
+}
+
 .widget.widget-silver .btn-container {
   background-image: url("../images/line.png");
+}
+
+.widget .powered a {
+  color: #222;
+  text-shadow: 1px 1px 1px #FFFFFF;
 }

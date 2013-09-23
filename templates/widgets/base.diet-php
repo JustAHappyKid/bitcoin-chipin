@@ -77,9 +77,16 @@
         </div>
 
         <div id="footer">
-          <!--<a class="buy_bitcoins" href="">Learn How to Buy Bitcoins</a>
-          <br />-->
-          <a href="https://bitcoinchipin.com/" class="powered">powered by bitcoinchipin.com</a>
+          <? /* <div class="what-is-bitcoin">
+            <a href="http://www.weusecoins.com/" target="_blank"
+               title="This is a Bitcoin-enabled fundraising widget. Click to learn more about Bitcoin."
+              >What's this? <img src="/widgets/images/help.png" alt="?" /></a></div> */ ?>
+          <? $hoverText = "This widget is powered by BitcoinChipin.com, a Bitcoin-enabled " .
+                          "fundraising tool. Click here to learn more."; ?>
+          <div class="powered">
+            <a href="https://bitcoinchipin.com/about/faq" target="_blank" title="$hoverText"
+              ><span>powered by</span> bitcoinchipin.com <img src="/widgets/images/help.png" alt="(help)" /></a>
+          </div>
         </div>
       </div>
     </div>

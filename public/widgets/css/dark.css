@@ -51,11 +51,19 @@
  * Button and footer
  */
 
-.widget.widget-dark /*.a-center*/ .powered {
-  color: #aaa;
-  text-shadow: 1px 1px 1px #000000;
-}
-
 .widget.widget-dark .btn-container {
   background-image: url("../images/line-dark.png");
+}
+
+.widget.widget-dark #footer a {
+  color: #aaa;
+  text-shadow: 1px 1px 1px #999;
+}
+
+.widget .what-is-bitcoin a {
+  color: #ddd;
+  font-weight: bold;
+  text-shadow: 1px 1px 1px #999;
+  font-size: 10px;
+  opacity: 0.8;
 }

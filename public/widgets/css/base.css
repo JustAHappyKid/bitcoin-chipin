@@ -74,7 +74,8 @@
  */
 
 .raised-and-goal {
-  margin: 10px 0;
+  /*margin: 10px 0;*/
+  margin: 8px 0 9px;
   overflow: hidden;
   text-transform: uppercase;
   text-align: center;
@@ -153,6 +154,26 @@
 }
 
 
+/**
+ * "Contribute Now" and "View Progress" buttons
+ */
+
+.btn-container .btn {
+  display: block;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  text-shadow: 0 0 1px #B5B5B5;
+  text-transform: uppercase;
+  margin: 0 auto;
+}
+
+
+/**
+ * Footer
+ */
+
 /*.widget .buy-bitcoins {
   color: #5A5A5A;
   font-family: arial;
@@ -162,11 +183,15 @@
   text-shadow: 1px 1px 1px #FFFFFF;
 }*/
 
-.widget /*.a-center*/ .powered {
-  color: #888888;
+.widget #footer {
   font-family: arial, serif;
+}
+
+.widget #footer a {
   font-size: 10px;
   text-decoration: none;
-  text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.widget .powered a {
   text-transform: uppercase;
 }

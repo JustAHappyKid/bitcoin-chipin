@@ -111,27 +111,10 @@
 
 .btn-container .btn {
   background: url("../images/contribute-btn-small.png") no-repeat scroll 0 0 transparent;
-  display: block;
   width: 175px;
   height: 32px;
   font-size: 14px;
-  font-weight: bold;
-  color: white;
   line-height: 30px;
-  text-align: center;
-  text-decoration: none;
-  text-shadow: 0 0 1px #B5B5B5;
-  text-transform: uppercase;
-  margin: 0 auto;
-}
-
-
-.widget #footer {
-  text-align: center;
-  position: absolute;
-  top: 260px;
-  left: 0;
-  width: 200px;
 }
 
 
@@ -149,4 +132,23 @@
 .widget-wrapper .btc-addr {
   font-size: 10px;
   /*  margin-bottom: 10px;*/
+}
+
+
+.widget #footer {
+  text-align: center;
+  position: absolute;
+  top: 257px;
+  left: 0;
+  width: 200px;
+}
+
+.widget #footer .powered a span {
+  font-size: 9px;
+  display: block;
+}
+
+.widget #footer .powered img {
+  width:  14px;
+  height: 14px;
 }
