@@ -20,7 +20,11 @@
   background-image: url("../images/line.png");
 }
 
-.widget .powered a {
+.widget.widget-silver .powered a {
   color: #222;
   text-shadow: 1px 1px 1px #FFFFFF;
+}
+
+.widget.widget-silver #footer img {
+  opacity: 0.8;
 }
