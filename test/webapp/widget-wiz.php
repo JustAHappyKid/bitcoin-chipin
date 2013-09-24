@@ -8,14 +8,16 @@ require_once 'spare-parts/locales/countries.php'; # countriesMap
 require_once 'spare-parts/database.php';          # query
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
-  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB;
-use SpareParts\WebClient\HtmlForm;
+  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
+  \SpareParts\WebClient\HtmlForm;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
+  private $user;
+
   function setUp() {
     parent::setUp();
-    $this->loginAsNormalUser();
+    $this->user = $this->loginAsNormalUser();
   }
 
   function testAddingAndEditingWidget() {
@@ -157,6 +159,20 @@ class WidgetWizardTests extends WebappTestingHarness {
   function testBitcoinAddressValidationAction() {
     assertEqual('true', $this->get('/widget-wiz/valid-btc-addr/' . $this->btcAddr())->content);
     assertEqual('false', $this->get('/widget-wiz/valid-btc-addr/peanuts')->content);
+  }
+
+  /**
+   * For some reason the web-service FreeGeoIP.net does not return an appropriate value
+   * for all IP addresses. In this case, when a lookup on IP 175.156.249.231 is done,
+   * it returns "404 page not found".
+   */
+  function testUseCaseWhereIPAddressLookupServiceReturnsUnexpectedValue() {
+    $w = getWidget($this->user);
+    //$this->get("/widget-wiz/step-one?w={$w->id}");
+    $this->get("/widget-wiz/step-two?w={$w->id}");
+    $_POST = $this->getForm()->getDefaultValuesToSubmit();
+    $this->makeRequest('POST', "/widget-wiz/step-two",
+      $serverVars = array('REMOTE_ADDR' => '175.156.249.231'));
   }
 
   protected function getForm($formId = null) {

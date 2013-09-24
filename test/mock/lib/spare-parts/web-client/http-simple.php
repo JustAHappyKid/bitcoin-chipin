@@ -17,6 +17,8 @@ function get($url) {
     return '{"ip":"99.99.99.99","country_code":"US","country_name":"United States",' .
       '"region_code":"","region_name":"","city":"","zipcode":"","latitude":38,' .
       '"longitude":-97,"metro_code":"","areacode":""}';
+  } else if ($url == 'https://freegeoip.net/json/175.156.249.231') {
+    return "404 page not found";
   } else {
     throw new Exception("Mock 'get' function couldn't handle following URL: $url");
   }

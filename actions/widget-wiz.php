@@ -5,7 +5,7 @@ require_once 'chipin/bitcoin.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin,
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log,
   \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
   \SpareParts\Webapp\Forms;
 
@@ -152,13 +152,17 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   private function getCountryCodeForIP() {
     try {
-      $rawJSON = HttpSimple\get('https://freegeoip.net/json/' . $_SERVER['REMOTE_ADDR']);
+      $ip = $_SERVER['REMOTE_ADDR'];
+      $rawJSON = HttpSimple\get('https://freegeoip.net/json/' . $ip);
       $info = json_decode($rawJSON);
-      // var_dump($info);
-      // return $info['country_code'];
-      return $info->country_code;
+      if (!is_object($info) || !isset($info->country_code)) {
+        Log\warn("Web-service at FreeGeoIP.net did not return expected value for IP address $ip");
+        return null;
+      } else {
+        return $info->country_code;
+      }
     } catch (\SpareParts\WebClient\NetworkError $e) {
-      error("Network error occurred when attempting to lookup IP adress info: " .
+      Log\error("Network error occurred when attempting to lookup IP adress info: " .
         $e->getMessage());
       return null;
     }
