@@ -57,6 +57,8 @@ try {
     require_once 'spare-parts/error-handling.php';
     # XXX: change to @bitcoinchipin address?
     \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
+    require_once 'chipin/log.php';
+    \Chipin\Log\configure();
     require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
     \Chipin\WebFramework\routeRequestForApp();
   } else {
