@@ -32,7 +32,25 @@
 
 
 /**
- * Tweaks for particular pages.
+ * Homepage
+ */
+
+#hero {
+  padding-top:    25px;
+  padding-bottom: 25px;
+}
+
+.carousel {
+  margin-bottom: 0;
+}
+
+.carousel .item {
+  height: 320px;
+}
+
+
+/**
+ * FAQ
  */
 
 body #faq {

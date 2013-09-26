@@ -1,6 +1,9 @@
 <?php
 
 require_once dirname(__FILE__) . '/layout.php';
+require_once 'chipin/widgets.php';
+
+use \Chipin\Widgets\Widget;
 
 class IndexPage extends Layout {
   function innerContent() { ?>
@@ -14,8 +17,11 @@ class IndexPage extends Layout {
                 <!-- slide 1 -->
                 <div class="active item slide1">
                   <div class="row">
-                    <div class="span6"><img src="/img/homepage/slide1.png" alt="" /></div>
-                    <div class="span4">
+                    <div class="span5">
+                      <!--<img src="/img/homepage/slide1.png" alt="" />-->
+                      <?= $this->widgetIframe(Widget::getByID(1)) ?>
+                    </div>
+                    <div class="span5">
                       <h1>Raise money with bitcoins</h1>
                       <p>It's easy to start a fundraising campaign using our widget creator.
                         Within three steps you'll be on your way to stacking chips!</p>
