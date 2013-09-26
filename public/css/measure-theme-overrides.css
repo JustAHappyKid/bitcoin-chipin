@@ -48,6 +48,37 @@
   height: 320px;
 }
 
+@media (min-width: 1200px) {
+  .carousel .item [class*="span"] {
+    margin-left: 10px;
+  }
+  .carousel .item {
+    height: 350px;
+  }
+}
+
+@media (min-width: 980px) {
+  #hero .carousel-inner .item {
+    padding: 0px 40px;
+  }
+}
+
+@media (max-width: 767px) {
+  .carousel .item {
+    height: 460px;
+  }
+}
+
+@media (max-width: 600px) {
+  .carousel .item {
+    height: 500px;
+  }
+}
+
+#intro {
+  margin-top: 25px;
+}
+
 #intro h1 {
   width: 70%;
 }

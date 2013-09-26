@@ -17,7 +17,7 @@ class IndexPage extends Layout {
                 <!-- slide 1 -->
                 <div class="active item slide1">
                   <div class="row">
-                    <div class="span5">
+                    <div class="span6" style="text-align: center;">
                       <!--<img src="/img/homepage/slide1.png" alt="" />-->
                       <?= $this->widgetIframe(Widget::getByID(1)) ?>
                     </div>
