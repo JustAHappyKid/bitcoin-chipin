@@ -56,6 +56,18 @@ class IndexPage extends Layout {
     </div>
     <div id="intro">
       <div class="container">
+        <h1>Choose from a variety of sizes and color schemes.</h1>
+        <div class="row" style="margin: 30px 0;">
+          <div class="span3" style="min-width: 220px;">
+            <?= $this->widgetIframe(Widget::getByID(2)) ?>
+          </div>
+          <div class="span5" style="min-width: 380px;">
+            <?= $this->widgetIframe(Widget::getByID(3)) ?>
+          </div>
+          <div class="span3" style="min-width: 220px;">
+            <?= $this->widgetIframe(Widget::getByID(4)) ?>
+          </div>
+        </div>
         <h1>Our goal is to make it easy, fun, and social for anyone to start a
           fundraising campaign with Bitcoin.</h1>
       </div>
