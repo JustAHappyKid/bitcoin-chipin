@@ -48,6 +48,10 @@
   height: 320px;
 }
 
+#intro h1 {
+  width: 70%;
+}
+
 
 /**
  * FAQ
