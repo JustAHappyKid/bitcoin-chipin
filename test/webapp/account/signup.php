@@ -12,6 +12,7 @@ use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \Chipin\User;
 class SignupTests extends WebappTestingHarness {
 
   function testSignupProcess() {
+    $this->createHomepageWidgets();
     $this->get('/');
     $this->clickLink("//a[contains(@href, 'signup')]");
     $this->get('/account/signup');

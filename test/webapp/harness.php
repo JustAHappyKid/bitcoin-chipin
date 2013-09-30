@@ -3,6 +3,9 @@
 namespace Chipin\Test;
 
 require_once 'spare-parts/test/webapp.php'; # WebappTestingHarness
+require_once 'spare-parts/database.php';    # query
+
+use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB;
 
 # XXX: Phase out use of these global constants??
 define('PATH', 'https://test.org/');
@@ -15,7 +18,7 @@ define('TESTING', true);
 global $__frontControllerForTesting;
 $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/webapp/route-request.php";
-$__frontControllerForTesting = new \Chipin\WebFramework\FrontController($webappDir);
+$__frontControllerForTesting = new FrontController($webappDir);
 
 abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
 
@@ -44,6 +47,17 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
 
   protected function logout() {
     $_SESSION = array();
+  }
+
+  /**
+   * The homepage expects widgets having IDs 1, 2, 3, and 4 to exist, as it uses these
+   * as "sample widgets".
+   */
+  protected function createHomepageWidgets() {
+    for ($id = 1; $id <= 4; $id++) {
+      $w = getWidget();
+      DB\query("UPDATE widgets SET id = $id WHERE id = ?", array($w->id));
+    }
   }
 
   protected function dispatchToWebapp() {

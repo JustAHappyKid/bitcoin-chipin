@@ -11,6 +11,7 @@ class SigninTests extends WebappTestingHarness {
 
   function testSigninAndSignoutProcess() {
     newUser('gary@test.com', 'gary', 'lollipop');
+    $this->createHomepageWidgets();
     $this->get('/');
     $this->clickLink("//a[contains(@href, 'signin')]");
     $this->get('/account/signin');
