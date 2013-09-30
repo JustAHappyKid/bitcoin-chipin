@@ -27,6 +27,7 @@ class DashboardTests extends WebappTestingHarness {
     $this->updateEndingDate($w2, $inOneHour);
     $w3 = getWidget($this->user);
     $manana = (new DateTime('now'))->add(Time\readInterval('1 day'));
+    $this->updateEndingDate($w3, $manana);
     $this->get('/dashboard/');
     
     # TODO: Test that each widget shows up under appropriate tabs...
@@ -39,7 +40,7 @@ class DashboardTests extends WebappTestingHarness {
     $this->get('/dashboard/');
     $this->clickLink("//a[contains(text(), 'End') and contains(@href, '{$w->id}')]");
     $this->submitForm($this->getForm('end-widget-' . $w->id));
-    $wNow = current(Widget::getAll());
+    $wNow = Widget::getByID($w->id);
     assertTrue($wNow->hasEnded());
   }
 
