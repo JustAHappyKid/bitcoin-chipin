@@ -4,6 +4,7 @@ namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-framework.php';
 require_once 'chipin/users.php';
+require_once 'chipin/log.php';
 
 # Make sure \Chipin\WebFramework\Controller is in scope.
 require_once 'chipin/webapp/controller.php';
@@ -11,7 +12,7 @@ require_once 'chipin/webapp/controller.php';
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
 
-use \SpareParts\Webapp\AccessForbidden;
+use \SpareParts\Webapp\AccessForbidden, \Chipin\Log;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -22,9 +23,9 @@ function routeRequestForApp() {
 class FrontController extends \SpareParts\Webapp\FrontController {
 
   protected function sessionLifetimeInSeconds() { return 60 * 60 * 24 * 3; /* 3 days good? */ }
-  protected function info($msg) {}
-  protected function notice($msg) {}
-  protected function warn($msg) {}
+  protected function info($msg)   { Log\info($msg); }
+  protected function notice($msg) { Log\notice($msg); }
+  protected function warn($msg)   { Log\warn($msg); }
 
   protected function renderAndOutputPage($page) {
 
