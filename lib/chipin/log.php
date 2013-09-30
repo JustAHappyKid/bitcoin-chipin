@@ -10,5 +10,6 @@ function configure() {
 
 function debug($m)  { return logMsg('debug', $m); }
 function info($m)   { return logMsg('info', $m); }
+function notice($m) { return logMsg('notice', $m); }
 function warn($m)   { return logMsg('warn', $m); }
 function error($m)  { return logMsg('error', $m); }
