@@ -85,11 +85,9 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   private function setAltCurrencyValues(Amount $goal, Amount $raised, Array & $vars) {
     if ($goal->currencyCode == "BTC") {
-      $vars['altCurrency'] = "USD";
       $vars['altGoal'] = $this->btcToDollars($goal->numUnits);
       $vars['altRaised'] = $this->btcToDollars($raised->numUnits);
     } else {
-      $vars['altCurrency'] = "BTC";
       $goalInBTC = Bitcoin\toBTC($goal->currencyCode, $goal->numUnits);
       $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
       $raisedInBTC = Bitcoin\toBTC($raised->currencyCode, $raised->numUnits);
@@ -98,7 +96,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   private function btcToDollars($amountInBTC) {
-    Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
+    return Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
   }
 }
 

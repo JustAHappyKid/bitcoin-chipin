@@ -4,10 +4,11 @@ namespace Chipin\Test;
 
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/bitcoin.php';                # satoshisPerBTC
+require_once 'chipin/currencies.php';             # Currencies\*
 require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
 require_once 'spare-parts/database.php';          # insertOne, ...
 
-use \Chipin\Widgets, \Chipin\Bitcoin, \SpareParts\Database as DB, \DateTime;
+use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB, \DateTime;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -18,7 +19,7 @@ class WidgetTests extends WebappTestingHarness {
       $w->width = $d->width;
       $w->height = $d->height;
       $w->save();
-      $this->get("/widgets/by-id/{$w->id}");
+      $this->browseToWidget($w);
       $goalDiv = current($this->xpathQuery("//div[@class='goal']"));
       assertTrue(contains($goalDiv->textContent, '100.00 USD') ||
                  contains($goalDiv->textContent, '100 USD'));
@@ -39,15 +40,34 @@ class WidgetTests extends WebappTestingHarness {
     }
   }
 
+  function testDisplayingAltCurrency() {
+    $w = getWidget();
+    foreach (array(array(Currencies\USD(), Currencies\BTC()),
+                   array(Currencies\BTC(), Currencies\USD())) as $pair) {
+      $w->currency = $pair[0];
+      $w->save();
+      $altCurrency = $pair[1];
+      $this->browseToWidget($w);
+      foreach ($this->xpathQuery("//div[@class='alt-amount']") as $div) {
+        assertTrue(contains($div->textContent, $altCurrency),
+          "Alt-currency should be listed with unit $altCurrency");
+      }
+    }
+  }
+
   function testProgressBar() {
     $w = getWidget();
     $w->setGoal(4, 'BTC');
     $w->save();
     foreach (array(array(0, 0), array(2, 50), array(5, 100)) as $c) {
       $this->setBalance($w->bitcoinAddress, $c[0]);
-      $this->get("/widgets/by-id/{$w->id}");
+      $this->browseToWidget($w);
       $this->assertProgressBarReads($c[1]);
     }
+  }
+
+  private function browseToWidget(Widgets\Widget $w) {
+    return $this->get("/widgets/by-id/{$w->id}");
   }
 
   private function assertProgressBarReads($percent) {
