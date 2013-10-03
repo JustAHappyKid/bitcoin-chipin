@@ -16,13 +16,17 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   function u(RequestContext $context) {
     $username = $context->takeNextPathComponent();
     $uriID = $context->takeNextPathComponent();
-    if (empty($uriID)) {
-      $user = User::loadFromUsername($username);
-      return $this->render('widgets-for-user.diet-php', null,
-        array('user' => $user, 'widgets' => Widget::getManyByOwner($user)));
-    } else {
-      $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
-      return $this->renderWidgetObj($widget);
+    try {
+      if (empty($uriID)) {
+        $user = User::loadFromUsername($username);
+        return $this->render('widgets-for-user.diet-php', null,
+          array('user' => $user, 'widgets' => Widget::getManyByOwner($user)));
+      } else {
+        $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
+        return $this->renderWidgetObj($widget);
+      }
+    } catch (\Chipin\NoSuchUser $_) {
+      return $this->pageNotFound("No such user");
     }
   }
 

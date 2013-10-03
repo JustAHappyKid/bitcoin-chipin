@@ -9,6 +9,7 @@ require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
 require_once 'spare-parts/database.php';          # insertOne, ...
 
 use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB, \DateTime;
+use SpareParts\Test\HttpNotFound;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -63,6 +64,14 @@ class WidgetTests extends WebappTestingHarness {
       $this->setBalance($w->bitcoinAddress, $c[0]);
       $this->browseToWidget($w);
       $this->assertProgressBarReads($c[1]);
+    }
+  }
+
+  function testAttemptingToAccessWidgetsForNonExistantUser() {
+    foreach (array('', 'jimmy-peterson-759') as $uname) {
+      try {
+        $this->get("/widgets/u/$uname");
+      } catch (HttpNotFound $_) { /* A-okay */ }
     }
   }
 
