@@ -7,7 +7,7 @@ class AdminUsersController extends \Chipin\WebFramework\Controller {
 
   function index() {
     $users = User::loadAll();
-    return $this->render('admin/users.diet-php', null, array('users' => $users));
+    return $this->render('admin/users.diet-php', array('users' => $users));
   }
 }
 

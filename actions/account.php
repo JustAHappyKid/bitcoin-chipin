@@ -64,7 +64,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       return $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();
-      return $this->render('account/signup.php', null,
+      return $this->render('account/signup.php',
         array('form' => $form, 'captcha' => $captcha));
     }
   }
@@ -84,7 +84,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
         $failure = true;
       }
     }
-    return $this->render('account/signin.php', null, array('failure' => $failure));
+    return $this->render('account/signin.php', array('failure' => $failure));
   }
 
   function signout() {
@@ -121,7 +121,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $user->updatePassword($hashedPass);
       $success = true;
     }
-    return $this->render('account/change-password.php', null,
+    return $this->render('account/change-password.php',
       array('form' => $form, 'success' => $success,
             'newPassword' => $this->takeFromSession('newPassword')));
   }
@@ -145,7 +145,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
         $failure = true;
       }
     }
-    return $this->render('account/lost-pass.diet-php', null, array('failure' => $failure));
+    return $this->render('account/lost-pass.diet-php', array('failure' => $failure));
   }
 
   function passReset() {
@@ -180,7 +180,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
   }
 
   private function successMessage($message) {
-    return $this->render('success-msg.diet-php', null,
+    return $this->render('success-msg.diet-php',
       array('header' => null, 'message' => $message));
   }
 

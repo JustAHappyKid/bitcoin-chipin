@@ -29,7 +29,7 @@ class DashboardController extends \Chipin\WebFramework\Controller {
       }
     }
 
-    return $this->render('dashboard.diet-php', null,
+    return $this->render('dashboard.diet-php',
       array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended));
   }
 
@@ -39,7 +39,7 @@ class DashboardController extends \Chipin\WebFramework\Controller {
       Widgets\endWidget($w);
       return $this->redirect('/dashboard/');
     } else {
-      return $this->render('end-widget.diet-php', null, array('widget' => $w));
+      return $this->render('end-widget.diet-php', array('widget' => $w));
     }
   }
 }

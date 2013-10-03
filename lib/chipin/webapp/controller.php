@@ -36,20 +36,17 @@ class Controller extends \SpareParts\Webapp\Controller {
     }
   }
 
-  protected function render($tplFile, $className = null, Array $vars = array()) {
+  protected function render($tplFile, Array $vars = array()) {
     $pathToTpl = $this->templatePath($tplFile);
     if (endsWith($tplFile, '.php')) {
       require_once $pathToTpl;
-      if ($className == null) {
-        $classes = Reflection\getClassesDefinedInFile($pathToTpl);
-        if (count($classes) == 0) {
-          throw new \Exception("No classes defined in file $pathToTpl");
-        } else if (count($classes) > 1) {
-          throw new \Exception("Multiple classes defined in file $pathToTpl");
-        }
-//        $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
-        $className = current($classes);
+      $classes = Reflection\getClassesDefinedInFile($pathToTpl);
+      if (count($classes) == 0) {
+        throw new \Exception("No classes defined in file $pathToTpl");
+      } else if (count($classes) > 1) {
+        throw new \Exception("Multiple classes defined in file $pathToTpl");
       }
+      $className = current($classes);
       $tplObj = new $className;
       $tplObj->user = $this->user;
       foreach ($vars as $v => $value) $tplObj->$v = $value;

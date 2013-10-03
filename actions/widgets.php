@@ -19,7 +19,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     try {
       if (empty($uriID)) {
         $user = User::loadFromUsername($username);
-        return $this->render('widgets-for-user.diet-php', null,
+        return $this->render('widgets-for-user.diet-php',
           array('user' => $user, 'widgets' => Widget::getManyByOwner($user)));
       } else {
         $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
@@ -38,7 +38,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function about(RequestContext $context) {
     $widget = Widget::getByID($context->takeNextPathComponent());
-    return $this->render('widgets/about.diet-php', null, array('widget' => $widget));
+    return $this->render('widgets/about.diet-php', array('widget' => $widget));
   }
 
   function preview() {
