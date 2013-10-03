@@ -5,7 +5,7 @@ namespace Chipin\Test;
 require_once 'spare-parts/test/webapp.php'; # WebappTestingHarness
 require_once 'spare-parts/database.php';    # query
 
-use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB;
+use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB, \SpareParts\Webapp;
 
 # XXX: Phase out use of these global constants??
 define('PATH', 'https://test.org/');
@@ -15,10 +15,8 @@ define('APPLICATION_ENV', 'testing');
 # XXX: favor of a proper login mechanism.
 define('TESTING', true);
 
-global $__frontControllerForTesting;
 $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/webapp/route-request.php";
-$__frontControllerForTesting = new FrontController($webappDir);
 
 abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
 
@@ -56,14 +54,14 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
   protected function createHomepageWidgets() {
     for ($id = 1; $id <= 4; $id++) {
       $w = getWidget();
-      DB\query("UPDATE widgets SET id = $id WHERE id = ?", array($w->id));
+      DB\query("UPDATE widgets SET id = ? WHERE id = ?", array($id, $w->id));
     }
   }
 
   protected function dispatchToWebapp() {
     global $__frontControllerForTesting;
-    $r = $__frontControllerForTesting->handleRequest();
-    return $r;
+    $__frontControllerForTesting->go();
+    return $__frontControllerForTesting->lastResponse;
   }
 
   protected function getValidationErrors() {
@@ -74,3 +72,14 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
         return !preg_match('/\\bdisplay:\\s*none;/', $n->getAttribute('style')); });
   }
 }
+
+class FrontControllerForTesting extends FrontController {
+  public $lastResponse;
+  protected function outputHttpResponse(Webapp\HttpResponse $r) {
+    return $this->lastResponse = $r;
+  }
+  protected function sessionStart() { /* Do nothing -- override call to session_start */ }
+}
+
+global $__frontControllerForTesting;
+$__frontControllerForTesting = new FrontControllerForTesting($webappDir);
