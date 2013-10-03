@@ -65,7 +65,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       $widget->save();
       $widget->updateProgress();
       $this->storeWidgetInSession($widget);
-      return $this->redirect('/widget-wiz/step-three');
+      return $this->redirect("/widget-wiz/step-three?w={$widget->id}");
     } else {
       return $this->renderStep('step-two.php', 'StepTwo', $widget);
     }
