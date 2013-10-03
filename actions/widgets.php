@@ -22,21 +22,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
         array('user' => $user, 'widgets' => Widget::getManyByOwner($user)));
     } else {
       $widget = Widget::getByURI(User::loadFromUsername($username), $uriID);
-      $vars = array();
-      $vars['display'] = at($_GET, 'display', 'overview');
-      $vars['widgetID'] = $widget->id;
-      $vars['width'] = $widget->width;
-      $vars['height'] = $widget->height;
-      $vars['color'] = $widget->color;
-      $vars['title'] = $widget->title;
-      $vars['about'] = $widget->about;
-      $vars['currency'] = $widget->currency;
-      $vars['goal'] = $widget->goalAmnt;
-      $vars['raised'] = $widget->raisedAmnt;
-      $vars['progress'] = $widget->progress;
-      $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
-      $vars['bitcoinAddress'] = $widget->bitcoinAddress;
-      return $this->renderWidget($vars);
+      return $this->renderWidgetObj($widget);
     }
   }
 
@@ -64,10 +50,28 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['width'] = at($_GET, 'width', $ds[0]->width);
     $vars['height'] = at($_GET, 'height', $ds[0]->height);
     $vars['widgetID'] = null;
-    return $this->renderWidget($vars);
+    return $this->renderWidgetArr($vars);
   }
 
-  private function renderWidget(Array $vars) {
+  private function renderWidgetObj(Widget $widget) {
+    $vars = array();
+    $vars['display'] = at($_GET, 'display', 'overview');
+    $vars['widgetID'] = $widget->id;
+    $vars['width'] = $widget->width;
+    $vars['height'] = $widget->height;
+    $vars['color'] = $widget->color;
+    $vars['title'] = $widget->title;
+    $vars['about'] = $widget->about;
+    $vars['currency'] = $widget->currency;
+    $vars['goal'] = $widget->goalAmnt;
+    $vars['raised'] = $widget->raisedAmnt;
+    $vars['progress'] = $widget->progress;
+    $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
+    $vars['bitcoinAddress'] = $widget->bitcoinAddress;
+    return $this->renderWidgetArr($vars);
+  }
+
+  private function renderWidgetArr(Array $vars) {
     $w = $vars['width']; $h = $vars['height'];
     if (!Widgets\validDimensions($w, $h)) {
       $ds = Widgets\allowedSizes();
