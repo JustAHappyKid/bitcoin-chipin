@@ -64,7 +64,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       return $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();
-      return $this->render('account/signup.php', 'Signup',
+      return $this->render('account/signup.php', null,
         array('form' => $form, 'captcha' => $captcha));
     }
   }
@@ -121,7 +121,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $user->updatePassword($hashedPass);
       $success = true;
     }
-    return $this->render('account/change-password.php', 'ChangePassword',
+    return $this->render('account/change-password.php', null,
       array('form' => $form, 'success' => $success,
             'newPassword' => $this->takeFromSession('newPassword')));
   }

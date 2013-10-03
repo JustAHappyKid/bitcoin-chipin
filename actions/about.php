@@ -3,19 +3,19 @@
 class AboutController extends \Chipin\WebFramework\Controller {
 
   function index() {
-    return $this->render('about/about-us.php', 'AboutUsPage');
+    return $this->render('about/about-us.php');
   }
 
   function faq() {
-    return $this->render('about/faq.php', 'FaqPage');
+    return $this->render('about/faq.php');
   }
 
   function privacyPolicy() {
-    return $this->render('about/privacy-policy.php', 'PrivacyPolicyPage');
+    return $this->render('about/privacy-policy.php');
   }
 
   function terms() {
-    return $this->render('about/terms.php', 'TermsPage');
+    return $this->render('about/terms.php');
   }
 
   function partners() {

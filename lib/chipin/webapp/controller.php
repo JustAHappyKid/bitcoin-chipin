@@ -4,11 +4,11 @@ namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-controller.php';
 require_once 'spare-parts/webapp/forms.php';            # Form
-//require_once 'spare-parts/reflection.php';              # getClassesDefinedInFile
+require_once 'spare-parts/reflection.php';              # getClassesDefinedInFile
 require_once 'spare-parts/template/base.php';           # Template\Context
 require_once 'chipin/users.php';                        # User
 
-use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Template;
+use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection, \SpareParts\Template;
 
 class Controller extends \SpareParts\Webapp\Controller {
 
@@ -41,7 +41,14 @@ class Controller extends \SpareParts\Webapp\Controller {
     if (endsWith($tplFile, '.php')) {
       require_once $pathToTpl;
       if ($className == null) {
-        $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
+        $classes = Reflection\getClassesDefinedInFile($pathToTpl);
+        if (count($classes) == 0) {
+          throw new \Exception("No classes defined in file $pathToTpl");
+        } else if (count($classes) > 1) {
+          throw new \Exception("Multiple classes defined in file $pathToTpl");
+        }
+//        $className = withoutSuffix(basename($tplFile), '.php') . 'Page';
+        $className = current($classes);
       }
       $tplObj = new $className;
       $tplObj->user = $this->user;
@@ -59,7 +66,6 @@ class Controller extends \SpareParts\Webapp\Controller {
     } else {
       throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
     }
-//      $className = Reflection\getClassesDefinedInFile($pathToTpl);
   }
 
   private function templatePath($tpl) {

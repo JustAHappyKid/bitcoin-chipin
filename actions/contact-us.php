@@ -16,9 +16,9 @@ class ContactUsController extends \Chipin\WebFramework\Controller {
         'A BitcoinChipin.com inquiry',
         "Someone named '{$_POST['name']}' has filled in the Contact Us form at\n" .
         "BitcoinChipin.com. His/her comments follow...\n\n----------\n\n" . $_POST['comments']);
-      return $this->render('contact-us/submitted.php', 'ContactUsSubmittedPage');
+      return $this->render('contact-us/submitted.php');
     } else {
-      return $this->render('contact-us/form.php', 'ContactUsPage');
+      return $this->render('contact-us/form.php');
     }
   }
 }

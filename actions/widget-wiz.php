@@ -145,7 +145,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   }
 
   private function renderStep($tplFile, $className, Widget $widget, Forms\Form $form = null) {
-    return $this->render("widget-wiz/$tplFile", $className,
+    return $this->render("widget-wiz/$tplFile", null,
       array('widget' => $widget, 'form' => $form,
             'previewURL' => $this->widgetPreviewURL($widget)));
   }
