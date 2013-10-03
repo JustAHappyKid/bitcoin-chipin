@@ -40,4 +40,8 @@ class ResetPasswordTest extends WebappTestingHarness {
     $this->submitForm($this->getForm('change-password-form'),
       array('password' => 'n00p@ss', 'confirm-password' => 'n00p@ss'));
   }
+
+  function testProvidingBogusConfCodeToPasswordResetURI() {
+    $this->get('/account/pass-reset?c=' . uniqid("bla-nonsense-"));
+  }
 }

@@ -127,7 +127,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
   }
 
   function lostPass() {
-    $failure = false;
+    $noSuchAccount = false;
     $email = at($_POST, 'email', null);
     if ($email) {
       try {
@@ -142,10 +142,12 @@ class AccountController extends \Chipin\WebFramework\Controller {
           "<strong>We've sent you an email!</strong> Please check your inbox " .
           "and look for a link there that will help you reset your password.");
       } catch (NoSuchUser $_) {
-        $failure = true;
+        $noSuchAccount = true;
       }
     }
-    return $this->render('account/lost-pass.diet-php', array('failure' => $failure));
+    return $this->render('account/lost-pass.diet-php',
+      array('noSuchAccount' => $noSuchAccount,
+            'invalidConfCode' => $this->takeFromSession('invalidConfCode')));
   }
 
   function passReset() {
@@ -158,7 +160,8 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $this->saveInSession('newPassword', $newPass);
       return $this->redirect('/account/change-password');
     } else {
-      $this->_redirect(PATH . 'signin/expired/c/'.$code.'/u/' . $userID);
+      $this->saveInSession('invalidConfCode', true);
+      return $this->redirect('/account/lost-pass');
     }
   }
 
