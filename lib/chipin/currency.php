@@ -32,7 +32,7 @@ function displayAmount($amount, $currency) {
   $maxDecimalPlaces = 2;
   if ($currency == 'BTC') {
     $millibits = ($amount - floor($amount)) * 1000;
-    $maxDecimalPlaces = strlen((string) ceil($millibits));
+    $maxDecimalPlaces = strlen(rtrim(str_pad(ceil($millibits), 3, '0', STR_PAD_LEFT), '0'));
   } else if ($currency == 'JPY') {
     $maxDecimalPlaces = 0;
   } else if ($amount > 100) {
