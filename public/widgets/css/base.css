@@ -108,6 +108,7 @@
 }
 
 #contribute .btc-addr {
+  font-family: monospace;
   font-weight: bold;
   text-align: center;
   color: #4477bb;
