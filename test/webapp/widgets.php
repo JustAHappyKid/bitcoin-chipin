@@ -8,6 +8,7 @@ require_once 'chipin/currencies.php';             # Currencies\*
 require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
 require_once 'spare-parts/database.php';          # insertOne, ...
 
+use Chipin\Currency\Amount;
 use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB, \DateTime;
 use SpareParts\Test\HttpNotFound;
 
@@ -53,6 +54,28 @@ class WidgetTests extends WebappTestingHarness {
         assertTrue(contains($div->textContent, $altCurrency),
           "Alt-currency should be listed with unit $altCurrency");
       }
+    }
+  }
+
+  function testRenderingVariousAmounts() {
+    $cases = array(
+      array(Currencies\BTC(), 0.01908, array('0.019 BTC', '0.02 BTC', '19 mBTC')),
+      array(Currencies\BTC(), 0.0, array('0 BTC', '0.0 BTC'))
+    );
+    foreach ($cases as $case) {
+      list($currency, $btcAmount, $acceptableRenderings) = $case;
+      $w = getWidget();
+      $w->currency = $currency;
+      $w->save();
+      $this->setBalance($w->bitcoinAddress, $btcAmount);
+      $this->browseToWidget($w);
+      $raisedDiv = current($this->xpathQuery("//div[@class='raised']"));
+      $matches = array_filter($acceptableRenderings,
+        function($t) use($raisedDiv) {
+          return contains($raisedDiv->textContent, $t); });
+      $matchFound = (1 == count($matches));
+      assertTrue($matchFound,
+        "Should render as one of following: " . implode(", ", $acceptableRenderings));
     }
   }
 
