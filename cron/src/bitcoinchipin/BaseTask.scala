@@ -7,10 +7,15 @@ import slick.jdbc.{StaticQuery => Q}
 class BaseTask {
 
   protected def withTransaction[T](s: Session)(action: => T): T = {
-    Q.updateNA("BEGIN TRANSACTION")
-    val result: T = action
-    Q.updateNA("COMMIT TRANSACTION")
-    result
+    def exec(q: String) { Q.updateNA(q).execute()(s) }
+    try {
+      exec("BEGIN")
+      val result: T = action
+      exec("COMMIT")
+      result
+    } catch {
+      case e: Exception => exec("ROLLBACK"); throw e
+    }
   }
 
   val baseHeaders = List(
