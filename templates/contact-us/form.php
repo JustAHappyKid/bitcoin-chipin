@@ -7,7 +7,12 @@ class ContactUsPage extends Layout {
     <div id="contact-us" class="container">
       <h2 class="section_header">Contact Us</h2>
       <div class="row">
-        <div class="offset3 span3">
+        <div class="offset3 span6">
+          <? if (isset($this->commentTooShort) && $this->commentTooShort) { ?>
+            <div class="alert alert-error">
+              That's all you're gonna write?
+            </div>
+          <? } ?>
           <form method="post" action="/contact-us/" class="form-horizontal">
             <div class="control-group">
               <label class="control-label" for="inputName">Your Name</label>
