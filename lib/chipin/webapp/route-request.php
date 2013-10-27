@@ -3,6 +3,7 @@
 namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-framework.php';
+require_once 'spare-parts/types.php';                 # asString
 require_once 'chipin/users.php';
 require_once 'chipin/log.php';
 
@@ -40,6 +41,10 @@ class FrontController extends \SpareParts\Webapp\FrontController {
       if (empty($base)) $base = array();
 //      echo "$baseName: " . asString($base) . "\n";
       foreach ($base as $var => $val) {
+        if (is_array($val)) {
+          throw new MaliciousRequestException(
+            "Found array in $baseName content at index '$var': " . asString($val));
+        }
         foreach ($suspectContent as $suspect) {
           if (contains(strtolower($var), $suspect) || contains(strtolower($val), $suspect)) {
             throw new MaliciousRequestException(
