@@ -40,6 +40,19 @@ class ContactFormTests extends WebappTestingHarness {
     }
   }
 
+  function testAbsenceOfFormVariableIsElegantlyHandled() {
+    $formVars = array('comments', 'email', 'name');
+    foreach ($formVars as $v) {
+      $this->get('/');
+      try {
+        $values = array('name' => 'Fred', 'email' => 'fred@test.org',
+          'comments' => "Hey - why don't you guys add this great new feature that I want?");
+        unset($values[$v]);
+        $this->post('/contact-us/', $values);
+      } catch (MaliciousRequestException $_) { /* We'll take that. */ }
+    }
+  }
+
   function testAccessingContactUsPage() {
     $this->get('/contact-us/');
   }
