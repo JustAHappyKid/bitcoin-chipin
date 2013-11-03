@@ -50,7 +50,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
         return $this->redirect('/widget-wiz/step-two');
       }
     } else {
-      return $this->renderStep('step-one.php', 'StepOne', $widget, $f);
+      return $this->renderStep('step-one.php', $widget, $f);
     }
   }
 
@@ -67,14 +67,14 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       $this->storeWidgetInSession($widget);
       return $this->redirect("/widget-wiz/step-three?w={$widget->id}");
     } else {
-      return $this->renderStep('step-two.php', 'StepTwo', $widget);
+      return $this->renderStep('step-two.php', $widget);
     }
   }
 
   function stepThree() {
     $widget = $this->requireWidget();
     $this->clearWidgetInSession();
-    return $this->renderStep('step-three.php', 'StepThree', $widget);
+    return $this->renderStep('step-three.php', $widget);
   }
 
   function previewCurrent() {
@@ -148,7 +148,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
     unset($_SESSION['unsaved-widget']);
   }
 
-  private function renderStep($tplFile, $className, Widget $widget, Forms\Form $form = null) {
+  private function renderStep($tplFile, Widget $widget, Forms\Form $form = null) {
     return $this->render("widget-wiz/$tplFile",
       array('widget' => $widget, 'form' => $form,
             'previewURL' => $this->widgetPreviewURL($widget)));
