@@ -128,7 +128,11 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       return $w;
     } else {
       $w = at($_SESSION, 'unsaved-widget', null);
-      return $w == null ? new Widget : $w;
+      if (empty($w)) $w = new Widget;
+      $w->color = Widgets\defaultColor();
+      $w->width = Widgets\defaultSize()->width;
+      $w->height = Widgets\defaultSize()->height;
+      return $w;
     }
   }
 
