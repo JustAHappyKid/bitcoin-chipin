@@ -19,7 +19,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
   /* TODO: Validate CAPTCHA properly! */
   function signup() {
     $form = new F\Form('post');
-    $form->addSection('password', array(
+    $form->addSection('account-details', array(
       F\newBasicTextField('username', 'Username')->
         minLength(5, "Sorry, the minimum allowed length for a username is five characters.")->
         addValidation(
@@ -61,6 +61,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
       DB\insertOne('subscriptions', array('user_id' => $user->id,
         'chipin' => $form->getValue('chipin-updates') ? 1 : 0,
         'memorydealers' => $form->getValue('memorydealers-updates') ? 1 : 0));
+      $this->userCreatedNotification($user);
       return $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();
@@ -209,6 +210,17 @@ class AccountController extends \Chipin\WebFramework\Controller {
     $c->generate();
     $_SESSION['captchas'][$c->getId()] = $c->getWord();
     return $c;
+  }
+
+  /**
+   * This is just a temporary measure to keep an eye on registrations (make sure we're not
+   * getting spammed) until we have a more robust, scalable mechanism for blocking spam
+   * and keeping a general eye on things.
+   */
+  private function userCreatedNotification(User $user) {
+    sendTextEmail('webmaster@bitcoinchipin.com', 'chris@easyweaze.net',
+      'New BitcoinChipin.com Account Created',
+      "A new user has been created...\n\n" . asString($user));
   }
 
   private $captchasDir = 'images/captcha';
