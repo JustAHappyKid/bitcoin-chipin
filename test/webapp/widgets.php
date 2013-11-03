@@ -98,6 +98,15 @@ class WidgetTests extends WebappTestingHarness {
     }
   }
 
+  function testAccessingWidgetWhoseOwnerHasNoUsernameSet() {
+    $u = getUser();
+    $u->username = null;
+    DB\updateByID('users', $u->id, array('username' => null));
+    $w = getWidget($u);
+    $this->get("/widgets/by-id/{$w->id}");
+    $this->assertContains("//div[contains(., '{$w->title}')]");
+  }
+
   private function browseToWidget(Widgets\Widget $w) {
     return $this->get("/widgets/by-id/{$w->id}");
   }

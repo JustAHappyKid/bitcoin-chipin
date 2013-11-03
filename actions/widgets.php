@@ -32,8 +32,12 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function byId(RequestContext $context) {
     $widget = Widget::getByID($context->takeNextPathComponent());
-    return $this->redirect('/widgets/u/' . $widget->getOwner()->username . '/' .
-      ($widget->uriID ? $widget->uriID : $widget->id));
+    $owner = $widget->getOwner();
+    if (empty($owner->username)) # If user has no username, just show the widget...
+      return $this->renderWidgetObj($widget);
+    else # ...otherwise, redirect to more "user-friendly" URL...
+      return $this->redirect('/widgets/u/' . $owner->username . '/' .
+        ($widget->uriID ? $widget->uriID : $widget->id));
   }
 
   function about(RequestContext $context) {
