@@ -116,20 +116,23 @@ class Signup extends Layout {
   function validationJavascript() { ?>
     <script type="text/javascript">
       function validateForm() {
-        if ($("#username").val() == ""){
-          $("#username-error").show();
+        var usernameError = $("#username-error");
+        if ($("#username").val() == "") {
+          usernameError.show();
           return false;
         } else {
-          if ($("#username-error").size() != 0) {
-            $("#username-error").hide();
+          if (usernameError.size() != 0) {
+            usernameError.hide();
           }
         }
-        if ($("#password").val() == '' || $("#password").val() != $("#confirm_password").val()) {
-          $("#password-error").show();
+        var passInput = $("#password");
+        var passError = $("#password-error");
+        if (passInput.val() == '' || passInput.val() != $("#confirm_password").val()) {
+          passError.show();
           return false;
         } else {
-          if ($("#password-error").size() >= 6 && $("#password-error").size() <= 22) {
-            $("#password-error").hide();
+          if (passError.size() >= 6 && passError.size() <= 22) {
+            passError.hide();
           }
         }
         return true;
