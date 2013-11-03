@@ -103,7 +103,6 @@ class Widget {
   }
 
   public function save() {
-//    $this->ending = date("Y-m-d", strtotime($this->ending));
     if (is_string($this->ending)) $this->ending = new DateTime($this->ending);
     else if (!($this->ending instanceof DateTime))
       throw new Exception("'ending' attribute should be string or DateTime object");
@@ -198,6 +197,8 @@ function endWidget(Widget $w) {
 
 function allowedColors() { return array('white', 'silver', 'blue', 'dark'); }
 
+function defaultColor() { return head(allowedColors()); }
+
 class Dimensions {
   public $width, $height;
   function __construct($w, $h) { $this->width = $w; $this->height = $h; }
@@ -207,6 +208,9 @@ class Dimensions {
 /** @return Dimensions[] */
 function allowedSizes() { return array(new Dimensions(350, 310), new Dimensions(200, 300),
                                        new Dimensions(200, 200)); }
+
+function defaultSize() { return head(allowedSizes()); }
+
 function validDimensions($w, $h) {
   $matches = array_filter(allowedSizes(),
     function($d) use($w, $h) { return $d->width == $w && $d->height == $h; });
