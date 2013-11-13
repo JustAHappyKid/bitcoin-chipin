@@ -39,7 +39,6 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     $varsToCheck = array('POST' => $_POST, 'GET' => $_GET, 'COOKIE' => $_COOKIE);
     foreach ($varsToCheck as $baseName => $base) {
       if (empty($base)) $base = array();
-//      echo "$baseName: " . asString($base) . "\n";
       foreach ($base as $var => $val) {
         if (is_array($val)) {
           throw new MaliciousRequestException(
@@ -53,31 +52,6 @@ class FrontController extends \SpareParts\Webapp\FrontController {
         }
       }
     }
-  }
-
-  protected function renderAndOutputPage($page) {
-
-    //XXX!!!
-    return null;
-/*
-    $response = new ResponseObj;
-    $response->statusCode = 200;
-
-    // XXX: Is this right???
-    $response->contentType = $page->contentType;
-
-    if ($page->layout) {
-      $smarty = createSmartyInstance();
-      $smarty->assign('page', $page);
-      $smarty->assign('successfulLogin', at($_SESSION, 'successfulLogin'));
-      unset($_SESSION['successfulLogin']);
-      $response->content = $smarty->fetch($page->layout);
-    } else {
-      $response->content = $page->body;
-    }
-
-    return $response;
-*/
   }
 
   protected function nameOfSessionCookie() { return 'PHPSESSID'; }
@@ -120,33 +94,4 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     $openSections = array('widget-wiz', 'account', 'dashboard');
     return in_array($cmd, $specificPages) || in_array($cmd[0], $openSections);
   }
-
-  /*
-  protected function renderStaticPage($path) {
-    $page = $this->getDefaultPageForRequest();
-    $page->body =
-      '<div style="float: left; width: 68%;">' . WebFramework\renderTemplate($path) . '</div>' .
-      WebFramework\renderTemplate('toolbox-side-panel.tpl',
-        array('user' => $this->getUserForCurrentRequest()));
-    return $this->renderAndOutputPage($page);
-  }
-  */
-
-  /*
-  protected function getNotFoundPage() {
-    $page = $this->getDefaultPageForRequest();
-    $page->layout = 'main-layout.tpl';
-    $page->title = 'Resource not found - DownsizeDC.org';
-    $page->styleFiles = array('/styles/common.css', '/styles/main.css');
-    $page->showFoundersSidebar = false;
-    $page->body = '
-      <div id="campaigns-list-page">
-        <div class="error">Sorry &ndash; we couldn\'t find the page you requested.
-          But please consider joining our campaigns to Downsize DC.
-        </div>
-        ' . renderCampaignList($this->createSmartyInstance()) . '
-      </div>';
-    return $page;
-  }
-  */
 }
