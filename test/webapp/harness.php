@@ -5,15 +5,12 @@ namespace Chipin\Test;
 require_once 'spare-parts/test/webapp.php'; # WebappTestingHarness
 require_once 'spare-parts/database.php';    # query
 
-use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB, \SpareParts\Webapp;
+use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB, \SpareParts\Webapp,
+  \SpareParts\Test\HttpRedirect;
 
 # XXX: Phase out use of these global constants??
 define('PATH', 'https://test.org/');
 define('APPLICATION_ENV', 'testing');
-
-# XXX: Required for /xxx-tmp-test-hook/login, until we phase that out in
-# XXX: favor of a proper login mechanism.
-define('TESTING', true);
 
 $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/webapp/route-request.php";
@@ -28,12 +25,10 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
 
   protected function domain() { return 'test.org'; }
 
-  /**
-   * XXX: This is temporary hack until we have login form reimplemented in "spare-parts"
-   *      framework.
-   */
-  protected function login($username, $_password) {
-    $this->post('/xxx-tmp-test-hook/login', array('un' => $username));
+  protected function login($username, $password) {
+    try {
+      $this->post('/account/signin', array('username' => $username, 'password' => $password));
+    } catch (HttpRedirect $_) { /* That's okay -- we should be redirected to the Dashboard. */ }
   }
 
   protected function loginAsNormalUser() {
@@ -65,11 +60,11 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
   }
 
   protected function getValidationErrors() {
-    $nodes = $this->xpathQuery("//*[contains(@class, 'error')]");
+    $nodes = $this->findElements("//*[contains(@class, 'error')]");
     return array_filter($nodes,
-      function($n) {
+      function(\DOMElement $e) {
         # If the node has a "display:none" CSS definition, toss it.
-        return !preg_match('/\\bdisplay:\\s*none;/', $n->getAttribute('style')); });
+        return !preg_match('/\\bdisplay:\\s*none;/', $e->getAttribute('style')); });
   }
 }
 

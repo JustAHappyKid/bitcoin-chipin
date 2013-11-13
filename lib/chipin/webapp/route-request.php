@@ -78,11 +78,8 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     $openSections = array('about', 'widgets');
     $openPaths = array(array(''), array('contact-us'),
       array('account', 'signup'), array('account', 'signin'), array('account', 'signout'),
-      array('account', 'lost-pass'), array('account', 'pass-reset'),
-      /*array('account', 'logout'), array('account', 'login')*/);
-    if ($cmd == array('xxx-tmp-test-hook', 'login') && defined('TESTING') && TESTING === true) {
-      return true;
-    } else if (in_array($cmd, $openPaths) || in_array(current($cmd), $openSections)) {
+      array('account', 'lost-pass'), array('account', 'pass-reset'));
+    if (in_array($cmd, $openPaths) || in_array(current($cmd), $openSections)) {
       return true;
     } else {
       return false;
