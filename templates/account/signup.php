@@ -50,7 +50,7 @@ class Signup extends Layout {
                     Captcha code incorrectly identified. Please try again!
                   </div>
                 <?php endif; ?>
-                <div class="login-fields">
+                <div class="account-fields">
                   <div class="field">
                     <label for="username">Username:</label>
                     <input type="text" id="username" name="username" value=""
@@ -89,7 +89,7 @@ class Signup extends Layout {
                       Receive news updates from MemoryDealers.com
                     </label>
                   </div>
-                </div> <!-- /login-fields -->
+                </div> <!-- /account-fields -->
                 <div class="login-actions">
                   <? /* <span class="login-checkbox" style="display: none;">
                     <input id="Field" name="Field" type="checkbox" class="field login-checkbox"

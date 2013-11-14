@@ -21,21 +21,21 @@
   text-align: left;
 }
 
-.login-fields .field {
+.account-fields .field {
   margin-bottom: 1px;
 }
 
 /* Hide labels for fields, by default, as the placeholder text is sufficient. */
-.login-fields label {
+.account-fields label {
   display: none;
 }
 
 /* For the checkboxes, we can't hide the labels, as they have no placeholder text... */
-.login-fields .newsletter-options label {
+.account-fields .newsletter-options label {
   display: block;
 }
 
-.login-fields input {
+.account-fields input {
   margin: 0;
 }
 
@@ -51,15 +51,15 @@
 }
 
 /* Special styling for newsletter-signup checkboxes and associated labels/text. */
-.login-fields .newsletter-options label {
+.account-fields .newsletter-options label {
   text-align: left;
   font-size: 11px;
   color: #555;
 }
-.login-fields .newsletter-options input {
+.account-fields .newsletter-options input {
   margin-right: 5px;
 }
-.login-fields .newsletter-options {
+.account-fields .newsletter-options {
   margin: 4px 0 20px;
 }
 

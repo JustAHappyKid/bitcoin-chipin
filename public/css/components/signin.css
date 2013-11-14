@@ -33,15 +33,15 @@ body {
 	padding: 16px 28px 23px;
 }
 
-.login-fields .field {
+.account-fields .field {
 	margin-bottom: 1.25em;
 }
 
-.login-fields label {
+.account-fields label {
 	display: none;
 }
 
-.login-fields input {
+.account-fields input {
 	/*font-family: 'Open Sans';*/
 	/*font-size: 13px;*/
 	color: #8e8d8d;
@@ -174,7 +174,7 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 	margin-bottom: 0;
 }
 
-.register .login-fields input {
+.register .account-fields input {
 	width: 299px;
 	padding-left: 6px;
 }
@@ -206,7 +206,7 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 		margin-top: 35px;
 	}
 	
-	.login-fields input {
+	.account-fields input {
 		width: 160px;
 	}
 	
@@ -219,7 +219,7 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 		margin-bottom: 1em;
 	}
 	
-	.register .login-fields input {
+	.register .account-fields input {
 		width: 204px;
 		padding-left: 6px;
 	}

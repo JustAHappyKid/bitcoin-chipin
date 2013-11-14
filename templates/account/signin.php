@@ -61,7 +61,7 @@ class SigninPage extends Layout {
               Your password has been updated successfully!
             </div>
           <?php endif; ?>
-          <div class="login-fields">
+          <div class="account-fields">
 
             <p>Sign in using your registered account:</p>
 
@@ -69,15 +69,15 @@ class SigninPage extends Layout {
               <label for="username">Username:</label>
               <input type="text" id="username" name="username" value="" placeholder="Username"
                      class="login username-field" />
-            </div> <!-- /field -->
+            </div>
 
             <div class="field">
               <label for="password">Password:</label>
               <input type="password" id="password" name="password" value="" placeholder="Password"
                      class="login password-field"/>
-            </div> <!-- /password -->
+            </div>
 
-          </div> <!-- /login-fields -->
+          </div> <!-- /account-fields -->
 
           <div class="login-actions">
 

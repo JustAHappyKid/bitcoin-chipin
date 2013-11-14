@@ -51,7 +51,7 @@ class ChangePassword extends Layout {
               </div>
             <? endif; ?>
 
-            <div class="login-fields" style="margin-top: 25px;">
+            <div class="account-fields" style="margin-top: 25px;">
 
               <div class="field">
                 <label for="current-password">Current password:</label>
@@ -72,7 +72,7 @@ class ChangePassword extends Layout {
                        placeholder="Confirm new password" class="login password-field"/>
               </div>
 
-            </div> <!-- /login-fields -->
+            </div> <!-- /account-fields -->
 
             <div class="login-actions">
               <button class="button btn btn-secondary btn-large"

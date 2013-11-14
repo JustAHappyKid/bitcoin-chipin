@@ -26,14 +26,14 @@ block innerContent {
           Sorry, that's not a valid confirmation code.
         </div>
       }
-      <div class="login-fields">
+      <div class="account-fields">
         <p>Enter your email address below, and we'll send you a link to reset
           your password.</p>
         <div class="field">
           <label for="email">Email Address:</label>
           <input type="text" id="email" name="email" placeholder="Email" class="login" />
         </div>
-      </div> <!-- /login-fields -->
+      </div> <!-- /account-fields -->
       <div class="login-actions">
         <button class="button btn btn-secondary btn-large">Submit</button>
       </div>
