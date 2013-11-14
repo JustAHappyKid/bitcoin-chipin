@@ -42,12 +42,11 @@ abstract class WidgetWizLayout extends Layout {
                 </h3>
               </div> <!-- /widget-header -->
               <div class="widget-content">
-                <? $action = '/widget-wiz/step-' . $words[$this->stepNumber()]
-                    // ($this->widget->id != null ? "?w={$this->widget->id}" : "")
-                ?>
+                <? $action = '/widget-wiz/step-' . $words[$this->stepNumber()]; ?>
                 <form id="widgetForm" action="<?= $action ?>"
                       method="POST" class="form-horizontal">
                   <div id="wizard" class="swMain">
+
                     <ul class="wizard-steps">
                       <? $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
                       <? foreach ($steps as $num => $label): ?>
@@ -71,11 +70,11 @@ abstract class WidgetWizLayout extends Layout {
                       <?= $this->buttons() ?>
                     </div>
 
-                  </div> <!-- /wizard -->
+                  </div> <!-- /#wizard -->
                 </form>
-              </div> <!-- /widget-content -->
-            </div> <!-- /widget -->
-          </div> <!-- /.span8 -->
+              </div> <!-- /.widget-content -->
+            </div> <!-- /.widget -->
+          </div> <!-- /.span12 -->
         </div> <!-- /row -->
       </div> <!-- /.container -->
     </div> <!-- /#content -->
