@@ -14,11 +14,6 @@ abstract class WidgetWizLayout extends Layout {
     <? /* TODO: Move this somewhere more appropriate! */ ?>
     <script src="/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.min.css" />
-
-    <? /* XXX: Remove this once we're sure it's no longer needed...
-      <link href="/js/plugins/smartwizard/smart_wizard.modified.css" rel="stylesheet" />
-    */ ?>
-
     <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
 
   <? }
@@ -45,7 +40,7 @@ abstract class WidgetWizLayout extends Layout {
                 <? $action = '/widget-wiz/step-' . $words[$this->stepNumber()]; ?>
                 <form id="widgetForm" action="<?= $action ?>"
                       method="POST" class="form-horizontal">
-                  <div id="wizard" class="swMain">
+                  <div id="wizard">
 
                     <ul class="wizard-steps">
                       <? $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
