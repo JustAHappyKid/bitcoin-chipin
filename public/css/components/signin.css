@@ -48,6 +48,7 @@ body {
 	padding: 11px 15px 10px 50px;
 	background-color: #fdfdfd;
 	width: 255px;
+  height: 17px;
 	margin: 0;
 	/*display: block;
 	box-shadow: inset 2px 2px 4px #f1f1f1;*/
@@ -196,7 +197,6 @@ span.login-checkbox > input[type='checkbox']:checked + label {
 	
 	line-height: 1.3em;
 }
-
 
 
 @media (max-width: 480px) {
