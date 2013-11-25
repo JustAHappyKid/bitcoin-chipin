@@ -89,7 +89,12 @@ class AccountController extends \Chipin\WebFramework\Controller {
   }
 
   function signout() {
+
+    # XXX: Temporary measure -- we're phasing out use of 'Zend_Auth'...
     unset($_SESSION['Zend_Auth']['storage']);
+
+    unset($_SESSION['user']);
+
     if ($this->user) {
       $this->user = null;
       return $this->successMessage("You have been signed out.");
@@ -177,10 +182,6 @@ class AccountController extends \Chipin\WebFramework\Controller {
   private function getStoredHashForUser($username) {
     $rows = DB\select('password', 'users', 'username = ?', array($username));
     return count($rows) == 0 ? null : $rows[0]['password'];
-  }
-
-  private function setAuthenticatedUser(User $user) {
-    $_SESSION['Zend_Auth']['storage'] = $user;
   }
 
   private function successMessage($message) {

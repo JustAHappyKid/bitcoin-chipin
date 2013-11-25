@@ -72,4 +72,8 @@ class Controller extends \SpareParts\Webapp\Controller {
   private function templatesDir() {
     return pathJoin($this->webappDir(), 'templates');
   }
+
+  protected function setAuthenticatedUser(User $user) {
+    $_SESSION['user'] = $user;
+  }
 }
