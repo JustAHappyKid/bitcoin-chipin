@@ -4,7 +4,7 @@ namespace Chipin\Test;
 
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 
-use \SpareParts\Webapp\MaliciousRequestException;
+use \SpareParts\Webapp\MaliciousRequestException, \SpareParts\Test\UnexpectedHttpResponseCode;
 
 class ContactFormTests extends WebappTestingHarness {
 
@@ -22,7 +22,12 @@ class ContactFormTests extends WebappTestingHarness {
       try {
         $this->submitFormExpectingErrors($this->getForm(),
           array('name' => 'Fred', 'email' => 'fred@test.org', 'comments' => $b));
-      } catch (MaliciousRequestException $_) { /* We'll take that. */ }
+      } catch (MaliciousRequestException $_)  {
+        /* We'll take that. */
+      } catch (UnexpectedHttpResponseCode $e) {
+        /* Or that, if it's an appropriate response code. */
+        assertTrue($e->statusCode >= 400);
+      }
     }
 //    $this->get('/');
 //    try {
