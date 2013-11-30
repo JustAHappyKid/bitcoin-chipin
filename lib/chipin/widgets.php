@@ -53,6 +53,11 @@ class Widget {
     return current($ws);
   }
 
+  /**
+   * @param string $query SELECT portion of SQL query
+   * @param array $params parameters to pass with the query
+   * @return Widget[]
+   */
   public static function getManyByQuery($query, Array $params) {
     return array_map(
       function($row) {
