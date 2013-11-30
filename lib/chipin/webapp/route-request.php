@@ -13,7 +13,7 @@ require_once 'chipin/webapp/controller.php';
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
 
-use \SpareParts\Webapp\AccessForbidden, \SpareParts\Webapp\MaliciousRequestException, \Chipin\Log;
+use \SpareParts\Webapp\AccessForbidden, \Chipin\Log;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -23,37 +23,11 @@ function routeRequestForApp() {
 
 class FrontController extends \SpareParts\Webapp\FrontController {
 
-  protected function sessionLifetimeInSeconds() { return 60 * 60 * 24 * 3; /* 3 days good? */ }
   protected function info($msg)   { Log\info($msg); }
   protected function notice($msg) { Log\notice($msg); }
   protected function warn($msg)   { Log\warn($msg); }
 
-  public function go() {
-    $this->checkForMaliciousContent();
-    return parent::go();
-  }
-
-  # XXX: Move this to spare-parts web framework?
-  protected function checkForMaliciousContent() {
-    $suspectContent = array("/passwd", "sleep(", "../", "%00");
-    $varsToCheck = array('POST' => $_POST, 'GET' => $_GET, 'COOKIE' => $_COOKIE);
-    foreach ($varsToCheck as $baseName => $base) {
-      if (empty($base)) $base = array();
-      foreach ($base as $var => $val) {
-        if (is_array($val)) {
-          throw new MaliciousRequestException(
-            "Found array in $baseName content at index '$var': " . asString($val));
-        }
-        foreach ($suspectContent as $suspect) {
-          if (contains(strtolower($var), $suspect) || contains(strtolower($val), $suspect)) {
-            throw new MaliciousRequestException(
-              "Found suspect content in $baseName data at index '$var': $val");
-          }
-        }
-      }
-    }
-  }
-
+  protected function sessionLifetimeInSeconds() { return 60 * 60 * 24 * 3; /* 3 days good? */ }
   protected function nameOfSessionCookie() { return 'PHPSESSID'; }
 
   protected function getUserForCurrentRequest() {
