@@ -54,8 +54,18 @@ class AccountController extends \Chipin\WebFramework\Controller {
       $username = $form->getValue("username");
       $passwordHashed = Passwords\hash($form->getValue("password1"));
       $email = $form->getValue("email");
-      DB\insertOne('users', array('username' => $username, 'password' => $passwordHashed,
-                                  'email' => $email, 'created_at' => new DateTime('now')));
+      $recordValues = array('username' => $username, 'password' => $passwordHashed,
+                            'email' => $email, 'created_at' => new DateTime('now'));
+      $activeUser = $this->getActiveUser();
+      if (empty($activeUser)) {
+        # In this case, the user is most likely registering using the straight-up registration
+        # form (as opposed to the post-Wizard signup form).
+        DB\insertOne('users', $recordValues);
+      } else {
+        # In this case there's an "active user", one which created a widget and used the
+        # post-Wizard signup form to register following widget creation.
+        DB\updateByID('users', $activeUser->id, $recordValues);
+      }
       $user = User::loadFromUsername($username);
       $this->setAuthenticatedUser($user);
       DB\insertOne('subscriptions', array('user_id' => $user->id,
@@ -85,7 +95,9 @@ class AccountController extends \Chipin\WebFramework\Controller {
         $failure = true;
       }
     }
-    return $this->render('account/signin.php', array('failure' => $failure));
+    return $this->render('account/signin.php',
+      array('failure' => $failure,
+        'authenticationRequired' => $this->takeFromSession('authenticationRequired')));
   }
 
   function signout() {

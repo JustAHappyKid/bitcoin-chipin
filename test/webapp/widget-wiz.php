@@ -7,9 +7,9 @@ require_once 'chipin/widgets.php';                # Widget::getAll
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 require_once 'spare-parts/database.php';          # query
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales, \Exception, \DateTime,
+use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales,
   \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
-  \SpareParts\WebClient\HtmlForm;
+  \SpareParts\WebClient\HtmlForm, \Exception, \DateTime;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -18,14 +18,11 @@ class WidgetWizardTests extends WebappTestingHarness {
   function setUp() {
     parent::setUp();
     $this->user = $this->loginAsNormalUser();
+    # Clear out the address-balance cache to assert a "new" address doesn't cause breakage...
+    DB\query("DELETE FROM bitcoin_addresses WHERE address = ?", array($this->btcAddr()));
   }
 
   function testAddingAndEditingWidget() {
-//    $this->loginAsNormalUser();
-
-    # Clear out the address-balance cache to assert a "new" address doesn't cause breakage...
-    DB\query("DELETE FROM bitcoin_addresses WHERE address = ?", array($this->btcAddr()));
-
     $sizes = Widgets\allowedSizes();
     $colors = Widgets\allowedColors();
 
@@ -67,6 +64,30 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual("I've changed my mind.", $wNow->about);
     assertEqual($sizes[1]->width, (int) $wNow->width);
     assertEqual($sizes[1]->height, (int) $wNow->height);
+  }
+
+  function testAddingWidgetAsUnauthenticatedUser() {
+    $this->logout();
+    $this->get('/widget-wiz/step-one');
+    $expires = new DateTime("+50 days");
+    $this->submitForm($this->getForm(),
+      array('title' => 'What is Bitcoin?', 'goal' => '100', 'currency' => 'USD',
+        'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
+    $this->submitForm($this->getForm(),
+      array('about' => 'Donate some bitcoins so I can learn it.', 'color' => Widgets\defaultColor(),
+            'size' => Widgets\defaultSize()));
+    $widgets = Widget::getAll();
+    assertEqual(1, count($widgets));
+    $pass = 'sweet-corn-on-the-cob';
+    $this->submitForm($this->getForm('signup-form'),
+      array('email' => 'john@test.org', 'username' => 'butter-cookie',
+            'password1' => $pass, 'password2' => $pass));
+    $this->logout();
+    $this->login('butter-cookie', $pass);
+    $user = User::loadFromUsername('butter-cookie');
+    $widgets = Widget::getManyByOwner($user);
+    assertEqual(1, count($widgets));
+    assertEqual('john@test.org', $user->email);
   }
 
   function testThatFieldsArePrePopulatedWhenEditingWidget() {

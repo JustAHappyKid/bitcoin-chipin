@@ -22,8 +22,6 @@ abstract class WidgetWizLayout extends Layout {
 
     <input type="hidden" id="path" value="<?php echo PATH; ?>"/>
 
-    <? $words = array(1 => 'one', 2 => 'two', 3 => 'three'); ?>
-
     <div id="content">
       <div class="container">
         <div class="row">
@@ -37,9 +35,7 @@ abstract class WidgetWizLayout extends Layout {
                 </h3>
               </div> <!-- /widget-header -->
               <div class="widget-content">
-                <? $action = '/widget-wiz/step-' . $words[$this->stepNumber()]; ?>
-                <form id="widgetForm" action="<?= $action ?>"
-                      method="POST" class="form-horizontal">
+
                   <div id="wizard">
 
                     <ul class="wizard-steps">
@@ -48,7 +44,7 @@ abstract class WidgetWizLayout extends Layout {
                         <li>
 
                           <div class="step <?= $num == $this->stepNumber() ? 'selected' : '' ?>">
-                          <!-- <a href="./step-<?= $words[$num] ?>#step-<?= $num ?>"
+                          <!-- <a href="./step-<?= $this->words[$num] ?>#step-<?= $num ?>"
                             class="<?= $num == $this->stepNumber() ? 'selected' : '' ?>"> -->
                             <div class="wizard-step-number"><?= $num ?></div>
                             <div class="wizard-step-label"><?= $label ?></div>
@@ -59,14 +55,10 @@ abstract class WidgetWizLayout extends Layout {
                       <? endforeach; ?>
                     </ul>
 
-                    <?= $this->contentForThisStep() ?>
-
-                    <div class="form-actions">
-                      <?= $this->buttons() ?>
-                    </div>
+                    <?= $this->allTheShitWithForm() ?>
 
                   </div> <!-- /#wizard -->
-                </form>
+
               </div> <!-- /.widget-content -->
             </div> <!-- /.widget -->
           </div> <!-- /.span12 -->
@@ -75,4 +67,22 @@ abstract class WidgetWizLayout extends Layout {
     </div> <!-- /#content -->
 
   <? }
+
+  protected function allTheShitWithForm() { ?>
+    <? $action = '/widget-wiz/step-' . $this->words[$this->stepNumber()]; ?>
+    <form id="widgetForm" action="<?= $action ?>"
+          method="POST" class="form-horizontal">
+      <?= $this->contentForThisStep() ?>
+
+      <div class="form-actions">
+        <?= $this->buttons() ?>
+      </div>
+    </form>
+  <? }
+
+  /*protected function contentForThisStep() { ?>
+
+  <? }*/
+
+  protected $words = array(1 => 'one', 2 => 'two', 3 => 'three');
 }

@@ -54,6 +54,14 @@ class SigninPage extends Layout {
               Invalid username or password!
             </div>
           <?php endif; ?>
+          <?php if ($this->authenticationRequired): ?>
+            <div class="alert alert-error">
+              <a class="close" data-dismiss="alert" href="#">×</a>
+              <h4 class="alert-heading">Hold it right there!</h4>
+              We're gonna have to check your credentials before we can let you
+              edit that widget &mdash; we've got to be sure you're the true owner!
+            </div>
+          <?php endif; ?>
           <?php if (isset($this->passwordReset) && $this->passwordReset): ?>
             <div class="alert alert-success">
               <h4 class="alert-heading">Success!</h4>

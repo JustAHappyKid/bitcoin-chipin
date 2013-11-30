@@ -57,7 +57,7 @@ class FrontController extends \SpareParts\Webapp\FrontController {
   }
 
   protected function pathIsOpenToAll($cmd) {
-    $openSections = array('about', 'widgets');
+    $openSections = array('about', 'widgets', 'widget-wiz');
     $openPaths = array(array(''), array('contact-us'),
       array('account', 'signup'), array('account', 'signin'), array('account', 'signout'),
       array('account', 'lost-pass'), array('account', 'pass-reset'));
@@ -70,7 +70,7 @@ class FrontController extends \SpareParts\Webapp\FrontController {
 
   protected function pathIsOpenToAuthenticatedUser($cmd) {
     $specificPages = array();
-    $openSections = array('widget-wiz', 'account', 'dashboard');
+    $openSections = array(/*'widget-wiz',*/ 'account', 'dashboard');
     return in_array($cmd, $specificPages) || in_array($cmd[0], $openSections);
   }
 }

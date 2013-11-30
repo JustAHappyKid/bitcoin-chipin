@@ -9,6 +9,9 @@ use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget, \Chipin\Curren
 
 class StepOne extends WidgetWizLayout {
 
+  /** @var Widget */
+  public $widget;
+
   protected function stepNumber() { return 1; }
   protected function showPreview() { return false; }
   protected function buttons() {

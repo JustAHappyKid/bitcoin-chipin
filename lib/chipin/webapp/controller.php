@@ -15,6 +15,21 @@ class Controller extends \SpareParts\Webapp\Controller {
   /** @var User */
   public $user;
 
+  /**
+   * The "active user" is the User object/record for the current user, if one has already
+   * been created for said user. The difference between this and the 'user' attribute
+   * (of Controller) is that this "active user" *may not* have yet "registered"... I.e.,
+   * the "active user" could be a user that has only created a widget (or two) but has not
+   * yet provided an email address, password, etc.
+   */
+  protected function getActiveUser() {
+    return $this->user ? $this->user : at($_SESSION, 'unregistered-user');
+  }
+
+  protected function setActiveUser(User $u) {
+    $_SESSION['unregistered-user'] = $u;
+  }
+
   protected function webappDir() {
     return dirname(dirname(dirname(dirname(__FILE__))));
   }

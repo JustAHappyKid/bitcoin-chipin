@@ -1,13 +1,15 @@
 <?php
 
+require_once 'chipin/users.php';
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
+require_once 'spare-parts/database.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
-use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log,
+use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log, \Chipin\User,
   \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
-  \SpareParts\Webapp\Forms;
+  \SpareParts\Webapp\Forms, \SpareParts\Database as DB;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -57,7 +59,13 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   function stepTwo() {
     $widget = $this->requireWidget();
     if ($this->isPostRequest()) {
-      $widget->ownerID = $this->user->id;
+      $user = $this->getActiveUser();
+      if (empty($user)) {
+        $uid = DB\insertOne('users', array('created_at' => new DateTime('now')), $returnId = true);
+        $user = User::loadFromID($uid);
+        $this->setActiveUser($user);
+      }
+      $widget->ownerID = $user->id;
       $widget->about = $_POST['about'];
       list($widget->width, $widget->height) = explode('x', $_POST['size']);
       $widget->color = $_POST['color'];
@@ -123,9 +131,15 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   private function getWidget() {
     if (isset($_GET['w'])) {
       # Looks like we're editing a widget...
-      $w = Widget::getByOwnerAndID($this->user, $_GET['w']);
-      $this->storeWidgetInSession($w);
-      return $w;
+      $user = $this->getActiveUser();
+      if (empty($user)) {
+        $_SESSION['authenticationRequired'] = true;
+        return $this->redirect("/account/signin");
+      } else {
+        $w = Widget::getByOwnerAndID($user, $_GET['w']);
+        $this->storeWidgetInSession($w);
+        return $w;
+      }
     } else {
       $w = at($_SESSION, 'unsaved-widget', null);
       if (empty($w)) $w = new Widget;
@@ -150,7 +164,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
 
   private function renderStep($tplFile, Widget $widget, Forms\Form $form = null) {
     return $this->render("widget-wiz/$tplFile",
-      array('widget' => $widget, 'form' => $form,
+      array('widget' => $widget, 'form' => $form, 'user' => $this->user,
             'previewURL' => $this->widgetPreviewURL($widget)));
   }
 
