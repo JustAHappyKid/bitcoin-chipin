@@ -2,7 +2,12 @@
 
 require_once dirname(dirname(__FILE__)) . '/layout.php';
 
+use \SpareParts\Webapp\Forms\Form;
+
 class Signup extends Layout {
+
+  /** @var Form */
+  public $form;
 
   function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/signup.css" />
