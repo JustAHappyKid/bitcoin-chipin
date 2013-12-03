@@ -50,7 +50,7 @@ class Widget {
       throw new NoSuchWidget("Could not find widget matching query '$query' with following " .
         "parameters: " . asString($params));
     }
-    return current($ws);
+    return $ws[0];
   }
 
   /**
