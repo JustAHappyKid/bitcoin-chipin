@@ -10,6 +10,7 @@ require_once 'spare-parts/database.php';          # query
 use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales,
   \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
   \SpareParts\WebClient\HtmlForm, \Exception, \DateTime;
+use SpareParts\Test\UnexpectedHttpResponseCode;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -194,6 +195,32 @@ class WidgetWizardTests extends WebappTestingHarness {
     $_POST = $this->getForm()->getDefaultValuesToSubmit();
     $this->makeRequest('POST', "/widget-wiz/step-two",
       $serverVars = array('REMOTE_ADDR' => '175.156.249.231'));
+  }
+
+  /**
+   * Here we aim to assert we're not vulnerable to "CSRF" attacks. We do this simply by
+   * asserting a "raw" POST request will not be accepted for widget editing, as this should
+   * indicate the server is requiring some sort of "nonce" or "token" for accepting any
+   * form submission. More on CSRF here:
+   * https://www.owasp.org/index.php/Cross-Site_Request_Forgery_(CSRF)
+   */
+  function testResilienceToCrossSiteRequestForgeryAttack() {
+    $w = getWidget($this->user);
+    $this->get("/widget-wiz/step-one?w={$w->id}");
+    try {
+      $this->post("/widget-wiz/step-one",
+        array('title' => 'Hijacked', 'goal' => '1000', 'currency' => 'USD',
+              'ending' => "12/15/2020", 'bitcoinAddress' => '1E3FqrQTZSvTUdw7qZ4NnZppqiqnqqNcUN'));
+    } catch (UnexpectedHttpResponseCode $_) { /* That will do... */ }
+    try {
+      $this->post("/widget-wiz/step-two",
+        array('about' => 'Show me the money!', 'color' => Widgets\defaultColor(),
+              'size' => Widgets\defaultSize()));
+    } catch (UnexpectedHttpResponseCode $_) { /* That's good... */ }
+    $widgetNow = Widget::getByID($w->id);
+    assertNotEqual('Hijacked', $widgetNow->title);
+    assertNotEqual('1E3FqrQTZSvTUdw7qZ4NnZppqiqnqqNcUN', $widgetNow->bitcoinAddress);
+    assertNotEqual('Show me the money!', $widgetNow->about);
   }
 
   protected function getForm($formId = null) {

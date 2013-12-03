@@ -55,6 +55,7 @@ class ContactFormTests extends WebappTestingHarness {
         unset($values[$v]);
         $this->post('/contact-us/', $values);
       } catch (MaliciousRequestException $_) { /* We'll take that. */ }
+        catch (UnexpectedHttpResponseCode $_) { /* Or that. */ }
     }
   }
 

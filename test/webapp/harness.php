@@ -27,7 +27,10 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
 
   protected function login($username, $password) {
     try {
-      $this->post('/account/signin', array('username' => $username, 'password' => $password));
+//      $this->post('/account/signin', array('username' => $username, 'password' => $password));
+      $this->get('/account/signin');
+      $this->submitForm($this->getForm('signin-form'),
+        array('username' => $username, 'password' => $password));
     } catch (HttpRedirect $_) { /* That's okay -- we should be redirected to the Dashboard. */ }
   }
 

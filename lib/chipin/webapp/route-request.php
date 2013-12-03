@@ -3,7 +3,8 @@
 namespace Chipin\WebFramework;
 
 require_once 'spare-parts/webapp/base-framework.php';
-require_once 'spare-parts/types.php';                 # asString
+require_once 'spare-parts/webapp/filters/csrf-guard.php'; # CSRFGuard
+require_once 'spare-parts/types.php';                     # asString
 require_once 'chipin/users.php';
 require_once 'chipin/log.php';
 
@@ -13,7 +14,7 @@ require_once 'chipin/webapp/controller.php';
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
 
-use \SpareParts\Webapp\AccessForbidden, \Chipin\Log;
+use \SpareParts\Webapp\AccessForbidden, \SpareParts\Webapp\Filters, \Chipin\Log;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -22,6 +23,10 @@ function routeRequestForApp() {
 }
 
 class FrontController extends \SpareParts\Webapp\FrontController {
+
+  protected function filters() {
+    return array(new Filters\CSRFGuard());
+  }
 
   protected function info($msg)   { Log\info($msg); }
   protected function notice($msg) { Log\notice($msg); }

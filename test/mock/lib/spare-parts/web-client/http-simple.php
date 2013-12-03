@@ -7,6 +7,8 @@ use \Exception;
 function get($url) {
   if ($url == 'http://blockchain.info/q/addressbalance/1PUPt26votHesaGwSApYtGVTfpzvs8AxVM') {
     return '2537813';
+  } else if ($url == 'http://blockchain.info/q/addressbalance/1E3FqrQTZSvTUdw7qZ4NnZppqiqnqqNcUN') {
+    return '0';
   } else if ($url == 'http://blockchain.info/q/addressbalance/peanuts') {
     return 'Checksum does not validate';
   } else if (beginsWith($url, 'http://blockchain.info/tobtc?currency=USD')) {
