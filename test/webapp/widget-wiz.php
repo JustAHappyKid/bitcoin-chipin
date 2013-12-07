@@ -117,24 +117,6 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->expectSpecificOption($fieldName = 'color', $expectedValue = $colors[0]);
   }
 
-  function testWizardRejectsHtmlScriptTags() {
-    $badContent = "<script>alert('!');</script>";
-//    $this->loginAsNormalUser();
-    $this->get('/widget-wiz/step-one');
-    try {
-      $this->submitForm($this->getForm(),
-        array('title' => $badContent, 'goal' => '15', 'currency' => 'USD',
-              'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
-      $this->submitForm($this->getForm(),
-        array('about' => $badContent));
-    } catch (Exception $_) {
-      # XXX: Until we get proper form-validation in place, we'll just expect to see an
-      # XXX: exception coming from the 'Paranoid' database layer proclaiming "No angle
-      # XXX: brackets allowed!".
-    }
-    assertEqual(0, count(Widget::getAll()));
-  }
-
   function testSupportForLargeGoals() {
     foreach (array(99, 600, 1000, 20000, 100000, 2000000) as $amount) {
       clearDB();
@@ -195,6 +177,39 @@ class WidgetWizardTests extends WebappTestingHarness {
     $_POST = $this->getForm()->getDefaultValuesToSubmit();
     $this->makeRequest('POST', "/widget-wiz/step-two",
       $serverVars = array('REMOTE_ADDR' => '175.156.249.231'));
+  }
+
+  function testWizardRejectsHtmlScriptTags() {
+    $badContent = "<script>alert('!');</script>";
+    $this->get('/widget-wiz/step-one');
+    try {
+      $this->submitForm($this->getForm(),
+        array('title' => $badContent, 'goal' => '15', 'currency' => 'USD',
+          'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
+      $this->submitForm($this->getForm(),
+        array('about' => $badContent));
+    } catch (Exception $_) {
+      # XXX: Until we get proper form-validation in place, we'll just expect to see an
+      # XXX: exception coming from the 'Paranoid' database layer proclaiming "No angle
+      # XXX: brackets allowed!".
+    }
+    assertEqual(0, count(Widget::getAll()));
+  }
+
+  function testProperEscapingOfQuotes() {
+    $content = 'My "new" widget\'s here!';
+    $this->get('/widget-wiz/step-one');
+    $this->submitForm($this->getForm(),
+      array('title' => $content, 'goal' => '15', 'currency' => 'USD',
+        'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
+    $this->submitForm($this->getForm(),
+      array('about' => $content));
+    $this->clickLink("//a[contains(., 'Previous')]");
+    $about = $this->findElements("//textarea[@name='about']")[0];
+    assertEqual($content, $about->textContent);
+    $this->clickLink("//a[contains(., 'Previous')]");
+    $title = $this->findElements("//input[@name='title']")[0];
+    assertEqual($content, $title->getAttribute("value"));
   }
 
   /**
