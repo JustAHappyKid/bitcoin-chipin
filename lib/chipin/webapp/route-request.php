@@ -14,7 +14,8 @@ require_once 'chipin/webapp/controller.php';
 # XXX: To make sure the Widget class is in scope when the session begins...
 require_once 'chipin/widgets.php';
 
-use \SpareParts\Webapp\AccessForbidden, \SpareParts\Webapp\Filters, \Chipin\Log;
+use \SpareParts\Webapp\AccessForbidden, \SpareParts\Webapp\HttpResponse,
+  \SpareParts\Webapp\Filter, \SpareParts\Webapp\Filters, \Chipin\Log;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -25,7 +26,7 @@ function routeRequestForApp() {
 class FrontController extends \SpareParts\Webapp\FrontController {
 
   protected function filters() {
-    return array(new Filters\CSRFGuard());
+    return array(new Filters\CSRFGuard(), new AddFrameOptionsHeader());
   }
 
   protected function info($msg)   { Log\info($msg); }
@@ -77,5 +78,14 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     $specificPages = array();
     $openSections = array(/*'widget-wiz',*/ 'account', 'dashboard');
     return in_array($cmd, $specificPages) || in_array($cmd[0], $openSections);
+  }
+}
+
+class AddFrameOptionsHeader implements Filter {
+  public function incoming() {}
+  public function outgoing(HttpResponse $response) {
+    if (!beginsWith($_SERVER['REQUEST_URI'], '/widgets/')) {
+      $response->addHeader('X-Frame-Options', 'DENY');
+    }
   }
 }

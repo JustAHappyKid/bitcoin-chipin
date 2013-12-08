@@ -20,4 +20,21 @@ class WebFrameworkTests extends WebappTestingHarness {
     }
     $_COOKIE = array();
   }
+
+  /**
+   * The X-Frame-Options HTTP header (with a value of "DENY") should be included by default
+   * on all pages. Only the chipin widgets themselves should exclude this option, as they will
+   * be embedded in iframes on other websites.
+   */
+  function testInclusionOfFrameOptionsHeader() {
+    foreach (array('/about/', '/account/signup', '/widget-wiz/step-one') as $uri) {
+      $r = $this->get($uri);
+      $hs = $r->getValuesForHeader('X-Frame-Options');
+      $value = strtolower(head($hs));
+      assertTrue($value == 'deny' || $value == 'sameorigin');
+    }
+    $w = getWidget();
+    $r = $this->get("/widgets/by-id/{$w->id}");
+    assertEmpty($r->getValuesForHeader('X-Frame-Options'));
+  }
 }
