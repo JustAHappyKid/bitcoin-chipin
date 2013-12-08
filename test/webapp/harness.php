@@ -13,7 +13,7 @@ define('PATH', 'https://test.org/');
 define('APPLICATION_ENV', 'testing');
 
 $webappDir = dirname(dirname(dirname(__FILE__)));
-require_once "$webappDir/lib/chipin/webapp/route-request.php";
+require_once "$webappDir/lib/chipin/webapp/framework.php";
 
 abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
 

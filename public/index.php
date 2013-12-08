@@ -59,7 +59,7 @@ try {
     \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
     require_once 'chipin/log.php';
     \Chipin\Log\configure();
-    require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/route-request.php';
+    require_once dirname(dirname(__FILE__)) . '/lib/chipin/webapp/framework.php';
     \Chipin\WebFramework\routeRequestForApp();
   } else {
     $application->bootstrap()->run();
