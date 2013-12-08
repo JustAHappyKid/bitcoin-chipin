@@ -12,6 +12,7 @@ class ResetPasswordTest extends WebappTestingHarness {
   function testResettingPassword() {
     $email = 'MixedCaseAddress@example.org';
     $u = getUser($email);
+    $this->followRedirects(false); # XXX: Hack to avoid being redirected to homepage upon logout.
     $this->logout();
     $this->followRedirects();
     $this->get('/account/signin');
@@ -21,7 +22,7 @@ class ResetPasswordTest extends WebappTestingHarness {
       array('email' => 'Mixedcaseaddress@example.org'));
     /*
     TODO: Make this test more comprehensive -- but first we need a properly "stubbed-out"
-          email for test framemwork...
+          email for test framework...
     $sentEmails = $this->getSentEmails();
     assertTrue(count($sentEmails) == 1);
     $matches = array();
