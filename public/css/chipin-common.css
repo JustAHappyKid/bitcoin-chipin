@@ -163,6 +163,10 @@ h1 {
   margin-top: 35px;
 }
 
+.alert {
+  margin: 25px auto;
+}
+
 .widget .widget-tabs,
 .widget .widget-toolbar,
 .widget.widget-accordion .accordion-heading {
