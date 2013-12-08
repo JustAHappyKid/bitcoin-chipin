@@ -142,6 +142,15 @@ class WidgetWizardTests extends WebappTestingHarness {
     }
   }
 
+  function testThatLastEditedWidgetIsClearedFromSessionAfterLogout() {
+    $w = getWidget($this->user);
+    $this->get('/widget-wiz/step-one?w=' . $w->id);
+    $this->logout();
+    $this->get('/widget-wiz/step-one');
+    $f = $this->getForm();
+    assertEqual("", $f->fields['title']->value);
+  }
+
   function testSkippingStepOne() {
     $this->followRedirects(false);
     try {
