@@ -42,7 +42,9 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
   }
 
   protected function logout() {
-    $_SESSION = array();
+    try {
+      $this->get('/account/signout');
+    } catch (HttpRedirect $_) { /* That can happen if already logged out. */ }
   }
 
   /**
