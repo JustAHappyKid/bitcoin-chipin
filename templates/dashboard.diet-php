@@ -8,6 +8,10 @@ block innerContent {
   <div id="content">
     <div class="container">
 
+      ? if ($successMessage) {
+        <div class="alert alert-success">$successMessage</div>
+      }
+
       <div class="widget">
 
         <div class="widget-header">

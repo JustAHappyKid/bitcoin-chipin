@@ -30,7 +30,8 @@ class DashboardController extends \Chipin\WebFramework\Controller {
     }
 
     return $this->render('dashboard.diet-php',
-      array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended));
+      array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended,
+            'successMessage' => $this->takeFromSession('successMessage')));
   }
 
   public function endWidget(RequestContext $context) {

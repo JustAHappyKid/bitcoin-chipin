@@ -72,6 +72,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
         'chipin' => $form->getValue('chipin-updates') ? 1 : 0,
         'memorydealers' => $form->getValue('memorydealers-updates') ? 1 : 0));
       $this->userCreatedNotification($user);
+      $this->saveInSession('successMessage', "You have successfully registered!");
       return $this->redirect("/dashboard/index/");
     } else {
       $captcha = $this->getCaptchaTool();
