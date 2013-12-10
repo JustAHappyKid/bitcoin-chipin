@@ -16,29 +16,21 @@ class SignupTests extends WebappTestingHarness {
     $this->get('/');
     $this->clickLink("//a[contains(@href, 'signup')]");
     $this->get('/account/signup');
-    # XXX: It's required we catch the redirect for now, as the Zend Framework presently renders
-    #      the Dashboard, and we don't have ZF testing support.
-    $this->followRedirects(false);
-    try {
-      $this->submitForm($this->getForm(),
-        array('username' => 'sammy', 'email' => 'sam@test.com', 'password1' => 'luckystars',
-              'password2' => 'luckystars', /*'captcha-input' => 'ab12',*/
-              'memorydealers-updates' => 'on'));
-    } catch (HttpRedirect $e) {
-      assertTrue(beginsWith($e->path, '/dashboard'));
-    }
+    $this->followRedirects(true);
+    $this->submitForm($this->getForm(),
+      array('username' => 'sammy', 'email' => 'sam@test.com', 'password1' => 'luckystars',
+            'password2' => 'luckystars', /*'captcha-input' => 'ab12',*/
+            'memorydealers-updates' => 'on'));
     $u = User::loadFromUsername('sammy');
     assertEqual('sam@test.com', $u->email);
     $subscriptions = current(DB\simpleSelect('subscriptions', 'user_id = ?', array($u->id)));
     assertFalse(empty($subscriptions), 'Expected to find record in subscriptions table for user');
     assertTrue($subscriptions['chipin'] == false || $subscriptions['chipin'] == 0);
     assertTrue($subscriptions['memorydealers'] == true || $subscriptions['memorydealers'] == 1);
-    /*
     $this->logout();
-    $this->login('sammy', 'lucky-stars');
+    $this->login('sammy', 'luckystars');
     $this->get('/dashboard/');
     assertTrue(beginsWith($this->getCurrentPath(), '/dashboard'));
-    */
   }
 
   function testSignupFormDoesNotBreakIfGivenUsernameAlreadyExistsInDB() {
