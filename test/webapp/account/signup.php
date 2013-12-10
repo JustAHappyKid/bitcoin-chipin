@@ -7,7 +7,7 @@ require_once 'chipin/users.php';          # User
 require_once 'spare-parts/string.php';    # beginsWith
 require_once 'spare-parts/database.php';  # countRows
 
-use \SpareParts\Test\HttpRedirect, \SpareParts\Database as DB, \Chipin\User;
+use \SpareParts\Database as DB, \Chipin\User;
 
 class SignupTests extends WebappTestingHarness {
 
