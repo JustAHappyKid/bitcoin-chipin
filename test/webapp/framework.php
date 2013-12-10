@@ -21,6 +21,18 @@ class WebFrameworkTests extends WebappTestingHarness {
     $_COOKIE = array();
   }
 
+  function testHandlingOfArrayInCSRFVar() {
+    try {
+      $this->post('/account/signin',
+        array('password' => 'g00dPa$$w0rD', 'username' => 'vhchfkqm',
+              '__sp_guard_name' => array('$acunetix' => '1'),
+              '__sp_guard_token' => '5b9084e2710c4cdac625ce23debfe'));
+    } catch (UnexpectedHttpResponseCode $e) {
+      # Okay, we'll take that...
+      assertTrue($e->statusCode >= 400);
+    }
+  }
+
   /**
    * The X-Frame-Options HTTP header (with a value of "DENY") should be included by default
    * on all pages. Only the chipin widgets themselves should exclude this option, as they will
