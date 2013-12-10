@@ -48,13 +48,13 @@ class Signup extends Layout {
                   <h4 class="alert-heading">Error!</h4>
                   You must provide a username!
                 </div>
-                <?php if (isset($this->captchaIncorrect) && $this->captchaIncorrect): ?>
+                <?php /* if (isset($this->captchaIncorrect) && $this->captchaIncorrect): ?>
                   <div class="alert alert-error">
                     <a class="close" data-dismiss="alert" href="#">×</a>
                     <h4 class="alert-heading">Error!</h4>
                     Captcha code incorrectly identified. Please try again!
                   </div>
-                <?php endif; ?>
+                <?php endif; */ ?>
                 <div class="account-fields">
                   <div class="field">
                     <label for="username">Username:</label>
@@ -75,14 +75,14 @@ class Signup extends Layout {
                     <input type="password" id="confirm_password" name="password2" value=""
                           placeholder="Confirm Password" class="login"/>
                   </div> <!-- /field -->
-                  <div class="field captcha-field">
+                  <?php /* <div class="field captcha-field">
                     <?= $this->captcha->render() ?>
                     <input type="hidden" name="captcha-id" id="captcha-id"
                           value="<?= $this->captcha->getId() ?>" />
                     <input type="text" name="captcha-input" id="captcha-input" value=""
                           placeholder="Captcha">
                     <div style="clear: both;"> </div>
-                  </div>
+                  </div> */ ?>
                   <div class="field newsletter-options">
                     <label for="chipin-updates">
                       <input type="checkbox" id="chipin-updates" name="chipin-updates" />

@@ -22,7 +22,7 @@ class SignupTests extends WebappTestingHarness {
     try {
       $this->submitForm($this->getForm(),
         array('username' => 'sammy', 'email' => 'sam@test.com', 'password1' => 'luckystars',
-              'password2' => 'luckystars', 'captcha-input' => 'ab12',
+              'password2' => 'luckystars', /*'captcha-input' => 'ab12',*/
               'memorydealers-updates' => 'on'));
     } catch (HttpRedirect $e) {
       assertTrue(beginsWith($e->path, '/dashboard'));
@@ -46,7 +46,7 @@ class SignupTests extends WebappTestingHarness {
     $u = getUser();
     $this->submitFormExpectingErrors($this->getForm(),
       array('username' => $u->username, 'email' => uniqid() . '@test.org',
-            'password1' => 'chocolate', 'password2' => 'chocolate', 'captcha-input' => 'ab12'));
+            'password1' => 'chocolate', 'password2' => 'chocolate', /*'captcha-input' => 'ab12'*/));
   }
 
   function testOneEmailAddressMayNotBeAssociatedWithMultipleAccounts() {
@@ -54,7 +54,7 @@ class SignupTests extends WebappTestingHarness {
     $this->get('/account/signup');
     $this->submitFormExpectingErrors($this->getForm(),
       array('username' => 'bigkid', 'email' => 'josh@example.com', 'password1' => 't0pS33cret',
-            'password2' => 't0pS33cret', 'captcha-input' => '1234'));
+            'password2' => 't0pS33cret', /*'captcha-input' => '1234'*/));
     $this->assertContains("//div[contains(., 'already have an account')]");
     assertEqual(1, DB\countRows('users', 'email = ?', array('josh@example.com')));
   }
