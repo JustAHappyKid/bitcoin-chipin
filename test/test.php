@@ -10,9 +10,8 @@ function main($argc, $argv) {
   set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
 
   set_include_path(
-    dirname(__FILE__) . '/mock/lib' . PATH_SEPARATOR .
-    # XXX: Zend Framework required for now, unfortunately (for Captcha lib, at least)...
-    '/usr/local/lib/php5/ZendFramework-1/library/' .
+    dirname(__FILE__) . '/mock/lib' . // PATH_SEPARATOR .
+//    '/usr/local/lib/php5/ZendFramework-1/library/' .
     PATH_SEPARATOR . get_include_path());
 
   error_reporting(E_ALL);
