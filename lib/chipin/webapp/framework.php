@@ -6,7 +6,7 @@ require_once 'spare-parts/webapp/base-framework.php';
 require_once 'spare-parts/webapp/filters/csrf-guard.php'; # CSRFGuard
 require_once 'spare-parts/types.php';                     # asString
 require_once 'chipin/users.php';
-require_once 'chipin/log.php';
+require_once 'chipin/env/log.php';
 
 # Make sure \Chipin\WebFramework\Controller is in scope.
 require_once 'chipin/webapp/controller.php';

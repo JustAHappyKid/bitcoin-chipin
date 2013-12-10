@@ -17,7 +17,7 @@ function main($argc, $argv) {
 
   error_reporting(E_ALL);
 
-  require_once 'chipin/log.php';
+  require_once 'chipin/env/log.php';
 //  \Chipin\Log\configure();
   require_once 'spare-parts/database.php';
   DB\setConnectionParams($driver = 'mysql', $dbName = 'chipin_test',
