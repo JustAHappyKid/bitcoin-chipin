@@ -30,8 +30,9 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       Forms\newDollarAmountField('goal', 'Goal')->
         minAmount(0.001)->
         maxAmount(self::maxGoal, "Sorry, at the present time " . self::maxGoal .
-                                 " is the maximum allowed goal.")
-      # TODO: Add other fields...
+                                 " is the maximum allowed goal."),
+      Forms\newDateField('ending', 'End Date')->nameForValidation("Ending Date field"),
+      Forms\newBasicTextField('bitcoinAddress', 'Bitcoin Address')
     ));
     if ($this->isPostRequestAndFormIsValid($f)) {
       foreach (array('title', 'ending', 'bitcoinAddress') as $v) {

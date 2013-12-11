@@ -8,9 +8,9 @@ require_once 'spare-parts/locales/countries.php'; # countriesMap
 require_once 'spare-parts/database.php';          # query
 
 use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales,
-  \SpareParts\Test\HttpRedirect, \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
+  \SpareParts\Test\HttpRedirect, \SpareParts\Test\UnexpectedHttpResponseCode,
+  \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
   \SpareParts\WebClient\HtmlForm, \Exception, \DateTime;
-use SpareParts\Test\UnexpectedHttpResponseCode;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -139,6 +139,16 @@ class WidgetWizardTests extends WebappTestingHarness {
       } catch (ValidationErrors $e) {
         /* That's what we want. */
       }
+    }
+  }
+
+  function testInvalidDatesAreRejected() {
+    foreach (array('NaN-NaN-NaN', '2028-15-01') as $d) {
+      clearDB();
+      try {
+        $this->createWidget(array('ending' => $d));
+        fail("Value of '$d' should be rejected for 'ending' field");
+      } catch (ValidationErrors $e) { /* That's what we want. */ }
     }
   }
 
