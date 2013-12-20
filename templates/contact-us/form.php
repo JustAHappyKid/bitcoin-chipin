@@ -8,9 +8,9 @@ class ContactUsPage extends Layout {
       <h2 class="section_header">Contact Us</h2>
       <div class="row">
         <div class="offset3 span6">
-          <? if (isset($this->commentTooShort) && $this->commentTooShort) { ?>
+          <? if (isset($this->errorMessage) && $this->errorMessage) { ?>
             <div class="alert alert-error">
-              That's all you're gonna write?
+              <?= $this->errorMessage ?>
             </div>
           <? } ?>
           <form method="post" action="/contact-us/" class="form-horizontal">

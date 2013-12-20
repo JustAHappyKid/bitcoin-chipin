@@ -15,7 +15,9 @@ class ContactUsController extends \Chipin\WebFramework\Controller {
     $c = at($_POST, 'comments');
     if ($this->isPostRequest() && V\isValidEmailAddr($email)) {
       if (strlen($c) < 25 || count(explode(' ', $c)) < 5) {
-        return $this->render('contact-us/form.php', array('commentTooShort' => true));
+        return $this->renderForm("That's all you're gonna write?");
+      } else if (stristr($c, '<a ')) {
+        return $this->renderForm('Sorry, no links allowed. Too many spammers out there.');
       } else {
         sendTextEmail('webmaster@bitcoinchipin.com', $this->sendCommentsTo,
           'A BitcoinChipin.com inquiry',
@@ -23,11 +25,15 @@ class ContactUsController extends \Chipin\WebFramework\Controller {
           "Name: $name\n" .
           "Email: $email\n\n" .
           "Comments:\n" . $c);
-        return $this->render('contact-us/submitted.php');
+        return $this->renderForm();
       }
     } else {
-      return $this->render('contact-us/form.php');
+      return $this->renderForm();
     }
+  }
+
+  private function renderForm($error = null) {
+    return $this->render('contact-us/form.php', array('errorMessage' => $error));
   }
 }
 

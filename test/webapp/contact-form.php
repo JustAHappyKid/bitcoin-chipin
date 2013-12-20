@@ -37,6 +37,14 @@ class ContactFormTests extends WebappTestingHarness {
 //    } catch (MaliciousRequestException $_) { /* We'll take that. */ }
   }
 
+  function testLinkMarkupRejected() {
+    $c = '<a href=http://www.olsontek.com/?q=node/7>air Jordan 12 retro taxi</a> Also you can ' .
+      'enable it to be straight into a healthy smoothies (using only purified liquid naturally).';
+    $this->getContactUsPage();
+    $this->submitFormExpectingErrors($this->getForm(),
+      array('name' => 'Jim Jones', 'email' => 'jim@jones.com', 'comments' => $c));
+  }
+
   function testThatCommentsMustBeOfReasonableLength() {
     foreach (array('1', ')', 'hello') as $comments) {
       $this->get('/');
@@ -61,5 +69,13 @@ class ContactFormTests extends WebappTestingHarness {
 
   function testAccessingContactUsPage() {
     $this->get('/contact-us/');
+  }
+
+  /**
+   * Just a small layer of abstraction, in case we were to move the contact-form out
+   * of the site footer.
+   */
+  private function getContactUsPage() {
+    return $this->get('/');
   }
 }
