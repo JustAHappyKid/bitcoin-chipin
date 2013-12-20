@@ -18,27 +18,13 @@ function init($confFiles) {
   error_reporting(E_ALL);
   require_once 'spare-parts/error-handling.php';
   \SpareParts\ErrorHandling\initErrorHandling($e);
-//  \SpareParts\ErrorHandling\initErrorHandling('chriswagner@downsizedc.org');
-
   require_once 'chipin/env/log.php';
   \Chipin\Log\configure();
-
-  //define('ADMIN_EMAIL', $e);
   $dbParam = function($p) use($conf) { return $conf['resources.db.params.' . $p]; };
   DB\setConnectionParams($driver = 'mysql', $dbName = $dbParam('dbname'),
     $username = $dbParam('username'), $password = $dbParam('password'),
     $host = $dbParam('host'));
-//  $params = $options['resources']['db']['params'];
-//  DB\setConnectionParams($driver = 'mysql', $dbName = $params['dbname'],
-//    $username = $params['username'], $password = $params['password'],
-//    $host = $params['host']);
-
-//    $tr = new Zend_Mail_Transport_Smtp('localhost');
-//    Zend_Mail::setDefaultTransport($tr);
-
-  # Make sure User class is accessible...
-  require_once 'chipin/users.php';
-
+  require_once 'chipin/users.php'; # Make sure User class is accessible.
   if (APPLICATION_ENV == 'development') require_once 'chipin/debug.php';
 }
 
@@ -49,9 +35,4 @@ function init($confFiles) {
 function readConfig(Array $files) {
   if (count($files) == 0) return array();
   else return array_merge(parse_ini_file(head($files)), readConfig(tail($files)));
-//  $values = array();
-//  foreach ($files as $f) {
-//    $values = array_merge($values, parse_ini_file($f));
-//  }
-//  return $values;
 }
