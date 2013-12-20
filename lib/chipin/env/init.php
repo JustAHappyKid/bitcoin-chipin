@@ -48,7 +48,7 @@ function init($confFiles) {
  */
 function readConfig(Array $files) {
   if (count($files) == 0) return array();
-  else return array_merge(readConfig(tail($files)), parse_ini_file(head($files)));
+  else return array_merge(parse_ini_file(head($files)), readConfig(tail($files)));
 //  $values = array();
 //  foreach ($files as $f) {
 //    $values = array_merge($values, parse_ini_file($f));
