@@ -27,6 +27,8 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
       }
     } catch (\Chipin\NoSuchUser $_) {
       return $this->pageNotFound("No such user");
+    } catch (\Chipin\Widgets\NoSuchWidget $_) {
+      return $this->pageNotFound("No such widget");
     }
   }
 

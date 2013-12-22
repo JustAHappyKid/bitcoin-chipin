@@ -97,6 +97,13 @@ class WidgetTests extends WebappTestingHarness {
     }
   }
 
+  function testAttemptingToAccessWidgetWhichUserDoesNotHave() {
+    $u = getUser();
+    try {
+      $this->get("/widgets/u/{$u->username}/" . uniqid());
+    } catch (HttpNotFound $_) { /* That's acceptable. */ }
+  }
+
   function testAccessingWidgetWhoseOwnerHasNoUsernameSet() {
     $u = getUser();
     $u->username = null;
