@@ -8,9 +8,8 @@ require_once 'chipin/currencies.php';             # Currencies\*
 require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
 require_once 'spare-parts/database.php';          # insertOne, ...
 
-use Chipin\Currency\Amount;
-use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB, \DateTime;
-use SpareParts\Test\HttpNotFound;
+use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB,
+  \SpareParts\Test\HttpNotFound, \DateTime;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -112,7 +111,7 @@ class WidgetTests extends WebappTestingHarness {
   }
 
   private function assertProgressBarReads($percent) {
-    $elems = $this->xpathQuery("//*[@class='status-bar-container']//*[@class='bar']");
+    $elems = $this->findElements("//*[@class='status-bar-container']//*[@class='bar']");
     assertEqual("width: {$percent}%;", $elems[0]->getAttribute('style'));
   }
 
