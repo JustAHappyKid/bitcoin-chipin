@@ -91,6 +91,30 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual('john@test.org', $user->email);
   }
 
+  /**
+   * The need for this test arose from a bug whereby a "integrity constraint violation"
+   * would occur on the 'username' field (of 'users' table) once multiple users tried to
+   * use the "registration-less widget creation" functionality.
+   */
+  function testNoIssuesAriseIfMultipleUnauthenticatedUsersCreateWidgets() {
+    foreach (array(1, 2, 3) as $i) {
+      $this->followRedirects(false);
+      try { $this->logout(); } catch (HttpRedirect $_) { }
+      $this->followRedirects(true);
+      $_COOKIE = array();
+      $this->get('/widget-wiz/step-one');
+      $expires = new DateTime("+50 days");
+      $this->submitForm($this->getForm(),
+        array('title' => "Widget #$i", 'goal' => ($i . '00'), 'currency' => 'USD',
+          'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
+      $this->submitForm($this->getForm(),
+        array('about' => "Yada yada yada.", 'color' => Widgets\defaultColor(),
+          'size' => Widgets\defaultSize()));
+      $widgets = Widget::getAll();
+      assertEqual($i, count($widgets));
+    }
+  }
+
   function testThatFieldsArePrePopulatedWhenEditingWidget() {
     $u = $this->loginAsNormalUser();
     $w = new Widget;
