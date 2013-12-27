@@ -2,12 +2,12 @@
 
 namespace Chipin\Environment;
 
-require_once 'spare-parts/global-utils.php';  # at, tail, head
-require_once 'spare-parts/database.php';
-
 use \SpareParts\Database as DB;
 
 function init($confFiles) {
+  $libsDir = dirname(dirname(dirname(__FILE__)));
+  set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
+  requireStandardLibs();
   $conf = readConfig($confFiles);
   $e = trim(at($conf, 'admin.email'));
   if (empty($e) && APPLICATION_ENV != 'development') {
@@ -24,8 +24,14 @@ function init($confFiles) {
   DB\setConnectionParams($driver = 'mysql', $dbName = $dbParam('dbname'),
     $username = $dbParam('username'), $password = $dbParam('password'),
     $host = $dbParam('host'));
-  require_once 'chipin/users.php'; # Make sure User class is accessible.
   if (APPLICATION_ENV == 'development') require_once 'chipin/debug.php';
+}
+
+function requireStandardLibs() {
+  require_once 'spare-parts/global-utils.php';  # at, tail, head
+  require_once 'spare-parts/database.php';
+  require_once 'spare-parts/string.php';        # Standard string-related functions are available.
+  require_once 'chipin/users.php';              # User class
 }
 
 /**
