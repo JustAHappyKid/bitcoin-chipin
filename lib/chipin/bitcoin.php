@@ -2,8 +2,7 @@
 
 namespace Chipin\Bitcoin;
 
-require_once 'spare-parts/database.php';
-require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple\get
+require_once 'spare-parts/database.php';                # selectExactlyOne, insertOne, ...
 require_once 'spare-parts/types.php';                   # isInteger
 require_once 'chipin/blockchain-dot-info.php';          # BlockchainDotInfo
 
