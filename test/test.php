@@ -77,7 +77,8 @@ function getBitcoinAddr($btcBalance = null) {
   if ($btcBalance !== null) {
     DB\delete('bitcoin_addresses', 'address = ?', array($a));
     DB\insertOne('bitcoin_addresses',
-      array('address' => $a, 'satoshis' => $btcBalance * Bitcoin\satoshisPerBTC()));
+      array('address' => $a, 'satoshis' => $btcBalance * Bitcoin\satoshisPerBTC(),
+            'updated_at' => new DateTime('now')));
   }
   return $a;
 }
