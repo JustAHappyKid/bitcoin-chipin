@@ -8,8 +8,8 @@ require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log, \Chipin\User,
-  \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
-  \SpareParts\Webapp\Forms, \SpareParts\Database as DB;
+  \SpareParts\URL, \SpareParts\WebClient\HttpSimple, \SpareParts\Webapp\Forms,
+  \SpareParts\Database as DB;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
@@ -92,27 +92,6 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       if (isset($_GET[$var])) $w->$var = $_GET[$var];
     }
     return $this->redirect($this->widgetPreviewURL($w));
-  }
-
-  /**
-   * This action is used by JavaScript to validate given Bitcoin address.
-   */
-  public function validBtcAddr() {
-    $address = $this->context->takeNextPathComponent();
-    $resp = new HttpResponse;
-    $resp->statusCode = 200;
-    $resp->contentType = 'text/plain';
-    $resp->content = $this->isValidAddress($address) ? 'true' : 'false';
-    return $resp;
-  }
-
-  private function isValidAddress($address) {
-    try {
-      Bitcoin\getBalance($address);
-      return true;
-    } catch (Bitcoin\InvalidAddress $_) {
-      return false;
-    }
   }
 
   private function widgetPreviewURL(Widget $w) {

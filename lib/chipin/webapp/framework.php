@@ -63,7 +63,7 @@ class FrontController extends \SpareParts\Webapp\FrontController {
   }
 
   protected function pathIsOpenToAll($cmd) {
-    $openSections = array('about', 'widgets', 'widget-wiz');
+    $openSections = array('about', 'bitcoin', 'widgets', 'widget-wiz');
     $openPaths = array(array(''), array('contact-us'),
       array('account', 'signup'), array('account', 'signin'), array('account', 'signout'),
       array('account', 'lost-pass'), array('account', 'pass-reset'));

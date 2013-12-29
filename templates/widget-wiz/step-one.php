@@ -2,10 +2,12 @@
 
 require_once dirname(__FILE__) . '/layout.php';
 require_once 'spare-parts/webapp/forms.php';
+require_once 'chipin/webapp/routes.php';
 require_once 'chipin/widgets.php';
 require_once 'chipin/currency.php';
 
-use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget, \Chipin\Currency;
+use \SpareParts\Webapp\Forms\SelectField, \Chipin\Widgets\Widget, \Chipin\Currency,
+  \Chipin\WebFramework\Routes;
 
 class StepOne extends WidgetWizLayout {
 
@@ -128,7 +130,7 @@ class StepOne extends WidgetWizLayout {
 
 			  var invalidBitcoinAddr = false;
 				$.ajax({
-					url: '<?= PATH ?>widget-wiz/valid-btc-addr/' + $("#widget-bitcoin-address").val(),
+					url: '<?= Routes\validAddress() ?>' + $("#widget-bitcoin-address").val(),
 					type: 'get',
 					dataType: 'text',
 					async: false,

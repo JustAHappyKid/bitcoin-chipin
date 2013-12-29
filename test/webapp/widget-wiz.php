@@ -4,11 +4,12 @@ namespace Chipin\Test;
 
 require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/widgets.php';                # Widget::getAll
+require_once 'chipin/webapp/routes.php';          # Routes\*
 require_once 'spare-parts/locales/countries.php'; # countriesMap
 require_once 'spare-parts/database.php';          # query
 
-use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Locales,
-  \SpareParts\Test\HttpRedirect, \SpareParts\Test\UnexpectedHttpResponseCode,
+use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\WebFramework\Routes,
+  \SpareParts\Locales, \SpareParts\Test\HttpRedirect, \SpareParts\Test\UnexpectedHttpResponseCode,
   \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
   \SpareParts\WebClient\HtmlForm, \Exception, \DateTime;
 
@@ -204,8 +205,10 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   function testBitcoinAddressValidationAction() {
-    assertEqual('true', $this->get('/widget-wiz/valid-btc-addr/' . $this->btcAddr())->content);
-    assertEqual('false', $this->get('/widget-wiz/valid-btc-addr/peanuts')->content);
+//    assertEqual('true', $this->get('/widget-wiz/valid-btc-addr/' . $this->btcAddr())->content);
+    assertEqual('true', $this->get(Routes\validAddress($this->btcAddr()))->content);
+//    assertEqual('false', $this->get('/widget-wiz/valid-btc-addr/peanuts')->content);
+    assertEqual('false', $this->get(Routes\validAddress('peanuts'))->content);
   }
 
   /**
