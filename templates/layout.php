@@ -28,6 +28,7 @@ abstract class Layout implements \SpareParts\Template\Renderable {
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>BitcoinChipin.com</title>
+        <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
         <? $themeDir = '/measure-theme'; ?>
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/bootstrap.css" />
