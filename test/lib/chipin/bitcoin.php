@@ -1,7 +1,23 @@
 <?php
 
 require_once 'chipin/bitcoin.php';
-use \Chipin\Bitcoin;
+require_once 'chipin/blockchain-dot-info.php';  # BlockchainDotInfo
+require_once 'spare-parts/database.php';        # delete, insertOne
+
+use \Chipin\Bitcoin, \Chipin\BlockchainDotInfo, \SpareParts\Database as DB;
+
+function testGetBalanceUsesLocallyCachedValueWhenAppropriate() {
+  $address = '1K7dyLY6arFRXBidQhrtnyqksqJZdj2F37';
+  $actualBalance = BlockchainDotInfo\getBalanceInSatoshis($address);
+  $cachedBalance = $actualBalance + 1000;
+  DB\delete('bitcoin_addresses', 'address = ?', array($address));
+  DB\insertOne('bitcoin_addresses',
+    array('address' => $address,
+          'satoshis' => $cachedBalance,
+          'updated_at' => new DateTime('now')));
+  assertEqual($cachedBalance / Bitcoin\satoshisPerBTC(),
+              Bitcoin\getBalance($address, 'BTC', null));
+}
 
 function testToBTCFunction() {
   $priceOfDollar = Bitcoin\toBTC('USD', 1);
