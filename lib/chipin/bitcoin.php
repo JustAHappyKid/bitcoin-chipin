@@ -8,15 +8,27 @@ require_once 'chipin/blockchain-dot-info.php';          # BlockchainDotInfo
 
 use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo;
 
-function getBalance($address, $currency = 'BTC') {
+function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = null) {
   $satoshis = null;
   try {
     $row = DB\selectExactlyOne('bitcoin_addresses', 'address = ?', array($address));
-    $satoshis = intval($row['satoshis']);
-  } catch (DB\NoMatchingRecords $_) {
+    if ($maxCacheAge) {
+      $updatedAt = new DateTime($row['updated_at']);
+      $expiresAt = $updatedAt->add($maxCacheAge);
+      $now = new DateTime('now');
+      if ($expiresAt->getTimestamp() > $now->getTimestamp())
+        $satoshis = intval($row['satoshis']);
+    } else {
+      $satoshis = intval($row['satoshis']);
+    }
+  } catch (DB\NoMatchingRecords $_) { }
+  if ($satoshis == null) {
     $satoshis = BlockchainDotInfo\getBalanceInSatoshis($address);
-    DB\insertOne('bitcoin_addresses', array('address' => $address, 'satoshis' => $satoshis,
-                                            'updated_at' => new DateTime('now')));
+    DB\transaction(function() use($address, $satoshis) {
+      DB\delete('bitcoin_addresses', 'address = ?', array($address));
+      DB\insertOne('bitcoin_addresses', array('address' => $address, 'satoshis' => $satoshis,
+                                              'updated_at' => new DateTime('now')));
+    });
   }
   $btcBalance = $satoshis / satoshisPerBTC();
   $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
