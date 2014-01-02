@@ -4,12 +4,13 @@ require_once 'chipin/users.php';
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
 require_once 'spare-parts/database.php';
+require_once 'spare-parts/time/intervals.php';          # readInterval
 require_once 'spare-parts/url.php';
-require_once 'spare-parts/web-client/http-simple.php';
+require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple
 
 use \Chipin\Bitcoin,
   \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
-  \SpareParts\Webapp\Forms, \SpareParts\Database as DB;
+  \SpareParts\Webapp\Forms, \SpareParts\Database as DB, \SpareParts\Time;
 
 /**
  * This controller deals with all requests for obtaining info from the Bitcoin network
@@ -17,15 +18,29 @@ use \Chipin\Bitcoin,
  */
 class BitcoinController extends \Chipin\WebFramework\Controller {
 
+  public function addressBalance() {
+    $address = $this->context->takeNextPathComponent();
+    $fiveSecs = Time\readInterval('5 seconds');
+    try {
+      return $this->textResponse(Bitcoin\getBalance($address, 'BTC', $maxCacheAge = $fiveSecs));
+    } catch (Bitcoin\InvalidAddress $_) {
+      return $this->textResponse('Invalid Bitcoin address', $code = 400);
+    }
+  }
+
   /**
    * Is the given Bitcoin address valid?
    */
   public function validAddress() {
     $address = $this->context->takeNextPathComponent();
+    return $this->textResponse($this->isValidAddress($address) ? 'true' : 'false');
+  }
+
+  private function textResponse($txt, $code = 200) {
     $resp = new HttpResponse;
-    $resp->statusCode = 200;
+    $resp->statusCode = $code;
     $resp->contentType = 'text/plain';
-    $resp->content = $this->isValidAddress($address) ? 'true' : 'false';
+    $resp->content = strval($txt);
     return $resp;
   }
 

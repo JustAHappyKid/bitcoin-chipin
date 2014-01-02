@@ -6,10 +6,11 @@ require_once dirname(__FILE__) . '/harness.php';  # WebappTestingHarness
 require_once 'chipin/bitcoin.php';                # satoshisPerBTC
 require_once 'chipin/currencies.php';             # Currencies\*
 require_once 'chipin/widgets.php';                # Widget, allowedSizes, ...
+require_once 'chipin/webapp/routes.php';          # Routes\*
 require_once 'spare-parts/database.php';          # insertOne, ...
 
-use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \SpareParts\Database as DB,
-  \SpareParts\Test\HttpNotFound, \DateTime;
+use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \Chipin\WebFramework\Routes,
+  \SpareParts\Database as DB, \SpareParts\Test\HttpNotFound, \DateTime;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -111,6 +112,10 @@ class WidgetTests extends WebappTestingHarness {
     $w = getWidget($u);
     $this->get("/widgets/by-id/{$w->id}");
     $this->assertContains("//div[contains(., '{$w->title}')]");
+  }
+
+  function testActionForCheckingAddressBalanceViaJavascript() {
+    $this->get(Routes\addressBalance($this->btcAddr()));
   }
 
   private function browseToWidget(Widgets\Widget $w) {

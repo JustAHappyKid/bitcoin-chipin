@@ -9,6 +9,10 @@ function get($url) {
     return '2537813';
   } else if ($url == 'http://blockchain.info/q/addressbalance/1E3FqrQTZSvTUdw7qZ4NnZppqiqnqqNcUN') {
     return '0';
+  } else if ($url == 'http://blockchain.info/q/addressbalance/1K7dyLY6arFRXBidQhrtnyqksqJZdj2F37') {
+    return '3600';
+  } else if ($url == 'http://blockchain.info/q/addressbalance/15Mux55YKsWp9pe5eUC2jcP5R9K7XA4pPF') {
+    return '0';
   } else if ($url == 'http://blockchain.info/q/addressbalance/peanuts') {
     return 'Checksum does not validate';
   } else if (beginsWith($url, 'http://blockchain.info/tobtc?currency=USD')) {
