@@ -65,7 +65,7 @@
                   <span>[<a href="/widgets/about/$widgetID" target="_blank">more</a>]</span>
                 } else {
                   <?php $js = "alert('Clicking here will open a separate page with widget\\'s " .
-                              "complete &ldquo;About&rdquo; text.');"; ?>
+                              "complete &ldquo;About&rdquo; text.'); return false;"; ?>
                   <span>[<a href="#" onclick="$js">more</a>]</span>
                 }
               }
