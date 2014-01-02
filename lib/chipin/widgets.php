@@ -14,7 +14,7 @@ use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
 
 class Widget {
 
-  public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedBTC,
+  public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedBTC, $progressPercent,
     $width, $height, $color, $bitcoinAddress, $countryCode;
 
   /** @deprecated */
@@ -86,13 +86,14 @@ class Widget {
     $this->countryCode = $a['country'];
     //$this->satoshisRaised = $a['satoshis'];
     $this->goalAmnt = new Amount($this->currency, $a['goal']);
-    $this->raisedBTC = Bitcoin\getBalance($this->address);
+    $this->raisedBTC = Bitcoin\getBalance($this->bitcoinAddress);
     $raisedInBaseCurrency = $this->currency == 'BTC' ?
       $this->raisedBTC : Bitcoin\fromBTC($this->raisedBTC, $this->currency);
     $this->raisedAmnt = new Amount($this->currency, $raisedInBaseCurrency);
     $goalInBTC = $this->currency == 'BTC' ? $a['goal'] :
       Bitcoin\toBTC($this->currency, $a['goal']);
-    $this->progress = ($this->raisedBTC / $goalInBTC) * 100;
+    $this->progressPercent = ($this->raisedBTC / $goalInBTC) * 100;
+    if ($this->progressPercent > 100) $this->progressPercent = 100;
     $this->color = in_array($a['color'], allowedColors()) ? $a['color'] : 'white';
     return $this;
   }
@@ -115,7 +116,7 @@ class Widget {
       'owner_id' => $this->ownerID, 'title' => $this->title,
       'uri_id' => $this->uriID, 'about' => $this->about,
       'goal' => $this->goalAmnt->numUnits, 'currency' => $this->currency,
-      'raised' => null, 'progress' => null,
+      'raised' => null,
       'ending' => $this->ending, 'address' => $this->bitcoinAddress,
       'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
       'country' => $this->countryCode);
@@ -127,12 +128,12 @@ class Widget {
     }
   }
 
-  public function updateProgress() {
-    $balance = Bitcoin\getBalance($this->bitcoinAddress, $this->currency);
-    $progress = ($balance / $this->goalAmnt->numUnits) * 100;
-    DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
-      array($progress, $balance, $this->id));
-  }
+//  public function updateProgress() {
+//    $balance = Bitcoin\getBalance($this->bitcoinAddress, $this->currency);
+//    $progress = ($balance / $this->goalAmnt->numUnits) * 100;
+//    DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
+//      array($progress, $balance, $this->id));
+//  }
 
   function getOwner() {
     return User::loadFromID($this->ownerID);

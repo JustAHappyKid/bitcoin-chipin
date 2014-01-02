@@ -85,8 +85,7 @@
           </div>
           <div class="status-bar-container">
             <div class="bg-bar">
-              ? $widthCSS = "width: " . ($progress > 100 ? 100 : $progress) . "%;";
-              <div class="bar" style="$widthCSS"></div>
+              <div class="bar" style="width: <?= $progressPercent ?>%;"></div>
             </div>
           </div>
           <div class="btn-container">

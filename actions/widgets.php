@@ -55,7 +55,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['goal'] = new Amount($_GET['currency'], $_GET['goal']);
     $vars['raised'] = new Amount($_GET['currency'], $vars['goal']->numUnits / 4);
     $this->setAltCurrencyValues($vars['goal'], $vars['raised'], $vars);
-    $vars['progress'] = 25;
+    $vars['progressPercent'] = 25;
     $ds = Widgets\allowedSizes();
     $vars['width'] = at($_GET, 'width', $ds[0]->width);
     $vars['height'] = at($_GET, 'height', $ds[0]->height);
@@ -75,7 +75,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['currency'] = $widget->currency;
     $vars['goal'] = $widget->goalAmnt;
     $vars['raised'] = $widget->raisedAmnt;
-    $vars['progress'] = $widget->progress;
+    $vars['progressPercent'] = $widget->progressPercent;
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
     return $this->renderWidgetArr($vars);

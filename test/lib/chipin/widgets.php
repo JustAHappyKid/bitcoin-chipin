@@ -16,7 +16,7 @@ function testProgressProperlyCalculated() {
   $w->setGoal(4, Currencies\BTC());
   $w->save();
   $reloaded = Widget::getByID($w->id);
-  assertTrue($reloaded->progress > 49 && $reloaded->progress < 51);
+  assertTrue($reloaded->progressPercent > 49 && $reloaded->progressPercent < 51);
 
   # Case where widget uses fiat as base currency.
   setPriceForBTC(Currencies\USD(), 100);
@@ -25,7 +25,8 @@ function testProgressProperlyCalculated() {
   $w->save();
   $reloaded = Widget::getByID($w->id);
   $expected = (200 / 600) * 100;
-  assertTrue($reloaded->progress > floor($expected) && $reloaded->progress < ceil($expected));
+  assertTrue($reloaded->progressPercent > floor($expected) &&
+             $reloaded->progressPercent < ceil($expected));
 }
 
 function testDeterminingWhetherWidgetHasEndedOrNot() {

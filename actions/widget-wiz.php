@@ -72,7 +72,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
       $widget->color = $_POST['color'];
       $widget->countryCode = $this->getCountryCodeForIP();
       $widget->save();
-      $widget->updateProgress();
+      //$widget->updateProgress();
       $this->storeWidgetInSession($widget);
       return $this->redirect("/widget-wiz/step-three?w={$widget->id}");
     } else {

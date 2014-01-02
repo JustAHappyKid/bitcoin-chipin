@@ -76,7 +76,7 @@ block widgetsTable($widgets) {
       ? foreach ($widgets as $widget) {
         <tr class="even gradeC">
           <td> <div class="progress progress-secondary progress-striped">
-            <div class="bar" style="width: <?= $widget->progress . '%'; ?>"></div>
+            <div class="bar" style="width: <?= $widget->progressPercent . '%'; ?>"></div>
           </div> </td>
           <td>$widget->title</td>
           <td>Ends <?= $widget->endingDateAsString() ?></td>
