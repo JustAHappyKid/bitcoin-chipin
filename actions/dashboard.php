@@ -7,18 +7,6 @@ use \Chipin\Widgets, \Chipin\Widgets\Widget, \SpareParts\Webapp\RequestContext;
 class DashboardController extends \Chipin\WebFramework\Controller {
 
   function index() {
-    // $widgets = Widgets\getByOwner($this->user);
-
-    /* XXX: This now done by cron-task.
-    $tenMinutes = 60 * 10;
-    $lastProgressUpdate = @ $_SESSION['lastProgressUpdate'];
-    if (empty($lastProgressUpdate) || $lastProgressUpdate + $tenMinutes < time()) {
-      foreach ($widgets as $w) Widgets\updateProgress($w);
-      $widgets = Widgets\getByOwner($user);
-      $_SESSION['lastProgressUpdate'] = time();
-    }
-    */
-
     $widgets = Widget::getManyByOwner($this->user);
     $active = array(); $ended = array();
     foreach ($widgets as $w) {
@@ -28,7 +16,6 @@ class DashboardController extends \Chipin\WebFramework\Controller {
         $active []= $w;
       }
     }
-
     return $this->render('dashboard.diet-php',
       array('allWidgets' => $widgets, 'activeWidgets' => $active, 'endedWidgets' => $ended,
             'successMessage' => $this->takeFromSession('successMessage')));
