@@ -4,12 +4,14 @@ require_once 'chipin/widgets.php';
 require_once 'chipin/users.php';
 require_once 'chipin/bitcoin.php';
 require_once 'chipin/currency.php';
-require_once 'spare-parts/types.php';         # at
-require_once 'spare-parts/template/base.php'; # Template\renderFile
+require_once 'chipin/webapp/routes.php';
+require_once 'spare-parts/time/intervals.php';  # readInterval
+require_once 'spare-parts/types.php';           # at
+require_once 'spare-parts/template/base.php';   # Template\renderFile
 
-use \SpareParts\Webapp\RequestContext, \SpareParts\Template,
+use \SpareParts\Webapp\RequestContext, \SpareParts\Template, \SpareParts\Time,
   \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
-  \Chipin\Currency\Amount;
+  \Chipin\Currency\Amount, \Chipin\WebFramework\Routes;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
@@ -43,12 +45,28 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   function about(RequestContext $context) {
-    $widget = Widget::getByID($context->takeNextPathComponent());
-    return $this->render('widgets/about.diet-php', array('widget' => $widget));
+    return $this->render('widgets/about.diet-php',
+      array('widget' => $this->takeWidgetFromURI($context)));
+  }
+
+  function progress(RequestContext $c) {
+    $w = $this->takeWidgetFromURI($c);
+    $fiveSecs = Time\readInterval('5 seconds');
+    $w->updateBalance(Bitcoin\getBalance($w->bitcoinAddress, 'BTC', $maxCacheAge = $fiveSecs));
+    return $this->textResponse($w->progressPercent);
+  }
+
+  function amountRaised(RequestContext $c) {
+    $w = $this->takeWidgetFromURI($c);
+    $currency = at($_GET, 'currency');
+    $a = $currency == 'BTC' ? $w->raisedBTC : Bitcoin\fromBTC($w->raisedBTC, $currency);
+    $amount = new Amount($currency, $a);
+    return $this->textResponse(strval($amount));
   }
 
   function preview() {
     $vars = $_GET;
+    $vars['previewOnly'] = true;
     $vars['display'] = 'overview';
     $vars['raised'] = '0';
     $vars['bitcoinAddress'] = $vars['address'];
@@ -65,6 +83,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   private function renderWidgetObj(Widget $widget) {
     $vars = array();
+    $vars['previewOnly'] = false;
     $vars['display'] = at($_GET, 'display', 'overview');
     $vars['widgetID'] = $widget->id;
     $vars['width'] = $widget->width;
@@ -78,6 +97,9 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['progressPercent'] = $widget->progressPercent;
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
+    $vars['checkProgressURI'] = Routes\checkWidgetProgress($widget);
+//    $vars['checkBalanceURI'] = Routes\addressBalance($widget->bitcoinAddress);
+    $vars['amountRaisedURI'] = Routes\amountRaised($widget);
     return $this->renderWidgetArr($vars);
   }
 
@@ -89,6 +111,10 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
       # TODO: Log warning that a request for invalid widget dimensions was made.
     }
     return $this->renderDietTpl("widgets/{$w}x{$h}.diet-php", $vars);
+  }
+
+  private function takeWidgetFromURI(RequestContext $context) {
+    return Widget::getByID($context->takeNextPathComponent());
   }
 
   private function renderDietTpl($tpl, Array $vars) {
@@ -103,14 +129,15 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
       $vars['altRaised'] = $this->btcToDollars($raised->numUnits);
     } else {
       $goalInBTC = Bitcoin\toBTC($goal->currencyCode, $goal->numUnits);
-      $vars['altGoal'] = Currency\displayAmount($goalInBTC, 'BTC');
+      $vars['altGoal'] = new Amount('BTC', $goalInBTC); //Currency\displayAmount($goalInBTC, 'BTC');
       $raisedInBTC = Bitcoin\toBTC($raised->currencyCode, $raised->numUnits);
-      $vars['altRaised'] = Currency\displayAmount($raisedInBTC, 'BTC');
+      $vars['altRaised'] = new Amount('BTC', $raisedInBTC); //Currency\displayAmount($raisedInBTC, 'BTC');
     }
   }
 
   private function btcToDollars($amountInBTC) {
-    return Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
+//    return Currency\displayAmount(Bitcoin\fromBTC($amountInBTC, 'USD'), 'USD');
+    return new Amount('USD', Bitcoin\fromBTC($amountInBTC, 'USD'));
   }
 }
 

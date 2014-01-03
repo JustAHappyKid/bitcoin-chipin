@@ -6,43 +6,20 @@
     <link rel="stylesheet" href="/widgets/css/base.css" />
     <link rel="stylesheet" href="/widgets/css/<?= $width . 'x' . $height ?>.css" />
     <link rel="stylesheet" href="/widgets/css/$color.css" />
-    <script src="/js/jquery-latest.js"></script>
-    <script type="text/javascript">
-      ? require_once 'chipin/webapp/routes.php';
-      function playSound(soundObj) {
-        var sound = document.getElementById(soundObj);
-        if (sound) sound.play();
-      }
-      var lastBalance = <?= $raised->numUnits ?>;
-      function checkBalance() {
-        console.log("shit yo");
-        $.ajax({
-          url: '<?= \Chipin\WebFramework\Routes\addressBalance($bitcoinAddress) ?>',
-          type: 'GET',
-          dataType: 'text',
-          success: function (amountStr) {
-            var amount = parseFloat(amountStr);
-            console.log("lastBalance: " + lastBalance.toString() + "; amount = " + amount.toString());
-//            $('.status-bar-container .bar').animate({width: "95%"});
-            if (amount > lastBalance) {
-              $('.raised-and-goal .amount').innerHTML = amount.toString();
-              var newWidth = (amount / <?= $goal->numUnits ?>) * 100;
-              playSound('cha-ching');
-              $('.status-bar-container .bar').animate({width: newWidth.toString() + "%"});
-            }
-            lastBalance = amount;
-            setTimeout('checkBalance()', 5000);
-          },
-          error: function (data) {
-            console.error("It seems the balance-lookup failed: " + data);
-          }
-        });
-        return 'ran it, i guess.';
-      }
-      jQuery(document).ready(function () {
-        setTimeout('checkBalance()', 5000);
-      });
-    </script>
+    <script type="text/javascript" src="/js/jquery-latest.js"></script>
+
+    ? if (!$previewOnly) {
+      <script type="text/javascript">
+        <? /* These variables necessary for "auto-update" functionality to work... */ ?>
+        var baseCurrency = '$raised->currencyCode';
+        var altCurrency = '$altRaised->currencyCode';
+        var lastProgress = $progressPercent;
+        var checkProgressURI = '$checkProgressURI';
+        var amountRaisedURI = '$amountRaisedURI';
+      </script>
+      <script type="text/javascript" src="/widgets/js/poll-balance.js"></script>
+    }
+
   </head>
   <body style="background: transparent;">
     <audio src="/widgets/audio/cha-ching.wav" preload="auto" autobuffer id="cha-ching"></audio>
