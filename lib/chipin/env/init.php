@@ -16,6 +16,7 @@ function init($confFiles) {
     exit(-1);
   }
   error_reporting(E_ALL);
+  ini_set('display_errors', APPLICATION_ENV == 'development');
   require_once 'spare-parts/error-handling.php';
   \SpareParts\ErrorHandling\initErrorHandling($e);
   require_once 'chipin/env/log.php';
