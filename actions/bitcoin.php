@@ -9,8 +9,8 @@ require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple
 
 use \Chipin\Bitcoin,
-  \SpareParts\URL, \SpareParts\Webapp\HttpResponse, \SpareParts\WebClient\HttpSimple,
-  \SpareParts\Webapp\Forms, \SpareParts\Database as DB, \SpareParts\Time;
+  \SpareParts\URL, \SpareParts\WebClient\HttpSimple, \SpareParts\Webapp\Forms,
+  \SpareParts\Database as DB, \SpareParts\Time;
 
 /**
  * This controller deals with all requests for obtaining info from the Bitcoin network
@@ -34,14 +34,6 @@ class BitcoinController extends \Chipin\WebFramework\Controller {
   public function validAddress() {
     $address = $this->context->takeNextPathComponent();
     return $this->textResponse($this->isValidAddress($address) ? 'true' : 'false');
-  }
-
-  private function textResponse($txt, $code = 200) {
-    $resp = new HttpResponse;
-    $resp->statusCode = $code;
-    $resp->contentType = 'text/plain';
-    $resp->content = strval($txt);
-    return $resp;
   }
 
   private function isValidAddress($address) {

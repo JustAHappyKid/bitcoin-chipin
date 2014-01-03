@@ -8,7 +8,8 @@ require_once 'spare-parts/reflection.php';              # getClassesDefinedInFil
 require_once 'spare-parts/template/base.php';           # Template\Context
 require_once 'chipin/users.php';                        # User
 
-use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection, \SpareParts\Template;
+use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection, \SpareParts\Template,
+  \SpareParts\Webapp\HttpResponse;
 
 class Controller extends \SpareParts\Webapp\Controller {
 
@@ -49,6 +50,14 @@ class Controller extends \SpareParts\Webapp\Controller {
     } else {
       return false;
     }
+  }
+
+  protected function textResponse($txt, $code = 200) {
+    $resp = new HttpResponse;
+    $resp->statusCode = $code;
+    $resp->contentType = 'text/plain';
+    $resp->content = strval($txt);
+    return $resp;
   }
 
   protected function render($tplFile, Array $vars = array()) {
