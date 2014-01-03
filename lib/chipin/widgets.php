@@ -17,9 +17,6 @@ class Widget {
   public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedBTC, $progressPercent,
     $width, $height, $color, $bitcoinAddress, $countryCode;
 
-  /** @deprecated */
-  private $goal, $raised;
-
   /** @var Amount */
   public $goalAmnt;
 
@@ -84,18 +81,22 @@ class Widget {
     $this->uriID = $a['uri_id'];
     $this->ownerID = (int) $a['owner_id'];
     $this->countryCode = $a['country'];
+    $this->color = in_array($a['color'], allowedColors()) ? $a['color'] : 'white';
     //$this->satoshisRaised = $a['satoshis'];
     $this->goalAmnt = new Amount($this->currency, $a['goal']);
-    $this->raisedBTC = Bitcoin\getBalance($this->bitcoinAddress);
+    $this->updateBalance(Bitcoin\getBalance($this->bitcoinAddress));
+    return $this;
+  }
+
+  public function updateBalance($balanceInBTC) {
+    $this->raisedBTC = $balanceInBTC;
     $raisedInBaseCurrency = $this->currency == 'BTC' ?
       $this->raisedBTC : Bitcoin\fromBTC($this->raisedBTC, $this->currency);
     $this->raisedAmnt = new Amount($this->currency, $raisedInBaseCurrency);
-    $goalInBTC = $this->currency == 'BTC' ? $a['goal'] :
-      Bitcoin\toBTC($this->currency, $a['goal']);
+    $goalInBTC = $this->currency == 'BTC' ? $this->goalAmnt->numUnits :
+      Bitcoin\toBTC($this->currency, $this->goalAmnt->numUnits);
     $this->progressPercent = ($this->raisedBTC / $goalInBTC) * 100;
     if ($this->progressPercent > 100) $this->progressPercent = 100;
-    $this->color = in_array($a['color'], allowedColors()) ? $a['color'] : 'white';
-    return $this;
   }
 
   function __get($attr) {
