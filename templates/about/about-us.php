@@ -24,7 +24,7 @@ class AboutUsPage extends AboutPageLayout {
                  >the Bitcoin Billboard</a>,
               and the $10,000 Bitcoin bet.</p>
             <div style="margin: 25px 0; text-align: center;">
-              <iframe width="420" height="315" src="https://www.youtube.com/embed/gfydIbhduu0"
+              <iframe width="420" height="315" src="https://www.youtube.com/embed/orzhba2dV1A"
                       frameborder="0" allowfullscreen
                       style="border: 5px solid #dde;"></iframe>
             </div>
