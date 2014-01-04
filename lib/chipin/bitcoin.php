@@ -24,21 +24,29 @@ function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = nu
   } catch (DB\NoMatchingRecords $_) { }
   if ($satoshis == null) {
     $satoshis = BlockchainDotInfo\getBalanceInSatoshis($address);
-    try {
-      DB\transaction(function() use($address, $satoshis) {
-        DB\delete('bitcoin_addresses', 'address = ?', array($address));
-        DB\insertOne('bitcoin_addresses', array('address' => $address, 'satoshis' => $satoshis,
-                                                'updated_at' => new DateTime('now')));
-      });
-    } catch (\PDOException $e) {
-      # If it's an exception about a deadlock, we'll ignore it -- it's probably due to
-      # two processes trying to update the record at the same time.
-      if (!contains(strtolower($e->getMessage()), "deadlock found")) throw $e;
-    }
+    cacheBalance($address, $satoshis);
   }
   $btcBalance = $satoshis / satoshisPerBTC();
   $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
   return $balanceWithPrecision;
+}
+
+/**
+ * Store the balance of the given Bitcoin address to our local database for quick
+ * access in the near future.
+ */
+function cacheBalance($address, $satoshis) {
+  try {
+    DB\transaction(function () use ($address, $satoshis) {
+      DB\delete('bitcoin_addresses', 'address = ?', array($address));
+      DB\insertOne('bitcoin_addresses', array('address' => $address, 'satoshis' => $satoshis,
+        'updated_at' => new DateTime('now')));
+    });
+  } catch (\PDOException $e) {
+    # If it's an exception about a deadlock, we'll ignore it -- it's probably due to
+    # two processes trying to update the record at the same time.
+    if (!contains(strtolower($e->getMessage()), "deadlock found")) throw $e;
+  }
 }
 
 function toBTC($currency, $amount) {
