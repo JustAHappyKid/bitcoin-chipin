@@ -10,7 +10,8 @@ require_once 'chipin/webapp/routes.php';          # Routes\*
 require_once 'spare-parts/database.php';          # insertOne, ...
 
 use \Chipin\Widgets, \Chipin\Bitcoin, \Chipin\Currencies, \Chipin\WebFramework\Routes,
-  \SpareParts\Database as DB, \SpareParts\Test\HttpNotFound, \DateTime;
+  \SpareParts\Database as DB, \SpareParts\Test\HttpNotFound,
+  \SpareParts\Test\UnexpectedHttpResponseCode, \DateTime;
 
 class WidgetTests extends WebappTestingHarness {
 
@@ -116,6 +117,20 @@ class WidgetTests extends WebappTestingHarness {
 
   function testActionForCheckingAddressBalanceViaJavascript() {
     $this->get(Routes\addressBalance($this->btcAddr()));
+  }
+
+  /**
+   * In the case that there's some sort of communication problem with attempting to check
+   * the given Bitcoin-address balance (via Blockchain.info), we want to make sure that
+   * does not lead to an exception reaching the top level.
+   */
+  function testActionForCheckingWidgetProgressViaJavascriptElegantlyHandlesNetworkError() {
+    $w = getWidget();
+    $w->bitcoinAddress = '1AkZUyVHtVsU6ZmAu1iSDhYiXbqFgKqzbt';
+    $w->save();
+    try {
+      $this->get(Routes\checkWidgetProgress($w));
+    } catch (UnexpectedHttpResponseCode $_) { /* We'll accept that. */ }
   }
 
   private function browseToWidget(Widgets\Widget $w) {

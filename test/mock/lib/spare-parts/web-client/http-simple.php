@@ -2,7 +2,9 @@
 
 namespace SpareParts\WebClient\HttpSimple;
 
-use \Exception;
+require_once 'spare-parts/web-client/http-client.php';
+
+use \Exception, \SpareParts\WebClient\HostNameResolutionError;
 
 function get($url) {
   if ($url == 'http://blockchain.info/q/addressbalance/1PUPt26votHesaGwSApYtGVTfpzvs8AxVM') {
@@ -13,6 +15,8 @@ function get($url) {
     return '3600';
   } else if ($url == 'http://blockchain.info/q/addressbalance/15Mux55YKsWp9pe5eUC2jcP5R9K7XA4pPF') {
     return '0';
+  } else if ($url == 'http://blockchain.info/q/addressbalance/1AkZUyVHtVsU6ZmAu1iSDhYiXbqFgKqzbt') {
+    throw new HostNameResolutionError('Could not resolve hostname "blockchain.info"');
   } else if ($url == 'http://blockchain.info/q/addressbalance/peanuts') {
     return 'Checksum does not validate';
   } else if (beginsWith($url, 'http://blockchain.info/tobtc?currency=USD')) {

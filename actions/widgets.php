@@ -11,7 +11,7 @@ require_once 'spare-parts/template/base.php';   # Template\renderFile
 
 use \SpareParts\Webapp\RequestContext, \SpareParts\Template, \SpareParts\Time,
   \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
-  \Chipin\Currency\Amount, \Chipin\WebFramework\Routes;
+  \Chipin\Currency\Amount, \Chipin\WebFramework\Routes, \Chipin\Log;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
@@ -50,10 +50,17 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   function progress(RequestContext $c) {
-    $w = $this->takeWidgetFromURI($c);
-    $fiveSecs = Time\readInterval('5 seconds');
-    $w->updateBalance(Bitcoin\getBalance($w->bitcoinAddress, 'BTC', $maxCacheAge = $fiveSecs));
-    return $this->textResponse($w->progressPercent);
+    try {
+      $w = $this->takeWidgetFromURI($c);
+      $fiveSecs = Time\readInterval('5 seconds');
+      $w->updateBalance(Bitcoin\getBalance($w->bitcoinAddress, 'BTC', $maxCacheAge = $fiveSecs));
+      return $this->textResponse($w->progressPercent);
+    } catch (\SpareParts\WebClient\NetworkError $e) {
+      Log\notice("Caught " . get_class($e) . " when attempting to check Bitcoin-address balance: " .
+        $e->getMessage());
+      return $this->textResponse(
+        "Network error occurred when trying to check address balance", 503);
+    }
   }
 
   function amountRaised(RequestContext $c) {
