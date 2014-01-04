@@ -46,14 +46,14 @@ block innerContent {
                     <a href="/widget-wiz/create">Create one now</a> &mdash; it's super easy!
                   </div>
                 <? else: ?>
-                  <?= $this->widgetsTable($this->activeWidgets) ?>
+                  <?= $this->widgetsTable($this->activeWidgets, 'active') ?>
                 <? endif; ?>
               </div>
               <div class="tab-pane" id="ended">
-                <?= $this->widgetsTable($this->endedWidgets) ?>
+                <?= $this->widgetsTable($this->endedWidgets, 'ended') ?>
               </div>
               <div class="tab-pane" id="all">
-                <?= $this->widgetsTable($this->allWidgets) ?>
+                <?= $this->widgetsTable($this->allWidgets, 'all') ?>
               </div>
             </div>
 
@@ -65,7 +65,7 @@ block innerContent {
   </div>
 }
 
-block widgetsTable($widgets) {
+block widgetsTable($widgets, $tableName) {
   ? require_once 'chipin/currency.php';
   <table class="table table-bordered table-striped">
     <thead>
@@ -81,15 +81,15 @@ block widgetsTable($widgets) {
           <td>$widget->title</td>
           <td>Ends <?= $widget->endingDateAsString() ?></td>
           <td>Raised <?= $widget->raisedAmnt ?></td>
-          <td><?= $this->actionsColumn($widget) ?></td>
+          <td><?= $this->actionsColumn($widget, $tableName) ?></td>
         </tr>
       }
     </tbody>
   </table>
 }
 
-block actionsColumn($widget) {
-  <div id="view-widget-<?= $widget->id ?>" class="modal hide fade" tabindex="-1">
+block actionsColumn($widget, $tableName) {
+  <div id="view-widget-<?= $tableName ?>-<?= $widget->id ?>" class="modal hide fade" tabindex="-1">
     <div class="modal-header">
       <button type="button" class="close" data-dismiss="modal">&times;</button>
       <h3>Widget Preview</h3>
@@ -111,7 +111,7 @@ block actionsColumn($widget) {
   </div>
   <div class="link-group">
     <a href="/widget-wiz/step-one?w=$widget->id">Edit</a>
-    <a data-toggle="modal" href="#view-widget-<?= $widget->id ?>">View</a>
+    <a data-toggle="modal" href="#view-widget-<?= $tableName ?>-<?= $widget->id ?>">View</a>
     <a class="end-widget" href="/dashboard/end-widget/$widget->id">End</a>
   </div>
 }
