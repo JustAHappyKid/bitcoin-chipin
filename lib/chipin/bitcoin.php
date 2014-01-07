@@ -60,7 +60,11 @@ function fromBTC($amountInBTC, $currency) {
 }
 
 function lastPriceForOneBTC($currency) {
-  $row = DB\selectExactlyOne('ticker_data', 'currency = ?', array($currency));
+  $rows = DB\simpleSelect('ticker_data', 'currency = ?', array($currency));
+  $row = current($rows);
+  if (empty($row))
+    throw new DB\NoMatchingRecords("Could not find exchange-rate (in 'ticker_data' table) " .
+                                   "for currency '$currency''");
   return doubleval($row['last_price']);
 }
 
