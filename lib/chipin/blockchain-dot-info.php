@@ -19,8 +19,8 @@ function getBalanceInSatoshis($address) {
     if ($e == 'checksum does not validate' || beginsWith($e, 'illegal character') ||
         in_array($e, array('input to short', 'input too short'))) {
       throw new InvalidAddress("$address appears to be an invalid Bitcoin address");
-    } else if (contains($e, '<title>blockchain.info | 522: Connection timed out</title>') &&
-               contains($e, 'CloudFlare')) {
+    } else if (contains($e, '<title>blockchain.info | 522: connection timed out</title>') &&
+               contains($e, 'cloudflare')) {
       throw new HttpConnectionError("Connection to blockchain.info timed out " .
                                     "(reported by CloudFlare)");
     } else {
