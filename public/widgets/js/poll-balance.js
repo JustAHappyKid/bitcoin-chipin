@@ -7,7 +7,7 @@ function checkBalance() {
     success: function (amountStr) {
       var progress = parseFloat(amountStr);
       if (progress > lastProgress) {
-        playSound('cha-ching');
+        //playSound('cha-ching');
         $('.status-bar-container .bar').animate({width: progress.toString() + "%"}, 2500).
           delay(1000);
         updateAmountRaised($('.raised-and-goal .raised .amount'), baseCurrency);
