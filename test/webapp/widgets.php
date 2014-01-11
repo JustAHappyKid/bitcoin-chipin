@@ -116,7 +116,11 @@ class WidgetTests extends WebappTestingHarness {
   }
 
   function testActionForCheckingAddressBalanceViaJavascript() {
-    $this->get(Routes\addressBalance($this->btcAddr()));
+    $w = getWidget();
+    $this->get(Routes\amountRaised($w));
+    $this->get(Routes\amountRaised($w) . '?currency=BTC');
+    $this->get(Routes\amountRaised($w) . '?currency=USD');
+    $this->get(Routes\amountRaised($w) . '?currency=CNY');
   }
 
   /**

@@ -65,7 +65,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function amountRaised(RequestContext $c) {
     $w = $this->takeWidgetFromURI($c);
-    $currency = at($_GET, 'currency');
+    $currency = at($_GET, 'currency', 'BTC');
     $a = $currency == 'BTC' ? $w->raisedBTC : Bitcoin\fromBTC($w->raisedBTC, $currency);
     $amount = new Amount($currency, $a);
     return $this->textResponse(strval($amount));
