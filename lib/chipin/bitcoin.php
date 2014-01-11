@@ -6,29 +6,62 @@ require_once 'spare-parts/database.php';                # selectExactlyOne, inse
 require_once 'spare-parts/types.php';                   # isInteger
 require_once 'chipin/blockchain-dot-info.php';          # BlockchainDotInfo
 
-use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo;
+use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo,
+  \Chipin\Log;
 
 function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = null) {
   $satoshis = null;
+  $updatedAt = null;
+  $needsUpdated = false;
   try {
     $row = DB\selectExactlyOne('bitcoin_addresses', 'address = ?', array($address));
+    $satoshis = intval($row['satoshis']);
     if ($maxCacheAge) {
       $updatedAt = new DateTime($row['updated_at']);
       $expiresAt = $updatedAt->add($maxCacheAge);
       $now = new DateTime('now');
-      if ($expiresAt->getTimestamp() > $now->getTimestamp())
-        $satoshis = intval($row['satoshis']);
-    } else {
-      $satoshis = intval($row['satoshis']);
+      if ($expiresAt->getTimestamp() < $now->getTimestamp())
+        $needsUpdated = true;
     }
-  } catch (DB\NoMatchingRecords $_) { }
-  if ($satoshis == null) {
-    $satoshis = BlockchainDotInfo\getBalanceInSatoshis($address);
-    cacheBalance($address, $satoshis);
+  } catch (DB\NoMatchingRecords $_) {
+    $needsUpdated = true;
+  }
+  if ($needsUpdated) {
+    # Since we don't want to have two or three (or more) processes all trying to query
+    # Blockchain.info at the same time, we use a lock to assure only one attempt is made
+    # to update the cache.
+    $lockObtained = withLock($address,
+      function() use($address) {
+        $satoshis = BlockchainDotInfo\getBalanceInSatoshis($address);
+        cacheBalance($address, $satoshis);
+      });
+    if (!$lockObtained) {
+      if ($satoshis === null) {
+        Log\error("Failed to obtain lock for and no cached balance exists for Bitcoin address " .
+          "$address; defaulting to zero");
+      }
+      $oneHourAgo = new DateTime('1 hour ago');
+      if ($updatedAt && $updatedAt->getTimestamp() < $oneHourAgo->getTimestamp()) {
+        Log\error("Balance for Bitcoin address $address has not been updated for " .
+          "more than one hour");
+      }
+    }
   }
   $btcBalance = $satoshis / satoshisPerBTC();
   $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
   return $balanceWithPrecision;
+}
+
+function withLock($bitcoinAddr, \Closure $action) {
+  $lockName = "bitcoin-address-$bitcoinAddr";
+  $r = DB\queryAndFetchAll("SELECT GET_LOCK('$lockName', 0)");
+  if ($r[0][0] == 1) {
+    $action();
+    DB\query("SELECT RELEASE_LOCK('$lockName')");
+    return true;
+  } else {
+    return false;
+  }
 }
 
 /**
