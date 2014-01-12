@@ -1,4 +1,6 @@
 
+var pollingFrequency = 8000; // 8 seconds
+
 function checkBalance() {
   $.ajax({
     url: checkProgressURI,
@@ -14,7 +16,7 @@ function checkBalance() {
         updateAmountRaised($('.raised-and-goal .raised .alt-amount'), altCurrency);
       }
       lastProgress = progress;
-      setTimeout('checkBalance()', 5000);
+      setTimeout('checkBalance()', pollingFrequency);
     },
     error: function (data) {
       console.error("It seems the balance-lookup failed: " + data);
@@ -39,5 +41,5 @@ function playSound(soundObj) {
 }
 
 jQuery(document).ready(function () {
-  setTimeout('checkBalance()', 5000);
+  setTimeout('checkBalance()', pollingFrequency);
 });
