@@ -106,6 +106,21 @@ class WidgetTests extends WebappTestingHarness {
     } catch (HttpNotFound $_) { /* That's acceptable. */ }
   }
 
+  /**
+   * Make sure these paths/URIs don't cause breakage, as they once did.
+   */
+  function testSomeInvalidURIs() {
+    $this->expect404onGET("/widgets/by-id");
+    $this->expect404onGET("/widgets/about");
+  }
+
+  private function expect404onGET($path) {
+    try {
+      $this->get($path);
+      fail("Expected to get 404/not-found response");
+    } catch (HttpNotFound $_) { /* That's what we're looking for. */ }
+  }
+
   function testAccessingWidgetWhoseOwnerHasNoUsernameSet() {
     $u = getUser();
     $u->username = null;
