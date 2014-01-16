@@ -12,7 +12,8 @@ use \SpareParts\WebClient\HttpClient, \SpareParts\WebClient\NetworkError,
 
 function getBalanceInSatoshis($address) {
 //  $content = Http\get('http://blockchain.info/q/addressbalance/' . $address);
-  $response = (new HttpClient())->get('http://blockchain.info/q/addressbalance/' . $address);
+  $client = new HttpClient;
+  $response = $client->get('http://blockchain.info/q/addressbalance/' . $address);
   if ($response->statusCode == 200 && isInteger($response->content)) {
     return intval($response->content);
   } else {
