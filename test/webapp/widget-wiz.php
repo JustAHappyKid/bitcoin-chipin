@@ -248,8 +248,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->submitForm($this->getForm(),
       array('title' => $content, 'goal' => '15', 'currency' => 'USD',
         'ending' => $this->in3days(), 'bitcoinAddress' => $this->btcAddr()));
-    $this->submitForm($this->getForm(),
-      array('about' => $content));
+    $this->submitForm($this->getForm(), array('about' => $content));
     $this->clickLink("//a[contains(., 'Previous')]");
     $about = $this->findElements("//textarea[@name='about']")[0];
     assertEqual($content, $about->textContent);
