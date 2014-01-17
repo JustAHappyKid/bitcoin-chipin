@@ -4,7 +4,7 @@ namespace Chipin\BlockchainDotInfo;
 
 require_once 'spare-parts/web-client/http-simple.php';  # HttpSimple\get
 require_once 'spare-parts/types.php';                   # isInteger
-require_once 'spare-parts/string.php';                  # beginsWith
+require_once 'spare-parts/string.php';                  # beginsWith, withoutPrefix
 require_once 'chipin/bitcoin.php';                      # InvalidAddress
 
 use \SpareParts\WebClient\HttpClient, \SpareParts\WebClient\NetworkError,
@@ -24,7 +24,8 @@ function getBalanceInSatoshis($address) {
         in_array($e, array('input to short', 'input too short'))) {
       throw new InvalidAddress("$address appears to be an invalid Bitcoin address");
     } else if (contains($e, 'cloudflare') && !empty($title)) {
-      throw new NetworkError("CloudFlare-reported problem at blockchain.info: $title");
+      throw new NetworkError("CloudFlare-reported problem at blockchain.info: " .
+        withoutPrefix($title, "blockchain.info | "));
     } else if (!empty($title)) {
       throw new NetworkError("Unknown error when attempting to check address-balance " .
         "for ($address) via blockchain.info: $title");
