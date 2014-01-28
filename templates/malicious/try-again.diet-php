@@ -1,0 +1,7 @@
+!extends 'malicious/layout.diet-php'
+
+block errorMessage {
+  Sorry, it looks your session expired or something. Please try again,
+  and if you continue to see this message, please
+  <a href="/contact-us/">let us know</a>.
+}

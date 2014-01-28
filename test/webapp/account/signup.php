@@ -7,7 +7,7 @@ require_once 'chipin/users.php';          # User
 require_once 'spare-parts/string.php';    # beginsWith
 require_once 'spare-parts/database.php';  # countRows
 
-use \SpareParts\Database as DB, \Chipin\User;
+use \SpareParts\Database as DB, \Chipin\User, \SpareParts\Test\UnexpectedHttpResponseCode;
 
 class SignupTests extends WebappTestingHarness {
 
@@ -49,6 +49,17 @@ class SignupTests extends WebappTestingHarness {
             'password2' => 't0pS33cret', /*'captcha-input' => '1234'*/));
     $this->assertContains("//div[contains(., 'already have an account')]");
     assertEqual(1, DB\countRows('users', 'email = ?', array('josh@example.com')));
+  }
+
+  function testSubmittingSignupFormWhenSessionHasExpired() {
+    $this->get('/account/signup');
+    $this->clearSession();
+    try {
+      $this->submitFormExpectingErrors($this->getForm(),
+        array('username' => 'fruity-tootie', 'email' => uniqid() . '@test.com',
+          'password1' => 'apples', 'password2' => 'apples'));
+    } catch (UnexpectedHttpResponseCode $_) { }
+    $this->assertContains("//div[contains(@class, 'error') and contains(., 'session expired')]");
   }
 
   protected function getForm($formId = null) {

@@ -1,0 +1,5 @@
+!extends 'malicious/layout.diet-php'
+
+block errorMessage {
+  What are you trying to do?
+}

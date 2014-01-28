@@ -5,6 +5,7 @@ namespace Chipin\WebFramework;
 require_once 'spare-parts/webapp/base-framework.php';
 require_once 'spare-parts/webapp/filters/csrf-guard.php'; # CSRFGuard
 require_once 'spare-parts/types.php';                     # asString
+require_once 'spare-parts/string.php';                    # endsWith
 require_once 'chipin/users.php';
 require_once 'chipin/env/log.php';
 
@@ -15,7 +16,8 @@ require_once 'chipin/webapp/controller.php';
 require_once 'chipin/widgets.php';
 
 use \SpareParts\Webapp\AccessForbidden, \SpareParts\Webapp\HttpResponse,
-  \SpareParts\Webapp\Filter, \SpareParts\Webapp\Filters, \Chipin\Log;
+  \SpareParts\Webapp\Filter, \SpareParts\Webapp\Filters, \Chipin\Log,
+  \SpareParts\Webapp\MaliciousRequestException, \SpareParts\Template, \SpareParts\Reflection;
 
 function routeRequestForApp() {
   $siteDir = dirname(dirname(dirname(dirname(__FILE__))));
@@ -79,6 +81,16 @@ class FrontController extends \SpareParts\Webapp\FrontController {
     $openSections = array(/*'widget-wiz',*/ 'account', 'dashboard');
     return in_array($cmd, $specificPages) || in_array($cmd[0], $openSections);
   }
+
+  protected function handleMaliciousRequest(MaliciousRequestException $e) {
+    $c = null;
+    if (isset($_POST['__sp_guard_name'])) {
+      $c = renderTemplate('malicious/try-again.diet-php');
+    } else {
+      $c = renderTemplate('malicious/bad.diet-php');
+    }
+    return $this->simpleHtmlResponse(400, $c);
+  }
 }
 
 class AddFrameOptionsHeader implements Filter {
@@ -88,4 +100,41 @@ class AddFrameOptionsHeader implements Filter {
       $response->addHeader('X-Frame-Options', 'DENY');
     }
   }
+}
+
+function renderTemplate($tplFile, Array $vars = array()) {
+  $pathToTpl = templatePath($tplFile);
+  if (endsWith($tplFile, '.php')) {
+    require_once $pathToTpl;
+    $classes = Reflection\getClassesDefinedInFile($pathToTpl);
+    if (count($classes) == 0) {
+      throw new \Exception("No classes defined in file $pathToTpl");
+    } else if (count($classes) > 1) {
+      throw new \Exception("Multiple classes defined in file $pathToTpl");
+    }
+    $className = current($classes);
+    $tplObj = new $className;
+//    $tplObj->user = $this->user;
+    foreach ($vars as $v => $value) $tplObj->$v = $value;
+    ob_start();
+    $tplObj->content();
+    $pgContent = ob_get_contents();
+    ob_end_clean();
+    return $pgContent;
+  } else if (endsWith($tplFile, '.diet-php')) {
+    # XXX: Experimental Diet PHP support!
+//    if (empty($vars['user'])) $vars['user'] = $this->user;
+    $tplContext = new Template\Context(templatesDir(), $vars);
+    return Template\renderFile($tplFile, $tplContext);
+  } else {
+    throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
+  }
+}
+
+function templatePath($tpl) {
+  return pathJoin(templatesDir(), $tpl);
+}
+
+function templatesDir() {
+  return pathJoin(dirname(dirname(dirname(dirname(__FILE__)))), 'templates');
 }

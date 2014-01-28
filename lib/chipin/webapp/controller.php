@@ -8,8 +8,7 @@ require_once 'spare-parts/reflection.php';              # getClassesDefinedInFil
 require_once 'spare-parts/template/base.php';           # Template\Context
 require_once 'chipin/users.php';                        # User
 
-use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Reflection, \SpareParts\Template,
-  \SpareParts\Webapp\HttpResponse;
+use \SpareParts\Webapp\Forms\Form, \Chipin\User, \SpareParts\Webapp\HttpResponse;
 
 class Controller extends \SpareParts\Webapp\Controller {
 
@@ -61,6 +60,11 @@ class Controller extends \SpareParts\Webapp\Controller {
   }
 
   protected function render($tplFile, Array $vars = array()) {
+    if (empty($vars['user'])) $vars['user'] = $this->user;
+    return renderTemplate($tplFile, $vars);
+  }
+
+/*  protected function render($tplFile, Array $vars = array()) {
     $pathToTpl = $this->templatePath($tplFile);
     if (endsWith($tplFile, '.php')) {
       require_once $pathToTpl;
@@ -87,15 +91,15 @@ class Controller extends \SpareParts\Webapp\Controller {
     } else {
       throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
     }
-  }
+  }*/
 
-  private function templatePath($tpl) {
+/*  private function templatePath($tpl) {
     return pathJoin($this->templatesDir(), $tpl);
   }
 
   private function templatesDir() {
     return pathJoin($this->webappDir(), 'templates');
-  }
+  }*/
 
   protected function setAuthenticatedUser(User $user) {
     $_SESSION['user'] = $user;
