@@ -5,8 +5,7 @@ namespace Chipin\Environment;
 use \SpareParts\Database as DB;
 
 function init($confFiles) {
-  $libsDir = dirname(dirname(dirname(__FILE__)));
-  set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
+  addLibsDirToIncludePath();
   requireStandardLibs();
   $conf = readConfig($confFiles);
   $e = trim(at($conf, 'admin.email'));
@@ -26,6 +25,11 @@ function init($confFiles) {
     $username = $dbParam('username'), $password = $dbParam('password'),
     $host = $dbParam('host'));
   if (APPLICATION_ENV == 'development') require_once 'chipin/debug.php';
+}
+
+function addLibsDirToIncludePath() {
+  $libsDir = dirname(dirname(dirname(__FILE__)));
+  set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
 }
 
 function requireStandardLibs() {
