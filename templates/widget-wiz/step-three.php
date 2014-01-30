@@ -78,10 +78,15 @@ class StepThree extends WidgetWizLayout {
     <div id="step-3">
       <h3>Step 3: You're done! Just copy and paste the below code into your website.</h3>
       <div>
-        <div style="float: left;"> <!-- div for form inputs -->
+        <div style="float: left; width: 400px;"> <!-- div for form inputs -->
           <textarea style="height: 110px; width: 400px;" class="input-large"
                     id="javascript-version" rows="3"
             ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
+          <div style="margin: 20px 0;">
+            <p>Use the following <strong>short URL</strong> to share your widget via
+              Twitter, Facebook, and other social networks:</p>
+            <p style="text-align: center;"><code><?= $this->shortURL ?></code></p>
+          </div>
         </div>
         <div style="float: left; margin: 0 0 25px 75px;">
           <?= $this->iframeForWidget($this->widget); ?>

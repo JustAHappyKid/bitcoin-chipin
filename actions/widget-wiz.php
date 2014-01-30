@@ -3,12 +3,13 @@
 require_once 'chipin/users.php';
 require_once 'chipin/widgets.php';
 require_once 'chipin/bitcoin.php';
+require_once 'chipin/short-url.php';
 require_once 'spare-parts/database.php';
 require_once 'spare-parts/url.php';
 require_once 'spare-parts/web-client/http-simple.php';
 
 use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log, \Chipin\User,
-  \SpareParts\URL, \SpareParts\WebClient\HttpSimple, \SpareParts\Webapp\Forms,
+  \Chipin\ShortURL, \SpareParts\URL, \SpareParts\WebClient\HttpSimple, \SpareParts\Webapp\Forms,
   \SpareParts\Database as DB;
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
@@ -149,7 +150,8 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
   private function renderStep($tplFile, Widget $widget, Forms\Form $form = null) {
     return $this->render("widget-wiz/$tplFile",
       array('widget' => $widget, 'form' => $form, 'user' => $this->user,
-            'previewURL' => $this->widgetPreviewURL($widget)));
+            'previewURL' => $this->widgetPreviewURL($widget),
+            'shortURL' => ShortURL\urlForWidget($widget)));
   }
 
   private function getCountryCodeForIP() {
