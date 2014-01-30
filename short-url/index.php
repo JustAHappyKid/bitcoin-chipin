@@ -1,8 +1,5 @@
 <?php
 
-# XXX
-$_SERVER['REQUEST_URI'] = '/index.php/1000';
-
 $libsDir = dirname(dirname(__FILE__)) . '/lib/';
 require_once "$libsDir/chipin/env/init.php";
 \Chipin\Environment\addLibsDirToIncludePath();
