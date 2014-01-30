@@ -129,13 +129,6 @@ class Widget {
     }
   }
 
-//  public function updateProgress() {
-//    $balance = Bitcoin\getBalance($this->bitcoinAddress, $this->currency);
-//    $progress = ($balance / $this->goalAmnt->numUnits) * 100;
-//    DB\query("UPDATE widgets SET progress = ?, raised = ? WHERE id = ?",
-//      array($progress, $balance, $this->id));
-//  }
-
   function getOwner() {
     return User::loadFromID($this->ownerID);
   }
