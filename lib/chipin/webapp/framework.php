@@ -114,21 +114,21 @@ function renderTemplate($tplFile, Array $vars = array()) {
     }
     $className = current($classes);
     $tplObj = new $className;
-//    $tplObj->user = $this->user;
-    foreach ($vars as $v => $value) $tplObj->$v = $value;
-    ob_start();
-    $tplObj->content();
-    $pgContent = ob_get_contents();
-    ob_end_clean();
-    return $pgContent;
+    return renderTemplateObject($tplObj, $vars);
   } else if (endsWith($tplFile, '.diet-php')) {
-    # XXX: Experimental Diet PHP support!
-//    if (empty($vars['user'])) $vars['user'] = $this->user;
     $tplContext = new Template\Context(templatesDir(), $vars);
     return Template\renderFile($tplFile, $tplContext);
   } else {
     throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
   }
+}
+
+function renderTemplateObject(Template\Renderable $tpl, Array $vars) {
+  ob_start();
+  $tpl->__render($vars);
+  $pgContent = ob_get_contents();
+  ob_end_clean();
+  return $pgContent;
 }
 
 function templatePath($tpl) {
