@@ -205,10 +205,11 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   function testBitcoinAddressValidationAction() {
-//    assertEqual('true', $this->get('/widget-wiz/valid-btc-addr/' . $this->btcAddr())->content);
     assertEqual('true', $this->get(Routes\validAddress($this->btcAddr()))->content);
-//    assertEqual('false', $this->get('/widget-wiz/valid-btc-addr/peanuts')->content);
     assertEqual('false', $this->get(Routes\validAddress('peanuts'))->content);
+    assertEqual('false', $this->get(Routes\validAddress(''))->content);
+    assertEqual('false', $this->get(Routes\validAddress(" \t"))->content);
+    assertEqual('false', $this->get(Routes\validAddress(null))->content);
   }
 
   /**

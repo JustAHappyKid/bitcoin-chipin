@@ -10,6 +10,8 @@ use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo
   \Chipin\Log;
 
 function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = null) {
+  if (empty($address) || trim($address) == '')
+    throw new InvalidAddress("Empty string/value is not valid");
   $satoshis = null;
   $updatedAt = null;
   $needsUpdated = false;

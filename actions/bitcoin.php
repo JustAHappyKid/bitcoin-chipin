@@ -32,7 +32,7 @@ class BitcoinController extends \Chipin\WebFramework\Controller {
    * Is the given Bitcoin address valid?
    */
   public function validAddress() {
-    $address = $this->context->takeNextPathComponent();
+    $address = $this->context->takeNextPathComponentOrNull();
     return $this->textResponse($this->isValidAddress($address) ? 'true' : 'false');
   }
 
