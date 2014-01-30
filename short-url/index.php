@@ -3,11 +3,11 @@
 # XXX
 $_SERVER['REQUEST_URI'] = '/index.php/1000';
 
-//require_once "$libsDir/chipin/env/init.php";
-//\Chipin\Environment\init($confFiles);
-
 $libsDir = dirname(dirname(__FILE__)) . '/lib/';
-require_once "$libsDir/chipin/short-url.php";
+require_once "$libsDir/chipin/env/init.php";
+\Chipin\Environment\addLibsDirToIncludePath();
+
+require_once "chipin/short-url.php";
 
 $pathParts = explode('/', $_SERVER['REQUEST_URI']);
 $shortID = current(array_filter($pathParts,
