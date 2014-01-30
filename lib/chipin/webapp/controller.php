@@ -64,43 +64,6 @@ class Controller extends \SpareParts\Webapp\Controller {
     return renderTemplate($tplFile, $vars);
   }
 
-/*  protected function render($tplFile, Array $vars = array()) {
-    $pathToTpl = $this->templatePath($tplFile);
-    if (endsWith($tplFile, '.php')) {
-      require_once $pathToTpl;
-      $classes = Reflection\getClassesDefinedInFile($pathToTpl);
-      if (count($classes) == 0) {
-        throw new \Exception("No classes defined in file $pathToTpl");
-      } else if (count($classes) > 1) {
-        throw new \Exception("Multiple classes defined in file $pathToTpl");
-      }
-      $className = current($classes);
-      $tplObj = new $className;
-      $tplObj->user = $this->user;
-      foreach ($vars as $v => $value) $tplObj->$v = $value;
-      ob_start();
-      $tplObj->content();
-      $pgContent = ob_get_contents();
-      ob_end_clean();
-      return $pgContent;
-    } else if (endsWith($tplFile, '.diet-php')) {
-      # XXX: Experimental Diet PHP support!
-      if (empty($vars['user'])) $vars['user'] = $this->user;
-      $tplContext = new Template\Context($this->templatesDir(), $vars);
-      return Template\renderFile($tplFile, $tplContext);
-    } else {
-      throw new \InvalidArgumentException("Template file `$tplFile` has unexpected extension");
-    }
-  }*/
-
-/*  private function templatePath($tpl) {
-    return pathJoin($this->templatesDir(), $tpl);
-  }
-
-  private function templatesDir() {
-    return pathJoin($this->webappDir(), 'templates');
-  }*/
-
   protected function setAuthenticatedUser(User $user) {
     $_SESSION['user'] = $user;
   }
