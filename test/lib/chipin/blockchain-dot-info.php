@@ -9,7 +9,20 @@ function testBalanceLookupElegantlyDetectsSiteMaintenanceAtBlockchainDotInfo() {
   $address = '1TestForDowntimeX1iTDhViXbrogKqzbt';
   try {
     BlockchainDotInfo\getBalanceInSatoshis($address);
+    fail("Expected to get exception for lookup on address $address");
   } catch (NetworkError $e) {
     assertTrue(contains(strtolower($e->getMessage()), 'maintenance'));
+  }
+}
+
+function testBalanceLookupElegantlyHandlesUnhelpfulResponsesFromBlockchainDotInfo() {
+  $addresses = array('1GivesBlankContentiTDhViXbrogKqzbt', '1GivesLockWaitTimeoutTDhViXbrogKqzbt');
+  foreach ($addresses as $a) {
+    try {
+      BlockchainDotInfo\getBalanceInSatoshis($a);
+      fail("Expected to get exception for lookup on address $a");
+    } catch (NetworkError $e) {
+
+    }
   }
 }

@@ -60,11 +60,19 @@ class HttpClient {
     } else if ($a == 'peanuts') {
       return 'Checksum does not validate';
     } else if ($a == '1TestForDowntimeX1iTDhViXbrogKqzbt') {
-      $r = new HTTP\Response;
-      $r->statusCode = 500;
-      $r->content = $this->blockchainDotInfoBeBackShortlyPage();
-      return $r;
+      return $this->errorResponse($this->blockchainDotInfoBeBackShortlyPage());
+    } else if ($a == '1GivesBlankContentiTDhViXbrogKqzbt') {
+      return $this->errorResponse('');
+    } else if ($a == '1GivesLockWaitTimeoutTDhViXbrogKqzbt') {
+      return $this->errorResponse('Lock wait timeout exceeded; try restarting transaction');
     }
+  }
+
+  private function errorResponse($content) {
+    $r = new HTTP\Response;
+    $r->statusCode = 500;
+    $r->content = $content;
+    return $r;
   }
 
   private function blockchainDotInfoBeBackShortlyPage() {

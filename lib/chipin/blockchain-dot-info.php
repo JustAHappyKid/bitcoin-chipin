@@ -29,6 +29,10 @@ function getBalanceInSatoshis($address) {
     } else if (!empty($title)) {
       throw new NetworkError("Unknown error when attempting to check address-balance " .
         "for ($address) via blockchain.info: $title");
+    } else if (trim($e) == '') {
+      throw new NetworkError("Blockchain.info returned empty/content-less response");
+    } else if ($e == 'lock wait timeout exceeded; try restarting transaction') {
+      throw new NetworkError("Blockchain.info responded with error message about lock timeout");
     } else {
       throw new \Exception("Unexpected result received from blockchain.info when " .
         "attempting to get balance of address $address: {$response->content}");
