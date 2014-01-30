@@ -28,7 +28,7 @@ function routeRequestForApp() {
 class FrontController extends \SpareParts\Webapp\FrontController {
 
   protected function filters() {
-    return array(new Filters\CSRFGuard(), new AddFrameOptionsHeader());
+    return array(new Filters\CSRFGuard(), new HtmlPurifierFilter(), new AddFrameOptionsHeader());
   }
 
   protected function info($msg)   { Log\info($msg); }
@@ -100,6 +100,24 @@ class AddFrameOptionsHeader implements Filter {
       $response->addHeader('X-Frame-Options', 'DENY');
     }
   }
+}
+
+class HtmlPurifierFilter implements Filter {
+  public function incoming() {
+    require_once 'htmlpurifier/library/HTMLPurifier.auto.php';
+    $config = \HTMLPurifier_Config::createDefault();
+    $config->set('Core.Encoding', 'UTF-8');
+    $config->set('HTML.Doctype', 'XHTML 1.0 Strict');
+    $config->set('HTML.AllowedElements',
+      array('b', 'strong', 'ul', 'ol', 'li',
+        'em', 'hr', 'blockquote', 'a', 'br', 'p', 'span', 'h1', 'h2', 'h3', 'h4',
+        'h5', 'h6', 'i', 'cite', 'dl', 'dt', 'dd', 'q', 'img',
+        'del', 'sub', 'sup', 'tt', 'big', 'caption', 'code', 'small'));
+    $purifier = new \HTMLPurifier($config);
+    if (!empty($_POST)) $_POST = $purifier->purifyArray($_POST);
+    if (!empty($_GET))  $_GET  = $purifier->purifyArray($_GET);
+  }
+  public function outgoing(HttpResponse $response) {}
 }
 
 function renderTemplate($tplFile, Array $vars = array()) {
