@@ -11,9 +11,8 @@ use \SpareParts\WebClient\HttpClient, \SpareParts\WebClient\NetworkError,
   \Chipin\Bitcoin\InvalidAddress;
 
 function getBalanceInSatoshis($address) {
-//  $content = Http\get('http://blockchain.info/q/addressbalance/' . $address);
   $client = new HttpClient;
-  $response = $client->get('http://blockchain.info/q/addressbalance/' . $address);
+  $response = $client->get(balanceLookupURL($address));
   if ($response->statusCode == 200 && isInteger($response->content)) {
     return intval($response->content);
   } else {
@@ -38,4 +37,8 @@ function getBalanceInSatoshis($address) {
         "attempting to get balance of address $address: {$response->content}");
     }
   }
+}
+
+function balanceLookupURL($address) {
+  return 'https://blockchain.info/q/addressbalance/' . $address;
 }
