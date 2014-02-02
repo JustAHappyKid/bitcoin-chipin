@@ -13,7 +13,8 @@
         <? /* These variables necessary for "auto-update" functionality to work... */ ?>
         var baseCurrency = '$raised->currencyCode';
         var altCurrency = '$altRaised->currencyCode';
-        var lastProgress = $progressPercent;
+        var lastBalance  = $lastBalance;
+        var checkBalanceURI = '$checkBalanceURI';
         var checkProgressURI = '$checkProgressURI';
         var amountRaisedURI = '$amountRaisedURI';
       </script>

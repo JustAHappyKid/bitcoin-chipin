@@ -3,25 +3,34 @@ var pollingFrequency = 8000; // 8 seconds
 
 function checkBalance() {
   $.ajax({
-    url: checkProgressURI,
+    url: checkBalanceURI,
     type: 'GET',
     dataType: 'text',
-    success: function (amountStr) {
-      var progress = parseFloat(amountStr);
-      if (progress > lastProgress) {
+    success: function (balanceStr) {
+      var balance = parseFloat(balanceStr);
+      if (balance > lastBalance) {
         //playSound('cha-ching');
-        $('.status-bar-container .bar').animate({width: progress.toString() + "%"}, 2500).
-          delay(1000);
+        updateProgressBar();
         updateAmountRaised($('.raised-and-goal .raised .amount'), baseCurrency);
         updateAmountRaised($('.raised-and-goal .raised .alt-amount'), altCurrency);
       }
-      lastProgress = progress;
+      lastBalance = balance;
       setTimeout('checkBalance()', pollingFrequency);
     },
     error: function (data) {
       console.error("It seems the balance-lookup failed: " + data);
     }
   });
+}
+
+function updateProgressBar() {
+  $.ajax({
+    type: 'GET', url: checkProgressURI, dataType: 'text',
+    success: function (progressStr) {
+      $('.status-bar-container .bar').animate({width: progressStr + "%"}, 2500).
+        delay(1000);
+    }
+  })
 }
 
 function updateAmountRaised(elem, currency) {

@@ -11,7 +11,7 @@ require_once 'spare-parts/template/base.php';   # Template\renderFile
 
 use \SpareParts\Webapp\RequestContext, \SpareParts\Template, \SpareParts\Time,
   \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\User, \Chipin\Bitcoin, \Chipin\Currency,
-  \Chipin\Currency\Amount, \Chipin\WebFramework\Routes, \Chipin\Log;
+  \Chipin\Currency\Amount, \Chipin\WebFramework\Routes, \Chipin\Log, \Chipin\BlockchainDotInfo;
 
 class WidgetsController extends \Chipin\WebFramework\Controller {
 
@@ -101,11 +101,12 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     $vars['currency'] = $widget->currency;
     $vars['goal'] = $widget->goalAmnt;
     $vars['raised'] = $widget->raisedAmnt;
+    $vars['lastBalance'] = $widget->raisedSatoshis;
     $vars['progressPercent'] = $widget->progressPercent;
     $this->setAltCurrencyValues($widget->goalAmnt, $widget->raisedAmnt, $vars);
     $vars['bitcoinAddress'] = $widget->bitcoinAddress;
     $vars['checkProgressURI'] = Routes\checkWidgetProgress($widget);
-//    $vars['checkBalanceURI'] = Routes\addressBalance($widget->bitcoinAddress);
+    $vars['checkBalanceURI'] = BlockchainDotInfo\balanceLookupURL($widget->bitcoinAddress);
     $vars['amountRaisedURI'] = Routes\amountRaised($widget);
     return $this->renderWidgetArr($vars);
   }
