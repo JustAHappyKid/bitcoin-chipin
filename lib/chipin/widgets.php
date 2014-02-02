@@ -14,8 +14,8 @@ use \SpareParts\Database as DB, \SpareParts\Database\Paranoid as ParanoidDB,
 
 class Widget {
 
-  public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedBTC, $progressPercent,
-    $width, $height, $color, $bitcoinAddress, $countryCode;
+  public $id, $ownerID, $title, $uriID, $about, $ending, $currency, $raisedSatoshis, $raisedBTC,
+    $progressPercent, $width, $height, $color, $bitcoinAddress, $countryCode;
 
   /** @var Amount */
   public $goalAmnt;
@@ -88,8 +88,9 @@ class Widget {
     return $this;
   }
 
-  public function updateBalance($balanceInBTC) {
-    $this->raisedBTC = $balanceInBTC;
+  public function updateBalance(Bitcoin\AmountOfBitcoin $balance) {
+    $this->raisedSatoshis = $balance->numSatoshis;
+    $this->raisedBTC = $balance->numBTC;
     $raisedInBaseCurrency = $this->currency == 'BTC' ?
       $this->raisedBTC : Bitcoin\fromBTC($this->raisedBTC, $this->currency);
     $this->raisedAmnt = new Amount($this->currency, $raisedInBaseCurrency);

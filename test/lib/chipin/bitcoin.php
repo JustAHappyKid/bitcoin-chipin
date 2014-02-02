@@ -15,8 +15,9 @@ function testGetBalanceUsesLocallyCachedValueWhenAppropriate() {
     array('address' => $address,
           'satoshis' => $cachedBalance,
           'updated_at' => new DateTime('now')));
-  assertEqual($cachedBalance / Bitcoin\satoshisPerBTC(),
-              Bitcoin\getBalance($address, 'BTC', null));
+  $balance = Bitcoin\getBalance($address, null);
+  assertEqual($cachedBalance, $balance->numSatoshis);
+  assertEqual($cachedBalance / Bitcoin\satoshisPerBTC(), $balance->numBTC);
 }
 
 function testToBTCFunction() {

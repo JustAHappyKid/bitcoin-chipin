@@ -5,11 +5,12 @@ namespace Chipin\Bitcoin;
 require_once 'spare-parts/database.php';                # selectExactlyOne, insertOne, ...
 require_once 'spare-parts/types.php';                   # isInteger
 require_once 'chipin/blockchain-dot-info.php';          # BlockchainDotInfo
+require_once 'chipin/currency.php';                     # Amount
 
 use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo,
-  \Chipin\Log;
+  \Chipin\Currency\Amount, \Chipin\Log;
 
-function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = null) {
+function getBalance($address, /*$currency = 'BTC',*/ \DateInterval $maxCacheAge = null) {
   if (empty($address) || trim($address) == '')
     throw new InvalidAddress("Empty string/value is not valid");
   $satoshis = null;
@@ -49,9 +50,10 @@ function getBalance($address, $currency = 'BTC', \DateInterval $maxCacheAge = nu
       }
     }
   }
-  $btcBalance = $satoshis / satoshisPerBTC();
-  $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
-  return $balanceWithPrecision;
+//  $btcBalance = $satoshis / satoshisPerBTC();
+//  $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
+//  return $balanceWithPrecision;
+  return new AmountOfBitcoin($satoshis);
 }
 
 function withLock($bitcoinAddr, \Closure $action) {
@@ -104,5 +106,15 @@ function lastPriceForOneBTC($currency) {
 }
 
 function satoshisPerBTC() { return 100000000; }
+
+class AmountOfBitcoin extends Amount {
+  public $numSatoshis, $numBTC;
+  function __construct($satoshis) {
+    $this->numSatoshis = $satoshis;
+    $btcBalance = $satoshis / satoshisPerBTC();
+    parent::__construct('BTC', $btcBalance);
+    $this->numBTC = $this->numUnits;
+  }
+}
 
 class InvalidAddress extends Exception {}

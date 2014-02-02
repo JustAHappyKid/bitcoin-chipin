@@ -53,7 +53,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
     try {
       $w = $this->takeWidgetFromURI($c);
       $fiveSecs = Time\readInterval('5 seconds');
-      $w->updateBalance(Bitcoin\getBalance($w->bitcoinAddress, 'BTC', $maxCacheAge = $fiveSecs));
+      $w->updateBalance(Bitcoin\getBalance($w->bitcoinAddress, $maxCacheAge = $fiveSecs));
       return $this->textResponse($w->progressPercent);
     } catch (\SpareParts\WebClient\NetworkError $e) {
       Log\notice("Caught " . get_class($e) . " when attempting to check Bitcoin-address balance: " .
