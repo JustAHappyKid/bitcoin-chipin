@@ -1,5 +1,5 @@
 
-var pollingFrequency = 8000; // 8 seconds
+var pollingFrequency = 5000; // 5 seconds
 
 function checkBalance() {
   $.ajax({
