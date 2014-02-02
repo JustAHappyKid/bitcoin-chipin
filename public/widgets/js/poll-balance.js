@@ -19,6 +19,7 @@ function checkBalance() {
     },
     error: function (data) {
       console.error("It seems the balance-lookup failed: " + data);
+      setTimeout('checkBalance()', pollingFrequency * 2);
     }
   });
 }
