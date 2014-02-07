@@ -112,6 +112,9 @@ class WidgetTests extends WebappTestingHarness {
   function testSomeInvalidURIs() {
     $this->expect404onGET("/widgets/by-id");
     $this->expect404onGET("/widgets/about");
+    $this->expect404onGET("/widgets/by-id/");
+    $this->expect404onGET("/widgets/by-id/0");
+    $this->expect404onGET("/widgets/by-id/-4095");
   }
 
   private function expect404onGET($path) {

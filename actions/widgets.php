@@ -35,13 +35,18 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   function byId(RequestContext $context) {
-    $widget = Widget::getByID($context->takeNextPathComponent());
-    $owner = $widget->getOwner();
-    if (empty($owner->username)) # If user has no username, just show the widget...
-      return $this->renderWidgetObj($widget);
-    else # ...otherwise, redirect to more "user-friendly" URL...
-      return $this->redirect('/widgets/u/' . $owner->username . '/' .
-        ($widget->uriID ? $widget->uriID : $widget->id));
+    try {
+      $widget = Widget::getByID($context->takeNextPathComponent());
+      $owner = $widget->getOwner();
+      if (empty($owner->username)) # If user has no username, just show the widget...
+        return $this->renderWidgetObj($widget);
+      else # ...otherwise, redirect to more "user-friendly" URL...
+        return $this->redirect('/widgets/u/' . $owner->username . '/' .
+          ($widget->uriID ? $widget->uriID : $widget->id));
+
+    } catch (Widgets\NoSuchWidget $_) {
+      return $this->pageNotFound("No widget found having the specified ID");
+    }
   }
 
   function about(RequestContext $context) {
