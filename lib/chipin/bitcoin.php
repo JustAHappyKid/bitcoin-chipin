@@ -9,6 +9,7 @@ require_once 'chipin/currency.php';                     # Amount
 
 use \Exception, \DateTime, \SpareParts\Database as DB, \Chipin\BlockchainDotInfo,
   \Chipin\Currency\Amount, \Chipin\Log;
+use SpareParts\WebClient\NetworkError;
 
 function getBalance($address, /*$currency = 'BTC',*/ \DateInterval $maxCacheAge = null) {
   if (empty($address) || trim($address) == '')
@@ -54,6 +55,19 @@ function getBalance($address, /*$currency = 'BTC',*/ \DateInterval $maxCacheAge 
 //  $balanceWithPrecision = $currency == 'BTC' ? $btcBalance : fromBTC($btcBalance, $currency);
 //  return $balanceWithPrecision;
   return new AmountOfBitcoin($satoshis);
+}
+
+function isValidAddress($address) {
+  try {
+    getBalance($address);
+    return true;
+  } catch (InvalidAddress $_) {
+    return false;
+  } catch (NetworkError $_) {
+    # If we can't connect to Blockchain.info to get a full, proper validation, we'll
+    # just do a simplistic check locally...
+    return preg_match('@^1[0-9a-zA-Z]{30,40}$@', $address) == 1;
+  }
 }
 
 function withLock($bitcoinAddr, \Closure $action) {

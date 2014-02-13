@@ -37,11 +37,6 @@ class BitcoinController extends \Chipin\WebFramework\Controller {
   }
 
   private function isValidAddress($address) {
-    try {
-      Bitcoin\getBalance($address);
-      return true;
-    } catch (Bitcoin\InvalidAddress $_) {
-      return false;
-    }
+    return Bitcoin\isValidAddress($address);
   }
 }

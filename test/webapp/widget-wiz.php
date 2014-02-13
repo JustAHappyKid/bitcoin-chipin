@@ -213,6 +213,14 @@ class WidgetWizardTests extends WebappTestingHarness {
   }
 
   /**
+   * Previously, a NetworkError exception would reach the top level if Blockchain.info were
+   * down; instead, the validate-address action should at least not lead to an exception.
+   */
+  function testAddressValidationGracefullyHandlesProblemAtBlockchainDotInfo() {
+    $this->get(Routes\validAddress('1TestForDowntimeX1iTDhViXbrogKqzbt'));
+  }
+
+  /**
    * For some reason the web-service FreeGeoIP.net does not return an appropriate value
    * for all IP addresses. In this case, when a lookup on IP 175.156.249.231 is done,
    * it returns "404 page not found".

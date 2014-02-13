@@ -65,6 +65,8 @@ class HttpClient {
       return $this->errorResponse('');
     } else if ($a == '1GivesLockWaitTimeoutTDhViXbrogKqzbt') {
       return $this->errorResponse('Lock wait timeout exceeded; try restarting transaction');
+    } else if ($a == '17yguvbpsfBE5Ec8MjFNnLbUmkYEEhWSm4') {
+      throw new NetworkError;
     }
   }
 

@@ -26,3 +26,7 @@ function testToBTCFunction() {
   assertTrue($f > 0);
   // assertEqual(floatval($priceOfDollar), floatval(strval($priceOfDollar)));
 }
+
+function testValidatingAddressWhenBlockchainDotInfoCannotBeReached() {
+  assertTrue(Bitcoin\isValidAddress('17yguvbpsfBE5Ec8MjFNnLbUmkYEEhWSm4'));
+}
