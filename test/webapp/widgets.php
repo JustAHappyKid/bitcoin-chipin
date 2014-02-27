@@ -106,6 +106,20 @@ class WidgetTests extends WebappTestingHarness {
     } catch (HttpNotFound $_) { /* That's acceptable. */ }
   }
 
+  function testBrowsingAllWidgetsForAGivenUser() {
+    $u = getUser();
+    $w1 = getWidget($u);
+    $w1->title = "My First Widget";
+    $w1->save();
+    $w2 = getWidget($u);
+    $w2->title = "My 2nd Widget";
+    $w2->save();
+    $this->get("/widgets/u/{$u->username}/");
+    foreach (array($w1, $w2) as $w)
+      $this->assertContains("//iframe[contains(@src, '{$w->id}') or " .
+                                     "contains(@src, '{$w->uriID}')]");
+  }
+
   /**
    * Make sure these paths/URIs don't cause breakage, as they once did.
    */

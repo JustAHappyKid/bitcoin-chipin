@@ -17,7 +17,7 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
 
   function u(RequestContext $context) {
     $username = $context->takeNextPathComponent();
-    $uriID = $context->takeNextPathComponent();
+    $uriID = $context->takeNextPathComponentOrNull();
     try {
       if (empty($uriID)) {
         $user = User::loadFromUsername($username);
