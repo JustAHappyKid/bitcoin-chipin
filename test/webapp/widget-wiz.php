@@ -251,6 +251,18 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual(0, count(Widget::getAll()));
   }
 
+  function testWizardDoesNotBreakIfHarmlessMarkupIsSubmittedForAboutText() {
+    $w = getWidget($this->user);
+    $w->about = 'nothing';
+    $w->save();
+    $harmless = 'Help me with my fundraiser:<br />http://test.com/raise';
+    $this->get("/widget-wiz/step-two?w={$w->id}");
+    $this->submitForm($this->getForm(), array('about' => $harmless));
+    $this->get(Routes\viewWidget($w));
+    $this->assertContains("//div[contains(., 'Help me with my fundraiser')]");
+    $this->assertContains("//div[contains(., 'http://test.com/raise')]");
+  }
+
   function testProperEscapingOfQuotes() {
     $content = 'My "new" widget\'s here!';
     $this->get('/widget-wiz/step-one');

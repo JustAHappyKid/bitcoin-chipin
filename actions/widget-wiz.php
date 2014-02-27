@@ -14,6 +14,12 @@ use \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\Bitcoin, \Chipin\Log, \Chip
 
 class WidgetWizController extends \Chipin\WebFramework\Controller {
 
+  function init() {
+    if ($this->isPostRequest()) {
+      foreach ($_POST as $n => $v) $_POST[$n] = strip_tags($v);
+    }
+  }
+
   function index() {
     return $this->redirect('/widget-wiz/step-one');
   }
