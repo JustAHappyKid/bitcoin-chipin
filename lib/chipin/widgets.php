@@ -4,6 +4,7 @@ namespace Chipin\Widgets;
 
 require_once 'spare-parts/database.php';
 require_once 'spare-parts/database/paranoid.php';
+require_once 'spare-parts/string.php';            # contains
 require_once 'spare-parts/types.php';             # asString
 require_once 'chipin/users.php';                  # User
 require_once 'chipin/bitcoin.php';
@@ -114,19 +115,30 @@ class Widget {
     if (is_string($this->ending)) $this->ending = new DateTime($this->ending);
     else if (!($this->ending instanceof DateTime))
       throw new Exception("'ending' attribute should be string or DateTime object");
-    $values = array(
-      'owner_id' => $this->ownerID, 'title' => $this->title,
-      'uri_id' => $this->uriID, 'about' => $this->about,
-      'goal' => $this->goalAmnt->numUnits, 'currency' => $this->currency,
-      'raised' => null,
-      'ending' => $this->ending, 'address' => $this->bitcoinAddress,
-      'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
-      'country' => $this->countryCode);
-    if (isset($this->id)) {
-      updateByID($this->id, $values);
-    } else {
-      $values['created'] = date('Y-m-d H:i:s');
-      $this->id = addNewWidget($values);
+    try {
+      $values = array(
+        'owner_id' => $this->ownerID, 'title' => $this->title,
+        'uri_id' => $this->uriID, 'about' => $this->about,
+        'goal' => $this->goalAmnt->numUnits, 'currency' => $this->currency,
+        'raised' => null,
+        'ending' => $this->ending, 'address' => $this->bitcoinAddress,
+        'width' => $this->width, 'height' => $this->height, 'color' => $this->color,
+        'country' => $this->countryCode);
+      if (isset($this->id)) {
+        updateByID($this->id, $values);
+      } else {
+        $values['created'] = date('Y-m-d H:i:s');
+        $this->id = addNewWidget($values);
+      }
+    } catch (\PDOException $e) {
+      $m = strtolower($e->getMessage());
+      if (contains($m, 'duplicate entry') && contains($m, 'ensure_unique_uri')) {
+        // Okay, there's a name collision on the 'uri_id' -- let's try something else...
+        $this->uriID = $this->uriID . '-' . time();
+        return $this->save();
+      } else {
+        throw $e;
+      }
     }
   }
 

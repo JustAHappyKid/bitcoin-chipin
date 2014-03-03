@@ -11,7 +11,7 @@ require_once 'spare-parts/database.php';          # query
 use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\WebFramework\Routes,
   \SpareParts\Locales, \SpareParts\Test\HttpRedirect, \SpareParts\Test\UnexpectedHttpResponseCode,
   \SpareParts\Test\ValidationErrors, \SpareParts\Database as DB,
-  \SpareParts\WebClient\HtmlForm, \Exception, \DateTime;
+  \SpareParts\WebClient\HtmlForm, \SpareParts\Test\TestFailure, \Exception, \DateTime;
 
 class WidgetWizardTests extends WebappTestingHarness {
 
@@ -88,6 +88,18 @@ class WidgetWizardTests extends WebappTestingHarness {
     $widgets = Widget::getManyByOwner($user);
     assertEqual(1, count($widgets));
     assertEqual('john@test.org', $user->email);
+  }
+
+  /**
+   * Attempting to add two widgets used to cause problems due to the URI component of the
+   * widgets not being unique...
+   */
+  function testAddingTwoWidgetsWithTheSameName() {
+    foreach (array('First one...', 'Second one..') as $about) {
+      $this->createWidget(array('title' => 'Help Me Out', 'about' => $about), $useNewUser = false);
+    }
+    $widgets = Widget::getManyByOwner($this->user);
+    assertEqual(2, count($widgets));
   }
 
   /**
@@ -314,12 +326,17 @@ class WidgetWizardTests extends WebappTestingHarness {
     return parent::submitForm($form, $values, $submitButton);
   }
 
-  private function createWidget($attrs = array()) {
+  private function createWidget($attrs = array(), $useNewUser = true) {
     $defaults = array('title' => 'Save the Queen', 'goal' => '275', 'currency' => 'USD',
       'ending' => date("Y-m-d", strtotime("+3 days")), 'bitcoinAddress' => $this->btcAddr(),
       'about' => "Before it's too late!", 'size' => '125x125', 'color' => 'A9DB80,96C56F');
     $attrs = array_merge($defaults, $attrs);
-    $this->loginAsNormalUser();
+    if ($useNewUser) {
+      $this->loginAsNormalUser();
+    } else {
+      if ($this->user == null)
+        throw new TestFailure("Must be logged-in as user if \$useNewUser is false");
+    }
     $this->get('/widget-wiz/step-one');
     $this->submitForm($this->getForm(),
       $this->takeValues($attrs, array('title', 'goal', 'currency', 'ending', 'bitcoinAddress')));

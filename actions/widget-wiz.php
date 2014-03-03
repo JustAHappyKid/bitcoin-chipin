@@ -46,12 +46,7 @@ class WidgetWizController extends \Chipin\WebFramework\Controller {
         $widget->$v = $_POST[$v];
       }
       $widget->setGoal($_POST['goal'], $_POST['currency']);
-
-      # TODO: Test for already-existing 'uriID' with same value and owner!
-      # TODO: Should we add support for redirecting from old 'uriID' handles (in the
-      #       case where a widget's title has been changed)?
       $widget->uriID = URL\titleToUrlComponent($widget->title);
-
       if (at($_POST, 'save-and-return')) {
         $widget->save();
         return $this->redirect('/dashboard/');
