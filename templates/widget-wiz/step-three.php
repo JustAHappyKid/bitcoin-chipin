@@ -91,7 +91,7 @@ class StepThree extends WidgetWizLayout {
                  target="_blank">
                 <img src="/img/social/facebook.png" alt="Facebook" />
               </a>
-              <? $tweetText = urlencode("Help me reach my goal with BitcoinChipin.com! "); ?>
+              <? $tweetText = urlencode("Help me reach my goal with BitcoinChipin.com!"); ?>
               <a href="https://twitter.com/share?url=<?= $u ?>&amp;text=<?= $tweetText ?>"
                  target="_blank">
                 <img src="/img/social/twitter.png" alt="Twitter" />
