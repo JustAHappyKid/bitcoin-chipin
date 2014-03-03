@@ -15,11 +15,9 @@ use \Chipin\User, \Chipin\Widgets, \Chipin\Widgets\Widget, \Chipin\WebFramework\
 
 class WidgetWizardTests extends WebappTestingHarness {
 
-  private $user;
-
   function setUp() {
     parent::setUp();
-    $this->user = $this->loginAsNormalUser();
+    $this->loginAsNormalUser();
     # Clear out the address-balance cache to assert a "new" address doesn't cause breakage...
     DB\query("DELETE FROM bitcoin_addresses WHERE address = ?", array($this->btcAddr()));
   }

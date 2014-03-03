@@ -11,11 +11,9 @@ use \DateTime, \SpareParts\Time, \SpareParts\Database as DB, \Chipin\Widgets\Wid
 
 class DashboardTests extends WebappTestingHarness {
 
-  private $user;
-
   function setUp() {
     parent::setUp();
-    $this->user = $this->loginAsNormalUser();
+    $this->loginAsNormalUser();
   }
 
   function testDashboard() {

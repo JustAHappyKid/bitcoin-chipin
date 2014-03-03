@@ -4,9 +4,10 @@ namespace Chipin\Test;
 
 require_once 'spare-parts/test/webapp.php'; # WebappTestingHarness
 require_once 'spare-parts/database.php';    # query
+require_once 'chipin/users.php';            # User
 
-use \Chipin\WebFramework\FrontController, \SpareParts\Database as DB, \SpareParts\Webapp,
-  \SpareParts\Test\HttpRedirect;
+use \Chipin\WebFramework\FrontController, \Chipin\User, \SpareParts\Database as DB,
+  \SpareParts\Webapp, \SpareParts\Test\HttpRedirect;
 
 # XXX: Phase out use of these global constants??
 define('PATH', 'https://test.org/');
@@ -16,6 +17,11 @@ $webappDir = dirname(dirname(dirname(__FILE__)));
 require_once "$webappDir/lib/chipin/webapp/framework.php";
 
 abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarness {
+
+  /**
+   * @var User $user
+   */
+  protected $user;
 
   function setUp() {
     parent::setUp();
@@ -31,12 +37,14 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
       $this->submitForm($this->getForm('signin-form'),
         array('username' => $username, 'password' => $password));
     } catch (HttpRedirect $_) { /* That's okay -- we should be redirected to the Dashboard. */ }
+    $this->user = User::loadFromUsername($username);
   }
 
   protected function loginAsNormalUser() {
     $un = 'user-' . uniqid();
     $u = newUser($email = $un . '@example.com', $username = $un, $password = 'abc123');
     $this->login($un, $password);
+    $this->user = $u;
     return $u;
   }
 
@@ -44,6 +52,7 @@ abstract class WebappTestingHarness extends \SpareParts\Test\WebappTestingHarnes
     try {
       $this->get('/account/signout');
     } catch (HttpRedirect $_) { /* That can happen if already logged out. */ }
+    $this->user = null;
   }
 
   /**
