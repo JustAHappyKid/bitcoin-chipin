@@ -122,3 +122,28 @@
 #widgetForm .form-actions .btn {
   margin: 0 5px;
 }
+
+
+/* ------------------------------------------------------------------
+ * Social-Network / Share Links
+ * --------------------------------------------------------------- */
+
+.social-icons {
+  margin: 15px 0 20px;
+  text-align: center;
+}
+
+.social-icons a {
+  display: inline-block;
+  margin: 0 5px;
+  padding: 7px 7px;
+  height: 32px;
+  border-radius: 3px;
+  text-decoration: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.social-icons a:hover {
+  text-decoration: none;
+  background-color: #bce8f1;
+}

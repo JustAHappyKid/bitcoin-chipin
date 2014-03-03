@@ -83,8 +83,24 @@ class StepThree extends WidgetWizLayout {
                     id="javascript-version" rows="3"
             ><?= htmlspecialchars($this->iframeForWidget($this->widget)) ?></textarea>
           <div style="margin: 20px 0;">
-            <p>Use the following <strong>short URL</strong> to share your widget via
-              Twitter, Facebook, and other social networks:</p>
+            <h4>Share Your Widget</h4>
+            <p>Share your widget via Facebook, Twitter, and Google+:</p>
+            <? $u = urlencode($this->shortURL); ?>
+            <div class="social-icons">
+              <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $u ?>"
+                 target="_blank">
+                <img src="/img/social/facebook.png" alt="Facebook" />
+              </a>
+              <? $tweetText = urlencode("Help me reach my goal with BitcoinChipin.com! "); ?>
+              <a href="https://twitter.com/share?url=<?= $u ?>&amp;text=<?= $tweetText ?>"
+                 target="_blank">
+                <img src="/img/social/twitter.png" alt="Twitter" />
+              </a>
+              <a href="https://plus.google.com/share?url=<?= $u ?>" target="_blank">
+                <img src="/img/social/google-plus.png" alt="Google+" />
+              </a>
+            </div>
+            <p>Or, you can use the following <em>short URL</em> to share your easily anywhere:</p>
             <p style="text-align: center;"><code><?= $this->shortURL ?></code></p>
           </div>
         </div>
