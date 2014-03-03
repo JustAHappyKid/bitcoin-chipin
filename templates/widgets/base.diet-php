@@ -79,8 +79,10 @@
           <div class="btc-addr">$bitcoinAddress</div>
           <div class="qr-code">
             ? $qrSize = $this->qrSize();
-            <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=$qrSize"
-                 alt="[QR Code]" style="width: <?= $qrSize ?>px; height: <?= $qrSize ?>px;" />
+            <a href="bitcoin:$bitcoinAddress">
+              <img src="https://blockchain.info/qr?data=$bitcoinAddress&amp;size=$qrSize"
+                   alt="[QR Code]" style="width: <?= $qrSize ?>px; height: <?= $qrSize ?>px;" />
+            </a>
           </div>
           <!--<div><a class="buy-bitcoins" href="">Learn How to Buy Bitcoins</a></div>-->
           <div class="btn-container">
