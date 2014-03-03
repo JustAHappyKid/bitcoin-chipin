@@ -100,7 +100,7 @@ class StepThree extends WidgetWizLayout {
                 <img src="/img/social/google-plus.png" alt="Google+" />
               </a>
             </div>
-            <p>Or, you can use the following <em>short URL</em> to share your easily anywhere:</p>
+            <p>Or, you can use the following <em>short URL</em> to share your widget anywhere:</p>
             <p style="text-align: center;"><code><?= $this->shortURL ?></code></p>
           </div>
         </div>
