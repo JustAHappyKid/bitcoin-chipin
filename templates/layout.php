@@ -19,7 +19,7 @@ abstract class Layout implements \SpareParts\Template\Renderable {
 
   abstract function innerContent();
 
-  function htmlHeadExtras() {}
+  protected function htmlHeadExtras() {}
 
   function content() {
     ?><!DOCTYPE html>
@@ -59,12 +59,16 @@ abstract class Layout implements \SpareParts\Template\Renderable {
         <? endif; ?>
       </head>
       <body>
-        <? require dirname(__FILE__) . '/nav-bar.php'; ?>
-        <?= $this->innerContent(); ?>
-        <? require dirname(__FILE__) . '/footer.php'; ?>
+        <?= $this->body() ?>
       </body>
     </html>
   <? }
+
+  protected function body() {
+    require dirname(__FILE__) . '/nav-bar.php';
+    $this->innerContent();
+    require dirname(__FILE__) . '/footer.php';
+  }
 
   protected function widgetURL(Widget $widget) {
     return PATH . 'widgets/by-id/' . $widget->id;

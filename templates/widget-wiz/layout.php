@@ -9,7 +9,7 @@ abstract class WidgetWizLayout extends Layout {
   abstract protected function showPreview();
   abstract protected function buttons();
 
-  function htmlHeadExtras() { ?>
+  protected function htmlHeadExtras() { ?>
 
     <? /* TODO: Move this somewhere more appropriate! */ ?>
     <script src="/jquery-ui/ui/minified/jquery-ui.min.js"></script>
