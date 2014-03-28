@@ -25,7 +25,7 @@ function getBalanceInSatoshis($address) {
     } else if (contains($e, 'cloudflare') && !empty($title)) {
       throw new NetworkError("CloudFlare-reported problem at blockchain.info: " .
         withoutPrefix($title, "blockchain.info | "));
-    } else if (contains($title, 'under maintenance')) {
+    } else if (contains(strtolower($title), 'under maintenance')) {
       throw new NetworkError("Blockchain.info appears to be under maintenance");
     } else if (!empty($title)) {
       throw new NetworkError("Unknown error when attempting to check address-balance " .
