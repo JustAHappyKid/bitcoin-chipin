@@ -33,7 +33,8 @@ class WidgetWizardTests extends WebappTestingHarness {
       array('title' => 'Tengo hambre', 'goal' => '15', 'currency' => 'USD',
             'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
     $this->submitForm($this->getForm(),
-      array('about' => 'I need to get a bite to eat!', 'color' => $colors[0], 'size' => $sizes[0]));
+      array('about' => 'I need to get a bite to eat!', 'color' => $colors[0],
+            'size' => (string) $sizes[0]));
     $widgets = Widget::getAll();
     assertEqual(1, count($widgets));
     $w = current($widgets);
@@ -53,7 +54,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     $this->submitForm($this->getForm(), array('goal' => '10'));
     # Let's change the widget size and about-text too...
     $this->submitForm($this->getForm(),
-      array('about' => "I've changed my mind.", 'size' => $sizes[1]));
+      array('about' => "I've changed my mind.", 'size' => (string) $sizes[1]));
     $widgetsNow = Widget::getAll();
     assertEqual(1, count($widgetsNow));
     $wNow = current($widgetsNow);
@@ -75,7 +76,7 @@ class WidgetWizardTests extends WebappTestingHarness {
         'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
     $this->submitForm($this->getForm(),
       array('about' => 'Donate some bitcoins so I can learn it.', 'color' => Widgets\defaultColor(),
-            'size' => Widgets\defaultSize()));
+            'size' => (string) Widgets\defaultSize()));
     $widgets = Widget::getAll();
     assertEqual(1, count($widgets));
     $pass = 'sweet-corn-on-the-cob';
@@ -120,7 +121,7 @@ class WidgetWizardTests extends WebappTestingHarness {
           'ending' => $expires->format("m/d/Y"), 'bitcoinAddress' => $this->btcAddr()));
       $this->submitForm($this->getForm(),
         array('about' => "Yada yada yada.", 'color' => Widgets\defaultColor(),
-          'size' => Widgets\defaultSize()));
+          'size' => (string) Widgets\defaultSize()));
       $widgets = Widget::getAll();
       assertEqual($i, count($widgets));
     }
@@ -306,7 +307,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     try {
       $this->post("/widget-wiz/step-two",
         array('about' => 'Show me the money!', 'color' => Widgets\defaultColor(),
-              'size' => Widgets\defaultSize()));
+              'size' => (string) Widgets\defaultSize()));
     } catch (UnexpectedHttpResponseCode $_) { /* That's good... */ }
     $widgetNow = Widget::getByID($w->id);
     assertNotEqual('Hijacked', $widgetNow->title);
