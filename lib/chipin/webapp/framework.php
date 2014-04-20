@@ -103,6 +103,7 @@ class AddFrameOptionsHeader implements Filter {
 }
 
 class HtmlPurifierFilter implements Filter {
+  
   public function incoming() {
     require_once 'htmlpurifier/library/HTMLPurifier.auto.php';
     $config = \HTMLPurifier_Config::createDefault();
@@ -114,9 +115,29 @@ class HtmlPurifierFilter implements Filter {
         'h5', 'h6', 'i', 'cite', 'dl', 'dt', 'dd', 'q', 'img',
         'del', 'sub', 'sup', 'tt', 'big', 'caption', 'code', 'small'));
     $purifier = new \HTMLPurifier($config);
-    if (!empty($_POST)) $_POST = $purifier->purifyArray($_POST);
-    if (!empty($_GET))  $_GET  = $purifier->purifyArray($_GET);
+    // if (!empty($_POST)) $_POST = $purifier->purifyArray($_POST);
+    // if (!empty($_GET))  $_GET = $purifier->purifyArray($_GET);
+    if (!empty($_POST)) $_POST = $this->purifyArray($_POST, $purifier);
+    if (!empty($_GET))  $_GET  = $this->purifyArray($_GET,  $purifier);
   }
+
+  private function purifyArray(Array $a, \HTMLPurifier $purifier) {
+    $cleaned = array();
+    foreach ($a as $k => $v) {
+      if (is_array($v)) {
+        $cleaned[$k] = $this->purifyArray($v, $purifier);
+      } else if (is_string($v)) {
+        $cleaned[$k] = $purifier->purify($v);
+      } else if ($v === null) {
+        $cleaned[$k] = null;  # XXX: Allow null values?
+      } else {
+        throw new \InvalidArgumentException("Found non-string, non-array value in array " .
+                                            "(type was " . gettype($v) . ")");
+      }
+    }
+    return $cleaned;
+  }
+
   public function outgoing(HttpResponse $response) {}
 }
 

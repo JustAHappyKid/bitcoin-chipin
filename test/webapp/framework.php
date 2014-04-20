@@ -33,6 +33,14 @@ class WebFrameworkTests extends WebappTestingHarness {
     }
   }
 
+  function testHtmlPurifierHandlingOfSubArrayInGET() {
+    $_SERVER['REQUEST_URI'] = '/about/';
+    $_POST = array();
+    $_GET = array('rsargs' => array("-99 UNION SELECT 896054186,2"));
+    $filter = new \Chipin\WebFramework\HtmlPurifierFilter;
+    $filter->incoming();
+  }
+
   /**
    * The X-Frame-Options HTTP header (with a value of "DENY") should be included by default
    * on all pages. Only the chipin widgets themselves should exclude this option, as they will
