@@ -27,6 +27,8 @@ function getBalanceInSatoshis($address) {
         withoutPrefix($title, "blockchain.info | "));
     } else if (contains(strtolower($title), 'under maintenance')) {
       throw new NetworkError("Blockchain.info appears to be under maintenance");
+    } else if (contains($e, "maximum concurrent requests reached")) {
+      throw new NetworkError("Maximum concurrent requests to Blockchain.info reached");
     } else if (!empty($title)) {
       throw new NetworkError("Unknown error when attempting to check address-balance " .
         "for ($address) via blockchain.info: $title");
