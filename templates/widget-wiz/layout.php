@@ -11,12 +11,12 @@ abstract class WidgetWizLayout extends Layout {
 
   protected function htmlHeadExtras() { ?>
 
-    <? /* TODO: Move this somewhere more appropriate! */ ?>
+    <?php /* TODO: Move this somewhere more appropriate! */ ?>
     <script src="/jquery-ui/ui/minified/jquery-ui.min.js"></script>
     <link rel="stylesheet" href="/jquery-ui/themes/smoothness/jquery-ui.min.css" />
     <link rel="stylesheet" type="text/css" href="/css/components/widget-wiz.css" />
 
-  <? }
+  <?php }
 
   function innerContent() { ?>
 
@@ -39,8 +39,8 @@ abstract class WidgetWizLayout extends Layout {
                   <div id="wizard">
 
                     <ul class="wizard-steps">
-                      <? $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
-                      <? foreach ($steps as $num => $label): ?>
+                      <?php $steps = array(1 => 'Basic Info', 2 => 'Customize', 3 => 'Installation'); ?>
+                      <?php foreach ($steps as $num => $label): ?>
                         <li>
 
                           <div class="step <?= $num == $this->stepNumber() ? 'selected' : '' ?>">
@@ -52,7 +52,7 @@ abstract class WidgetWizLayout extends Layout {
                           <!-- </a> -->
                           </div>
                         </li>
-                      <? endforeach; ?>
+                      <?php endforeach; ?>
                     </ul>
 
                     <?= $this->allTheShitWithForm() ?>
@@ -66,10 +66,10 @@ abstract class WidgetWizLayout extends Layout {
       </div> <!-- /.container -->
     </div> <!-- /#content -->
 
-  <? }
+  <?php }
 
   protected function allTheShitWithForm() { ?>
-    <? $action = '/widget-wiz/step-' . $this->words[$this->stepNumber()]; ?>
+    <?php $action = '/widget-wiz/step-' . $this->words[$this->stepNumber()]; ?>
     <form id="widgetForm" action="<?= $action ?>"
           method="POST" class="form-horizontal">
       <?= $this->contentForThisStep() ?>
@@ -78,11 +78,11 @@ abstract class WidgetWizLayout extends Layout {
         <?= $this->buttons() ?>
       </div>
     </form>
-  <? }
+  <?php }
 
   /*protected function contentForThisStep() { ?>
 
-  <? }*/
+  <?php }*/
 
   protected $words = array(1 => 'one', 2 => 'two', 3 => 'three');
 }

@@ -38,7 +38,7 @@ class StepTwo extends WidgetWizLayout {
               Color Theme
             </label>
             <div class="controls" style="margin-top: 6px;">
-              <?
+              <?php
                 $color = new SelectField('color', 'Color',
                   array("white" => "Plain & Pleasant", "silver" => "Silvery Servant",
                         "blue" => "Baby-Blue Winter", "dark" => "Dark & Dastardly"));
@@ -51,7 +51,7 @@ class StepTwo extends WidgetWizLayout {
           <div class="control-group">
             <label class="control-label" for="userlanguage">Size</label>
             <div class="controls" style="margin-top: 6px;">
-              <?
+              <?php
                 $size = new SelectField('size', 'Size',
                   array("350x310" => "350 x 310", "200x300" => "200 x 300",
                         "200x200"  => "200 x 200"));
@@ -74,7 +74,7 @@ class StepTwo extends WidgetWizLayout {
       </div> <!-- / XXX -->
     </div> <!-- /step -->
 
-  <? }
+  <?php }
 
   function updatePreviewJavascript() { ?>
     <script type="text/javascript" charset="utf-8">
@@ -92,6 +92,6 @@ class StepTwo extends WidgetWizLayout {
         });
       });
     </script>
-  <? }
+  <?php }
 
 }

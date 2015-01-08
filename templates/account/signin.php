@@ -20,7 +20,7 @@ class SigninPage extends Layout {
       }
 
     </script>
-  <? }
+  <?php }
 
   function innerContent() { ?>
 
@@ -103,5 +103,5 @@ class SigninPage extends Layout {
       Don't have an account? <a href="<?=PATH;?>account/signup">Sign up</a>.<br/>
       <a href="<?=PATH;?>account/lost-pass">Forget your password?</a>
     </div>
-  <? }
+  <?php }
 }

@@ -26,7 +26,7 @@ class StepThree extends WidgetWizLayout {
       </div>
     </div>
 
-    <? if (empty($this->user) || empty($this->user->email)) { ?>
+    <?php if (empty($this->user) || empty($this->user->email)) { ?>
       <div id="step-4">
         <h3>Step 4: Create an account to manage your widgets</h3>
         <p>It's not a requirement, but if you create an account you can always come back
@@ -69,9 +69,9 @@ class StepThree extends WidgetWizLayout {
           </form>
         </div>
       </div>
-    <? } ?>
+    <?php } ?>
 
-  <? }
+  <?php }
 
   //function contentForThisStep() {
   protected function htmlToEmbedAndPreviewFrame() { ?>
@@ -85,13 +85,13 @@ class StepThree extends WidgetWizLayout {
           <div style="margin: 20px 0;">
             <h4>Share Your Widget</h4>
             <p>Share your widget via Facebook, Twitter, and Google+:</p>
-            <? $u = urlencode($this->shortURL); ?>
+            <?php $u = urlencode($this->shortURL); ?>
             <div class="social-icons">
               <a href="https://www.facebook.com/sharer/sharer.php?u=<?= $u ?>"
                  target="_blank">
                 <img src="/img/social/facebook.png" alt="Facebook" />
               </a>
-              <? $tweetText = urlencode("Help me reach my goal with BitcoinChipin.com!"); ?>
+              <?php $tweetText = urlencode("Help me reach my goal with BitcoinChipin.com!"); ?>
               <a href="https://twitter.com/share?url=<?= $u ?>&amp;text=<?= $tweetText ?>"
                  target="_blank">
                 <img src="/img/social/twitter.png" alt="Twitter" />
@@ -110,7 +110,7 @@ class StepThree extends WidgetWizLayout {
         <div class="clearfix"> </div>
       </div>
     </div> <!-- /step -->
-  <? }
+  <?php }
 
   protected function contentForThisStep() {}
 

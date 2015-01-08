@@ -30,7 +30,7 @@ abstract class Layout implements \SpareParts\Template\Renderable {
         <title>BitcoinChipin.com</title>
         <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-        <? $themeDir = '/measure-theme'; ?>
+        <?php $themeDir = '/measure-theme'; ?>
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/bootstrap.css" />
         <link rel="stylesheet" type="text/css" href="/measure-theme/css/theme.css" />
         <link rel="stylesheet" type="text/css" href="/css/measure-theme-overrides.css" />
@@ -42,9 +42,9 @@ abstract class Layout implements \SpareParts\Template\Renderable {
         <script src="<?= $themeDir ?>/js/bootstrap.min.js"></script>
         <script src="<?= $themeDir ?>/js/theme.js"></script>
 
-        <? $this->htmlHeadExtras(); ?>
+        <?php $this->htmlHeadExtras(); ?>
 
-        <? if (APPLICATION_ENV == 'production'): ?>
+        <?php if (APPLICATION_ENV == 'production'): ?>
           <script type="text/javascript">
             var _gaq = _gaq || [];
             _gaq.push(['_setAccount', 'UA-39873638-1']);
@@ -56,13 +56,13 @@ abstract class Layout implements \SpareParts\Template\Renderable {
               var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
             })();
           </script>
-        <? endif; ?>
+        <?php endif; ?>
       </head>
       <body>
         <?= $this->body() ?>
       </body>
     </html>
-  <? }
+  <?php }
 
   protected function body() {
     require dirname(__FILE__) . '/nav-bar.php';

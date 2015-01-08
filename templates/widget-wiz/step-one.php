@@ -38,11 +38,11 @@ class StepOne extends WidgetWizLayout {
 
     <div id="step-1">
       <h3>Step 1: Basic Information</h3>
-      <? if ($this->form && $this->form->hasErrors()): ?>
-        <? foreach ($this->form->getErrors() as $e): ?>
+      <?php if ($this->form && $this->form->hasErrors()): ?>
+        <?php foreach ($this->form->getErrors() as $e): ?>
           <div class="alert alert-error"><?= $e ?></div>
-        <? endforeach; ?>
-      <? endif; ?>
+        <?php endforeach; ?>
+      <?php endif; ?>
       <br />
       <div class="row-fluid">
         <div class="span6" style="width: 100%;">
@@ -57,12 +57,12 @@ class StepOne extends WidgetWizLayout {
           <div class="control-group" id="widget-goal">
             <label class="control-label" for="widget-want-to-raise">Amount to Raise</label>
             <div class="controls">
-              <? $goal = isset($this->widget->goalAmnt) ?
+              <?php $goal = isset($this->widget->goalAmnt) ?
                    Currency\trimZeros($this->widget->goalAmnt->numUnits) : ""; ?>
               <input type="text" class="input-small" id="widget-want-to-raise"
                      name="goal" value="<?= $goal ?>"/>
               &nbsp;
-              <?
+              <?php
                 $s = new SelectField('currency', 'Currency',
                   # TODO: Use official currency "registry" here (Chipin\Currencies\codes())
                   array('USD' => 'USD', 'EUR' => 'EUR', 'GBP' => 'GBP', 'CNY' => 'CNY',
@@ -105,7 +105,7 @@ class StepOne extends WidgetWizLayout {
       </div> <!-- /row-fluid -->
     </div> <!-- /step-1 -->
 
-  <? }
+  <?php }
 
   function javascriptValidation($stepNum) { ?>
     <script type="text/javascript">
@@ -160,6 +160,6 @@ class StepOne extends WidgetWizLayout {
       }
 
     </script>
-  <? }
+  <?php }
 
 }
