@@ -59,7 +59,8 @@ class SignupTests extends WebappTestingHarness {
         array('username' => 'fruity-tootie', 'email' => uniqid() . '@test.com',
           'password1' => 'apples', 'password2' => 'apples'));
     } catch (UnexpectedHttpResponseCode $_) { }
-    $this->assertContains("//div[contains(@class, 'error') and contains(., 'session expired')]");
+    $this->assertContains("//div[contains(., 'session expired') or " .
+                                "contains(., 'session has expired')]");
   }
 
   protected function getForm($formId = null) {
