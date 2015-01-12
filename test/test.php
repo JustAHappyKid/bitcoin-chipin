@@ -22,7 +22,7 @@ function main($argc, $argv) {
   DB\setConnectionParams($driver = 'mysql', $dbName = 'chipin_test',
     $username = 'chipin_test', $password = 'password', $host = 'localhost');
   require_once 'spare-parts/test/mock-sendmail.php';
-  Test\addMockSendmailToPath(dirname(__FILE__) . '/mock/bin/mock-sendmail');
+  Test\MockEmail\addMockSendmailToPath(dirname(__FILE__) . '/mock/bin/mock-sendmail');
   require_once 'spare-parts/test/base-framework.php';
   $filesToIgnore = array('test.php', 'config.ini', 'mock/bin/mock-sendmail',
     'lib/chipin/env/conf1.ini', 'lib/chipin/env/conf2.ini');
