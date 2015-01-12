@@ -9,10 +9,7 @@ function main($argc, $argv) {
   $libsDir = realpath(dirname($testDir) . '/lib');
   set_include_path($libsDir . PATH_SEPARATOR . get_include_path());
 
-  set_include_path(
-    dirname(__FILE__) . '/mock/lib' . // PATH_SEPARATOR .
-//    '/usr/local/lib/php5/ZendFramework-1/library/' .
-    PATH_SEPARATOR . get_include_path());
+  set_include_path(dirname(__FILE__) . '/mock/lib' . PATH_SEPARATOR . get_include_path());
 
   error_reporting(E_ALL);
 

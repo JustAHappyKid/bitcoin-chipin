@@ -39,11 +39,6 @@ class FrontController extends \SpareParts\Webapp\FrontController {
   protected function nameOfSessionCookie() { return 'PHPSESSID'; }
 
   protected function getUserForCurrentRequest() {
-    # XXX: Temporary measure as we phase out this "Zend_Auth" stuff...
-    if (isset($_SESSION['Zend_Auth']['storage'])) {
-      $_SESSION['user'] = $_SESSION['Zend_Auth']['storage'];
-      unset($_SESSION['Zend_Auth']['storage']);
-    }
     return @ $_SESSION['user'];
   }
 

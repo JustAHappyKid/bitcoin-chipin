@@ -7,8 +7,6 @@ require_once 'spare-parts/email.php';                   # sendTextEmail
 require_once 'spare-parts/url.php';                     # constructUrlFromRelativeLocation
 require_once 'spare-parts/webapp/current-request.php';  # CurrentRequest\...
 require_once 'spare-parts/webapp/forms.php';            # Form, newPasswordField, etc.
-//require_once 'Zend/Captcha/Image.php';
-//require_once 'Zend/Auth.php';
 
 use \Chipin\User, \Chipin\NoSuchUser, \Chipin\Passwords, \Chipin\ConfCodes,
   \SpareParts\Webapp\Forms as F, \SpareParts\URL, \SpareParts\Webapp\CurrentRequest,
@@ -103,12 +101,7 @@ class AccountController extends \Chipin\WebFramework\Controller {
   }
 
   function signout() {
-
-    # XXX: Temporary measure -- we're phasing out use of 'Zend_Auth'...
-    unset($_SESSION['Zend_Auth']['storage']);
-
     unset($_SESSION['user']);
-
     if ($this->user) {
       $this->user = null;
       return $this->successMessage("You have been signed out.");
@@ -247,17 +240,5 @@ class PasswordConfirmField extends F\PasswordField {
       array() : array('The two passwords entered do not match!');
   }
 }
-
-/**
- * In order to avoid Zend Framework's hokey session crap trying to start a new
- * PHP session, we override a few methods...
- */
-//class HackedCaptchaTool extends Zend_Captcha_Image {
-//  public function getSession() {
-//    $s = new stdClass;
-//    $s->word = null;
-//    return $s;
-//  }
-//}
 
 return 'AccountController';
