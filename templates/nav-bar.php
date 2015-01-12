@@ -25,7 +25,7 @@
             <li><a href="/about/faq">FAQ</a></li>
           </ul>
           <ul class="nav pull-right">
-            <? if ($this->user): ?>
+            <?php if ($this->user): ?>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                   Your Account <b class="caret"></b>
@@ -36,10 +36,10 @@
                   <li><a href="/account/signout">Sign Out</a></li>
                 </ul>
             </li>
-            <? else: ?>
+            <?php else: ?>
               <li><a class="btn-header" href="/account/signup">Sign Up</a></li>
               <li><a class="btn-header" href="/account/signin">Sign In</a></li>
-            <? endif; ?>
+            <?php endif; ?>
           </ul>
         </div>
       </div>
