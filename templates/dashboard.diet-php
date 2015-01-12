@@ -39,15 +39,15 @@ block innerContent {
         <div class="widget-content">
           <div class="tab-content">
               <div class="tab-pane active" id="active">
-                <? if (count($this->activeWidgets) == 0): ?>
+                ? if (count($this->activeWidgets) == 0) {
                   <div class="alert alert-info">
                     <a class="close" data-dismiss="alert" href="#">&times;</a>
                     <h4 class="alert-heading">You do not have any widgets.</h4>
                     <a href="/widget-wiz/create">Create one now</a> &mdash; it's super easy!
                   </div>
-                <? else: ?>
+                } else {
                   <?= $this->widgetsTable($this->activeWidgets, 'active') ?>
-                <? endif; ?>
+                }
               </div>
               <div class="tab-pane" id="ended">
                 <?= $this->widgetsTable($this->endedWidgets, 'ended') ?>

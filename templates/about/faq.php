@@ -82,5 +82,5 @@ class FaqPage extends AboutPageLayout {
         </div>
       </div>
     </div>
-  <? }
+  <?php }
 }

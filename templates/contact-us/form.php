@@ -8,11 +8,11 @@ class ContactUsPage extends Layout {
       <h2 class="section_header">Contact Us</h2>
       <div class="row">
         <div class="offset3 span6">
-          <? if (isset($this->errorMessage) && $this->errorMessage) { ?>
+          <?php if (isset($this->errorMessage) && $this->errorMessage) { ?>
             <div class="alert alert-error">
               <?= $this->errorMessage ?>
             </div>
-          <? } ?>
+          <?php } ?>
           <form method="post" action="/contact-us/" class="form-horizontal">
             <div class="control-group">
               <label class="control-label" for="inputName">Your Name</label>
@@ -39,5 +39,5 @@ class ContactUsPage extends Layout {
         </div>
       </div>
     </div>
-  <? }
+  <?php }
 }

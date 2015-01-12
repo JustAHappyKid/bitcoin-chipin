@@ -72,5 +72,5 @@ class IndexPage extends Layout {
           fundraising campaign with Bitcoin.</h1>
       </div>
     </div>
-  <? }
+  <?php }
 }

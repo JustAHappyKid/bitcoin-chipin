@@ -7,7 +7,7 @@ abstract class AboutPageLayout extends Layout {
   function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/external-pages.css" />
     <link rel="stylesheet" type="text/css" href="/css/components/about.css" />
-  <? }
+  <?php }
 
   function pageHeader($content) { ?>
     <h2 class="section_header">
@@ -15,5 +15,5 @@ abstract class AboutPageLayout extends Layout {
       <span><?= htmlspecialchars($content) ?></span>
       <hr class="right visible-desktop" />
     </h2>
-  <? }
+  <?php }
 }

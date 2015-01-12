@@ -10,7 +10,8 @@
 
     ? if (!$previewOnly) {
       <script type="text/javascript">
-        <? /* These variables necessary for "auto-update" functionality to work... */ ?>
+        <?php /* These variables necessary for "auto-update" functionality to work... */ ?>
+        var bitcoinAddress = '$bitcoinAddress';
         var baseCurrency = '$raised->currencyCode';
         var altCurrency = '$altRaised->currencyCode';
         var lastBalance  = $lastBalance;
@@ -32,7 +33,7 @@
         ? $titleClass = 'widget-title' . (strlen($title) > 25 ? ' long-title' : '');
         <h2 class="$titleClass">$title</h2>
 
-        <div id="overview" style="<?php if ($display != 'overview') { ?>display: none;<? } ?>">
+        <div id="overview" style="<?php if ($display != 'overview') { ?>display: none;<?php } ?>">
           <div class="about">
             <p>
               ? $summary = substr($about, 0, $this->summaryLength());
@@ -74,7 +75,8 @@
           </div>
         </div>
 
-        <div id="contribute" style="<?php if ($display != 'contribute') { ?>display: none;<? } ?>">
+        <div id="contribute" 
+             style="<?php if ($display != 'contribute') { ?>display: none;<?php } ?>">
           <h6><?= $this->sendToLabel() ?></h6>
           <div class="btc-addr">$bitcoinAddress</div>
           <div class="qr-code">
@@ -94,8 +96,8 @@
         </div>
 
         <div id="footer">
-          <? $hoverText = "This widget is powered by BitcoinChipin.com, a Bitcoin-enabled " .
-                          "fundraising tool. Click here to learn more."; ?>
+          <?php $hoverText = "This widget is powered by BitcoinChipin.com, a Bitcoin-enabled " .
+                             "fundraising tool. Click here to learn more."; ?>
           <div class="powered">
             <a href="/about/faq" target="_blank" title="$hoverText"
               ><span>powered by</span> bitcoinchipin.com <img src="/widgets/images/help.png" alt="(help)" /></a>

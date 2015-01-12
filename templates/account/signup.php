@@ -12,7 +12,7 @@ class Signup extends Layout {
   function htmlHeadExtras() { ?>
     <link rel="stylesheet" type="text/css" href="/measure-theme/css/signup.css" />
     <link rel="stylesheet" type="text/css" href="/css/components/signup.css" />
-  <? }
+  <?php }
 
   function innerContent() { ?>
 
@@ -31,13 +31,13 @@ class Signup extends Layout {
             <div class="form">
               <form id="signup-form" action="<?=PATH;?>account/signup" method="post"
                     onsubmit="return validateForm();">
-                <? if ($this->form->hasErrors()): ?>
+                <?php if ($this->form->hasErrors()): ?>
                   <div id="form-error" class="alert alert-error">
                     <a class="close" data-dismiss="alert" href="#">×</a>
                     <h4 class="alert-heading">Error!</h4>
                     <?= current($this->form->getErrors()) ?>
                   </div>
-                <? endif; ?>
+                <?php endif; ?>
                 <div id="password-error" class="alert alert-error" style="display: none;">
                   <a class="close" data-dismiss="alert" href="#">×</a>
                   <h4 class="alert-heading">Error!</h4>
@@ -96,7 +96,7 @@ class Signup extends Layout {
                   </div>
                 </div> <!-- /account-fields -->
                 <div class="login-actions">
-                  <? /* <span class="login-checkbox" style="display: none;">
+                  <?php /* <span class="login-checkbox" style="display: none;">
                     <input id="Field" name="Field" type="checkbox" class="field login-checkbox"
                           value="First Choice" tabindex="4" />
                     <label class="choice" for="Field">I have read and agree with the Terms of Use.</label>
@@ -116,7 +116,7 @@ class Signup extends Layout {
       </div> <!-- /.container -->
     </div> <!-- /#box_sign -->
 
-  <? }
+  <?php }
 
   function validationJavascript() { ?>
     <script type="text/javascript">
@@ -143,5 +143,5 @@ class Signup extends Layout {
         return true;
       }
     </script>
-  <? }
+  <?php }
 }

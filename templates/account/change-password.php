@@ -6,7 +6,7 @@ class ChangePassword extends Layout {
 
   function htmlHeadExtras() { ?>
     <link href="<?= PATH ?>css/components/signin.css" rel="stylesheet" type="text/css" />
-  <? }
+  <?php }
 
   function innerContent() { ?>
 
@@ -16,13 +16,13 @@ class ChangePassword extends Layout {
       <div class="account-container login">
         <div class="content clearfix">
 
-          <? if ($this->newPassword): ?>
+          <?php if ($this->newPassword): ?>
             <div class="alert alert-success">
               Great &mdash; we've reset your password to
               <strong><?= $this->newPassword ?></strong>...
               but please use the form below to change it to something you'll remember!
             </div>
-          <? endif; ?>
+          <?php endif; ?>
 
           <form id="change-password-form" action="<?=PATH;?>account/change-password/"
                 method="post" onsubmit="return validateForm();">
@@ -35,21 +35,21 @@ class ChangePassword extends Layout {
               Passwords don't match.
             </div>
 
-            <? if ($this->form->hasErrors()): ?>
+            <?php if ($this->form->hasErrors()): ?>
               <div id="password-error" class="alert alert-error">
                 <a class="close" data-dismiss="alert" href="#">×</a>
                 <h4 class="alert-heading">Error!</h4>
                 <?= current($this->form->getErrors()) ?>
               </div>
-            <? endif; ?>
+            <?php endif; ?>
 
-            <? if (isset($this->success) && $this->success): ?>
+            <?php if (isset($this->success) && $this->success): ?>
               <div class="alert alert-success">
                 <a class="close" data-dismiss="alert" href="#">×</a>
                 <h4 class="alert-heading">Success!</h4>
                 Password was changed successfully.
               </div>
-            <? endif; ?>
+            <?php endif; ?>
 
             <div class="account-fields" style="margin-top: 25px;">
 
@@ -85,7 +85,7 @@ class ChangePassword extends Layout {
       </div> <!-- /.account-container -->
     </div> </div> <!-- /#content -->
 
-  <? }
+  <?php }
 
   function validationJavascript() { ?>
     <script type="text/javascript">
@@ -100,5 +100,5 @@ class ChangePassword extends Layout {
         }
       }
     </script>
-  <? }
+  <?php }
 }

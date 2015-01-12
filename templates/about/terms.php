@@ -38,5 +38,5 @@ class TermsPage extends AboutPageLayout {
         </div>
       </div>
     </div>
-  <? }
+  <?php }
 }
