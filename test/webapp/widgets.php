@@ -29,6 +29,11 @@ class WidgetTests extends WebappTestingHarness {
     }
   }
 
+  function testViewingWidgetAboutPage() {
+    $w = getWidget();
+    $r = $this->get("/widgets/about/{$w->id}");
+  }
+
   function testWidgetPreview() {
     $ds = Widgets\allowedSizes();
     $descriptions = array('This is to test preview mode.', str_repeat('words ', 100));
