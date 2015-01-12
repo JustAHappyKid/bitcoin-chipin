@@ -5,3 +5,9 @@ RewriteCond %{REQUEST_FILENAME} -l [OR]
 RewriteCond %{REQUEST_FILENAME} -d
 RewriteRule ^.*$ - [NC,L]
 RewriteRule ^.*$ index.php [NC,L]
+
+# To allow us to route all requests *through* index.php -- e.g.,
+# /index.php/requested/path will get routed to /index.php.
+AcceptPathInfo On
+
+Require all granted
