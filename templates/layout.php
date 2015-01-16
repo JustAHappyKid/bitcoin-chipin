@@ -78,7 +78,7 @@ abstract class Layout implements \SpareParts\Template\Renderable {
     if ($src == null) $src = $this->widgetURL($w);
     return
       '<iframe ' . ($id ? "id=\"$id\" " : '') .
-        'src="' . $src . '" ' .
+        'src="' . htmlspecialchars($src) . '" ' .
         'frameborder="no" framespacing="0" scrolling="no" allowTransparency="true" ' .
         'width="' . ($w->width + 5) . '" height="' . ($w->height + 5) . '"></iframe>';
   }
