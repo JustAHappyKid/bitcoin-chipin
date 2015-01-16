@@ -6,6 +6,7 @@ require_once 'chipin/widgets.php';
 use \Chipin\Widgets\Widget;
 
 class IndexPage extends Layout {
+
   function innerContent() { ?>
     <div id="hero">
       <div class="container">
@@ -19,7 +20,12 @@ class IndexPage extends Layout {
                   <div class="row">
                     <div class="span6" style="text-align: center;">
                       <!--<img src="/img/homepage/slide1.png" alt="" />-->
-                      <?= $this->widgetIframe(Widget::getByID(1)) ?>
+                      <?= $this->sampleWidget('Your Title Here',
+                            ('Here you can place a brief description about your fundraiser. ' .
+                             'Below you can see the goal and progress of the fundraising ' .
+                             'campaign.'),
+                            '1J2xaAGGsNhv1EYPc4GprgmvZTTDfJJ53H', 'USD', 30.0, 13.72,
+                            350, 310, 'white') ?>
                     </div>
                     <div class="span5">
                       <h1>Raise money with bitcoins</h1>
@@ -59,13 +65,22 @@ class IndexPage extends Layout {
         <h1>Choose from a variety of sizes and color schemes.</h1>
         <div class="row" style="margin: 30px 0;">
           <div class="span3" style="min-width: 220px;">
-            <?= $this->widgetIframe(Widget::getByID(2)) ?>
+            <?= $this->sampleWidget('Little Widget',
+                  'This little guy should fit nicely into a side-column on your website.',
+                  '1CPyQUQB6TXHiuGY7SeoxHeQqCD9ufUZgR', 'EUR', 40.0, 32.50, 200, 200, 'blue') ?>
           </div>
           <div class="span5" style="min-width: 380px;">
-            <?= $this->widgetIframe(Widget::getByID(3)) ?>
+            <?= $this->sampleWidget('Standard Widget',
+                  ('This is the default widget size... featuring the dark color theme. ' .
+                   'This is probably the ideal choice for vampires. Note it will remain ' .
+                   'dark at all hours of the day, however!'),
+                  '1ExZPj1AsCUaausu3KtaUCin4NK2VdWgVU', 'BTC', 1.0, 0.82, 350, 310, 'dark') ?>
           </div>
           <div class="span3" style="min-width: 220px;">
-            <?= $this->widgetIframe(Widget::getByID(4)) ?>
+            <?= $this->sampleWidget('Slender Widget',
+                  ('In case you want to squeeze your widget into a small column, but ' .
+                   'aren\'t short on vertical space. Featured here is the silver theme!'),
+                  '1JryZPfgdT5tf5mfDqKP2JZaJGrbdCpbkW', 'CAD', 500.0, 0.0, 200, 300, 'silver') ?>
           </div>
         </div>
         <h1>Our goal is to make it easy, fun, and social for anyone to start a
@@ -73,4 +88,14 @@ class IndexPage extends Layout {
       </div>
     </div>
   <?php }
+
+  private function sampleWidget($title, $about, $address, $currency, $goal, $raised,
+                                $width, $height, $color) {
+    $w = new Widget;
+    $w->width = $width;
+    $w->height = $height;
+    $uri = "/widgets/preview?title=$title&about=$about&address=$address&currency=$currency&" .
+      "goal=$goal&raised=$raised&width=$width&height=$height&color=$color";
+    return $this->widgetIframe($w, $uri);
+  }
 }
