@@ -20,8 +20,10 @@ class HttpClient {
       $r->statusCode = 200;
       $r->content = $c;
       return $r;
+    } else if ($c === null) {
+      throw new Exception("No mock handler is in place for URL $url");
     } else {
-      throw new Exception("Unexpected value/type returned for url $url");
+      throw new Exception("Unexpected value/type (" . gettype($c) . ") returned for url $url");
     }
   }
 
@@ -57,7 +59,7 @@ class HttpClient {
       return '0';
     } else if ($a == '1AkZUyVHtVsU6ZmAu1iSDhYiXbqFgKqzbt') {
       throw new HostNameResolutionError('Could not resolve hostname "blockchain.info"');
-    } else if ($a == 'peanuts') {
+    } else if ($a == 'peanuts' || $a == '1abc' || $a == '1abcdefghijklmnopqrstuvwxyzABC1123XYZ') {
       return 'Checksum does not validate';
     } else if ($a == '1TestForDowntimeX1iTDhViXbrogKqzbt') {
       return $this->errorResponse($this->blockchainDotInfoBeBackShortlyPage());

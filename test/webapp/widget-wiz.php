@@ -221,6 +221,7 @@ class WidgetWizardTests extends WebappTestingHarness {
     assertEqual('false', $this->get(Routes\validAddress(''))->content);
     assertEqual('false', $this->get(Routes\validAddress(" \t"))->content);
     assertEqual('false', $this->get(Routes\validAddress(null))->content);
+    assertEqual('false', $this->get(Routes\validAddress('%27]'))->content);
   }
 
   /**

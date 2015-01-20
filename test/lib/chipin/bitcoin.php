@@ -27,6 +27,12 @@ function testToBTCFunction() {
   // assertEqual(floatval($priceOfDollar), floatval(strval($priceOfDollar)));
 }
 
+function testInvalidAddressesDoNotValidate() {
+  assertFalse(Bitcoin\isValidAddress('1abc'));
+  assertFalse(Bitcoin\isValidAddress('1abcdefghijklmnopqrstuvwxyzABC1123XYZ'));
+  assertFalse(Bitcoin\isValidAddress('[]'));
+}
+
 function testValidatingAddressWhenBlockchainDotInfoCannotBeReached() {
   assertTrue(Bitcoin\isValidAddress('17yguvbpsfBE5Ec8MjFNnLbUmkYEEhWSm4'));
 }

@@ -59,6 +59,8 @@ function getBalance($address, /*$currency = 'BTC',*/ \DateInterval $maxCacheAge 
 
 function isValidAddress($address) {
   try {
+    if (!preg_match('/^[0-9A-Za-z]+$/', $address))
+      throw new InvalidAddress;
     getBalance($address);
     return true;
   } catch (InvalidAddress $_) {
