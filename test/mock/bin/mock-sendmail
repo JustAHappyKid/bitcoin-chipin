@@ -9,4 +9,3 @@
 
 # TODO: Store messages somewhere for retrieval by test API...
 
-echo "mock-sendmail executed.\n";
