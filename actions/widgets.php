@@ -128,7 +128,11 @@ class WidgetsController extends \Chipin\WebFramework\Controller {
   }
 
   private function takeWidgetFromURI(RequestContext $context) {
-    return Widget::getByID($context->takeNextPathComponent());
+    try {
+      return Widget::getByID($context->takeNextPathComponent());
+    } catch (\Chipin\Widgets\NoSuchWidget $_) {
+      return $this->pageNotFound("No such widget");
+    }
   }
 
   private function renderDietTpl($tpl, Array $vars) {

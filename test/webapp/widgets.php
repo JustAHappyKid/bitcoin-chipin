@@ -111,6 +111,12 @@ class WidgetTests extends WebappTestingHarness {
     } catch (HttpNotFound $_) { /* That's acceptable. */ }
   }
 
+  function testAttemptingToAccessAboutPageForNonExistentWizard() {
+    try {
+      $this->get("/widgets/about/" . uniqid() . ".html");
+    } catch (HttpNotFound $_) { /* That's acceptable. */ }
+  }
+
   function testBrowsingAllWidgetsForAGivenUser() {
     $u = getUser();
     $w1 = getWidget($u);
