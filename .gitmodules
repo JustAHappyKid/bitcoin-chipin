@@ -1,0 +1,3 @@
+[submodule "lib/php-spare-parts"]
+	path = lib/php-spare-parts
+	url = https://github.com/JustAHappyKid/php-spare-parts.git
